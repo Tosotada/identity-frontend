@@ -39,10 +39,11 @@
     color: currentColor;
   }
   &.layout-header__title--standfirst {
-    @extend %font-heading-0;
+    @extend %font-sub-heading-2;
     line-height: 1.2;
     font-weight: 300;
     color: var(--color-text-light);
+    margin-top: var(--size-baseline);
   }
   &.layout-header__title--has-proxy {
     display: flex;
