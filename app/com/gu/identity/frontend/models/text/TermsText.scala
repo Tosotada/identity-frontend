@@ -1,5 +1,6 @@
 package com.gu.identity.frontend.models.text
 
+import com.gu.identity.frontend.models.GroupCode
 import play.api.i18n.Messages
 
 case class TermsText private(
@@ -37,7 +38,7 @@ object GroupTermsText {
   def apply(
     termsUrl: String,
     privacyUrl: String,
-    groupName: String
+    group: GroupCode
   )(implicit messages: Messages): GroupTermsText = {
     lazy val conditionsLink: String = Helpers.makeLink(
       messages("terms.termsOfService"),
@@ -56,8 +57,8 @@ object GroupTermsText {
       privacyUrl
     )
     GroupTermsText (
-      conditionsText = messages("terms.conditionsWithGroup", conditionsLink, messages(groupName), conditionsGroupLink),
-      privacyText = messages("terms.privacyWithGroup", privacyLink, messages(groupName), privacyGroupLink)
+      conditionsText = messages("terms.conditionsWithGroup", conditionsLink, messages(s"terms.${group.id}.name"), conditionsGroupLink),
+      privacyText = messages("terms.privacyWithGroup", privacyLink, messages(s"terms.${group.id}.name"), privacyGroupLink)
     )
   }
 }

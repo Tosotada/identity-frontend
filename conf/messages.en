@@ -75,8 +75,8 @@ terms.termsOfService=Terms of Service
 terms.termsOfServiceUrl=https://www.theguardian.com/help/terms-of-service
 terms.privacyPolicy=Privacy Policy
 terms.privacyPolicyUrl=https://www.theguardian.com/help/privacy-policy
-terms.groupTeachers=Guardian Teacher Network''s
-terms.groupJobs=Guardian Jobs''
+terms.GTNF.name=Guardian Teacher Network''s
+terms.GRS.name=Guardian Jobs''
 
 terms.conditions=By proceeding, you agree to our {0}.
 terms.conditionsWithGroup=By proceeding, you agree to our {0} and {1} {2}.
