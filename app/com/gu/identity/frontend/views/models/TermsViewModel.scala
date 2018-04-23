@@ -1,93 +1,60 @@
 package com.gu.identity.frontend.views.models
 
 import com.gu.identity.frontend.models.{GroupCode, GuardianJobs, GuardianTeachersNetwork}
-import com.gu.identity.frontend.models.text.{JobsTermsText, TeachersTermsText, TermsText}
+import com.gu.identity.frontend.models.text.{GroupTermsText, TermsText}
 import play.api.i18n.Messages
 
 sealed trait TermsViewModel{
   def conditionsText: String
-  def termsOfServiceText: String
-  def privacyPolicyText: String
-  def termsOfServiceUrl: String
-  def privacyPolicyUrl: String
+  def privacyText: String
 }
 
 case class BasicTermsViewModel private(
-    conditionsText: String,
-    termsOfServiceText: String,
-    termsOfServiceUrl: String,
-    privacyPolicyText: String,
-    privacyPolicyUrl: String)
-  extends ViewModel with TermsViewModel {
-}
+  conditionsText: String,
+  privacyText: String) extends ViewModel with TermsViewModel
 
 case class TeachersTermsViewModel private(
-    conditionsText: String,
-    termsOfServiceText: String,
-    termsOfServiceUrl: String,
-    privacyPolicyText: String,
-    privacyPolicyUrl: String,
-    extendedConditionsText: String,
-    extendedTermsOfServiceUrl: String,
-    extendedPrivacyPolicyUrl: String)
-  extends ViewModel with TermsViewModel {
-  val extendedTerms: Boolean = true
-}
+  conditionsText: String,
+  privacyText: String) extends ViewModel with TermsViewModel
 
-case class JobsTermsViewModel(
-    conditionsText: String,
-    termsOfServiceText: String,
-    termsOfServiceUrl: String,
-    privacyPolicyText: String,
-    privacyPolicyUrl: String,
-    extendedConditionsText: String,
-    extendedTermsOfServiceUrl: String,
-    extendedPrivacyPolicyUrl: String)
-  extends ViewModel with TermsViewModel {
-  val extendedTerms: Boolean = true
-}
+case class JobsTermsViewModel private(
+  conditionsText: String,
+  privacyText: String) extends ViewModel with TermsViewModel
 
 object BasicTermsViewModel {
   def apply()(implicit messages: Messages): BasicTermsViewModel = {
     val text = TermsText()
     BasicTermsViewModel(
       conditionsText = text.conditionsText,
-      termsOfServiceText = text.termsOfServiceText,
-      termsOfServiceUrl = text.termsOfServiceUrl,
-      privacyPolicyText = text.privacyPolicyText,
-      privacyPolicyUrl = text.privacyPolicyUrl
+      privacyText = text.privacyText
     )
   }
 }
 
 object TeachersTermsViewModel {
   def apply()(implicit messages: Messages): TeachersTermsViewModel = {
-    val text = TeachersTermsText()
+    val text = GroupTermsText(
+      termsUrl = "https://teachers.theguardian.com/guardian-teacher-network-terms-and-conditions",
+      privacyUrl = "https://teachers.theguardian.com/guardian-teacher-network-privacy-policy",
+      groupName = "terms.groupTeachers"
+    )
     TeachersTermsViewModel(
-      conditionsText = text.basicTermsText.conditionsText,
-      termsOfServiceText = text.basicTermsText.termsOfServiceText,
-      termsOfServiceUrl = text.basicTermsText.termsOfServiceUrl,
-      privacyPolicyText = text.basicTermsText.privacyPolicyText,
-      privacyPolicyUrl = text.basicTermsText.privacyPolicyUrl,
-      extendedConditionsText = text.conditionsText,
-      extendedTermsOfServiceUrl = "https://teachers.theguardian.com/guardian-teacher-network-terms-and-conditions",
-      extendedPrivacyPolicyUrl = "https://teachers.theguardian.com/guardian-teacher-network-privacy-policy"
+      conditionsText = text.conditionsText,
+      privacyText = text.privacyText
     )
   }
 }
 
 object JobsTermsViewModel {
   def apply()(implicit messages: Messages): JobsTermsViewModel = {
-    val text = JobsTermsText()
+    val text = GroupTermsText(
+      termsUrl = "https://jobs.theguardian.com/terms-and-conditions/",
+      privacyUrl = "https://jobs.theguardian.com/privacy-policy/",
+      groupName = "terms.groupJobs"
+    )
     JobsTermsViewModel(
-      conditionsText = text.basicTermsText.conditionsText,
-      termsOfServiceText = text.basicTermsText.termsOfServiceText,
-      termsOfServiceUrl = text.basicTermsText.termsOfServiceUrl,
-      privacyPolicyText = text.basicTermsText.privacyPolicyText,
-      privacyPolicyUrl = text.basicTermsText.privacyPolicyUrl,
-      extendedConditionsText = text.conditionsText,
-      extendedTermsOfServiceUrl = "https://jobs.theguardian.com/terms-and-conditions/",
-      extendedPrivacyPolicyUrl = "https://jobs.theguardian.com/privacy-policy/"
+      conditionsText = text.conditionsText,
+      privacyText = text.privacyText
     )
   }
 }

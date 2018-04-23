@@ -87,7 +87,14 @@ texty text
 */
 .layout-text {
   @extend %font-body-copy;
+  a {
+    @extend .link;
+  }
   &.layout-text--center {
     text-align: center;
+  }
+  &.layout-text--small {
+    @extend %font-text-sans-1;
+    color: var(--color-text-light);
   }
 }

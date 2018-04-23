@@ -2,19 +2,8 @@
 
 .terms {
   @extend %content-container;
-}
-
-.terms__text {
-  @extend %font-text-sans-1;
-  color: var(--color-text-light);
-  margin: 0 0 2.4rem;
-  padding-top: 0.6rem;
-
-  &:not(:first-child) {
-    border-top: 1px solid #eee;
+  margin-bottom: 2.4rem;
+  &:before {
+    margin-bottom: 0.6rem;
   }
-}
-
-.terms__link {
-  @extend .link;
 }
