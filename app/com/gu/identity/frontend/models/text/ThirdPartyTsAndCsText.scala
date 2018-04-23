@@ -33,8 +33,6 @@ case class ThirdPartyTsAndCsText (
     featureOutro: Option[String] = None,
     features: Seq[String],
     serviceName: String,
-    termsOfServiceLink: String,
-    privacyPolicyLink: String,
     terms: GroupOnlyTermsText,
     baseText: BaseTsAndCsText)
 
@@ -53,8 +51,6 @@ object TeachersTsAndCsText {
         messages("thirdPartyTerms.teachersFeatures3")
       ),
       serviceName = serviceName,
-      termsOfServiceLink = "https://teachers.theguardian.com/guardian-teacher-network-terms-and-conditions",
-      privacyPolicyLink = "https://teachers.theguardian.com/guardian-teacher-network-privacy-policy",
       terms = GroupOnlyTermsText(
         termsUrl = "https://teachers.theguardian.com/guardian-teacher-network-terms-and-conditions",
         privacyUrl = "https://teachers.theguardian.com/guardian-teacher-network-privacy-policy",
@@ -79,8 +75,6 @@ object JobsTsAndCsText {
         messages("thirdPartyTerms.jobsFeature2"),
         messages("thirdPartyTerms.jobsFeature3")),
       serviceName = serviceName,
-      termsOfServiceLink = "https://jobs.theguardian.com/terms-and-conditions/",
-      privacyPolicyLink = "https://jobs.theguardian.com/privacy-policy/",
       terms = GroupOnlyTermsText(
         termsUrl = "https://jobs.theguardian.com/terms-and-conditions/",
         privacyUrl = "https://jobs.theguardian.com/privacy-policy/",

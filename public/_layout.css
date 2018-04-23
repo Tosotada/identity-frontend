@@ -40,7 +40,6 @@
   }
   &.layout-header__title--standfirst {
     @extend %font-sub-heading-2;
-    line-height: 1.2;
     font-weight: 300;
     color: var(--color-text-light);
     margin-top: var(--size-baseline);
