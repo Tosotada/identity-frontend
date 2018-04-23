@@ -80,8 +80,10 @@ terms.GRS.name=Guardian Jobs''
 
 terms.conditions=By proceeding, you agree to our {0}.
 terms.conditionsWithGroup=By proceeding, you agree to our {0} and {1} {2}.
+terms.conditionsWithOnlyGroup=By proceeding, you agree to {0} {1}.
 terms.privacy=To find out what personal data we collect and how we use it, please visit our {0}.
 terms.privacyWithGroup=To find out what personal data we collect and how we use it, please visit our {0} and {1} {2}.
+terms.privacyWithOnlyGroup=To find out what personal data we collect and how we use it, please visit {0} {1}.
 
 # com.gu.identity.frontend.models.text.OAuthText
 oauth.signIn=Sign in with {0}

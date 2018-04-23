@@ -13,6 +13,11 @@ case class GroupTermsText private(
   privacyText: String
 )
 
+case class GroupOnlyTermsText private(
+  conditionsText: String,
+  privacyText: String
+)
+
 object Helpers {
   def makeLink(name: String, url: String) = s"<a href=\042$url\042>$name</a>"
 }
@@ -59,6 +64,27 @@ object GroupTermsText {
     GroupTermsText (
       conditionsText = messages("terms.conditionsWithGroup", conditionsLink, messages(s"terms.${group.id}.name"), conditionsGroupLink),
       privacyText = messages("terms.privacyWithGroup", privacyLink, messages(s"terms.${group.id}.name"), privacyGroupLink)
+    )
+  }
+}
+
+object GroupOnlyTermsText {
+  def apply(
+    termsUrl: String,
+    privacyUrl: String,
+    group: GroupCode
+  )(implicit messages: Messages): GroupOnlyTermsText = {
+    lazy val conditionsGroupLink: String = Helpers.makeLink(
+      messages("terms.termsOfService"),
+      termsUrl
+    )
+    lazy val privacyGroupLink: String = Helpers.makeLink(
+      messages("terms.privacyPolicy"),
+      privacyUrl
+    )
+    GroupOnlyTermsText (
+      conditionsText = messages("terms.conditionsWithOnlyGroup", messages(s"terms.${group.id}.name"), conditionsGroupLink),
+      privacyText = messages("terms.privacyWithOnlyGroup", messages(s"terms.${group.id}.name"), privacyGroupLink)
     )
   }
 }
