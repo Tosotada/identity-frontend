@@ -47,7 +47,3 @@
 /** Resend Consent page **/
 
 @import 'components/resend-consent/_resend-consent.css';
-
-/** Third Party Ts and Cs page **/
-
-@import 'components/third-party-ts-and-cs/_third-party-ts-and-cs.css';

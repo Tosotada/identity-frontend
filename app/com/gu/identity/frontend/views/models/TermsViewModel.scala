@@ -36,7 +36,7 @@ object TeachersTermsViewModel {
     val text = GroupTermsText(
       termsUrl = "https://teachers.theguardian.com/guardian-teacher-network-terms-and-conditions",
       privacyUrl = "https://teachers.theguardian.com/guardian-teacher-network-privacy-policy",
-      groupName = "terms.groupTeachers"
+      group = GuardianTeachersNetwork
     )
     TeachersTermsViewModel(
       conditionsText = text.conditionsText,
@@ -50,7 +50,7 @@ object JobsTermsViewModel {
     val text = GroupTermsText(
       termsUrl = "https://jobs.theguardian.com/terms-and-conditions/",
       privacyUrl = "https://jobs.theguardian.com/privacy-policy/",
-      groupName = "terms.groupJobs"
+      group = GuardianJobs
     )
     JobsTermsViewModel(
       conditionsText = text.conditionsText,

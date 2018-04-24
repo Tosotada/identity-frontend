@@ -2,34 +2,47 @@
 
 {{# partial "content" }}
 
-  <h1 class="page-heading">{{tsAndCsPageText.baseText.title}}</h1>
+  <div class="layout-wrap-width">
 
-  <section class="page-standfirst">
-      <p class="page-standfirst__paragraph">{{tsAndCsPageText.baseText.explanationText}}</p>
-  </section>
+    <header class="layout-header">
+      <h1 class="layout-header__title">{{ tsAndCsPageText.baseText.title }}</h1>
+      <p class="layout-header__title layout-header__title--standfirst">
+        {{tsAndCsPageText.baseText.explanationText}}
+      </p>
+    </header>
 
-  <section class="third-party-ts-and-cs">
-    <p class="third-party-terms__feature-intro">{{tsAndCsPageText.featureIntro}}</p>
-    <ul class="third-party-terms__features-list">
-    {{#each tsAndCsPageText.features}}
-      <li class="third-party-terms__features-list-item">{{this}}</li>
-    {{/each}}
-    </ul>
+    <section>
 
-    <form method="POST" action="{{continueFormUrl}}" >
-      <input type="hidden" name="groupCode" value="{{ groupCode }}">
-      <input type="hidden" name="returnUrl" value="{{ returnUrl }}">
-      <button type="submit" class="third-party-ts-and-cs__confirm-agree">{{tsAndCsPageText.baseText.continueButtonText}}</button>
-    </form>
+      <p class="layout-text">{{tsAndCsPageText.featureIntro}}</p>
+      <ul class="layout-text">
+        {{#each tsAndCsPageText.features}}
+          <li>{{this}}</li>
+        {{/each}}
+      </ul>
 
-    <p class="third-party-terms__feature-outro">{{{tsAndCsPageText.featureOutro}}}</p>
+    </section>
 
-    <p class="third-party-terms__text">
-      {{ tsAndCsPageText.baseText.termsText }}
-      <a class="third-party-terms__link" href="{{ tsAndCsPageText.termsOfServiceLink }}">{{ tsAndCsPageText.baseText.termsOfServiceLinkText }}</a> &amp;
-      <a class="third-party-terms__link" href="{{ tsAndCsPageText.privacyPolicyLink }}">{{ tsAndCsPageText.baseText.privacyPolicyLinkText }}</a>
-    </p>
-  </section>
+    <section class="layout-section layout-section--no-border">
+
+      <form method="POST" action="{{continueFormUrl}}" >
+        <input type="hidden" name="groupCode" value="{{ groupCode }}">
+        <input type="hidden" name="returnUrl" value="{{ returnUrl }}">
+        <div class="form-field-wrap">
+          <button class="form-button form-button--main form-field-wrap__field" type="submit">{{tsAndCsPageText.baseText.continueButtonText}} {{> components/icon/arrow-inline }}</button>
+        </div>
+      </form>
+
+      <p class="layout-text layout-text--small">{{{tsAndCsPageText.featureOutro}}}</p>
+
+    </section>
+    <footer class="layout-section">
+      <p class="layout-text layout-text--small">
+        {{{ tsAndCsPageText.terms.conditionsText }}}
+        {{{ tsAndCsPageText.terms.privacyText }}}
+      </p>
+    </footer>
+
+  </div>
 
 {{/partial}}
 {{> layout}}
