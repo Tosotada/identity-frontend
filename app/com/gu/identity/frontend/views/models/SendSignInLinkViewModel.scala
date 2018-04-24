@@ -38,7 +38,7 @@ object SendSignInLinkViewModel {
       errors = errors,
 
       csrfToken = csrfToken,
-      returnUrl = "https://profile.theguardian.com/consents/staywithus",
+      returnUrl = "https://profile.theguardian.com/consents/staywithus?CMP=resub-email&utm_campaign=resub-email",
 
       resources = layout.resources,
       indirectResources = layout.indirectResources
