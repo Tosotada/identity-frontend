@@ -10,6 +10,7 @@ import play.api.i18n.Messages
 
 case class SendSignInLinkViewModel private(
     layout: LayoutViewModel,
+    pageBanner: String,
     sendSignInLinkText: SendSignInLinkText,
     actions: Map[String, String] = Map(
       "submit" -> routes.SigninAction.sendResubLinkAction().url
@@ -34,6 +35,7 @@ object SendSignInLinkViewModel {
 
     SendSignInLinkViewModel(
       layout = layout,
+      pageBanner = "opt-in",
       sendSignInLinkText = SendSignInLinkText(),
       errors = errors,
 
