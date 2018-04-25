@@ -1,8 +1,11 @@
 .header {
-  background: var(--color-bg);
   border-bottom: 1px solid var(--color-border);
+  border-bottom-color: var(--color-border-hsla);
   padding: 2.5px 0;
   height: var(--size-header-height);
+  z-index: var(--z-index-header);
+  position: relative;
+  box-sizing: border-box;
 }
 
 .header__inner {
