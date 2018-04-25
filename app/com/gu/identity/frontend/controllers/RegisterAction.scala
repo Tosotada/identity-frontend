@@ -42,7 +42,7 @@ class RegisterAction(
     val clientIp = ClientIp(request)
     val body = request.body
 
-    val trackingData = TrackingData(request, body.returnUrl.flatMap(_.toStringOpt))
+    val trackingData = TrackingData(request, body.returnUrl.flatMap(_.toStringOpt), body.skipValidationReturn)
     identityService.registerThenSignIn(body, clientIp, trackingData).map {
       case Left(errors) =>
         logger.error(s"Could not register: $errors $trackingData")

@@ -28,6 +28,7 @@ case class RegisterViewModel(
                               csrfToken: Option[CSRFToken],
                               returnUrl: String,
                               skipConfirmation: Boolean,
+                              skipValidationReturn: Boolean,
                               clientId: Option[ClientID],
                               group: Option[GroupCode],
                               email: Option[String],
@@ -61,7 +62,8 @@ object RegisterViewModel {
       email: Option[String],
       signInType: Option[SignInType],
       shouldCollectConsents: Boolean,
-      shouldCollectV2Consents: Boolean)
+      shouldCollectV2Consents: Boolean,
+      skipValidationReturn: Option[Boolean])
       (implicit messages: Messages): RegisterViewModel = {
 
     val layout = LayoutViewModel(configuration, activeTests, clientId, Some(returnUrl))
@@ -86,6 +88,7 @@ object RegisterViewModel {
       csrfToken = csrfToken,
       returnUrl = returnUrl.url,
       skipConfirmation = skipConfirmation.getOrElse(false),
+      skipValidationReturn = skipValidationReturn.getOrElse(false),
       clientId = clientId,
       group = group,
       email = email,

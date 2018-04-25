@@ -129,7 +129,8 @@ object ViewRenderer {
       email: Option[String],
       signInType: Option[SignInType],
       shouldCollectConsents: Boolean,
-      shouldCollectV2Consents: Boolean)
+      shouldCollectV2Consents: Boolean,
+      skipValidationReturn: Option[Boolean])
       (implicit messages: Messages) = {
 
     val model = RegisterViewModel(
@@ -144,7 +145,8 @@ object ViewRenderer {
       email = email,
       signInType = signInType,
       shouldCollectConsents = shouldCollectConsents,
-      shouldCollectV2Consents = shouldCollectV2Consents
+      shouldCollectV2Consents = shouldCollectV2Consents,
+      skipValidationReturn = skipValidationReturn
     )
 
     renderViewModel("register-page", model)

@@ -48,7 +48,7 @@ class Application(
     renderTwoStepSignInChoices(configuration, req.activeTests, csrfToken, error, userType, returnUrlActual, skipConfirmation, clientIdActual, groupCode, email)
   }
 
-  def register(error: Seq[String], returnUrl: Option[String], skipConfirmation: Option[Boolean], clientId: Option[String], group: Option[String], signInType: Option[String]) = (CSRFAddToken(csrfConfig) andThen MultiVariantTestAction) { implicit req =>
+  def register(error: Seq[String], returnUrl: Option[String], skipConfirmation: Option[Boolean], clientId: Option[String], group: Option[String], signInType: Option[String], skipValidationReturn: Option[Boolean]) = (CSRFAddToken(csrfConfig) andThen MultiVariantTestAction) { implicit req =>
     val clientIdActual = ClientID(clientId)
     val returnUrlActual = ReturnUrl(returnUrl, req.headers.get("Referer"), configuration, clientIdActual)
     val signInTypeActual = SignInType(signInType)
@@ -58,7 +58,7 @@ class Application(
     val shouldCollectConsents = configuration.collectSignupConsents
     val shouldCollectV2Consents = configuration.collectV2Consents
 
-    renderRegister(configuration, req.activeTests, error, csrfToken, returnUrlActual, skipConfirmation, clientIdActual, groupCode, email, signInTypeActual, shouldCollectConsents, shouldCollectV2Consents)
+    renderRegister(configuration, req.activeTests, error, csrfToken, returnUrlActual, skipConfirmation, clientIdActual, groupCode, email, signInTypeActual, shouldCollectConsents, shouldCollectV2Consents, skipValidationReturn)
   }
 
   def sendResubLink(error: Seq[String], clientId: Option[String]) = CSRFAddToken(csrfConfig) { req =>
