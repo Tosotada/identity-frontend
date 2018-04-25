@@ -39,12 +39,12 @@
   <a href="#main-content" class="layout-skip-link">{{ layout.text.skipToContent }}</a>
   {{> components/header/_header }}
 
-  {{# layout.skin.hasBanner }}
+  {{# layout.skin.banner }}
     <header class="banner banner--{{layout.skin.name}}" aria-hidden="true">
       <section class="layout-wrap-width">
       </section>
     </header>
-  {{/layout.skin.hasBanner}}
+  {{/layout.skin.banner}}
 
   <main id="main-content" role="main" tabindex="-1">
     {{#block "content" }}{{/block}}

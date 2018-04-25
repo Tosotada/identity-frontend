@@ -34,7 +34,6 @@ case object GuardianJobsClientID extends ClientID {
   val id = "jobs"
 
   override def hasSkin = true
-  override def hasSkinBanner = true
 }
 
 case object GuardianOptInCmpClientID extends ClientID {
