@@ -4,6 +4,7 @@
   --color-cta: #ffe500;
 
   --color-border: #dcdcdc;
+  --color-border-hsla: hsla(0, 0%, 0%, 0.14);
   --color-border-hover: #a4a3a5;
 
   --color-text: #121212;
@@ -22,5 +23,12 @@
   --size-baseline: 0.425rem;
   --size-baseline-gutter: calc(var(--size-baseline) * 4);
   --size-baseline-vertical: calc(var(--size-baseline) * 8);
-  --size-header-height: 4.2rem;
+  --size-header-height: 4.8rem;
+}
+
+
+/* Z-Index */
+:root {
+  --z-index-banner: 500;
+  --z-index-header: 600;
 }

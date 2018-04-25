@@ -173,12 +173,12 @@ class SigninAction(
     val req = _req.body
     identityService.sendResubEmail(req, ClientIp(_req)).map {
       case Right(_) =>
-        SeeOther(routes.Application.sendResubLinkSent().url)
+        SeeOther(routes.Application.sendResubLinkSent(req.clientId.map(_.id)).url)
       case Left(errors) =>
-        SeeOther(routes.Application.sendResubLink(error = errors.map(_.id.toString)).url)
+        SeeOther(routes.Application.sendResubLink(error = errors.map(_.id.toString), req.clientId.map(_.id)).url)
     }.recover {
       case e: ClientGatewayError =>
-        SeeOther(routes.Application.sendResubLink(error = List(SignInGatewayErrorID.toString)).url)
+        SeeOther(routes.Application.sendResubLink(error = List(SignInGatewayErrorID.toString), req.clientId.map(_.id)).url)
     }
   }
 

@@ -1,6 +1,5 @@
 {{# partial "pageTitle" }}{{ sendSignInLinkText.pageTitle }}{{/ partial }}
 
-
 {{# partial "content" }}
   <section class="layout-wrap-width">
 
@@ -19,6 +18,7 @@
 
         <input type="hidden" name="{{ csrfToken.fieldName }}" value="{{ csrfToken.value }}">
         <input type="hidden" name="returnUrl" value="{{ returnUrl }}">
+        <input type="hidden" name="clientId" value="{{ clientId.id }}">
 
         <div class="form-field-wrap">
           <label class="form-field-wrap__title" for="srlf-email">{{sendSignInLinkText.emailInput}}</label>

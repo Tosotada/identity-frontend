@@ -35,9 +35,16 @@
   {{/each}}
 
 </head>
-<body class="{{ layout.skin }}">
+<body class="{{ layout.skin.name }}">
   <a href="#main-content" class="layout-skip-link">{{ layout.text.skipToContent }}</a>
   {{> components/header/_header }}
+
+  {{# layout.skin.hasBanner }}
+    <header class="banner banner--{{layout.skin.name}}" aria-hidden="true">
+      <section class="layout-wrap-width">
+      </section>
+    </header>
+  {{/layout.skin.hasBanner}}
 
   <main id="main-content" role="main" tabindex="-1">
     {{#block "content" }}{{/block}}
