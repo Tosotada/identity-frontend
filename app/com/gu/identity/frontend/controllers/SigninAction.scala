@@ -9,8 +9,9 @@ import com.gu.identity.frontend.csrf.{CSRFCheck, CSRFConfig}
 import com.gu.identity.frontend.errors.ErrorIDs.SignInGatewayErrorID
 import com.gu.identity.frontend.errors._
 import com.gu.identity.frontend.logging.{LogOnErrorAction, Logging, MetricsLoggingActor}
+import com.gu.identity.frontend.models
 import com.gu.identity.frontend.models._
-import com.gu.identity.frontend.request.{EmailResubscribeRequest, EmailResubRequests, SignInActionRequestBody}
+import com.gu.identity.frontend.request.{EmailResubRequests, EmailResubscribeRequest, SignInActionRequestBody}
 import com.gu.identity.frontend.services._
 import com.gu.identity.frontend.views.ViewRenderer.{renderErrorPage, renderSendSignInLinkSent}
 import com.gu.identity.model.CurrentUser
@@ -173,7 +174,10 @@ class SigninAction(
     val req = _req.body
     identityService.sendResubEmail(req, ClientIp(_req)).map {
       case Right(_) =>
-        SeeOther(routes.Application.sendResubLinkSent(req.clientId.map(_.id)).url)
+        SeeOther(routes.Application.sendResubLinkSent(
+          clientId = req.clientId.map(_.id),
+          emailProvider = EmailProvider.getProviderForEmail(_req.body.email).map(_.id)
+        ).url)
       case Left(errors) =>
         SeeOther(routes.Application.sendResubLink(error = errors.map(_.id.toString), req.clientId.map(_.id)).url)
     }.recover {

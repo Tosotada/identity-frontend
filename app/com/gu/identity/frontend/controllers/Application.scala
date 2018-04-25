@@ -3,7 +3,7 @@ package com.gu.identity.frontend.controllers
 import com.gu.identity.frontend.configuration.Configuration
 import com.gu.identity.frontend.csrf.{CSRFAddToken, CSRFConfig, CSRFToken}
 import com.gu.identity.frontend.logging.Logging
-import com.gu.identity.frontend.models.{ClientID, GroupCode, ReturnUrl, SignInType}
+import com.gu.identity.frontend.models._
 import com.gu.identity.frontend.mvt.MultiVariantTestAction
 import com.gu.identity.frontend.views.ViewRenderer._
 import com.gu.identity.model.{CurrentUser, GuestUser, NewUser}
@@ -67,9 +67,10 @@ class Application(
     renderResubLink(configuration, clientIdOpt, error, csrfToken)
   }
 
-  def sendResubLinkSent(clientId: Option[String]) = Action {
+  def sendResubLinkSent(clientId: Option[String], emailProvider: Option[String]) = Action {
     val clientIdOpt = ClientID(clientId)
-    renderSendSignInLinkSent(configuration, clientIdOpt)
+    val emailProviderOpt = EmailProvider(emailProvider);
+    renderSendSignInLinkSent(configuration, clientIdOpt, emailProviderOpt)
   }
 
   def reset(error: Seq[String], clientId: Option[String]) = CSRFAddToken(csrfConfig) { req =>

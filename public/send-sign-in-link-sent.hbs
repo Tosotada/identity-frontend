@@ -12,6 +12,9 @@
 
       <div class="form-field-wrap">
         <p class="form-field-wrap__field layout-text">{{ sendSignInLinkSentText.text }}</p>
+        {{# inboxCtaLink }}
+          <a href="{{inboxCtaLink}}" data-link-name="inbox-cta : {{inboxCtaText}}" class="form-button form-button--secondary form-field-wrap__field">{{inboxCtaText}} {{> components/icon/arrow-inline }}</a>
+        {{/inboxCtaLink}}
       </div>
 
     </div></div>

@@ -194,12 +194,14 @@ object ViewRenderer {
 
   def renderSendSignInLinkSent(
     configuration: Configuration,
-    clientId: Option[ClientID]
+    clientId: Option[ClientID],
+    emailProvider: Option[EmailProvider]
   )
     (implicit messages: Messages) = {
     val model = SendSignInLinkSentViewModel(
       configuration = configuration,
-      clientId = clientId
+      clientId = clientId,
+      emailProvider = emailProvider
     )
     renderViewModel("send-sign-in-link-sent", model)
   }
