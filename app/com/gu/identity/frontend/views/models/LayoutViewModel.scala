@@ -37,6 +37,12 @@ case object BaseLayoutViewModel extends ViewModel with ViewModelResources {
 }
 
 
+case class SkinInViewModel(
+  name: String,
+  banner: Boolean = false
+)
+
+
 case class LayoutViewModel private(
     text: Map[String,String],
     headerText: Map[String, String],
@@ -45,7 +51,7 @@ case class LayoutViewModel private(
     resources: Seq[PageResource with Product],
     indirectResources: Seq[PageResource with Product],
     favicons: Seq[Favicon] = Favicons(),
-    skin: String)
+    skin: SkinInViewModel)
   extends ViewModel
   with ViewModelResources
 
@@ -104,10 +110,16 @@ object LayoutViewModel {
 
   def apply(configuration: Configuration, activeTests: ActiveMultiVariantTests, clientId: Option[ClientID], returnUrl: Option[ReturnUrl])(implicit messages: Messages): LayoutViewModel = {
 
-    val skin = clientId
-      .filter(_.hasSkin)
-      .map(c => s"skin-${c.id}")
-      .getOrElse("skin-default")
+    val skin = SkinInViewModel(
+      name = clientId
+        .filter(_.hasSkin)
+        .map(c => s"skin-${c.id}")
+        .getOrElse("skin-default"),
+      banner = clientId.filter(_.hasSkinBanner) match {
+        case Some(_) => true
+        case _ => false
+      }
+    )
 
     val config = JavascriptConfig(
       sentryDsn = configuration.sentryDsnJs,

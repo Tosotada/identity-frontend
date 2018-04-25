@@ -18,6 +18,7 @@ case class SendSignInLinkViewModel private(
     errors: Seq[ErrorViewModel] = Seq.empty,
     csrfToken: Option[CSRFToken],
     returnUrl: String = "",
+    clientId: Option[ClientID],
     resources: Seq[PageResource with Product],
     indirectResources: Seq[PageResource with Product]
   )
@@ -29,9 +30,10 @@ object SendSignInLinkViewModel {
   def apply(
     configuration: Configuration,
     errors: Seq[ErrorViewModel],
-    csrfToken: Option[CSRFToken])
+    csrfToken: Option[CSRFToken],
+    clientId: Option[ClientID])
     (implicit messages: Messages): SendSignInLinkViewModel = {
-    val layout = LayoutViewModel(configuration, clientId = None, returnUrl = None)
+    val layout = LayoutViewModel(configuration, clientId, returnUrl = None)
 
     SendSignInLinkViewModel(
       layout = layout,
@@ -40,6 +42,7 @@ object SendSignInLinkViewModel {
       errors = errors,
 
       csrfToken = csrfToken,
+      clientId = clientId,
       returnUrl = "https://profile.theguardian.com/consents/staywithus?CMP=resub-email&utm_campaign=resub-email",
 
       resources = layout.resources,

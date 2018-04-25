@@ -1,6 +1,7 @@
 package com.gu.identity.frontend.views.models
 
 import com.gu.identity.frontend.configuration.Configuration
+import com.gu.identity.frontend.models.ClientID
 import com.gu.identity.frontend.models.text.{SendSignInLinkSentText, SendSignInLinkText}
 import play.api.i18n.Messages
 
@@ -19,9 +20,10 @@ case class SendSignInLinkSentViewModel private(
 object SendSignInLinkSentViewModel {
 
   def apply(
-    configuration: Configuration)
+    configuration: Configuration,
+    clientId: Option[ClientID])
     (implicit messages: Messages): SendSignInLinkSentViewModel = {
-    val layout = LayoutViewModel(configuration, clientId = None, returnUrl = None)
+    val layout = LayoutViewModel(configuration, clientId, returnUrl = None)
 
     SendSignInLinkSentViewModel(
       layout = layout,

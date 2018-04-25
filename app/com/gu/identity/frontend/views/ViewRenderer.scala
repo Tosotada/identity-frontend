@@ -179,22 +179,27 @@ object ViewRenderer {
 
   def renderResubLink(
     configuration: Configuration,
+    clientId: Option[ClientID],
     errorIds: Seq[String],
     csrfToken: Option[CSRFToken])
                      (implicit messages: Messages) = {
     val model = SendSignInLinkViewModel(
       configuration = configuration,
       errors = errorIds.map(ErrorViewModel.apply),
-      csrfToken = csrfToken
+      csrfToken = csrfToken,
+      clientId = clientId
     )
     renderViewModel("send-resub-link", model)
   }
 
   def renderSendSignInLinkSent(
-    configuration: Configuration)
+    configuration: Configuration,
+    clientId: Option[ClientID]
+  )
     (implicit messages: Messages) = {
     val model = SendSignInLinkSentViewModel(
-      configuration = configuration
+      configuration = configuration,
+      clientId = clientId
     )
     renderViewModel("send-sign-in-link-sent", model)
   }
