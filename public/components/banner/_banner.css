@@ -1,7 +1,6 @@
 .banner {
-  height: 22rem;
   width: 100%;
-  display: block;
+  display: none;
   margin-top: calc(var(--size-header-height) * -1);
   z-index: var(--z-index-banner);
   position: relative;
@@ -19,7 +18,9 @@
   }
 }
 
-.banner--opt-in {
+.banner--skin-opt-in {
+  display: block;
   background: #53bbd6 inline(opt-in.svg) no-repeat 50% 62.5%;
   background-size: auto 12rem;
+  height: 22rem;
 }
