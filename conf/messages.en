@@ -112,8 +112,8 @@ sendSignInLink.submitAction=Next
 
 # com.gu.identity.frontend.models.text.SendSignInLinkSentText
 sendSignInLinkSent.pageTitle=Check your email
-sendSignInLinkSent.title=Thank you. Now check your email inbox!
-sendSignInLinkSent.text=Look for an email titled "Resubscribe to Guardian emails", then click the link within it. (As always, you may need to look in your spam folder)
+sendSignInLinkSent.title=Thank you! Now check your email inbox.
+sendSignInLinkSent.text=Look for an email titled "Resubscribe to your Guardian emails", then click the link within it. As always, you may need to look in your spam folder.
 sendSignInLinkSent.cta=Return to The Guardian
 sendSignInLinkSent.emailCta=Go to your {0} inbox
 
