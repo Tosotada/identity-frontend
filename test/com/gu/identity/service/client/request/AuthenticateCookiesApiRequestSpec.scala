@@ -18,7 +18,8 @@ class AuthenticateCookiesApiRequestSpec extends WordSpec with Matchers with Mock
     registrationType = Some("facebook"),
     ipAddress = Some("127.0.0.1"),
     referrer = Some("https://www.theguardian.com"),
-    userAgent = Some("chrome")
+    userAgent = Some("chrome"),
+    skipValidationReturn = Some(false)
   )
 
   "Authenticate Cookies API Request" should {

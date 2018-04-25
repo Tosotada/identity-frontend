@@ -20,7 +20,8 @@ class DeauthenticateApiRequestSpec extends WordSpec with Matchers with MockitoSu
     registrationType = Some("facebook"),
     ipAddress = Some("127.0.0.1"),
     referrer = Some("https://www.theguardian.com"),
-    userAgent = Some("chrome")
+    userAgent = Some("chrome"),
+    skipValidationReturn = Some(false)
   )
 
   val secureCookie = Cookie(name = CookieName.SC_GU_U.toString, value = "SC_GU_U_value")
