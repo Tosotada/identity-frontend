@@ -17,4 +17,7 @@ object SendSignInLinkSentText  {
       text = messages("sendSignInLinkSent.text"),
       cta = messages("sendSignInLinkSent.cta")
     )
+
+  def getEmailCtaText(service: String)(implicit messages: Messages) =
+    messages("sendSignInLinkSent.emailCta",service)
 }

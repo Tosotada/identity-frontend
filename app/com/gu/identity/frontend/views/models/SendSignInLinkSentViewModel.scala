@@ -35,7 +35,7 @@ object SendSignInLinkSentViewModel {
         "returnUrl" -> configuration.dotcomBaseUrl
       ),
       inboxCtaLink = emailProvider.map(_.inboxLink),
-      inboxCtaText = emailProvider.map(s => s"Go to your ${s.name} inbox"),
+      inboxCtaText = emailProvider.map(s => SendSignInLinkSentText.getEmailCtaText(s.name)),
       resources = layout.resources,
       indirectResources = layout.indirectResources
     )
