@@ -19,7 +19,7 @@ GET        /reset/email-sent                            com.gu.identity.frontend
 
 GET        /resub-email                                 com.gu.identity.frontend.controllers.Application.sendResubLink(error: Seq[String] ?= Seq.empty, clientId: Option[String] ?= None)
 
-GET        /signin-token/email-sent                     com.gu.identity.frontend.controllers.Application.sendResubLinkSent(clientId: Option[String] ?= None)
+GET        /resub-email/email-sent                     com.gu.identity.frontend.controllers.Application.sendResubLinkSent(clientId: Option[String] ?= None, emailProvider: Option[String] ?= None)
 
 POST       /actions/resub-email                         com.gu.identity.frontend.controllers.SigninAction.sendResubLinkAction()
 
