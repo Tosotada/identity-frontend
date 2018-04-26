@@ -43,7 +43,7 @@ object SendSignInLinkViewModel {
 
       csrfToken = csrfToken,
       clientId = clientId,
-      returnUrl = "https://profile.theguardian.com/consents/staywithus?CMP=resub-email&utm_campaign=resub-email",
+      returnUrl = s"${configuration.identityProfileBaseUrl}/email-prefs?CMP=resub-email&utm_campaign=resub-email",
 
       resources = layout.resources,
       indirectResources = layout.indirectResources
