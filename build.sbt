@@ -17,8 +17,7 @@ resolvers += "Guardian Github Releases" at "https://guardian.github.io/maven/rep
 val identityLibrariesVersion = "3.140"
 
 libraryDependencies ++= Seq(
-  "org.scalatestplus" %% "play" % "1.4.0-M3" % "test",
-  "org.scalatest" %% "scalatest" % "2.2.5" % "test",
+  "org.scalatestplus.play" %% "scalatestplus-play" % "2.0.1" % "test",
   "org.mockito" % "mockito-core" % "1.9.5" % "test",
   ws,
   filters,

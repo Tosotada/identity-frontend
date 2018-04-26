@@ -1,5 +1,7 @@
 package com.gu.identity.frontend.controllers
 
+import akka.actor.ActorSystem
+import akka.stream.{ActorMaterializer, Materializer}
 import com.gu.identity.frontend.analytics.AnalyticsEventActor
 import com.gu.identity.frontend.configuration.Configuration
 import com.gu.identity.frontend.csrf.CSRFConfig
@@ -21,6 +23,8 @@ import play.api.test.Helpers._
 import scala.concurrent.{ExecutionContext, Future}
 
 class RegisterActionSpec extends PlaySpec with MockitoSugar {
+
+  implicit lazy val materializer: Materializer = ActorMaterializer()(ActorSystem())
 
   val fakeCsrfConfig = CSRFConfig.disabled
 

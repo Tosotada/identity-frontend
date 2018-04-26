@@ -1,5 +1,7 @@
 package com.gu.identity.frontend.controllers
 
+import akka.actor.ActorSystem
+import akka.stream.{ActorMaterializer, Materializer}
 import com.google.common.util.concurrent.MoreExecutors
 import com.gu.identity.frontend.configuration.Configuration
 import com.gu.identity.frontend.services._
@@ -15,6 +17,8 @@ import play.api.test.Helpers._
 import scala.concurrent.{ExecutionContext, Future}
 
 class ConsentControllerSpec extends PlaySpec with MockitoSugar {
+
+  implicit lazy val materializer: Materializer = ActorMaterializer()(ActorSystem())
 
   trait WithControllerMockedDependencies {
     val mockIdentityService = mock[IdentityService]
