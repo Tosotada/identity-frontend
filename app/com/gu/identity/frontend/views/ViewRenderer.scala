@@ -66,7 +66,8 @@ object ViewRenderer {
     skipConfirmation: Option[Boolean],
     clientId: Option[ClientID],
     group: Option[GroupCode],
-    email: Option[String])
+    email: Option[String],
+    skipValidationReturn: Option[Boolean])
     (implicit messages: Messages) = {
 
     val model = TwoStepSignInStartViewModel(
@@ -78,7 +79,8 @@ object ViewRenderer {
       skipConfirmation = skipConfirmation,
       clientId = clientId,
       group = group,
-      email = email
+      email = email,
+      skipValidationReturn = skipValidationReturn
     )
 
     renderViewModel("two-step-signin-start-page", model)
@@ -94,7 +96,8 @@ object ViewRenderer {
     skipConfirmation: Option[Boolean],
     clientId: Option[ClientID],
     group: Option[GroupCode],
-    email: Option[String])
+    email: Option[String],
+    skipValidationReturn: Option[Boolean])
     (implicit messages: Messages) = {
 
     val model = TwoStepSignInChoicesViewModel(
@@ -107,7 +110,8 @@ object ViewRenderer {
       clientId = clientId,
       group = group,
       email = email,
-      userType = userType
+      userType = userType,
+      skipValidationReturn = skipValidationReturn
     )
 
     if(userType.isDefined)
