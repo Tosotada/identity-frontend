@@ -12,10 +12,9 @@ import com.gu.identity.frontend.filters._
 import com.gu.identity.frontend.logging.{MetricsActor, MetricsLoggingActor, SentryLogging, SmallDataPointCloudwatchLogging}
 import com.gu.identity.frontend.services.{GoogleRecaptchaServiceHandler, IdentityService, IdentityServiceImpl, IdentityServiceRequestHandler}
 import com.gu.identity.service.client.IdentityClient
-import jp.co.bizreach.play2handlebars.HandlebarsPlugin
+import jp.co.bizreach.play2handlebars.HandlebarsComponents
 import play.api.ApplicationLoader.Context
 import play.api.i18n.I18nComponents
-import play.api.libs.ws.ning.NingWSComponents
 import play.api.routing.Router
 import play.api.{Application => _, _}
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
@@ -27,13 +26,15 @@ import scala.concurrent.ExecutionContext
 
 class FrontendApplicationLoader extends ApplicationLoader {
   def load(context: Context) = {
-    val app = new ApplicationComponents(context).application
-    new HandlebarsPlugin(app)
-    app
+    new ApplicationComponents(context).application
   }
 }
 
-class ApplicationComponents(context: Context) extends BuiltInComponentsFromContext(context) with I18nComponents {
+class ApplicationComponents(context: Context)
+    extends BuiltInComponentsFromContext(context)
+    with I18nComponents
+    with HandlebarsComponents {
+
   lazy val wsClient = AhcWSClient()
   lazy val frontendConfiguration = Configuration(configuration)
   lazy val csrfConfig = CSRFConfig(configuration)
