@@ -4,7 +4,7 @@ name := "identity-frontend"
 
 organization := "com.gu.identity"
 
-scalaVersion := "2.11.7"
+scalaVersion := "2.11.8"
 
 version := "1.0.0-SNAPSHOT"
 
@@ -22,8 +22,8 @@ libraryDependencies ++= Seq(
   "org.mockito" % "mockito-core" % "1.9.5" % "test",
   ws,
   filters,
-  "jp.co.bizreach" %% "play2-handlebars" % "0.3.0",
-  "com.mohiva" %% "play-html-compressor" % "0.5.0",
+  "jp.co.bizreach" %% "play2-handlebars" % "0.3.1",
+  "com.mohiva" %% "play-html-compressor" % "0.6.3",
   "com.gu.identity" %% "identity-cookie" % identityLibrariesVersion,
   "com.gu.identity" %% "identity-model" % identityLibrariesVersion,
   "com.typesafe.akka" %% "akka-actor" % "2.4.1",
@@ -68,7 +68,7 @@ sources in (Compile, doc) := Seq.empty
 publishArtifact in (Compile, packageDoc) := false
 
 
-play.PlayImport.PlayKeys.playDefaultPort := 8860
+PlayKeys.devSettings := Seq("play.server.http.port" -> "8860")
 routesGenerator := InjectedRoutesGenerator
 
 addCommandAlias("devrun", "run")

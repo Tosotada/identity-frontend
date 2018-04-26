@@ -47,10 +47,8 @@ trait ErrorRecoveryActionBuilder extends ComposableActionBuilder[Request] {
       val recover = recoverErrors(requestNoBody)
 
       // Catch errors from body parser here with recoverM
-      other.apply(requestHeader).recoverM {
-        case t if recover.isDefinedAt(t) =>
-          recover(t).map(Left.apply)(executionContext)
-
+      other.apply(requestHeader).recoverWith {
+        case t if recover.isDefinedAt(t) => recover(t).map(Left.apply)(executionContext)
       }(executionContext)
     }
 
