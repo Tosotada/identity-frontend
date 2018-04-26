@@ -4,16 +4,11 @@ package com.gu.identity.frontend.models
  * Defines a SignInType for determining where to point back links to.
  */
 
-sealed trait EmailProvider extends Product2[EmailProvider, String] {
-  self =>
-
+sealed trait EmailProvider {
   val id: String
   val name: String
   val inboxLink: String
   val matches: Seq[String]
-
-  def _1 = self
-  def _2 = id
 }
 
 case object GmailEmailProvider extends EmailProvider {
