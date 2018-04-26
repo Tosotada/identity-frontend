@@ -42,6 +42,9 @@ class RegisterAction(
     val clientIp = ClientIp(request)
     val body = request.body
 
+    /*returnUrl is the returnUrl passed to identity API and used for the returnUrl in the validation email and should be ignored based on the skipValidationReturn flag
+     body.returnUrl is the returnUrl used for the immediate returnUrl of the page and should not be dependant on skipValidationReturn flag*/
+
     val returnUrl = if(body.skipValidationReturn.getOrElse(false)) None else body.returnUrl.flatMap(_.toStringOpt)
 
     val trackingData = TrackingData(request, returnUrl)
