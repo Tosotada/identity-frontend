@@ -7,6 +7,7 @@ import com.gu.identity.frontend.models._
 import com.gu.identity.frontend.models.Text._
 import com.gu.identity.frontend.mvt.ActiveMultiVariantTests
 import play.api.i18n.Messages
+import play.filters.csrf.CSRF.Token
 
 case class SignInViewModel private(
     layout: LayoutViewModel,
@@ -20,7 +21,7 @@ case class SignInViewModel private(
     hasErrors: Boolean = false,
     errors: Seq[ErrorViewModel] = Seq.empty,
 
-    csrfToken: Option[CSRFToken],
+    csrfToken: Option[Token],
     returnUrl: String = "",
     skipConfirmation: Boolean = false,
     clientId: Option[ClientID],
@@ -43,7 +44,7 @@ object SignInViewModel {
   def apply(
    configuration: Configuration,
    activeTests: ActiveMultiVariantTests,
-   csrfToken: Option[CSRFToken],
+   csrfToken: Option[Token],
    errors: Seq[ErrorViewModel],
    returnUrl: ReturnUrl,
    skipConfirmation: Option[Boolean],

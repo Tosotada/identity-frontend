@@ -27,7 +27,7 @@ class ResetPasswordActionSpec extends PlaySpec with MockitoSugar {
   trait WithControllerMockedDependencies {
     val mockIdentityService = mock[IdentityService]
     val config = Configuration.testConfiguration
-    lazy val controller = new ResetPasswordAction(mockIdentityService, fakeCsrfConfig)
+    lazy val controller = new ResetPasswordAction(mockIdentityService)
   }
 
   def fakeRequest(email: String) =

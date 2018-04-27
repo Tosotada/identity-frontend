@@ -19,6 +19,7 @@ import play.api.routing.Router
 import play.api.{Application => _, _}
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import play.api.libs.ws.ahc.AhcWSClient
+import play.filters.csrf.{CSRFComponents, CSRFFilter}
 import play.filters.gzip.GzipFilter
 import router.Routes
 
@@ -33,11 +34,12 @@ class FrontendApplicationLoader extends ApplicationLoader {
 class ApplicationComponents(context: Context)
     extends BuiltInComponentsFromContext(context)
     with I18nComponents
-    with HandlebarsComponents {
+    with HandlebarsComponents
+    with CSRFComponents{
 
   lazy val wsClient = AhcWSClient()
   lazy val frontendConfiguration = Configuration(configuration)
-  lazy val csrfConfig = CSRFConfig(configuration)
+//  lazy val csrfConfig = CSRFConfig(configuration)
 
   lazy val identityServiceRequestHandler = new IdentityServiceRequestHandler(wsClient)
   lazy val identityClient: IdentityClient = new IdentityClient
@@ -52,7 +54,7 @@ class ApplicationComponents(context: Context)
 
   lazy val identityCookieDecoder: IdentityCookieDecoder = new IdentityCookieDecoder(IdentityKeys(frontendConfiguration.identityCookiePublicKey))
 
-  lazy val applicationController = new Application(frontendConfiguration, messagesApi, csrfConfig)
+  lazy val applicationController = new Application(frontendConfiguration, messagesApi)
   lazy val consentController = new ConsentController(frontendConfiguration, identityService, messagesApi, ExecutionContext.Implicits.global)
   lazy val healthcheckController = new HealthCheck()
   lazy val digitalAssetLinksController = new DigitalAssetLinks(frontendConfiguration)
@@ -60,13 +62,13 @@ class ApplicationComponents(context: Context)
   lazy val cspReporterController = new CSPViolationReporter()
   lazy val googleRecaptchaServiceHandler = new GoogleRecaptchaServiceHandler(wsClient, frontendConfiguration)
   lazy val googleRecaptchaCheck = new GoogleRecaptchaCheck(googleRecaptchaServiceHandler)
-  lazy val signinController = new SigninAction(identityService, messagesApi, metricsLoggingActor, analyticsEventActor, csrfConfig, frontendConfiguration)
+  lazy val signinController = new SigninAction(identityService, messagesApi, metricsLoggingActor, analyticsEventActor, frontendConfiguration)
   lazy val signOutController = new SignOutAction(identityService, messagesApi, frontendConfiguration)
-  lazy val registerController = new RegisterAction(identityService, messagesApi, metricsLoggingActor, analyticsEventActor, frontendConfiguration, csrfConfig)
+  lazy val registerController = new RegisterAction(identityService, messagesApi, metricsLoggingActor, analyticsEventActor, frontendConfiguration)
   lazy val thirdPartyTsAndCsController = new ThirdPartyTsAndCs(identityService, frontendConfiguration, messagesApi, httpErrorHandler, identityCookieDecoder.getUserDataForScGuU)
-  lazy val resetPasswordController = new ResetPasswordAction(identityService, csrfConfig)
-  lazy val resendConsentTokenController = new ResendConsentTokenAction(identityService, csrfConfig)
-  lazy val resendRepermissionTokenController = new ResendRepermissionTokenAction(identityService, csrfConfig)
+  lazy val resetPasswordController = new ResetPasswordAction(identityService)
+  lazy val resendConsentTokenController = new ResendConsentTokenAction(identityService)
+  lazy val resendRepermissionTokenController = new ResendRepermissionTokenAction(identityService)
   lazy val repermissionController = new RepermissionController(frontendConfiguration, identityService, messagesApi, ExecutionContext.Implicits.global)
   lazy val signinTokenController = new SigninTokenController(frontendConfiguration, identityService, messagesApi, ExecutionContext.Implicits.global)
   lazy val optInController = new OptInController()
@@ -78,7 +80,8 @@ class ApplicationComponents(context: Context)
     new GzipFilter(),
     HtmlCompressorFilter(configuration, environment, materializer),
     new LogRequestsFilter(materializer),
-    new StrictTransportSecurityHeaderFilter(materializer)
+    new StrictTransportSecurityHeaderFilter(materializer),
+    csrfFilter
   ).filters
 
   override lazy val httpErrorHandler = new ErrorHandler(frontendConfiguration, messagesApi, environment, sourceMapper, Some(router))

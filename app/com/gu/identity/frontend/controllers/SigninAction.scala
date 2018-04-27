@@ -5,7 +5,6 @@ import com.gu.identity.frontend.analytics.client.{SigninEventRequest, SigninFirs
 import com.gu.identity.frontend.authentication.CookieService
 import com.gu.identity.frontend.configuration.Configuration
 import com.gu.identity.frontend.configuration.Configuration.Environment._
-import com.gu.identity.frontend.csrf.{CSRFCheck, CSRFConfig}
 import com.gu.identity.frontend.errors.ErrorIDs.SignInGatewayErrorID
 import com.gu.identity.frontend.errors._
 import com.gu.identity.frontend.logging.{LogOnErrorAction, Logging, MetricsLoggingActor}
@@ -30,7 +29,6 @@ class SigninAction(
     val messagesApi: MessagesApi,
     metricsActor: MetricsLoggingActor,
     eventActor: AnalyticsEventActor,
-    csrfConfig: CSRFConfig,
     val config: Configuration)
   extends Controller
     with Logging
@@ -44,20 +42,17 @@ class SigninAction(
   val SignInServiceAction =
     ServiceAction andThen
     RedirectOnError(redirectRoute) andThen
-    LogOnErrorAction(logger) andThen
-    CSRFCheck(csrfConfig)
+    LogOnErrorAction(logger)
 
   val signInSecondStepCurrentServiceAction =
       ServiceAction andThen
       RedirectOnError(signInSecondStepCurrentRedirectRoute) andThen
-      LogOnErrorAction(logger) andThen
-      CSRFCheck(csrfConfig)
+      LogOnErrorAction(logger)
 
   val SignInSmartLockServiceAction =
     ServiceAction andThen
       ResultOnError(redirectRoute) andThen
-      LogOnErrorAction(logger) andThen
-      CSRFCheck(csrfConfig)
+      LogOnErrorAction(logger)
 
   val bodyParser = SignInActionRequestBody.bodyParser
 

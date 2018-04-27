@@ -35,7 +35,7 @@ class RegisterActionSpec extends PlaySpec with MockitoSugar {
     val metricsActor = mock[MetricsLoggingActor]
     val eventActor = mock[AnalyticsEventActor]
 
-    val controller = new RegisterAction(mockIdentityService, messages, metricsActor, eventActor, config, fakeCsrfConfig)
+    val controller = new RegisterAction(mockIdentityService, messages, metricsActor, eventActor, config)
   }
 
   def fakeRegisterRequest(

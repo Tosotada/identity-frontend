@@ -40,7 +40,7 @@ class SigninActionSpec extends PlaySpec with MockitoSugar {
     val metricsActor = mock[MetricsLoggingActor]
     val eventActor = mock[AnalyticsEventActor]
 
-    lazy val controller = new SigninAction(mockIdentityService, messages, metricsActor, eventActor, fakeCsrfConfig, config)
+    lazy val controller = new SigninAction(mockIdentityService, messages, metricsActor, eventActor, config)
 
     def mockAuthenticate(
         email: String,
