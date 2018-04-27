@@ -2,7 +2,6 @@ package com.gu.identity.frontend.views.models
 
 import com.gu.identity.frontend.configuration.Configuration
 import com.gu.identity.frontend.controllers.routes
-import com.gu.identity.frontend.csrf.CSRFToken
 import com.gu.identity.frontend.models.ClientID
 import com.gu.identity.frontend.models.text.SendSignInLinkText
 import play.api.i18n.Messages
