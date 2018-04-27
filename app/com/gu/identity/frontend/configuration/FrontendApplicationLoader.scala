@@ -1,12 +1,10 @@
 package com.gu.identity.frontend.configuration
 
 import akka.actor.{ActorRef, Props}
-import akka.stream.ActorMaterializer
 import com.gu.identity.cookie.{IdentityCookieDecoder, IdentityKeys}
 import com.gu.identity.frontend.analytics.client.MeasurementProtocolClient
 import com.gu.identity.frontend.analytics.{AnalyticsEventActor, EventActor}
 import com.gu.identity.frontend.controllers._
-import com.gu.identity.frontend.csrf.CSRFConfig
 import com.gu.identity.frontend.errors.ErrorHandler
 import com.gu.identity.frontend.filters._
 import com.gu.identity.frontend.logging.{MetricsActor, MetricsLoggingActor, SentryLogging, SmallDataPointCloudwatchLogging}
@@ -19,7 +17,7 @@ import play.api.routing.Router
 import play.api.{Application => _, _}
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import play.api.libs.ws.ahc.AhcWSClient
-import play.filters.csrf.{CSRFComponents, CSRFFilter}
+import play.filters.csrf.CSRFComponents
 import play.filters.gzip.GzipFilter
 import router.Routes
 
@@ -39,7 +37,6 @@ class ApplicationComponents(context: Context)
 
   lazy val wsClient = AhcWSClient()
   lazy val frontendConfiguration = Configuration(configuration)
-//  lazy val csrfConfig = CSRFConfig(configuration)
 
   lazy val identityServiceRequestHandler = new IdentityServiceRequestHandler(wsClient)
   lazy val identityClient: IdentityClient = new IdentityClient

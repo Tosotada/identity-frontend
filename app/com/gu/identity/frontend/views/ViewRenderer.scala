@@ -4,10 +4,8 @@ import java.net.URI
 
 import com.gu.identity.frontend.configuration._
 import com.gu.identity.frontend.controllers.{NoCache, routes}
-import com.gu.identity.frontend.csrf.CSRFToken
-import com.gu.identity.frontend.errors.{HttpError, NotFoundError, UnexpectedError}
+import com.gu.identity.frontend.errors.{HttpError, NotFoundError}
 import com.gu.identity.frontend.models._
-import com.gu.identity.frontend.models.text.ResetPasswordText
 import com.gu.identity.frontend.mvt.{MultiVariantTest, MultiVariantTestVariant}
 import com.gu.identity.frontend.views.models._
 import com.gu.identity.model.UserType
