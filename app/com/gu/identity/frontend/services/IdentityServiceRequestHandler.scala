@@ -143,8 +143,7 @@ class IdentityServiceRequestHandler (ws: WSClient) extends IdentityClientRequest
     case r: SendResetPasswordEmailApiRequest =>
       if (response.status == 200) {
         Right(SendResetPasswordEmailResponse())
-      }
-      else {
+      } else {
         handleUnexpectedResponse(response)
       }
 

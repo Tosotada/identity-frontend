@@ -89,6 +89,10 @@ object ErrorIDs {
     val key = "reset-password-error-bad-request"
   }
 
+  case object ResetPasswordNoAccountErrorID extends ErrorID {
+    val key = "reset-password-error-no-account"
+  }
+
   case object ResetPasswordInvalidEmailErrorID extends ErrorID {
     val key = "reset-password-error-email"
   }
