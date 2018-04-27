@@ -23,6 +23,7 @@ case class TwoStepSignInChoicesViewModel private(
   csrfToken: Option[CSRFToken],
   returnUrl: String = "",
   skipConfirmation: Boolean = false,
+  skipValidationReturn: Boolean = false,
   clientId: Option[ClientID],
   group: Option[GroupCode],
 
@@ -59,7 +60,8 @@ object TwoStepSignInChoicesViewModel {
     clientId: Option[ClientID],
     group: Option[GroupCode],
     email: Option[String],
-    userType: Option[UserType])(implicit messages: Messages): TwoStepSignInChoicesViewModel = {
+    userType: Option[UserType],
+    skipValidationReturn: Option[Boolean])(implicit messages: Messages): TwoStepSignInChoicesViewModel = {
 
     val layout = LayoutViewModel(configuration, activeTests, clientId, Some(returnUrl))
     val recaptchaModel : Option[GoogleRecaptchaViewModel] = None
@@ -86,12 +88,13 @@ object TwoStepSignInChoicesViewModel {
       csrfToken = csrfToken,
       returnUrl = returnUrl.url,
       skipConfirmation = skipConfirmation.getOrElse(false),
+      skipValidationReturn = skipValidationReturn.getOrElse(false),
       clientId = clientId,
       group = group,
       email = email,
       emailForDisplay = email.map(breakEmailWords),
 
-      registerUrl = UrlBuilder(routes.Application.register(), returnUrl, skipConfirmation, clientId, group.map(_.id), Some(TwoStepSignInType)),
+      registerUrl = UrlBuilder(routes.Application.register(), returnUrl, skipConfirmation, clientId, group.map(_.id), Some(TwoStepSignInType), skipValidationReturn),
       signinUrl = UrlBuilder(routes.Application.twoStepSignInStart(), returnUrl, skipConfirmation, clientId, group.map(_.id)),
       forgotPasswordUrl = UrlBuilder("/reset", returnUrl, skipConfirmation, clientId, group.map(_.id)),
 

@@ -42,7 +42,12 @@ class RegisterAction(
     val clientIp = ClientIp(request)
     val body = request.body
 
-    val trackingData = TrackingData(request, body.returnUrl.flatMap(_.toStringOpt))
+    /* validationReturnUrl is the returnUrl passed to identity API and used for the returnUrl in the validation email and should be ignored based on the skipValidationReturn flag
+     body.returnUrl is the returnUrl used for the immediate returnUrl of the page and its use should not be dependant on skipValidationReturn flag*/
+
+    val validationReturnUrl = if(body.skipValidationReturn.getOrElse(false)) None else body.returnUrl.flatMap(_.toStringOpt)
+
+    val trackingData = TrackingData(request, validationReturnUrl)
     identityService.registerThenSignIn(body, clientIp, trackingData).map {
       case Left(errors) =>
         logger.error(s"Could not register: $errors $trackingData")

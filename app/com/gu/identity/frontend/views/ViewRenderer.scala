@@ -66,7 +66,8 @@ object ViewRenderer {
     skipConfirmation: Option[Boolean],
     clientId: Option[ClientID],
     group: Option[GroupCode],
-    email: Option[String])
+    email: Option[String],
+    skipValidationReturn: Option[Boolean])
     (implicit messages: Messages) = {
 
     val model = TwoStepSignInStartViewModel(
@@ -78,7 +79,8 @@ object ViewRenderer {
       skipConfirmation = skipConfirmation,
       clientId = clientId,
       group = group,
-      email = email
+      email = email,
+      skipValidationReturn = skipValidationReturn
     )
 
     renderViewModel("two-step-signin-start-page", model)
@@ -94,7 +96,8 @@ object ViewRenderer {
     skipConfirmation: Option[Boolean],
     clientId: Option[ClientID],
     group: Option[GroupCode],
-    email: Option[String])
+    email: Option[String],
+    skipValidationReturn: Option[Boolean])
     (implicit messages: Messages) = {
 
     val model = TwoStepSignInChoicesViewModel(
@@ -107,7 +110,8 @@ object ViewRenderer {
       clientId = clientId,
       group = group,
       email = email,
-      userType = userType
+      userType = userType,
+      skipValidationReturn = skipValidationReturn
     )
 
     if(userType.isDefined)
@@ -129,7 +133,8 @@ object ViewRenderer {
       email: Option[String],
       signInType: Option[SignInType],
       shouldCollectConsents: Boolean,
-      shouldCollectV2Consents: Boolean)
+      shouldCollectV2Consents: Boolean,
+      skipValidationReturn: Option[Boolean])
       (implicit messages: Messages) = {
 
     val model = RegisterViewModel(
@@ -144,7 +149,8 @@ object ViewRenderer {
       email = email,
       signInType = signInType,
       shouldCollectConsents = shouldCollectConsents,
-      shouldCollectV2Consents = shouldCollectV2Consents
+      shouldCollectV2Consents = shouldCollectV2Consents,
+      skipValidationReturn = skipValidationReturn
     )
 
     renderViewModel("register-page", model)
