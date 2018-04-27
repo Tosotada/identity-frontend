@@ -1,7 +1,8 @@
 package com.gu.identity.frontend.controllers
 
+import akka.actor.ActorSystem
+import akka.stream.{ActorMaterializer, Materializer}
 import akka.util.Timeout
-import com.gu.identity.cookie.{IdentityCookieDecoder, IdentityKeys}
 import com.gu.identity.frontend.authentication.CookieName
 import com.gu.identity.frontend.configuration.Configuration
 import com.gu.identity.frontend.errors.{AssignGroupAppException, ErrorHandler, GetUserAppException}
@@ -12,7 +13,7 @@ import com.gu.identity.service.client.models.{User, UserGroup}
 import com.gu.identity.model.{User => CookieUser}
 import org.mockito.Matchers.{any => argAny}
 import org.mockito.Mockito._
-import org.scalatest.mock.MockitoSugar
+import org.scalatest.mockito.MockitoSugar
 import org.scalatestplus.play.PlaySpec
 import play.api.i18n.MessagesApi
 import play.api.mvc.Results._
@@ -23,7 +24,9 @@ import play.api.test.Helpers._
 import scala.concurrent.duration._
 import scala.concurrent.{Await, ExecutionContext, Future}
 
-class ThirdPartyTsAndCsSpec extends PlaySpec with MockitoSugar{
+class ThirdPartyTsAndCsSpec extends PlaySpec with MockitoSugar {
+
+  implicit lazy val materializer: Materializer = ActorMaterializer()(ActorSystem())
 
   trait WithControllerMockedDependencies {
     val mockIdentityService = mock[IdentityService]

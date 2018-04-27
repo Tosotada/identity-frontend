@@ -1,5 +1,7 @@
 package com.gu.identity.frontend.controllers
 
+import akka.actor.ActorSystem
+import akka.stream.{ActorMaterializer, Materializer}
 import com.gu.identity.frontend.configuration.Configuration
 import com.gu.identity.frontend.csrf.CSRFConfig
 import com.gu.identity.frontend.errors.ResetPasswordServiceGatewayAppException
@@ -8,7 +10,7 @@ import com.gu.identity.frontend.request.ResetPasswordActionRequestBody
 import com.gu.identity.frontend.services.IdentityService
 import com.gu.identity.service.client.{ClientGatewayError, SendResetPasswordEmailResponse}
 import org.scalatest.mock.MockitoSugar
-import org.mockito.Matchers.{eq => argEq, any => argAny}
+import org.mockito.Matchers.{any => argAny, eq => argEq}
 import org.mockito.Mockito._
 import org.scalatestplus.play.PlaySpec
 import play.api.test.FakeRequest
@@ -17,6 +19,9 @@ import play.api.test.Helpers._
 import scala.concurrent.{ExecutionContext, Future}
 
 class ResetPasswordActionSpec extends PlaySpec with MockitoSugar {
+
+  implicit lazy val materializer: Materializer = ActorMaterializer()(ActorSystem())
+
   val fakeCsrfConfig = CSRFConfig.disabled
 
   trait WithControllerMockedDependencies {
