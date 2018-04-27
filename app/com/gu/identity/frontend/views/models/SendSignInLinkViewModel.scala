@@ -6,6 +6,7 @@ import com.gu.identity.frontend.csrf.CSRFToken
 import com.gu.identity.frontend.models.ClientID
 import com.gu.identity.frontend.models.text.SendSignInLinkText
 import play.api.i18n.Messages
+import play.filters.csrf.CSRF.Token
 
 
 case class SendSignInLinkViewModel private(
@@ -16,7 +17,7 @@ case class SendSignInLinkViewModel private(
       "submit" -> routes.SigninAction.sendResubLinkAction().url
     ),
     errors: Seq[ErrorViewModel] = Seq.empty,
-    csrfToken: Option[CSRFToken],
+    csrfToken: Option[Token],
     returnUrl: String = "",
     clientId: Option[ClientID],
     resources: Seq[PageResource with Product],
@@ -30,7 +31,7 @@ object SendSignInLinkViewModel {
   def apply(
     configuration: Configuration,
     errors: Seq[ErrorViewModel],
-    csrfToken: Option[CSRFToken],
+    csrfToken: Option[Token],
     clientId: Option[ClientID])
     (implicit messages: Messages): SendSignInLinkViewModel = {
     val layout = LayoutViewModel(configuration, clientId, returnUrl = None)

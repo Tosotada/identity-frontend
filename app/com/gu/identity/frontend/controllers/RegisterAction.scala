@@ -4,7 +4,6 @@ package com.gu.identity.frontend.controllers
 import com.gu.identity.frontend.analytics.AnalyticsEventActor
 import com.gu.identity.frontend.analytics.client.RegisterEventRequest
 import com.gu.identity.frontend.configuration.Configuration
-import com.gu.identity.frontend.csrf.{CSRFCheck, CSRFConfig}
 import com.gu.identity.frontend.errors.RedirectOnError
 import com.gu.identity.frontend.logging.{LogOnErrorAction, Logging, MetricsLoggingActor}
 import com.gu.identity.frontend.models._
@@ -22,8 +21,7 @@ class RegisterAction(
     val messagesApi: MessagesApi,
     metricsLoggingActor: MetricsLoggingActor,
     analyticsEventActor: AnalyticsEventActor,
-    val config: Configuration,
-    csrfConfig: CSRFConfig)
+    val config: Configuration)
   extends Controller
     with Logging
     with I18nSupport {
@@ -33,8 +31,7 @@ class RegisterAction(
   val RegisterServiceAction: ServiceActionBuilder[Request] =
     ServiceAction andThen
     RedirectOnError(redirectRoute) andThen
-    LogOnErrorAction(logger) andThen
-    CSRFCheck(csrfConfig)
+    LogOnErrorAction(logger)
 
   val bodyParser: BodyParser[RegisterActionRequestBody] = RegisterActionRequestBody.bodyParser
 

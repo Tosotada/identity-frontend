@@ -15,6 +15,7 @@ import jp.co.bizreach.play2handlebars.HBS
 import play.api.i18n.Messages
 import play.api.mvc.{Result, Results}
 import play.api.mvc.Results.{NotFound, SeeOther}
+import play.filters.csrf.CSRF.Token
 import play.twirl.api.Html
 
 /**
@@ -27,7 +28,7 @@ object ViewRenderer {
   def renderSignIn(
       configuration: Configuration,
       activeTests: Map[MultiVariantTest, MultiVariantTestVariant],
-      csrfToken: Option[CSRFToken],
+      csrfToken: Option[Token],
       errorIds: Seq[String],
       returnUrl: ReturnUrl,
       skipConfirmation: Option[Boolean],
@@ -60,7 +61,7 @@ object ViewRenderer {
   def renderTwoStepSignInStart(
     configuration: Configuration,
     activeTests: Map[MultiVariantTest, MultiVariantTestVariant],
-    csrfToken: Option[CSRFToken],
+    csrfToken: Option[Token],
     errorIds: Seq[String],
     returnUrl: ReturnUrl,
     skipConfirmation: Option[Boolean],
@@ -89,7 +90,7 @@ object ViewRenderer {
   def renderTwoStepSignInChoices(
     configuration: Configuration,
     activeTests: Map[MultiVariantTest, MultiVariantTestVariant],
-    csrfToken: Option[CSRFToken],
+    csrfToken: Option[Token],
     errorIds: Seq[String],
     userType: Option[UserType],
     returnUrl: ReturnUrl,
@@ -125,7 +126,7 @@ object ViewRenderer {
       configuration: Configuration,
       activeTests: Map[MultiVariantTest, MultiVariantTestVariant],
       errorIds: Seq[String],
-      csrfToken: Option[CSRFToken],
+      csrfToken: Option[Token],
       returnUrl: ReturnUrl,
       skipConfirmation: Option[Boolean],
       clientId: Option[ClientID],
@@ -159,7 +160,7 @@ object ViewRenderer {
   def renderResetPassword(
     configuration: Configuration,
     errorIds: Seq[String],
-    csrfToken: Option[CSRFToken],
+    csrfToken: Option[Token],
     email: Option[String],
     resend: Boolean = false,
     clientId: Option[ClientID])
@@ -187,7 +188,7 @@ object ViewRenderer {
     configuration: Configuration,
     clientId: Option[ClientID],
     errorIds: Seq[String],
-    csrfToken: Option[CSRFToken])
+    csrfToken: Option[Token])
                      (implicit messages: Messages) = {
     val model = SendSignInLinkViewModel(
       configuration = configuration,
@@ -212,7 +213,7 @@ object ViewRenderer {
     renderViewModel("send-sign-in-link-sent", model)
   }
 
-  def renderInvalidConsentToken(configuration: Configuration, token: String, csrfToken: Option[CSRFToken], errorIds: Seq[String])(implicit messages: Messages) = {
+  def renderInvalidConsentToken(configuration: Configuration, token: String, csrfToken: Option[Token], errorIds: Seq[String])(implicit messages: Messages) = {
     val model = InvalidConsentTokenViewModel(
       configuration = configuration,
       token = token,
@@ -222,7 +223,7 @@ object ViewRenderer {
     renderViewModel("invalid-consent-token-page", model)
   }
 
-  def renderResendTokenSent(configuration: Configuration, csrfToken: Option[CSRFToken], errorIds: Seq[String])(implicit messages: Messages) = {
+  def renderResendTokenSent(configuration: Configuration, csrfToken: Option[Token], errorIds: Seq[String])(implicit messages: Messages) = {
     val errors = errorIds.map(ErrorViewModel.apply)
     val maybeErrors = if(errors.isEmpty) None else Some(errors)
 
@@ -234,7 +235,7 @@ object ViewRenderer {
     renderViewModel("resend-link-sent-page", model)
   }
 
-  def renderInvalidRepermissionToken(configuration: Configuration, token: String, csrfToken: Option[CSRFToken])(implicit messages: Messages) = {
+  def renderInvalidRepermissionToken(configuration: Configuration, token: String, csrfToken: Option[Token])(implicit messages: Messages) = {
     val model = InvalidRepermissionTokenViewModel(
       configuration = configuration,
       token = token,
