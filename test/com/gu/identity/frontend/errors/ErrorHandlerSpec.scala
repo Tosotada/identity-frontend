@@ -81,7 +81,7 @@ class ErrorHandlerSpec extends PlaySpec with BeforeAndAfter {
   class MockedErrorHandler
     extends ErrorHandler(
       configuration = Configuration.testConfiguration,
-      messagesApi = null,
+      messagesApi = Helpers.stubMessagesApi(),
       environment = Environment.simple(mode = Mode.Prod),
       sourceMapper = None,
       router = None) {
