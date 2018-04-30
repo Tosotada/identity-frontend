@@ -15,30 +15,32 @@ import org.mockito.Matchers.{any => argAny}
 import org.mockito.Mockito._
 import org.scalatest.mockito.MockitoSugar
 import org.scalatestplus.play.PlaySpec
-import org.scalatestplus.play.guice.GuiceOneServerPerSuite
 import play.api.mvc.Results._
 import play.api.mvc.{AnyContent, ControllerComponents, Cookie, RequestHeader}
-import play.api.test.FakeRequest
+import play.api.test.{FakeRequest, Helpers}
 import play.api.test.Helpers._
 
 import scala.concurrent.duration._
 import scala.concurrent.{Await, ExecutionContext, Future}
+import scala.concurrent.ExecutionContext.Implicits.global
 
-class ThirdPartyTsAndCsSpec extends PlaySpec with MockitoSugar with GuiceOneServerPerSuite {
+class ThirdPartyTsAndCsSpec extends PlaySpec with MockitoSugar {
 
   implicit lazy val materializer: Materializer = ActorMaterializer()(ActorSystem())
-  implicit lazy val ec: ExecutionContext = app.injector.instanceOf[ExecutionContext]
 
   trait WithControllerMockedDependencies {
     val mockIdentityService = mock[IdentityService]
 
     val testConfig = Configuration.testConfiguration
     val mockErrorHandler = mock[ErrorHandler]
+    val cc = Helpers.stubControllerComponents(playBodyParsers = Helpers.stubPlayBodyParsers)
 
     def validCookieDecoding(cookieValue: String) = Some(CookieUser(id = "10000811"))
 
+    val userAuthAction = new UserAuthenticatedAction(cc, validCookieDecoding)
+
     val thirdPartyTsAndCsController =
-      new ThirdPartyTsAndCs(mockIdentityService, testConfig,  mockErrorHandler, validCookieDecoding, mock[UserAuthenticatedAction], app.injector.instanceOf[ControllerComponents])
+      new ThirdPartyTsAndCs(mockIdentityService, testConfig,  mockErrorHandler, validCookieDecoding, userAuthAction, cc)
 
   }
 

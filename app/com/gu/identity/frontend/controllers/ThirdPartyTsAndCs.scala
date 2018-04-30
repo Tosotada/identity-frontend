@@ -16,7 +16,7 @@ import play.api.http.HttpErrorHandler
 import play.api.i18n.I18nSupport
 import play.api.mvc._
 
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 
 case class AddUserToGroupRequest(groupCode: String, returnUrl: Option[String])
 
@@ -26,9 +26,9 @@ class ThirdPartyTsAndCs(
     httpErrorHandler: HttpErrorHandler,
     cookieDecoder: String => Option[SecureCookieUser],
     userAuthenticatedAction: UserAuthenticatedAction,
-    cc: ControllerComponents) extends AbstractController(cc) with Logging with I18nSupport {
-
-  implicit val ec = cc.executionContext
+    cc: ControllerComponents)
+    (implicit executionContext: ExecutionContext)
+    extends AbstractController(cc) with Logging with I18nSupport {
 
   def confirmAction[A](
       group: String,
@@ -79,7 +79,7 @@ class ThirdPartyTsAndCs(
   }
 
   def addToGroupAction(): Action[AnyContent] =
-    userAuthenticatedAction.async { implicit request: UserAuthenticatedRequest[AnyContent] =>
+    userAuthenticatedAction.async { implicit request =>
       val sc_gu_uCookie = request.scGuUCookie
 
       addUserToGroupRequestFormBody.bindFromRequest.fold(
