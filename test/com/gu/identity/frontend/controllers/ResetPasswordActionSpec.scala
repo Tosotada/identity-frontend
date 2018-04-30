@@ -12,12 +12,10 @@ import org.scalatest.mockito.MockitoSugar
 import org.mockito.Matchers.{any => argAny, eq => argEq}
 import org.mockito.Mockito._
 import org.scalatestplus.play.PlaySpec
-import org.scalatestplus.play.guice.GuiceOneServerPerSuite
-import play.api.mvc.ControllerComponents
-import play.api.test.FakeRequest
+import play.api.test.{FakeRequest, Helpers}
 import play.api.test.Helpers._
-import scala.concurrent.ExecutionContext.Implicits.global
 
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{ExecutionContext, Future}
 
 class ResetPasswordActionSpec extends PlaySpec with MockitoSugar {
@@ -27,7 +25,9 @@ class ResetPasswordActionSpec extends PlaySpec with MockitoSugar {
   trait WithControllerMockedDependencies {
     val mockIdentityService = mock[IdentityService]
     val config = Configuration.testConfiguration
-    lazy val controller = new ResetPasswordAction(mockIdentityService, mock[ControllerComponents], mock[ServiceAction])
+    val cc = Helpers.stubControllerComponents()
+    val serviceAction = new ServiceAction(cc)
+    val controller = new ResetPasswordAction(mockIdentityService, cc, serviceAction)
   }
 
   def fakeRequest(email: String) =
@@ -38,15 +38,22 @@ class ResetPasswordActionSpec extends PlaySpec with MockitoSugar {
     Seq(ResetPasswordServiceGatewayAppException(ClientGatewayError(message)))
 
   "POST /actions/reset" should {
-    "redirect to the email validation sent confirmation page when email was properly sent" in new WithControllerMockedDependencies {
+    "redirect to the email validation sent confirmation page when email was properly sent" in {
+      val mockIdentityService = mock[IdentityService]
+      val config = Configuration.testConfiguration
+      val cc = Helpers.stubControllerComponents()
+      val serviceAction = new ServiceAction(cc)
+
+      lazy val controller = new ResetPasswordAction(
+        mockIdentityService,
+        cc,
+        serviceAction
+      )
+
       val email = "example@gu.com"
 
       when(mockIdentityService.sendResetPasswordEmail(argAny[ResetPasswordActionRequestBody], argAny[ClientIp])(argAny[ExecutionContext]))
-        .thenReturn {
-          Future.successful{
-            Right(SendResetPasswordEmailResponse())
-          }
-        }
+        .thenReturn(Future.successful{Right(SendResetPasswordEmailResponse())})
 
       val result = call(controller.reset, fakeRequest(email))
 
