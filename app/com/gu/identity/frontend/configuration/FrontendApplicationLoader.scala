@@ -60,7 +60,7 @@ class ApplicationComponents(context: Context)
 
   // Controllers
   lazy val applicationController = new Application(frontendConfiguration, controllerComponents, multiVariantTestAction)
-  lazy val consentController = new ConsentController(frontendConfiguration, identityService, controllerComponents, ExecutionContext.Implicits.global)
+  lazy val consentController = new ConsentController(frontendConfiguration, identityService, controllerComponents)
   lazy val healthcheckController = new HealthCheck()
   lazy val digitalAssetLinksController = new DigitalAssetLinks(frontendConfiguration)
   lazy val manifestController = new Manifest()

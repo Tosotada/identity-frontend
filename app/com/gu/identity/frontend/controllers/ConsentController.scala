@@ -14,8 +14,8 @@ import scala.util.control.NonFatal
 class ConsentController(
     configuration: Configuration,
     identityService: IdentityService,
-    cc: ControllerComponents,
-    implicit val executionContext: ExecutionContext)
+    cc: ControllerComponents)
+    (implicit val executionContext: ExecutionContext)
     extends AbstractController(cc)
     with Logging
     with I18nSupport {
