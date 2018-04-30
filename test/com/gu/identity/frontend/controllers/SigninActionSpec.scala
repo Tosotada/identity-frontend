@@ -17,20 +17,18 @@ import org.scalatest.mockito.MockitoSugar
 import org.scalatestplus.play.PlaySpec
 import play.api.i18n.MessagesApi
 import play.api.mvc._
-import play.api.test.FakeRequest
+import play.api.test.{FakeRequest, Helpers}
 import play.api.test.Helpers._
 import org.scalatest.Matchers._
-import org.scalatestplus.play.guice.GuiceOneServerPerSuite
+import scala.concurrent.ExecutionContext.Implicits.global
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class SigninActionSpec extends PlaySpec with MockitoSugar with GuiceOneServerPerSuite {
+class SigninActionSpec extends PlaySpec with MockitoSugar {
 
   implicit lazy val materializer: Materializer = ActorMaterializer()(ActorSystem())
-  implicit lazy val ec: ExecutionContext = app.injector.instanceOf[ExecutionContext]
 
   val signInPageUrl = routes.Application.signIn().url
-
 
   trait WithControllerMockedDependencies {
     val mockIdentityService = mock[IdentityService]
@@ -38,9 +36,11 @@ class SigninActionSpec extends PlaySpec with MockitoSugar with GuiceOneServerPer
     val config = Configuration.testConfiguration
     val metricsActor = mock[MetricsLoggingActor]
     val eventActor = mock[AnalyticsEventActor]
+    val cc = Helpers.stubControllerComponents()
+    val serviceAction = new ServiceAction(cc)
 
     lazy val controller =
-      new SigninAction(mockIdentityService, app.injector.instanceOf[ControllerComponents], metricsActor, eventActor, config, mock[ServiceAction])
+      new SigninAction(mockIdentityService, cc, metricsActor, eventActor, config, serviceAction)
 
     def mockAuthenticate(
         email: String,
