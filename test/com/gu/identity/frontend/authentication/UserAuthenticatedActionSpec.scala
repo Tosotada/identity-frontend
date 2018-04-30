@@ -9,16 +9,16 @@ import com.gu.identity.frontend.test.SimpleFakeApplication
 import com.gu.identity.model.{User => CookieUser}
 import org.scalatest.mockito.MockitoSugar
 import org.scalatestplus.play.PlaySpec
-import org.scalatestplus.play.guice.GuiceOneServerPerSuite
-import play.api.mvc.{AnyContent, ControllerComponents, Cookie}
+import play.api.mvc.{AnyContent, Cookie}
 import play.api.mvc.Results.Ok
-import play.api.test.FakeRequest
+import play.api.test.{FakeRequest, Helpers}
 import play.api.test.Helpers._
 
 class UserAuthenticatedActionSpec extends PlaySpec with MockitoSugar {
 
   implicit lazy val materializer: Materializer = ActorMaterializer()(ActorSystem())
   val app = SimpleFakeApplication()
+  val cc = Helpers.stubControllerComponents()
 
   def validCookieDecoding(cookieValue: String) = Some(CookieUser(id = "10000811"))
 
@@ -27,12 +27,9 @@ class UserAuthenticatedActionSpec extends PlaySpec with MockitoSugar {
 
   "AuthenticatedUserAction" should {
     "stop a request if the cookie is absent or invalid" in {
-
-
-
       running(app) {
         val userAuthenticatedAction =
-          new UserAuthenticatedAction(mock[ControllerComponents], invalidCookieDecoding)
+          new UserAuthenticatedAction(cc, invalidCookieDecoding)
 
         val action = userAuthenticatedAction {
           request: UserAuthenticatedRequest[AnyContent] => Ok
@@ -50,7 +47,7 @@ class UserAuthenticatedActionSpec extends PlaySpec with MockitoSugar {
     "add a SC_GU_U cookie to the request if the a SC_GU_U cookie is valid" in {
       running(app) {
         val userAuthenticatedAction =
-          new UserAuthenticatedAction(app.injector.instanceOf[ControllerComponents], validCookieDecoding)
+          new UserAuthenticatedAction(cc, validCookieDecoding)
 
         val action = userAuthenticatedAction {
           request: UserAuthenticatedRequest[AnyContent] => {
@@ -74,7 +71,7 @@ class UserAuthenticatedActionSpec extends PlaySpec with MockitoSugar {
     "redirect to signin if the cookie is present but invalid" in {
       running(app) {
         val userAuthenticatedAction =
-          new UserAuthenticatedAction(app.injector.instanceOf[ControllerComponents], invalidCookieDecoding)
+          new UserAuthenticatedAction(cc, invalidCookieDecoding)
 
         val action = userAuthenticatedAction{
           request: UserAuthenticatedRequest[AnyContent] => {
@@ -94,7 +91,7 @@ class UserAuthenticatedActionSpec extends PlaySpec with MockitoSugar {
 
   "extractGroupCodeFromURI" should {
     val userAuthenticatedAction =
-      new UserAuthenticatedAction(app.injector.instanceOf[ControllerComponents], invalidCookieDecoding)
+      new UserAuthenticatedAction(cc, invalidCookieDecoding)
 
     "return a group code object when the uri contains a valid group code" in {
 
