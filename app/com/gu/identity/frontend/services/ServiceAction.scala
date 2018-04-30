@@ -26,13 +26,13 @@ import scala.concurrent.Future
  * }
  * }}}
  */
-trait ServiceActionBuilder[+R[_]] extends ActionFunction[Request, R] {
+abstract class ServiceActionBuilder[+R[_]](cc: ControllerComponents) extends ActionFunction[Request, R] {
   self =>
 
   type ServiceResult = Either[ServiceExceptions, Result]
 
 
-  val underlying = new ComposableActionBuilder[R] {
+  val underlying = new ComposableActionBuilder[R](cc) {
     def invokeBlock[A](request: Request[A], block: (R[A]) => Future[Result]): Future[Result] =
       self.invokeBlock(request, block)
   }
@@ -63,11 +63,13 @@ trait ServiceActionBuilder[+R[_]] extends ActionFunction[Request, R] {
   }
 
 
-  override def andThen[Q[_]](other: ActionFunction[R, Q]): ServiceActionBuilder[Q] = new ServiceActionBuilder[Q] {
+  override def andThen[Q[_]](other: ActionFunction[R, Q]): ServiceActionBuilder[Q] = new ServiceActionBuilder[Q](cc) {
+    override val executionContext = cc.executionContext
     override val underlying = self.underlying.andThen(other)
     override def invokeBlock[A](request: Request[A], block: Q[A] => Future[Result]) =
       self.invokeBlock[A](request, other.invokeBlock[A](_: R[A], block))
   }
+
 
 }
 
@@ -75,7 +77,8 @@ trait ServiceActionBuilder[+R[_]] extends ActionFunction[Request, R] {
 /**
  * @see ServiceActionBuilder
  */
-object ServiceAction extends ServiceActionBuilder[Request] {
+class ServiceAction(cc: ControllerComponents) extends ServiceActionBuilder[Request](cc) {
+  override val executionContext = cc.executionContext
   override def invokeBlock[A](request: Request[A], block: Request[A] => Future[Result]): Future[Result] =
     block(request)
 }

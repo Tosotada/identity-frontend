@@ -20,12 +20,14 @@ import play.api.mvc._
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import org.scalatest.Matchers._
+import org.scalatestplus.play.guice.GuiceOneServerPerSuite
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class SigninActionSpec extends PlaySpec with MockitoSugar {
+class SigninActionSpec extends PlaySpec with MockitoSugar with GuiceOneServerPerSuite {
 
   implicit lazy val materializer: Materializer = ActorMaterializer()(ActorSystem())
+  implicit lazy val ec: ExecutionContext = app.injector.instanceOf[ExecutionContext]
 
   val signInPageUrl = routes.Application.signIn().url
 
@@ -37,7 +39,8 @@ class SigninActionSpec extends PlaySpec with MockitoSugar {
     val metricsActor = mock[MetricsLoggingActor]
     val eventActor = mock[AnalyticsEventActor]
 
-    lazy val controller = new SigninAction(mockIdentityService, messages, metricsActor, eventActor, config)
+    lazy val controller =
+      new SigninAction(mockIdentityService, app.injector.instanceOf[ControllerComponents], metricsActor, eventActor, config, mock[ServiceAction])
 
     def mockAuthenticate(
         email: String,

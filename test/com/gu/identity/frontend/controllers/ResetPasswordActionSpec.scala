@@ -6,14 +6,17 @@ import com.gu.identity.frontend.configuration.Configuration
 import com.gu.identity.frontend.errors.ResetPasswordServiceGatewayAppException
 import com.gu.identity.frontend.models.ClientIp
 import com.gu.identity.frontend.request.ResetPasswordActionRequestBody
-import com.gu.identity.frontend.services.IdentityService
+import com.gu.identity.frontend.services.{IdentityService, ServiceAction}
 import com.gu.identity.service.client.{ClientGatewayError, SendResetPasswordEmailResponse}
-import org.scalatest.mock.MockitoSugar
+import org.scalatest.mockito.MockitoSugar
 import org.mockito.Matchers.{any => argAny, eq => argEq}
 import org.mockito.Mockito._
 import org.scalatestplus.play.PlaySpec
+import org.scalatestplus.play.guice.GuiceOneServerPerSuite
+import play.api.mvc.ControllerComponents
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
+import scala.concurrent.ExecutionContext.Implicits.global
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -24,7 +27,7 @@ class ResetPasswordActionSpec extends PlaySpec with MockitoSugar {
   trait WithControllerMockedDependencies {
     val mockIdentityService = mock[IdentityService]
     val config = Configuration.testConfiguration
-    lazy val controller = new ResetPasswordAction(mockIdentityService)
+    lazy val controller = new ResetPasswordAction(mockIdentityService, mock[ControllerComponents], mock[ServiceAction])
   }
 
   def fakeRequest(email: String) =

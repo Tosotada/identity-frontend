@@ -4,32 +4,38 @@ import java.net.URI
 
 import akka.actor.ActorSystem
 import akka.stream.{ActorMaterializer, Materializer}
-import com.gu.identity.frontend.authentication.UserAuthenticatedActionBuilder.UserAuthenticatedAction
 import com.gu.identity.frontend.models.GroupCode
 import com.gu.identity.frontend.test.SimpleFakeApplication
 import com.gu.identity.model.{User => CookieUser}
-import org.scalatest.mock.MockitoSugar
+import org.scalatest.mockito.MockitoSugar
 import org.scalatestplus.play.PlaySpec
-import play.api.mvc.Cookie
+import org.scalatestplus.play.guice.GuiceOneServerPerSuite
+import play.api.mvc.{AnyContent, ControllerComponents, Cookie}
 import play.api.mvc.Results.Ok
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 
 class UserAuthenticatedActionSpec extends PlaySpec with MockitoSugar {
 
-  implicit val app = SimpleFakeApplication()
   implicit lazy val materializer: Materializer = ActorMaterializer()(ActorSystem())
+  val app = SimpleFakeApplication()
 
   def validCookieDecoding(cookieValue: String) = Some(CookieUser(id = "10000811"))
 
   def invalidCookieDecoding(cookieValue: String) = None
 
+
   "AuthenticatedUserAction" should {
     "stop a request if the cookie is absent or invalid" in {
 
+
+
       running(app) {
-        val action = UserAuthenticatedAction(invalidCookieDecoding) {
-          request => Ok
+        val userAuthenticatedAction =
+          new UserAuthenticatedAction(mock[ControllerComponents], invalidCookieDecoding)
+
+        val action = userAuthenticatedAction {
+          request: UserAuthenticatedRequest[AnyContent] => Ok
         }
 
         val request = FakeRequest("GET", "/agree/GRS")
@@ -43,8 +49,11 @@ class UserAuthenticatedActionSpec extends PlaySpec with MockitoSugar {
 
     "add a SC_GU_U cookie to the request if the a SC_GU_U cookie is valid" in {
       running(app) {
-        val action = UserAuthenticatedAction(validCookieDecoding) {
-          request => {
+        val userAuthenticatedAction =
+          new UserAuthenticatedAction(app.injector.instanceOf[ControllerComponents], validCookieDecoding)
+
+        val action = userAuthenticatedAction {
+          request: UserAuthenticatedRequest[AnyContent] => {
             val scGuUCookie = request.scGuUCookie
             val cookieName = scGuUCookie.name
             val cookieValue = scGuUCookie.value
@@ -64,8 +73,11 @@ class UserAuthenticatedActionSpec extends PlaySpec with MockitoSugar {
 
     "redirect to signin if the cookie is present but invalid" in {
       running(app) {
-        val action = UserAuthenticatedAction(invalidCookieDecoding) {
-          request => {
+        val userAuthenticatedAction =
+          new UserAuthenticatedAction(app.injector.instanceOf[ControllerComponents], invalidCookieDecoding)
+
+        val action = userAuthenticatedAction{
+          request: UserAuthenticatedRequest[AnyContent] => {
             Ok
           }
         }
@@ -81,21 +93,25 @@ class UserAuthenticatedActionSpec extends PlaySpec with MockitoSugar {
   }
 
   "extractGroupCodeFromURI" should {
+    val userAuthenticatedAction =
+      new UserAuthenticatedAction(app.injector.instanceOf[ControllerComponents], invalidCookieDecoding)
+
     "return a group code object when the uri contains a valid group code" in {
+
       val uri = new URI("/agree/GRS")
-      val result = UserAuthenticatedActionBuilder.extractGroupCodeFromURI(uri)
+      val result = userAuthenticatedAction.extractGroupCodeFromURI(uri)
       result mustEqual GroupCode("GRS")
     }
 
     "return None when the uri does not contain a valid group code" in {
       val uri = new URI("/agree/ABC")
-      val result = UserAuthenticatedActionBuilder.extractGroupCodeFromURI(uri)
+      val result = userAuthenticatedAction.extractGroupCodeFromURI(uri)
       result mustEqual None
     }
 
     "return None when the uri is empty" in {
       val uri = new URI("/")
-      val result = UserAuthenticatedActionBuilder.extractGroupCodeFromURI(uri)
+      val result = userAuthenticatedAction.extractGroupCodeFromURI(uri)
       result mustEqual None
     }
   }

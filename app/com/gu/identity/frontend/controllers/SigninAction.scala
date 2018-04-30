@@ -8,29 +8,29 @@ import com.gu.identity.frontend.configuration.Configuration.Environment._
 import com.gu.identity.frontend.errors.ErrorIDs.SignInGatewayErrorID
 import com.gu.identity.frontend.errors._
 import com.gu.identity.frontend.logging.{LogOnErrorAction, Logging, MetricsLoggingActor}
-import com.gu.identity.frontend.models
 import com.gu.identity.frontend.models._
 import com.gu.identity.frontend.request.{EmailResubRequests, EmailResubscribeRequest, SignInActionRequestBody}
 import com.gu.identity.frontend.services._
-import com.gu.identity.frontend.views.ViewRenderer.{renderErrorPage, renderSendSignInLinkSent}
 import com.gu.identity.model.CurrentUser
 import com.gu.identity.service.client.ClientGatewayError
 import com.gu.tip.Tip
-import play.api.i18n.{I18nSupport, MessagesApi}
-import play.api.libs.concurrent.Execution.Implicits.defaultContext
+import play.api.i18n.I18nSupport
 import play.api.libs.json.Json
 import play.api.mvc._
+
+import scala.concurrent.ExecutionContext
 
 /**
  * Form actions controller
  */
 class SigninAction(
     identityService: IdentityService,
-    val messagesApi: MessagesApi,
+    cc: ControllerComponents,
     metricsActor: MetricsLoggingActor,
     eventActor: AnalyticsEventActor,
-    val config: Configuration)
-  extends Controller
+    val config: Configuration,
+    serviceAction: ServiceAction)(implicit executionContext: ExecutionContext)
+  extends AbstractController(cc)
     with Logging
     with I18nSupport
     with EmailResubRequests {
@@ -40,19 +40,19 @@ class SigninAction(
   val signInSecondStepCurrentRedirectRoute: String = routes.Application.twoStepSignInChoices(CurrentUser.name).url
 
   val SignInServiceAction =
-    ServiceAction andThen
-    RedirectOnError(redirectRoute) andThen
-    LogOnErrorAction(logger)
+    serviceAction andThen
+      RedirectOnError(redirectRoute, cc) andThen
+      (new LogOnErrorAction(logger, cc))
 
   val signInSecondStepCurrentServiceAction =
-      ServiceAction andThen
-      RedirectOnError(signInSecondStepCurrentRedirectRoute) andThen
-      LogOnErrorAction(logger)
+    serviceAction andThen
+      RedirectOnError(signInSecondStepCurrentRedirectRoute, cc) andThen
+      (new LogOnErrorAction(logger, cc))
 
   val SignInSmartLockServiceAction =
-    ServiceAction andThen
-      ResultOnError(redirectRoute) andThen
-      LogOnErrorAction(logger)
+    serviceAction andThen
+      ResultOnError(redirectRoute, cc) andThen
+      (new LogOnErrorAction(logger, cc))
 
   val bodyParser = SignInActionRequestBody.bodyParser
 
@@ -142,9 +142,9 @@ class SigninAction(
   }
 
   val TokenFromServiceAction: ServiceActionBuilder[Request] =
-    ServiceAction andThen
-      RedirectOnError(redirectRoute) andThen
-      LogOnErrorAction(logger)
+    serviceAction andThen
+      RedirectOnError(redirectRoute, cc) andThen
+      (new LogOnErrorAction(logger, cc))
 
   def permissionAuth(token:String, journey: Option[String]) = {
     TokenFromServiceAction {

@@ -9,29 +9,31 @@ import com.gu.identity.frontend.logging.{LogOnErrorAction, Logging, MetricsLoggi
 import com.gu.identity.frontend.models._
 import com.gu.identity.frontend.request.RegisterActionRequestBody
 import com.gu.identity.frontend.services.{IdentityService, ServiceAction, ServiceActionBuilder}
-import play.api.i18n.{I18nSupport, MessagesApi}
-import play.api.libs.concurrent.Execution.Implicits.defaultContext
-import play.api.mvc.{BodyParser, Controller, Request, Cookie => PlayCookie}
+import play.api.i18n.I18nSupport
+import play.api.mvc.{AbstractController, BodyParser, ControllerComponents, Request, Cookie => PlayCookie}
 import Configuration.Environment._
 import com.gu.tip.Tip
+
+import scala.concurrent.ExecutionContext
 
 
 class RegisterAction(
     identityService: IdentityService,
-    val messagesApi: MessagesApi,
+    cc: ControllerComponents,
     metricsLoggingActor: MetricsLoggingActor,
     analyticsEventActor: AnalyticsEventActor,
-    val config: Configuration)
-  extends Controller
+    val config: Configuration,
+    serviceAction: ServiceAction)(implicit executionContext: ExecutionContext)
+  extends AbstractController(cc)
     with Logging
     with I18nSupport {
 
   val redirectRoute: String = routes.Application.register().url
 
   val RegisterServiceAction: ServiceActionBuilder[Request] =
-    ServiceAction andThen
-    RedirectOnError(redirectRoute) andThen
-    LogOnErrorAction(logger)
+    serviceAction andThen
+      RedirectOnError(redirectRoute, cc) andThen
+      (new LogOnErrorAction(logger, cc))
 
   val bodyParser: BodyParser[RegisterActionRequestBody] = RegisterActionRequestBody.bodyParser
 

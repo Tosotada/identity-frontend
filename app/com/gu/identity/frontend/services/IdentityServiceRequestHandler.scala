@@ -8,7 +8,6 @@ import com.gu.identity.service.client.request._
 import org.joda.time.DateTime
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import play.api.libs.functional.syntax._
-import play.api.libs.json.Reads.jodaDateReads
 import play.api.libs.json.{Json, _}
 import play.api.libs.ws.{WSClient, WSResponse}
 
@@ -18,7 +17,10 @@ import scala.util.control.NonFatal
 
 class IdentityServiceRequestHandler (ws: WSClient) extends IdentityClientRequestHandler with ApplicationLogging {
 
-  implicit val dateReads = jodaDateReads("yyyy-MM-dd'T'HH:mm:ssZ")
+  private val dateTimePattern = "yyyy-MM-dd'T'HH:mm:ssZ"
+  implicit val dateReads = JodaReads.jodaDateReads(dateTimePattern)
+  implicit val dateWrite = JodaWrites.jodaDateWrites(dateTimePattern)
+  implicit val dateTimeFormat = Format[DateTime](dateReads, dateWrite)
 
   // Cannot use just Json.format[Consent] because:
   // https://github.com/playframework/playframework/issues/2031

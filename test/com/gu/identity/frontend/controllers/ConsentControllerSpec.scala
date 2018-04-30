@@ -7,16 +7,17 @@ import com.gu.identity.frontend.configuration.Configuration
 import com.gu.identity.frontend.services._
 import org.mockito.Matchers.{any => argAny, eq => eql}
 import org.mockito.Mockito._
-import org.scalatest.mock.MockitoSugar
+import org.scalatest.mockito.MockitoSugar
 import org.scalatestplus.play.PlaySpec
+import org.scalatestplus.play.guice.GuiceOneServerPerSuite
 import play.api.i18n.MessagesApi
-import play.api.mvc.Cookie
+import play.api.mvc.{ControllerComponents, Cookie}
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class ConsentControllerSpec extends PlaySpec with MockitoSugar {
+class ConsentControllerSpec extends PlaySpec with MockitoSugar with GuiceOneServerPerSuite {
 
   implicit lazy val materializer: Materializer = ActorMaterializer()(ActorSystem())
 
@@ -24,7 +25,7 @@ class ConsentControllerSpec extends PlaySpec with MockitoSugar {
     val mockIdentityService = mock[IdentityService]
     val messages = mock[MessagesApi]
     val config = Configuration.testConfiguration
-    lazy val controller = new ConsentController(config, mockIdentityService, messages, ExecutionContext.fromExecutor(MoreExecutors.directExecutor()))
+    lazy val controller = new ConsentController(config, mockIdentityService, app.injector.instanceOf[ControllerComponents], ExecutionContext.fromExecutor(MoreExecutors.directExecutor()))
   }
 
   "GET /accept-consent/{token}" should {

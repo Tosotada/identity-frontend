@@ -3,6 +3,7 @@ package com.gu.identity.frontend.test
 import play.api.ApplicationLoader.Context
 import play.api.routing.Router
 import play.api.{Application, ApplicationLoader, BuiltInComponentsFromContext, Environment}
+import play.filters.HttpFiltersComponents
 
 
 /**
@@ -25,7 +26,10 @@ object SimpleFakeApplicationLoader extends ApplicationLoader {
   override def load(context: Context): Application =
     new ApplicationComponents(context).application
 
-  private class ApplicationComponents(context: Context) extends BuiltInComponentsFromContext(context) {
+  private class ApplicationComponents(context: Context)
+      extends BuiltInComponentsFromContext(context)
+        with HttpFiltersComponents {
+
     override lazy val router = Router.empty
   }
 }

@@ -3,7 +3,7 @@ package com.gu.identity.frontend.controllers
 import akka.actor.ActorSystem
 import akka.stream.{ActorMaterializer, Materializer}
 import akka.util.Timeout
-import com.gu.identity.frontend.authentication.CookieName
+import com.gu.identity.frontend.authentication.{CookieName, UserAuthenticatedAction, UserAuthenticatedRequest}
 import com.gu.identity.frontend.configuration.Configuration
 import com.gu.identity.frontend.errors.{AssignGroupAppException, ErrorHandler, GetUserAppException}
 import com.gu.identity.frontend.models.{GroupCode, ReturnUrl}
@@ -15,32 +15,45 @@ import org.mockito.Matchers.{any => argAny}
 import org.mockito.Mockito._
 import org.scalatest.mockito.MockitoSugar
 import org.scalatestplus.play.PlaySpec
-import play.api.i18n.MessagesApi
+import org.scalatestplus.play.guice.GuiceOneServerPerSuite
 import play.api.mvc.Results._
-import play.api.mvc.{Cookie, RequestHeader}
+import play.api.mvc.{AnyContent, ControllerComponents, Cookie, RequestHeader}
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 
 import scala.concurrent.duration._
 import scala.concurrent.{Await, ExecutionContext, Future}
 
-class ThirdPartyTsAndCsSpec extends PlaySpec with MockitoSugar {
+class ThirdPartyTsAndCsSpec extends PlaySpec with MockitoSugar with GuiceOneServerPerSuite {
 
   implicit lazy val materializer: Materializer = ActorMaterializer()(ActorSystem())
+  implicit lazy val ec: ExecutionContext = app.injector.instanceOf[ExecutionContext]
 
   trait WithControllerMockedDependencies {
     val mockIdentityService = mock[IdentityService]
 
-    val mockMessages = mock[MessagesApi]
     val testConfig = Configuration.testConfiguration
     val mockErrorHandler = mock[ErrorHandler]
 
-    implicit lazy val executionContext: ExecutionContext = play.api.libs.concurrent.Execution.Implicits.defaultContext
-
     def validCookieDecoding(cookieValue: String) = Some(CookieUser(id = "10000811"))
 
-    val thirdPartyTsAndCsController = new ThirdPartyTsAndCs(mockIdentityService, testConfig, mockMessages, mockErrorHandler, validCookieDecoding)
+    val thirdPartyTsAndCsController =
+      new ThirdPartyTsAndCs(mockIdentityService, testConfig,  mockErrorHandler, validCookieDecoding, mock[UserAuthenticatedAction], app.injector.instanceOf[ControllerComponents])
 
+  }
+
+  def successfulFakeRequest(groupCode: String, returnUrl: String, cookie: Cookie) = {
+    FakeRequest("POST", "/actions/GTNF")
+      .withFormUrlEncodedBody("groupCode" -> groupCode, "returnUrl" -> returnUrl)
+      .withCookies(cookie)
+  }
+
+  def successfulUserAuthFakeRequest(groupCode: String, returnUrl: String, cookie: Cookie) = {
+    val request = FakeRequest("POST", "/actions/GTNF")
+      .withFormUrlEncodedBody("groupCode" -> groupCode, "returnUrl" -> returnUrl)
+      .withCookies(cookie)
+
+    new UserAuthenticatedRequest[AnyContent](cookie, request)
   }
 
   "Is user in group" should {
@@ -156,6 +169,7 @@ class ThirdPartyTsAndCsSpec extends PlaySpec with MockitoSugar {
       val returnUrl = ReturnUrl(url, Configuration.testConfiguration)
       val cookie = Cookie("Name", "Value")
       val timeout = Timeout(5 seconds)
+      implicit val fakeRequest = successfulUserAuthFakeRequest(groupCode, returnUrl.url, cookie)
 
       when(mockIdentityService.getUser(argAny[Cookie])(argAny[ExecutionContext]))
         .thenReturn {
@@ -181,6 +195,7 @@ class ThirdPartyTsAndCsSpec extends PlaySpec with MockitoSugar {
       val returnUrl = ReturnUrl(url, Configuration.testConfiguration)
       val cookie = Cookie("Name", "Value")
       val timeout = Timeout(5 seconds)
+      implicit val fakeRequest = successfulUserAuthFakeRequest(groupCode, returnUrl.url, cookie)
 
       when(mockIdentityService.getUser(argAny[Cookie])(argAny[ExecutionContext]))
         .thenReturn {
@@ -213,6 +228,7 @@ class ThirdPartyTsAndCsSpec extends PlaySpec with MockitoSugar {
       val returnUrl = ReturnUrl(url, Configuration.testConfiguration)
       val cookie = Cookie("Name", "Value")
       val timeout = Timeout(5 seconds)
+      implicit val fakeRequest = successfulUserAuthFakeRequest(groupCode, returnUrl.url, cookie)
 
       val stubbedError = GetUserAppException(ClientGatewayError("error"))
 
@@ -237,11 +253,7 @@ class ThirdPartyTsAndCsSpec extends PlaySpec with MockitoSugar {
       Cookie(name = CookieName.SC_GU_U.toString, value = validRequestCookieData)
     }
 
-    def successfulFakeRequest(groupCode: String, returnUrl: String, cookie: Cookie) = {
-      FakeRequest("POST", "/actions/GTNF")
-        .withFormUrlEncodedBody("groupCode" -> groupCode, "returnUrl" -> returnUrl)
-        .withCookies(cookie)
-    }
+
 
     "return a result of the return url when user has successfully been added to the group" in new WithControllerMockedDependencies {
       val groupCode = "GTNF"

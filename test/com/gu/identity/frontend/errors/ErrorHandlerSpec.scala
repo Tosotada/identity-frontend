@@ -7,6 +7,7 @@ import play.api._
 import play.api.test._
 import play.api.test.Helpers._
 import org.scalatestplus.play.PlaySpec
+import play.api.i18n.Messages
 import play.twirl.api.Html
 
 import scala.concurrent.Future
@@ -88,7 +89,7 @@ class ErrorHandlerSpec extends PlaySpec with BeforeAndAfter {
     // crude state holder for error passed to error handler
     var lastError: Option[HttpError] = None
 
-    override def renderErrorPage(error: HttpError, resultGenerator: Html => Result) = {
+    override def renderErrorPage(error: HttpError, resultGenerator: Html => Result)(implicit messages: Messages) = {
       lastError = Some(error)
 
       Future.successful(resultGenerator(Html("mocked error page")))
