@@ -17,7 +17,7 @@ import play.api.ApplicationLoader.Context
 import play.api.i18n.I18nComponents
 import play.api.routing.Router
 import play.api.{Application => _, _}
-import play.api.libs.ws.ahc.AhcWSClient
+import play.api.libs.ws.ahc.AhcWSComponents
 import play.filters.csrf.CSRFComponents
 import play.filters.gzip.GzipFilter
 import router.Routes
@@ -35,9 +35,9 @@ class ApplicationComponents(context: Context)
     with I18nComponents
     with HandlebarsComponents
     with CSRFComponents
-    with _root_.controllers.AssetsComponents {
+    with _root_.controllers.AssetsComponents
+    with AhcWSComponents {
 
-  lazy val wsClient = AhcWSClient()
   lazy val frontendConfiguration = Configuration(configuration)
 
   lazy val identityServiceRequestHandler = new IdentityServiceRequestHandler(wsClient)
