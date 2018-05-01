@@ -1,3 +1,4 @@
+import scala.sys.process._
 import com.typesafe.sbt.packager.MappingsHelper.{contentOf, directory}
 
 name := "identity-frontend"
@@ -55,12 +56,16 @@ riffRaffBuildIdentifier := Option(System.getenv("BUILD_NUMBER")).getOrElse("unkn
 riffRaffManifestBranch := Option(System.getenv("BRANCH_NAME")).getOrElse("unknown") // %teamcity.build.branch%
 
 // Prout
+def commitId(): String = try {
+  "git rev-parse HEAD".!!.trim
+} catch {
+  case _: Exception => "unknown"
+}
+
 buildInfoKeys := Seq[BuildInfoKey](
   name,
-  BuildInfoKey.constant("gitCommitId", Option(System.getenv("BUILD_VCS_NUMBER")) getOrElse (try {
-    "git rev-parse HEAD".!!.trim
-  } catch { case e: Exception => "unknown" })),
-  BuildInfoKey.constant("buildNumber", Option(System.getenv("BUILD_NUMBER")) getOrElse "DEV")
+  BuildInfoKey.constant("gitCommitId", Option(System.getenv("BUILD_VCS_NUMBER")).getOrElse(commitId())),
+  BuildInfoKey.constant("buildNumber", Option(System.getenv("BUILD_NUMBER")).getOrElse("DEV"))
 )
 
 buildInfoOptions += BuildInfoOption.ToMap
