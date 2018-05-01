@@ -6,7 +6,7 @@ import com.gu.identity.frontend.controllers.routes
 import com.gu.identity.frontend.models._
 import com.gu.identity.frontend.models.text.RegisterText
 import com.gu.identity.frontend.mvt._
-import com.gu.identity.frontend.request.RegisterActionRequestBody.FormMapping
+import com.gu.identity.frontend.request.RegisterActionRequestBodyFormMapping
 import play.api.i18n.Messages
 import play.filters.csrf.CSRF.Token
 
@@ -104,7 +104,7 @@ object RegisterViewModel {
 
       countryCodes = codes,
       gitCommitId = BuildInfo.gitCommitId,
-      emailValidationRegex = FormMapping.dotlessDomainEmailRegex.pattern.toString
+      emailValidationRegex = RegisterActionRequestBodyFormMapping.dotlessDomainEmailRegex.pattern.toString
     )
   }
 

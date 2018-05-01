@@ -1,6 +1,6 @@
 package com.gu.identity.frontend.models
 
-import com.gu.identity.frontend.request.RegisterActionRequestBody.FormMapping.dotlessDomainEmail
+import com.gu.identity.frontend.request.RegisterActionRequestBodyFormMapping.dotlessDomainEmail
 import org.scalatest.{AppendedClues, FlatSpec, Matchers}
 import play.api.data.Forms._
 import play.api.data._

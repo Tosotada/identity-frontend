@@ -7,6 +7,7 @@ import com.gu.identity.frontend.configuration.Configuration
 import com.gu.identity.frontend.errors.{RegisterServiceBadRequestException, RegisterServiceGatewayAppException}
 import com.gu.identity.frontend.logging.MetricsLoggingActor
 import com.gu.identity.frontend.models.{ClientIp, TrackingData}
+import com.gu.identity.frontend.request.{FormRequestBodyParser, RegisterActionRequestBodyParser}
 import com.gu.identity.frontend.services.{IdentityService, ServiceAction}
 import com.gu.identity.frontend.utils.UrlDecoder
 import com.gu.identity.service.client.{ClientBadRequestError, ClientGatewayError}
@@ -34,9 +35,11 @@ class RegisterActionSpec extends PlaySpec with MockitoSugar {
     val eventActor = mock[AnalyticsEventActor]
     val cc = Helpers.stubControllerComponents()
     val serviceAction = new ServiceAction(cc)
+    val formRequestBodyParser = new FormRequestBodyParser(Helpers.stubPlayBodyParsers)
+    val parser = new RegisterActionRequestBodyParser(formRequestBodyParser)
 
     val controller =
-      new RegisterAction(mockIdentityService, cc, metricsActor, eventActor, config, serviceAction)
+      new RegisterAction(mockIdentityService, cc, metricsActor, eventActor, config, serviceAction, parser)
   }
 
   def fakeRegisterRequest(
