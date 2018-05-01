@@ -7,6 +7,7 @@ import com.gu.identity.frontend.configuration.Configuration
 import com.gu.identity.frontend.errors.{SignInServiceBadRequestException, SignInServiceGatewayAppException}
 import com.gu.identity.frontend.logging.MetricsLoggingActor
 import com.gu.identity.frontend.models.TrackingData
+import com.gu.identity.frontend.request.{EmailResubRequestsParser, FormRequestBodyParser, SignInActionRequestBodyParser}
 import com.gu.identity.frontend.request.RequestParameters.SignInRequestParameters
 import com.gu.identity.frontend.services._
 import com.gu.identity.service.client.{ClientBadRequestError, ClientGatewayError}
@@ -20,8 +21,8 @@ import play.api.mvc._
 import play.api.test.{FakeRequest, Helpers}
 import play.api.test.Helpers._
 import org.scalatest.Matchers._
-import scala.concurrent.ExecutionContext.Implicits.global
 
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{ExecutionContext, Future}
 
 class SigninActionSpec extends PlaySpec with MockitoSugar {
@@ -37,10 +38,14 @@ class SigninActionSpec extends PlaySpec with MockitoSugar {
     val metricsActor = mock[MetricsLoggingActor]
     val eventActor = mock[AnalyticsEventActor]
     val cc = Helpers.stubControllerComponents()
+    val formRequestBodyParser = new FormRequestBodyParser(Helpers.stubPlayBodyParsers)
+    val emailParser = new EmailResubRequestsParser(formRequestBodyParser)
+    val signInParser = new SignInActionRequestBodyParser(formRequestBodyParser)
     val serviceAction = new ServiceAction(cc)
 
     lazy val controller =
-      new SigninAction(mockIdentityService, cc, metricsActor, eventActor, config, serviceAction)
+      new SigninAction(
+        mockIdentityService, cc, metricsActor, eventActor, config, serviceAction, emailParser, signInParser)
 
     def mockAuthenticate(
         email: String,

@@ -9,7 +9,7 @@ import com.gu.identity.frontend.errors.ErrorIDs.SignInGatewayErrorID
 import com.gu.identity.frontend.errors._
 import com.gu.identity.frontend.logging.{LogOnErrorAction, Logging, MetricsLoggingActor}
 import com.gu.identity.frontend.models._
-import com.gu.identity.frontend.request.{EmailResubRequests, EmailResubscribeRequest, SignInActionRequestBody}
+import com.gu.identity.frontend.request._
 import com.gu.identity.frontend.services._
 import com.gu.identity.model.CurrentUser
 import com.gu.identity.service.client.ClientGatewayError
@@ -29,11 +29,10 @@ class SigninAction(
     metricsActor: MetricsLoggingActor,
     eventActor: AnalyticsEventActor,
     val config: Configuration,
-    serviceAction: ServiceAction)(implicit executionContext: ExecutionContext)
-  extends AbstractController(cc)
-    with Logging
-    with I18nSupport
-    with EmailResubRequests {
+    serviceAction: ServiceAction,
+    emailResubFormParser: EmailResubRequestsParser,
+    signInActionRequestBodyParser: SignInActionRequestBodyParser)(implicit executionContext: ExecutionContext)
+  extends AbstractController(cc) with Logging with I18nSupport {
 
   val redirectRoute: String = routes.Application.signIn().url
 
@@ -54,7 +53,7 @@ class SigninAction(
       ResultOnError(redirectRoute, cc) andThen
       (new LogOnErrorAction(logger, cc))
 
-  val bodyParser = SignInActionRequestBody.bodyParser
+  val bodyParser = signInActionRequestBodyParser.bodyParser
 
   def signInMetricsLogger(request: Request[SignInActionRequestBody]) = {
     metricsActor.logSuccessfulSignin()
@@ -166,7 +165,7 @@ class SigninAction(
     }
   }
 
-  def sendResubLinkAction(): Action[EmailResubscribeRequest] = Action.async(emailResubFormParser) { _req =>
+  def sendResubLinkAction(): Action[EmailResubscribeRequest] = Action.async(emailResubFormParser.bodyParser) { _req =>
     val req = _req.body
     identityService.sendResubEmail(req, ClientIp(_req)).map {
       case Right(_) =>

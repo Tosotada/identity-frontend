@@ -10,6 +10,7 @@ import com.gu.identity.frontend.errors.ErrorHandler
 import com.gu.identity.frontend.filters._
 import com.gu.identity.frontend.logging._
 import com.gu.identity.frontend.mvt.MultiVariantTestAction
+import com.gu.identity.frontend.request._
 import com.gu.identity.frontend.services._
 import com.gu.identity.service.client.IdentityClient
 import jp.co.bizreach.play2handlebars.HandlebarsComponents
@@ -53,6 +54,14 @@ class ApplicationComponents(context: Context)
 
   lazy val identityCookieDecoder: IdentityCookieDecoder = new IdentityCookieDecoder(IdentityKeys(frontendConfiguration.identityCookiePublicKey))
 
+  // Parsers
+  lazy val formRequestBodyParser = new FormRequestBodyParser(playBodyParsers)
+  lazy val emailResubRequestsParser = new EmailResubRequestsParser(formRequestBodyParser)
+  lazy val signInActionRequestBodyParser = new SignInActionRequestBodyParser(formRequestBodyParser)
+  lazy val resetPasswordActionRequestBodyParser = new ResetPasswordActionRequestBodyParser(formRequestBodyParser)
+  lazy val registerActionRequestBodyParser = new RegisterActionRequestBodyParser(formRequestBodyParser)
+  lazy val resendTokenActionRequestBodyParser = new ResendTokenActionRequestBodyParser(formRequestBodyParser)
+
   // Actions
   lazy val userAuthenticatedAction = new UserAuthenticatedAction(controllerComponents, identityCookieDecoder.getUserDataForScGuU)
   lazy val serviceAction = new ServiceAction(controllerComponents)
@@ -67,13 +76,13 @@ class ApplicationComponents(context: Context)
   lazy val cspReporterController = new CSPViolationReporter()
   lazy val googleRecaptchaServiceHandler = new GoogleRecaptchaServiceHandler(wsClient, frontendConfiguration)
   lazy val googleRecaptchaCheck = new GoogleRecaptchaCheck(googleRecaptchaServiceHandler)
-  lazy val signinController = new SigninAction(identityService, controllerComponents, metricsLoggingActor, analyticsEventActor, frontendConfiguration, serviceAction)
+  lazy val signinController = new SigninAction(identityService, controllerComponents, metricsLoggingActor, analyticsEventActor, frontendConfiguration, serviceAction, emailResubRequestsParser, signInActionRequestBodyParser)
   lazy val signOutController = new SignOutAction(identityService, messagesApi, frontendConfiguration)
-  lazy val registerController = new RegisterAction(identityService, controllerComponents, metricsLoggingActor, analyticsEventActor, frontendConfiguration, serviceAction)
+  lazy val registerController = new RegisterAction(identityService, controllerComponents, metricsLoggingActor, analyticsEventActor, frontendConfiguration, serviceAction, registerActionRequestBodyParser)
   lazy val thirdPartyTsAndCsController = new ThirdPartyTsAndCs(identityService, frontendConfiguration, httpErrorHandler, identityCookieDecoder.getUserDataForScGuU, userAuthenticatedAction, controllerComponents)
-  lazy val resetPasswordController = new ResetPasswordAction(identityService, controllerComponents, serviceAction)
-  lazy val resendConsentTokenController = new ResendConsentTokenAction(identityService, controllerComponents, serviceAction)
-  lazy val resendRepermissionTokenController = new ResendRepermissionTokenAction(identityService, controllerComponents, serviceAction)
+  lazy val resetPasswordController = new ResetPasswordAction(identityService, controllerComponents, serviceAction, resetPasswordActionRequestBodyParser)
+  lazy val resendConsentTokenController = new ResendConsentTokenAction(identityService, controllerComponents, serviceAction, resendTokenActionRequestBodyParser)
+  lazy val resendRepermissionTokenController = new ResendRepermissionTokenAction(identityService, controllerComponents, serviceAction, resendTokenActionRequestBodyParser)
   lazy val repermissionController = new RepermissionController(frontendConfiguration, identityService, messagesApi, ExecutionContext.Implicits.global)
   lazy val signinTokenController = new SigninTokenController(frontendConfiguration, identityService, controllerComponents, ExecutionContext.Implicits.global)
   lazy val optInController = new OptInController()

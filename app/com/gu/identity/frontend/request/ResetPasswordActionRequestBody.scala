@@ -11,11 +11,12 @@ case class ResetPasswordActionRequestBody(
   extends CSRFTokenRequestParameter
 
 
-object ResetPasswordActionRequestBody {
+class ResetPasswordActionRequestBodyParser(formRequestBodyParser: FormRequestBodyParser) {
 
-  lazy val bodyParser = FormRequestBodyParser("ResetPasswordActionRequestBody")(_ => resetPasswordForm)(handleFormErrors)
+  lazy val bodyParser =
+    formRequestBodyParser.form("ResetPasswordActionRequestBody")(_ => resetPasswordForm)(handleFormErrors)
 
-  lazy val resetPasswordForm = Form(FormMapping.resetPasswordMapping)
+  private lazy val resetPasswordForm = Form(FormMapping.resetPasswordMapping)
 
   private def handleFormErrors(formError: FormError): AppException = formError match {
     case FormError("email", messages, _) => ResetPasswordInvalidEmailAppException(messages.headOption.getOrElse("Unknown"))
@@ -23,7 +24,7 @@ object ResetPasswordActionRequestBody {
     case e => ResetPasswordActionBadRequestAppException(e.message)
   }
 
-  object FormMapping {
+  private object FormMapping {
     import play.api.data.Forms._
 
     val resetPasswordMapping =

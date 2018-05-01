@@ -2,17 +2,17 @@ package com.gu.identity.frontend.controllers
 
 import com.gu.identity.frontend.errors.RedirectOnError
 import com.gu.identity.frontend.logging.{LogOnErrorAction, Logging}
-import com.gu.identity.frontend.request.ResendTokenActionRequestBody
+import com.gu.identity.frontend.request.ResendTokenActionRequestBodyParser
 import com.gu.identity.frontend.services.{IdentityService, ServiceAction, ServiceActionBuilder}
 import play.api.mvc.{AbstractController, ControllerComponents, Request}
 
 import scala.concurrent.ExecutionContext
 
-
 case class ResendConsentTokenAction(
     identityService: IdentityService,
     cc: ControllerComponents,
-    serviceAction: ServiceAction)
+    serviceAction: ServiceAction,
+    resendTokenActionRequestBodyParser: ResendTokenActionRequestBodyParser)
     (implicit executionContext: ExecutionContext) extends AbstractController(cc) with Logging {
 
   val redirectRoute: String = routes.Application.resendConsentTokenSent().url
@@ -22,7 +22,7 @@ case class ResendConsentTokenAction(
       RedirectOnError(redirectRoute, cc) andThen
       (new LogOnErrorAction(logger, cc))
 
-  val bodyParser = ResendTokenActionRequestBody.bodyParser
+  val bodyParser = resendTokenActionRequestBodyParser.bodyParser
 
   def resend = ResendConsentTokenServiceAction(bodyParser) { request =>
     identityService.resendConsentToken(request.body).map { eitherResponse =>

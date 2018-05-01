@@ -1,18 +1,18 @@
 package com.gu.identity.frontend.request
 
 import com.gu.identity.frontend.errors.{AppException, SeqAppExceptions}
-import play.api.data.{FormError, Form}
-import play.api.mvc.{Result, BodyParsers, RequestHeader, BodyParser}
+import play.api.data.{Form, FormError}
+import play.api.mvc._
 
 /**
  * Wrapper on Play's Form Body Parser to provide a simpler interface for
  * transforming form parse errors.
  */
-object FormRequestBodyParser {
+class FormRequestBodyParser(playBodyParser: PlayBodyParsers) {
 
-  def apply[T](debugName: String)(form: RequestHeader => Form[T])(errorHandler: FormError => AppException): BodyParser[T] =
+  def form[T](debugName: String)(form: RequestHeader => Form[T])(errorHandler: FormError => AppException): BodyParser[T] =
     BodyParser(s"FormRequestBodyParser:$debugName") { requestHeader =>
-      BodyParsers.parse.form(
+      playBodyParser.form(
         form(requestHeader),
         onErrors = onParserErrors(errorHandler)
       ).apply(requestHeader)

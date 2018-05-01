@@ -7,7 +7,7 @@ import com.gu.identity.frontend.configuration.Configuration
 import com.gu.identity.frontend.errors.RedirectOnError
 import com.gu.identity.frontend.logging.{LogOnErrorAction, Logging, MetricsLoggingActor}
 import com.gu.identity.frontend.models._
-import com.gu.identity.frontend.request.RegisterActionRequestBody
+import com.gu.identity.frontend.request.{RegisterActionRequestBody, RegisterActionRequestBodyParser}
 import com.gu.identity.frontend.services.{IdentityService, ServiceAction, ServiceActionBuilder}
 import play.api.i18n.I18nSupport
 import play.api.mvc.{AbstractController, BodyParser, ControllerComponents, Request, Cookie => PlayCookie}
@@ -23,7 +23,9 @@ class RegisterAction(
     metricsLoggingActor: MetricsLoggingActor,
     analyticsEventActor: AnalyticsEventActor,
     val config: Configuration,
-    serviceAction: ServiceAction)(implicit executionContext: ExecutionContext)
+    serviceAction: ServiceAction,
+    registerActionRequestBodyParser: RegisterActionRequestBodyParser)
+    (implicit executionContext: ExecutionContext)
   extends AbstractController(cc)
     with Logging
     with I18nSupport {
@@ -35,7 +37,7 @@ class RegisterAction(
       RedirectOnError(redirectRoute, cc) andThen
       (new LogOnErrorAction(logger, cc))
 
-  val bodyParser: BodyParser[RegisterActionRequestBody] = RegisterActionRequestBody.bodyParser
+  val bodyParser: BodyParser[RegisterActionRequestBody] = registerActionRequestBodyParser.bodyParser
 
   def register = RegisterServiceAction(bodyParser) { implicit request =>
     val clientIp = ClientIp(request)

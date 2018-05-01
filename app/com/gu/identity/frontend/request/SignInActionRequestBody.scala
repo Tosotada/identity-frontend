@@ -28,16 +28,16 @@ case class SignInActionRequestBody private(
   with GaClientIdRequestParameter
 
 
-object SignInActionRequestBody {
+class SignInActionRequestBodyParser(formRequestBodyParser: FormRequestBodyParser) {
 
-  lazy val bodyParser =
-    FormRequestBodyParser("SignInActionRequestBody")(signInForm)(handleFormErrors)
+  val bodyParser =
+    formRequestBodyParser.form("SignInActionRequestBody")(signInForm)(handleFormErrors)
 
 
-  def signInForm(requestHeader: RequestHeader): Form[SignInActionRequestBody] =
+  private def signInForm(requestHeader: RequestHeader): Form[SignInActionRequestBody] =
     signInForm(requestHeader.headers.get(HeaderNames.REFERER))
 
-  def signInForm(refererHeader: Option[String]): Form[SignInActionRequestBody] =
+  private def signInForm(refererHeader: Option[String]): Form[SignInActionRequestBody] =
     Form {
       FormMapping.signInFormMapping(refererHeader)
     }
@@ -51,7 +51,7 @@ object SignInActionRequestBody {
   }
 
 
-  object FormMapping {
+  private object FormMapping {
     import play.api.data.Forms.{boolean, default, mapping, optional, text}
     import ClientID.FormMapping.clientId
     import GroupCode.FormMappings.groupCode
