@@ -1,10 +1,11 @@
+import scala.sys.process._
 import com.typesafe.sbt.packager.MappingsHelper.{contentOf, directory}
 
 name := "identity-frontend"
 
 organization := "com.gu.identity"
 
-scalaVersion := "2.11.8"
+scalaVersion := "2.12.4"
 
 version := "1.0.0-SNAPSHOT"
 
@@ -15,23 +16,25 @@ lazy val functionalTests = Project("functional-tests", file("functional-tests"))
 resolvers += "Guardian Github Releases" at "https://guardian.github.io/maven/repo-releases"
 
 val identityLibrariesVersion = "3.140"
+val akkaVersion = "2.5.11"
+val playJsonVersion = "2.6.8"
 
 libraryDependencies ++= Seq(
-  "org.scalatestplus.play" %% "scalatestplus-play" % "3.1.2" % "test",
   ws,
   filters,
-  "com.typesafe.play"       %%  "play-json"                 % "2.6.8",
-  "com.typesafe.play"       %%  "play-json-joda"            % "2.6.8",
-  "jp.co.bizreach" %% "play2-handlebars" % "0.4.1",
-  "com.mohiva" %% "play-html-compressor" % "0.7.1",
-  "com.gu.identity" %% "identity-cookie" % identityLibrariesVersion,
-  "com.gu.identity" %% "identity-model" % identityLibrariesVersion,
-  "com.typesafe.akka" %% "akka-actor" % "2.4.1",
-  "com.typesafe.akka" %% "akka-slf4j" % "2.4.0",
-  "com.amazonaws" % "aws-java-sdk-cloudwatch" % "1.10.54",
-  "com.getsentry.raven" % "raven-logback" % "7.2.1",
-  "com.googlecode.libphonenumber" % "libphonenumber" % "7.2.4",
-  "com.gu" %% "tip" % "0.3.2"
+  "org.scalatestplus.play"          %%  "scalatestplus-play"        %   "3.1.2"   %   Test,
+  "com.typesafe.play"               %%  "play-json"                 %   playJsonVersion,
+  "com.typesafe.play"               %%  "play-json-joda"            %   playJsonVersion,
+  "jp.co.bizreach"                  %%  "play2-handlebars"          %   "0.4.1",
+  "com.mohiva"                      %%  "play-html-compressor"      %   "0.7.1",
+  "com.typesafe.akka"               %%  "akka-actor"                %   akkaVersion,
+  "com.typesafe.akka"               %%  "akka-slf4j"                %   akkaVersion,
+  "com.gu.identity"                 %%  "identity-cookie"           %   identityLibrariesVersion,
+  "com.gu.identity"                 %%  "identity-model"            %   identityLibrariesVersion,
+  "com.gu"                          %%  "tip"                       %   "0.3.3",
+  "com.amazonaws"                   %   "aws-java-sdk-cloudwatch"   %   "1.10.54",
+  "com.getsentry.raven"             %   "raven-logback"             %   "8.0.3",
+  "com.googlecode.libphonenumber"   %   "libphonenumber"            %   "7.2.4"
 )
 
 // Set logs options and default local resource for running locally (run and test)
@@ -53,12 +56,16 @@ riffRaffBuildIdentifier := Option(System.getenv("BUILD_NUMBER")).getOrElse("unkn
 riffRaffManifestBranch := Option(System.getenv("BRANCH_NAME")).getOrElse("unknown") // %teamcity.build.branch%
 
 // Prout
+def commitId(): String = try {
+  "git rev-parse HEAD".!!.trim
+} catch {
+  case _: Exception => "unknown"
+}
+
 buildInfoKeys := Seq[BuildInfoKey](
   name,
-  BuildInfoKey.constant("gitCommitId", Option(System.getenv("BUILD_VCS_NUMBER")) getOrElse (try {
-    "git rev-parse HEAD".!!.trim
-  } catch { case e: Exception => "unknown" })),
-  BuildInfoKey.constant("buildNumber", Option(System.getenv("BUILD_NUMBER")) getOrElse "DEV")
+  BuildInfoKey.constant("gitCommitId", Option(System.getenv("BUILD_VCS_NUMBER")).getOrElse(commitId())),
+  BuildInfoKey.constant("buildNumber", Option(System.getenv("BUILD_NUMBER")).getOrElse("DEV"))
 )
 
 buildInfoOptions += BuildInfoOption.ToMap
