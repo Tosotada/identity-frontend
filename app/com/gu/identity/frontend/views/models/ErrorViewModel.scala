@@ -34,6 +34,7 @@ object ErrorViewModel {
 
     ResetPasswordGatewayErrorID -> "There was a problem resetting your password; please try again",
     ResetPasswordBadRequestErrorID -> "There was a problem resetting your password; please try again.",
+    ResetPasswordNoAccountErrorID -> "There is no account for that email address, please check for typos or create an account.",
     ResetPasswordInvalidEmailErrorID -> nonEmptyField("email"),
 
     RateLimitedErrorID -> "Too many sign in attempts. Please try again shortly.",

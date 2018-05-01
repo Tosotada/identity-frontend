@@ -9,8 +9,9 @@ import com.gu.identity.frontend.csrf.{CSRFCheck, CSRFConfig}
 import com.gu.identity.frontend.errors.ErrorIDs.SignInGatewayErrorID
 import com.gu.identity.frontend.errors._
 import com.gu.identity.frontend.logging.{LogOnErrorAction, Logging, MetricsLoggingActor}
+import com.gu.identity.frontend.models
 import com.gu.identity.frontend.models._
-import com.gu.identity.frontend.request.{EmailResubscribeRequest, EmailResubRequests, SignInActionRequestBody}
+import com.gu.identity.frontend.request.{EmailResubRequests, EmailResubscribeRequest, SignInActionRequestBody}
 import com.gu.identity.frontend.services._
 import com.gu.identity.frontend.views.ViewRenderer.{renderErrorPage, renderSendSignInLinkSent}
 import com.gu.identity.model.CurrentUser
@@ -96,7 +97,8 @@ class SigninAction(
     emailSignInFirstStepAction(successfulFirstStepResponse, signInFirstStepMetricsLogger)
   }
 
-  def emailSignInFirstStepAction(successResponse: (String, ReturnUrl, Seq[Cookie], Option[Boolean], Option[ClientID], Option[GroupCode]) => Result, metricsLogger: (Request[SignInActionRequestBody]) => Unit) = { implicit request: Request[SignInActionRequestBody] =>
+  def emailSignInFirstStepAction(successResponse: (String, ReturnUrl, Seq[Cookie], Option[Boolean], Option[ClientID], Option[GroupCode], Option[Boolean]) => Result, metricsLogger: (Request[SignInActionRequestBody]) => Unit) = { implicit
+                                                                                                                                                                                                                    request: Request[SignInActionRequestBody] =>
     val body = request.body
 
     lazy val returnUrl = body.returnUrl.getOrElse(ReturnUrl.defaultForClient(config, body.clientId))
@@ -114,7 +116,7 @@ class SigninAction(
       case Right(response) =>
         metricsLogger(request)
         val emailLoginCookie = CookieService.signInEmailCookies(body.email)(config)
-        Right(successResponse(response.userType, successfulReturnUrl, emailLoginCookie, body.skipConfirmation, body.clientId, body.groupCode))
+        Right(successResponse(response.userType, successfulReturnUrl, emailLoginCookie, body.skipConfirmation, body.clientId, body.groupCode, body.skipValidationReturn))
     }
   }
 
@@ -173,7 +175,10 @@ class SigninAction(
     val req = _req.body
     identityService.sendResubEmail(req, ClientIp(_req)).map {
       case Right(_) =>
-        SeeOther(routes.Application.sendResubLinkSent(req.clientId.map(_.id)).url)
+        SeeOther(routes.Application.sendResubLinkSent(
+          clientId = req.clientId.map(_.id),
+          emailProvider = EmailProvider.getProviderForEmail(_req.body.email).map(_.id)
+        ).url)
       case Left(errors) =>
         SeeOther(routes.Application.sendResubLink(error = errors.map(_.id.toString), req.clientId.map(_.id)).url)
     }.recover {
@@ -195,8 +200,8 @@ class SigninAction(
       .withCookies(cookies: _*)
 
 
-  def successfulFirstStepResponse(userType: String, successfulReturnUrl: ReturnUrl, cookies: Seq[Cookie], skipConfirmation: Option[Boolean], clientId: Option[ClientID], group: Option[GroupCode]): Result ={
-    val secondStepUrl = UrlBuilder(s"${config.identityProfileBaseUrl}/signin/$userType", Some(successfulReturnUrl), skipConfirmation, clientId, group)
+  def successfulFirstStepResponse(userType: String, successfulReturnUrl: ReturnUrl, cookies: Seq[Cookie], skipConfirmation: Option[Boolean], clientId: Option[ClientID], group: Option[GroupCode], skipValidationReturn: Option[Boolean]): Result ={
+    val secondStepUrl = UrlBuilder(s"${config.identityProfileBaseUrl}/signin/$userType", Some(successfulReturnUrl), skipConfirmation, clientId, group, skipValidationReturn)
     SeeOther(secondStepUrl)
       .withCookies(cookies: _*)
   }

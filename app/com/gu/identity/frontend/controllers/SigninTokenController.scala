@@ -18,7 +18,7 @@ class SigninTokenController(
 ) extends Controller with LazyLogging with I18nSupport {
 
   def signinWithResubToken(token: String, returnUrl: Option[String]): Action[AnyContent] = Action.async {
-    identityService.authenticateRepermissionToken(token).map {
+    identityService.authenticateResubToken(token).map {
       case Right(cookies) =>
         SeeOther(returnUrl.getOrElse(configuration.dotcomBaseUrl)).withCookies(cookies: _*)
       case Left(_) =>

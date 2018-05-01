@@ -1,13 +1,14 @@
 package com.gu.identity.frontend.errors
 
-import com.gu.identity.frontend.errors.ErrorIDs.{ResetPasswordInvalidEmailErrorID, ResetPasswordBadRequestErrorID, ResetPasswordGatewayErrorID}
-import com.gu.identity.service.client.{ClientGatewayError, ClientBadRequestError, IdentityClientError}
+import com.gu.identity.frontend.errors.ErrorIDs.{ResetPasswordBadRequestErrorID, ResetPasswordGatewayErrorID, ResetPasswordInvalidEmailErrorID, ResetPasswordNoAccountErrorID}
+import com.gu.identity.service.client._
 
 sealed trait ResetPasswordAppException extends AppException
 
 object ResetPasswordAppException {
   def apply(clientError: IdentityClientError): ResetPasswordAppException =
     clientError match {
+      case ResourceNotFoundError => ResetPasswordServiceNoAccountAppException(ResourceNotFoundError)
       case err: ClientBadRequestError => ResetPasswordServiceBadRequestAppException(clientError)
       case err: ClientGatewayError => ResetPasswordServiceGatewayAppException(clientError)
     }
@@ -19,6 +20,14 @@ case class ResetPasswordServiceGatewayAppException(
   with ResetPasswordAppException {
 
   val id = ResetPasswordGatewayErrorID
+}
+
+case class ResetPasswordServiceNoAccountAppException(
+  clientError: IdentityClientError)
+  extends ServiceBadRequestAppException(clientError)
+    with ResetPasswordAppException {
+
+  val id = ResetPasswordNoAccountErrorID
 }
 
 case class ResetPasswordServiceBadRequestAppException(

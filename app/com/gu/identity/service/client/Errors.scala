@@ -73,6 +73,11 @@ case object ClientInvalidTokenError
     with ClientBadRequestError
     with NoStackTrace
 
+case object ResourceNotFoundError
+  extends AbstractIdentityClientError("Not found")
+    with ClientBadRequestError
+    with NoStackTrace
+
 case object ClientTokenExpiredError
   extends AbstractIdentityClientError("Token expired")
     with ClientBadRequestError
@@ -98,7 +103,6 @@ case object ClientRateLimitError
   with ClientBadRequestError
   with NoStackTrace
 
-
 case class OtherClientBadRequestError(
     override val message: String,
     override val description: Option[String] = None,
@@ -121,6 +125,7 @@ object ClientBadRequestError {
       case ClientInvalidTokenError.message => ClientInvalidTokenError
       case ClientTokenExpiredError.message => ClientTokenExpiredError
       case ClientRateLimitError.message => ClientRateLimitError
+      case ResourceNotFoundError.message => ResourceNotFoundError
       case _ => OtherClientBadRequestError(message, description, context)
     }
 }

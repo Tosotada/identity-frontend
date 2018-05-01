@@ -1,5 +1,7 @@
 package com.gu.identity.frontend.controllers
 
+import akka.actor.ActorSystem
+import akka.stream.{ActorMaterializer, Materializer}
 import com.gu.identity.frontend.analytics.AnalyticsEventActor
 import com.gu.identity.frontend.configuration.Configuration
 import com.gu.identity.frontend.csrf.CSRFConfig
@@ -12,7 +14,7 @@ import com.gu.identity.service.client.{ClientBadRequestError, ClientGatewayError
 import org.mockito.ArgumentMatcher
 import org.mockito.Mockito._
 import org.mockito.Matchers.{argThat, any => argAny}
-import org.scalatest.mock.MockitoSugar
+import org.scalatest.mockito.MockitoSugar
 import org.scalatestplus.play.PlaySpec
 import play.api.i18n.MessagesApi
 import play.api.mvc._
@@ -22,8 +24,10 @@ import org.scalatest.Matchers._
 
 import scala.concurrent.{ExecutionContext, Future}
 
-
 class SigninActionSpec extends PlaySpec with MockitoSugar {
+
+  implicit lazy val materializer: Materializer = ActorMaterializer()(ActorSystem())
+
   val fakeCsrfConfig = CSRFConfig.disabled
 
   val signInPageUrl = routes.Application.signIn().url

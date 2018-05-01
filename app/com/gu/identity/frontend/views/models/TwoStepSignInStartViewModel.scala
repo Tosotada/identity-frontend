@@ -27,6 +27,7 @@ case class TwoStepSignInStartViewModel private(
   group: Option[GroupCode],
 
   email:Option[String],
+  skipValidationReturn: Boolean = false,
 
   registerUrl: String = "",
   signinUrl: String = "",
@@ -53,7 +54,8 @@ object TwoStepSignInStartViewModel {
     skipConfirmation: Option[Boolean],
     clientId: Option[ClientID],
     group: Option[GroupCode],
-    email: Option[String])(implicit messages: Messages): TwoStepSignInStartViewModel = {
+    email: Option[String],
+    skipValidationReturn: Option[Boolean])(implicit messages: Messages): TwoStepSignInStartViewModel = {
 
     val layout = LayoutViewModel(configuration, activeTests, clientId, Some(returnUrl))
     val recaptchaModel : Option[GoogleRecaptchaViewModel] = None
@@ -78,8 +80,9 @@ object TwoStepSignInStartViewModel {
       clientId = clientId,
       group = group,
       email = email,
+      skipValidationReturn = skipValidationReturn.getOrElse(false),
 
-      registerUrl = UrlBuilder(routes.Application.register(), returnUrl, skipConfirmation, clientId, group.map(_.id), Some(TwoStepSignInType)),
+      registerUrl = UrlBuilder(routes.Application.register(), returnUrl, skipConfirmation, clientId, group.map(_.id), Some(TwoStepSignInType), skipValidationReturn),
       signinUrl = UrlBuilder(routes.Application.twoStepSignInStart(), returnUrl, skipConfirmation, clientId, group.map(_.id)),
       forgotPasswordUrl = UrlBuilder("/reset", returnUrl, skipConfirmation, clientId, group.map(_.id)),
 

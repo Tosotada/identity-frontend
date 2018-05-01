@@ -2,6 +2,8 @@ package com.gu.identity.frontend.authentication
 
 import java.net.URI
 
+import akka.actor.ActorSystem
+import akka.stream.{ActorMaterializer, Materializer}
 import com.gu.identity.frontend.authentication.UserAuthenticatedActionBuilder.UserAuthenticatedAction
 import com.gu.identity.frontend.models.GroupCode
 import com.gu.identity.frontend.test.SimpleFakeApplication
@@ -16,6 +18,7 @@ import play.api.test.Helpers._
 class UserAuthenticatedActionSpec extends PlaySpec with MockitoSugar {
 
   implicit val app = SimpleFakeApplication()
+  implicit lazy val materializer: Materializer = ActorMaterializer()(ActorSystem())
 
   def validCookieDecoding(cookieValue: String) = Some(CookieUser(id = "10000811"))
 

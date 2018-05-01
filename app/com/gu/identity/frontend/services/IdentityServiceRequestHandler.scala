@@ -13,6 +13,7 @@ import play.api.libs.json.{Json, _}
 import play.api.libs.ws.{WSClient, WSResponse}
 
 import scala.concurrent.Future
+import scala.concurrent.duration._
 import scala.util.control.NonFatal
 
 class IdentityServiceRequestHandler (ws: WSClient) extends IdentityClientRequestHandler with ApplicationLogging {
@@ -74,7 +75,7 @@ class IdentityServiceRequestHandler (ws: WSClient) extends IdentityClientRequest
     ws.url(request.url)
       .withHeaders(request.headers.toSeq: _*)
       .withQueryString(request.parameters.toSeq: _*)
-      .withRequestTimeout(10000)
+      .withRequestTimeout(10 seconds)
       .withBody(request.body.map(handleRequestBody).getOrElse(""))
       .execute(request.method.toString)
       .map(handleResponse(request))
@@ -142,8 +143,7 @@ class IdentityServiceRequestHandler (ws: WSClient) extends IdentityClientRequest
     case r: SendResetPasswordEmailApiRequest =>
       if (response.status == 200) {
         Right(SendResetPasswordEmailResponse())
-      }
-      else {
+      } else {
         handleUnexpectedResponse(response)
       }
 
