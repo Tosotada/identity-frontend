@@ -3,12 +3,12 @@ package com.gu.identity.frontend.views.models
 import buildinfo.BuildInfo
 import com.gu.identity.frontend.configuration.Configuration
 import com.gu.identity.frontend.controllers.routes
-import com.gu.identity.frontend.csrf.CSRFToken
 import com.gu.identity.frontend.models._
 import com.gu.identity.frontend.models.text.RegisterText
 import com.gu.identity.frontend.mvt._
 import com.gu.identity.frontend.request.RegisterActionRequestBody.FormMapping
 import play.api.i18n.Messages
+import play.filters.csrf.CSRF.Token
 
 
 case class RegisterViewModel(
@@ -25,7 +25,7 @@ case class RegisterViewModel(
                               askForPhoneNumber: Boolean,
                               hideDisplayName: Boolean,
 
-                              csrfToken: Option[CSRFToken],
+                              csrfToken: Option[Token],
                               returnUrl: String,
                               skipConfirmation: Boolean,
                               skipValidationReturn: Boolean,
@@ -54,7 +54,7 @@ object RegisterViewModel {
       configuration: Configuration,
       activeTests: ActiveMultiVariantTests,
       errors: Seq[String],
-      csrfToken: Option[CSRFToken],
+      csrfToken: Option[Token],
       returnUrl: ReturnUrl,
       skipConfirmation: Option[Boolean],
       clientId: Option[ClientID],

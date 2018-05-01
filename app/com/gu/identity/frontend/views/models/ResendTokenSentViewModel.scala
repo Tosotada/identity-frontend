@@ -1,13 +1,13 @@
 package com.gu.identity.frontend.views.models
 
 import com.gu.identity.frontend.configuration.Configuration
-import com.gu.identity.frontend.csrf.CSRFToken
 import com.gu.identity.frontend.models.text.ResendTokenSentText
 import play.api.i18n.Messages
+import play.filters.csrf.CSRF.Token
 
 case class ResendTokenSentViewModel private(
   layout: LayoutViewModel,
-  csrfToken: Option[CSRFToken],
+  csrfToken: Option[Token],
   errors: Option[Seq[ErrorViewModel]] = Some(Seq.empty),
   resendLinkEmailSentText: ResendTokenSentText,
   resources: Seq[PageResource with Product],
@@ -18,7 +18,7 @@ case class ResendTokenSentViewModel private(
 
 object ResendTokenSentViewModel {
 
-  def apply(configuration: Configuration, csrfToken: Option[CSRFToken], errorIds: Option[Seq[ErrorViewModel]])(implicit messages: Messages): ResendTokenSentViewModel = {
+  def apply(configuration: Configuration, csrfToken: Option[Token], errorIds: Option[Seq[ErrorViewModel]])(implicit messages: Messages): ResendTokenSentViewModel = {
     val layout = LayoutViewModel(configuration)
 
     ResendTokenSentViewModel(

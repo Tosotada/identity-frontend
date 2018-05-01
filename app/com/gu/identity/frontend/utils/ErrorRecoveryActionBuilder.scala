@@ -12,7 +12,7 @@ import scala.concurrent.Future
  *
  * Clients should implement `recoverErrors` to recover from errors.
  */
-trait ErrorRecoveryActionBuilder extends ComposableActionBuilder[Request] {
+abstract class ErrorRecoveryActionBuilder(cc: ControllerComponents) extends ComposableActionBuilder[Request](cc) {
 
   def recoverErrors[A](request: Request[A]): PartialFunction[Throwable, Future[Result]]
 
@@ -31,6 +31,7 @@ trait ErrorRecoveryActionBuilder extends ComposableActionBuilder[Request] {
    */
   override def composeAction[A](other: Action[A]): Action[A] =
     new Action[A] {
+      override val executionContext = cc.executionContext
       def parser: BodyParser[A] = other.parser
 
       def apply(request: Request[A]): Future[Result] =

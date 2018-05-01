@@ -5,19 +5,19 @@ import com.gu.identity.frontend.errors.SigninTokenRejected
 import com.gu.identity.frontend.services.IdentityService
 import com.gu.identity.frontend.views.ViewRenderer
 import com.typesafe.scalalogging.LazyLogging
-import play.api.i18n.{I18nSupport, MessagesApi}
-import play.api.mvc.{Action, AnyContent, Controller, Results}
+import play.api.i18n.I18nSupport
+import play.api.mvc._
 
 import scala.concurrent.ExecutionContext
 
 class SigninTokenController(
   configuration: Configuration,
   identityService: IdentityService,
-  val messagesApi: MessagesApi,
+  cc: ControllerComponents,
   implicit val executionContext: ExecutionContext
-) extends Controller with LazyLogging with I18nSupport {
+) extends AbstractController(cc) with LazyLogging with I18nSupport {
 
-  def signinWithResubToken(token: String, returnUrl: Option[String]): Action[AnyContent] = Action.async {
+  def signinWithResubToken(token: String, returnUrl: Option[String]): Action[AnyContent] = Action.async { implicit request =>
     identityService.authenticateResubToken(token).map {
       case Right(cookies) =>
         SeeOther(returnUrl.getOrElse(configuration.dotcomBaseUrl)).withCookies(cookies: _*)

@@ -2,7 +2,7 @@ package com.gu.identity.frontend.controllers
 
 import java.net.URI
 
-import com.gu.identity.frontend.authentication.UserAuthenticatedActionBuilder._
+import com.gu.identity.frontend.authentication.{UserAuthenticatedAction, UserAuthenticatedRequest}
 import com.gu.identity.frontend.configuration.Configuration
 import com.gu.identity.frontend.logging.Logging
 import com.gu.identity.frontend.models.{ClientID, GroupCode, ReturnUrl}
@@ -13,40 +13,59 @@ import com.gu.identity.service.client.models.User
 import play.api.data.Form
 import play.api.data.Forms._
 import play.api.http.HttpErrorHandler
-import play.api.i18n.{I18nSupport, MessagesApi}
+import play.api.i18n.I18nSupport
 import play.api.mvc._
 
 import scala.concurrent.{ExecutionContext, Future}
 
 case class AddUserToGroupRequest(groupCode: String, returnUrl: Option[String])
 
-class ThirdPartyTsAndCs(identityService: IdentityService, config: Configuration, val messagesApi: MessagesApi, httpErrorHandler: HttpErrorHandler, cookieDecoder: String => Option[SecureCookieUser]) extends Controller with Logging with I18nSupport {
+class ThirdPartyTsAndCs(
+    identityService: IdentityService,
+    config: Configuration,
+    httpErrorHandler: HttpErrorHandler,
+    cookieDecoder: String => Option[SecureCookieUser],
+    userAuthenticatedAction: UserAuthenticatedAction,
+    cc: ControllerComponents)
+    (implicit executionContext: ExecutionContext)
+    extends AbstractController(cc) with Logging with I18nSupport {
 
-  implicit lazy val executionContext: ExecutionContext = play.api.libs.concurrent.Execution.Implicits.defaultContext
+  def confirmAction[A](
+      group: String,
+      returnUrl: Option[String],
+      clientId: Option[String],
+      skipThirdPartyLandingPage: Option[Boolean]): Action[AnyContent] =
 
-  def confirmAction[A](group: String, returnUrl: Option[String], clientId: Option[String], skipThirdPartyLandingPage: Option[Boolean]) = UserAuthenticatedAction(cookieDecoder).async { request => {
-      val clientIdActual = ClientID(clientId)
-      val groupCode = GroupCode(group)
-      val sc_gu_uCookie = request.scGuUCookie
-      val verifiedReturnUrl = ReturnUrl(returnUrl, request.headers.get("Referer"), config, clientIdActual)
-      val skipThirdPartyLandingPageActual = skipThirdPartyLandingPage.getOrElse(false)
+    userAuthenticatedAction.async { implicit request: UserAuthenticatedRequest[AnyContent] => {
+        val clientIdActual = ClientID(clientId)
+        val groupCode = GroupCode(group)
+        val sc_gu_uCookie = request.scGuUCookie
+        val verifiedReturnUrl = ReturnUrl(returnUrl, request.headers.get("Referer"), config, clientIdActual)
+        val skipThirdPartyLandingPageActual = skipThirdPartyLandingPage.getOrElse(false)
 
-      groupCode match {
-        case Some(validGroup) => {
-          confirm(validGroup, verifiedReturnUrl, clientIdActual, skipThirdPartyLandingPageActual, sc_gu_uCookie).flatMap {
-            case Right(result) => Future.successful(result)
-            case Left(errors) => httpErrorHandler.onClientError(request, BAD_REQUEST, "Could not check user's group membership status")
+        groupCode match {
+          case Some(validGroup) => {
+            confirm(validGroup, verifiedReturnUrl, clientIdActual, skipThirdPartyLandingPageActual, sc_gu_uCookie).flatMap {
+              case Right(result) => Future.successful(result)
+              case Left(errors) => httpErrorHandler.onClientError(request, BAD_REQUEST, "Could not check user's group membership status")
+            }
           }
-        }
-        case None => {
-          logger.info(s"Received invalid group code $group")
-          httpErrorHandler.onClientError(request, NOT_FOUND, "Invalid Group Code")
+          case None => {
+            logger.info(s"Received invalid group code $group")
+            httpErrorHandler.onClientError(request, NOT_FOUND, "Invalid Group Code")
+          }
         }
       }
     }
-  }
 
-  def confirm(groupCode: GroupCode, returnUrl: ReturnUrl, clientId: Option[ClientID], skipConfirmation: Boolean, userCookie: Cookie): Future[Either[ServiceExceptions, Result]] = {
+  def confirm[A](
+      groupCode: GroupCode,
+      returnUrl: ReturnUrl,
+      clientId: Option[ClientID],
+      skipConfirmation: Boolean,
+      userCookie: Cookie)
+      (implicit request: UserAuthenticatedRequest[A]): Future[Either[ServiceExceptions, Result]] = {
+
     val signOutLink = new URI(routes.SignOutAction.signOut(Some(returnUrl.url)).url)
     checkUserForGroupMembership(groupCode, userCookie).flatMap {
       case Right(true) => Future.successful(Right(SeeOther(returnUrl.url)))
@@ -59,27 +78,28 @@ class ThirdPartyTsAndCs(identityService: IdentityService, config: Configuration,
     }
   }
 
-  def addToGroupAction(): Action[AnyContent] = UserAuthenticatedAction(cookieDecoder).async { implicit request =>
-    val sc_gu_uCookie = request.scGuUCookie
+  def addToGroupAction(): Action[AnyContent] =
+    userAuthenticatedAction.async { implicit request =>
+      val sc_gu_uCookie = request.scGuUCookie
 
-    addUserToGroupRequestFormBody.bindFromRequest.fold(
-      errorForm => httpErrorHandler.onClientError(request, BAD_REQUEST, "Invalid form submission"),
+      addUserToGroupRequestFormBody.bindFromRequest.fold(
+        errorForm => httpErrorHandler.onClientError(request, BAD_REQUEST, "Invalid form submission"),
 
-      successForm => {
-        val verifiedReturnUrl = ReturnUrl(successForm.returnUrl, config)
-        val groupCode = GroupCode(successForm.groupCode)
-        groupCode match {
-          case Some(code) => {
-            addToGroup(code, sc_gu_uCookie, verifiedReturnUrl).flatMap{
-              case Right(result) => Future.successful(result)
-              case Left(errors) => httpErrorHandler.onClientError(request, BAD_REQUEST, "Could not check user's group membership status")
+        successForm => {
+          val verifiedReturnUrl = ReturnUrl(successForm.returnUrl, config)
+          val groupCode = GroupCode(successForm.groupCode)
+          groupCode match {
+            case Some(code) => {
+              addToGroup(code, sc_gu_uCookie, verifiedReturnUrl).flatMap{
+                case Right(result) => Future.successful(result)
+                case Left(errors) => httpErrorHandler.onClientError(request, BAD_REQUEST, "Could not check user's group membership status")
+              }
             }
+            case None => httpErrorHandler.onClientError(request, NOT_FOUND, "Invalid Group Code")
           }
-          case None => httpErrorHandler.onClientError(request, NOT_FOUND, "Invalid Group Code")
         }
-      }
-    )
-  }
+      )
+    }
 
   def addToGroup(group: GroupCode, sc_gu_uCookie: Cookie, returnUrl: ReturnUrl): Future[Either[ServiceExceptions, Result]] = {
     val response = identityService.assignGroupCode(group.id, sc_gu_uCookie)

@@ -17,12 +17,13 @@ resolvers += "Guardian Github Releases" at "https://guardian.github.io/maven/rep
 val identityLibrariesVersion = "3.140"
 
 libraryDependencies ++= Seq(
-  "org.scalatestplus.play" %% "scalatestplus-play" % "2.0.1" % "test",
-  "org.mockito" % "mockito-core" % "1.9.5" % "test",
+  "org.scalatestplus.play" %% "scalatestplus-play" % "3.1.2" % "test",
   ws,
   filters,
-  "jp.co.bizreach" %% "play2-handlebars" % "0.3.1",
-  "com.mohiva" %% "play-html-compressor" % "0.6.3",
+  "com.typesafe.play"       %%  "play-json"                 % "2.6.8",
+  "com.typesafe.play"       %%  "play-json-joda"            % "2.6.8",
+  "jp.co.bizreach" %% "play2-handlebars" % "0.4.1",
+  "com.mohiva" %% "play-html-compressor" % "0.7.1",
   "com.gu.identity" %% "identity-cookie" % identityLibrariesVersion,
   "com.gu.identity" %% "identity-model" % identityLibrariesVersion,
   "com.typesafe.akka" %% "akka-actor" % "2.4.1",
