@@ -45,10 +45,10 @@ object Configuration {
   def apply(appConfiguration: PlayConfiguration): Configuration = {
 
     def getString(path: String) =
-      appConfiguration.getString(path).getOrElse(sys.error(s"Missing configuration: $path"))
+      appConfiguration.get[String](path)
 
     def getBoolean(path: String) =
-      appConfiguration.getBoolean(path).getOrElse(sys.error(s"Missing configuration: $path"))
+      appConfiguration.get[Boolean](path)
 
 
     Configuration(

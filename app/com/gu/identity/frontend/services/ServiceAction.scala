@@ -39,7 +39,7 @@ abstract class ServiceActionBuilder[+R[_]](cc: ControllerComponents) extends Act
 
 
   def apply(block: R[AnyContent] => Future[ServiceResult]): Action[AnyContent] =
-    apply(BodyParsers.parse.default)(block)
+    apply(cc.parsers.default)(block)
 
 
   def apply[B](bodyParser: BodyParser[B])(block: R[B] => Future[ServiceResult]): Action[B] = {

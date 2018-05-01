@@ -6,16 +6,18 @@ import com.gu.identity.service.client._
 import com.gu.identity.service.client.models._
 import com.gu.identity.service.client.request._
 import org.joda.time.DateTime
-import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import play.api.libs.functional.syntax._
 import play.api.libs.json.{Json, _}
 import play.api.libs.ws.{WSClient, WSResponse}
 
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 import scala.concurrent.duration._
 import scala.util.control.NonFatal
 
-class IdentityServiceRequestHandler (ws: WSClient) extends IdentityClientRequestHandler with ApplicationLogging {
+class IdentityServiceRequestHandler(
+    ws: WSClient)
+    (implicit executionContext: ExecutionContext)
+    extends IdentityClientRequestHandler with ApplicationLogging {
 
   private val dateTimePattern = "yyyy-MM-dd'T'HH:mm:ssZ"
   implicit val dateReads = JodaReads.jodaDateReads(dateTimePattern)
@@ -75,8 +77,8 @@ class IdentityServiceRequestHandler (ws: WSClient) extends IdentityClientRequest
 
   def handleRequest(request: ApiRequest): Future[Either[IdentityClientErrors, ApiResponse]] = {
     ws.url(request.url)
-      .withHeaders(request.headers.toSeq: _*)
-      .withQueryString(request.parameters.toSeq: _*)
+      .withHttpHeaders(request.headers.toSeq: _*)
+      .withQueryStringParameters(request.parameters.toSeq: _*)
       .withRequestTimeout(10 seconds)
       .withBody(request.body.map(handleRequestBody).getOrElse(""))
       .execute(request.method.toString)
