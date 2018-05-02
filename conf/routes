@@ -28,6 +28,7 @@ GET        /signout                                     com.gu.identity.frontend
 
 GET        /agree/:group                                com.gu.identity.frontend.controllers.ThirdPartyTsAndCs.confirmAction(group: String, returnUrl: Option[String] ?= None, clientId: Option[String] ?= None, skipThirdPartyLandingPage: Option[Boolean] ?= None)
 
++ nocsrf
 POST       /actions/agree                               com.gu.identity.frontend.controllers.ThirdPartyTsAndCs.addToGroupAction
 
 POST       /actions/signin                              com.gu.identity.frontend.controllers.SigninAction.signIn
