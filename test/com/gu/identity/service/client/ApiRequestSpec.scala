@@ -1,6 +1,6 @@
 package com.gu.identity.service.client
 
-import org.scalatest.mock.MockitoSugar
+import org.scalatest.mockito.MockitoSugar
 import org.scalatestplus.play.PlaySpec
 import play.api.mvc.Cookie
 

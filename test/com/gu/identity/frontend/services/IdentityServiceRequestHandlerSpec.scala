@@ -3,10 +3,11 @@ package com.gu.identity.frontend.services
 import com.gu.identity.model.Consent._
 import com.gu.identity.model.Consent
 import com.gu.identity.service.client.request._
-import org.scalatest.mock.MockitoSugar
+import org.scalatest.mockito.MockitoSugar
 import org.scalatest.{Matchers, OptionValues, WordSpec}
 import play.api.libs.json.{JsValue, Json}
 import play.api.libs.ws.WSClient
+import scala.concurrent.ExecutionContext.Implicits.global
 
 class IdentityServiceRequestHandlerSpec extends WordSpec with Matchers with MockitoSugar with OptionValues {
 

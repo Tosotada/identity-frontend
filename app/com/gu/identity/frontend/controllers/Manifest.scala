@@ -1,9 +1,9 @@
 package com.gu.identity.frontend.controllers
 
 import buildinfo.BuildInfo
-import play.api.mvc.{Action, Controller}
+import play.api.mvc.{AbstractController, ControllerComponents}
 
-class Manifest extends Controller {
+class Manifest(cc: ControllerComponents) extends AbstractController(cc) {
   def manifest = Action {
     val data = Map(
       "Build" -> BuildInfo.buildNumber,

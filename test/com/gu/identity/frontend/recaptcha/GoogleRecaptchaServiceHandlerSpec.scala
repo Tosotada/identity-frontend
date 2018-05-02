@@ -1,12 +1,13 @@
 package com.gu.identity.frontend.services
 
 import com.gu.identity.frontend.configuration.Configuration
-import org.scalatest.mock.MockitoSugar
+import org.scalatest.mockito.MockitoSugar
 import org.scalatest.{Matchers, WordSpec}
 import play.api.libs.ws.WSClient
 import org.scalatest.concurrent.ScalaFutures._
 import scala.concurrent.Future
 import scala.util.Try
+import scala.concurrent.ExecutionContext.Implicits.global
 
 class GoogleRecaptchaServiceHandlerTest extends WordSpec with Matchers with MockitoSugar{
 

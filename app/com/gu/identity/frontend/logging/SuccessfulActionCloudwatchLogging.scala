@@ -5,8 +5,9 @@ import com.amazonaws.handlers.AsyncHandler
 import com.amazonaws.services.cloudwatch.AmazonCloudWatchAsyncClient
 import com.amazonaws.services.cloudwatch.model.{Dimension, MetricDatum, PutMetricDataRequest}
 import com.gu.identity.frontend.configuration.Configuration._
+
+import scala.concurrent.ExecutionContext
 import scala.concurrent.duration._
-import play.api.libs.concurrent.Execution.Implicits._
 
 object LoggingAsyncHandler extends AsyncHandler[PutMetricDataRequest, Void] with Logging {
   def onError(exception: Exception) {
@@ -78,7 +79,8 @@ object SuccessfulActionCloudwatchLogging {
   }
 }
 
-class SmallDataPointCloudwatchLogging(actorSystem: ActorSystem) extends Logging {
+class SmallDataPointCloudwatchLogging(actorSystem: ActorSystem)(implicit executionContext: ExecutionContext)
+    extends Logging {
 
   def start = {
     logger.info("Starting to send small data points to Cloudwatch every 10 seconds")
