@@ -180,7 +180,7 @@ class ThirdPartyTsAndCsSpec extends PlaySpec with MockitoSugar {
           }
         }
 
-      val future = thirdPartyTsAndCsController.confirm(group, returnUrl, clientId = None, skipConfirmation = false, cookie)
+      val future = thirdPartyTsAndCsController.confirm(group, returnUrl, clientId = None, skipConfirmation = false, cookie, None)
       val result = Await.result(future, timeout.duration)
       val r = Future.successful(result.right.get)
       redirectLocation(r) mustEqual url
@@ -213,7 +213,7 @@ class ThirdPartyTsAndCsSpec extends PlaySpec with MockitoSugar {
           }
         }
 
-      val future = thirdPartyTsAndCsController.confirm(group, returnUrl, clientId = None, skipConfirmation = true, cookie)
+      val future = thirdPartyTsAndCsController.confirm(group, returnUrl, clientId = None, skipConfirmation = true, cookie, None)
       val result = Await.result(future, timeout.duration)
       val r = Future.successful(result.right.get)
       redirectLocation(r) mustEqual url
@@ -241,7 +241,7 @@ class ThirdPartyTsAndCsSpec extends PlaySpec with MockitoSugar {
           }
         }
 
-      val future = thirdPartyTsAndCsController.confirm(group, returnUrl, clientId = None, skipConfirmation = false, cookie)
+      val future = thirdPartyTsAndCsController.confirm(group, returnUrl, clientId = None, skipConfirmation = false, cookie, None)
       val result = Await.result(future, timeout.duration)
       val r = result.left.get
       r mustEqual Seq(stubbedError)
