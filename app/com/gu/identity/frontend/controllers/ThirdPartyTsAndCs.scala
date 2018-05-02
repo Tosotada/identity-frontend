@@ -15,6 +15,8 @@ import play.api.data.Forms._
 import play.api.http.HttpErrorHandler
 import play.api.i18n.I18nSupport
 import play.api.mvc._
+import play.filters.csrf.CSRF
+import play.filters.csrf.CSRF.Token
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -42,10 +44,12 @@ class ThirdPartyTsAndCs(
         val sc_gu_uCookie = request.scGuUCookie
         val verifiedReturnUrl = ReturnUrl(returnUrl, request.headers.get("Referer"), config, clientIdActual)
         val skipThirdPartyLandingPageActual = skipThirdPartyLandingPage.getOrElse(false)
+        val csrfToken = CSRF.getToken
+
 
         groupCode match {
           case Some(validGroup) => {
-            confirm(validGroup, verifiedReturnUrl, clientIdActual, skipThirdPartyLandingPageActual, sc_gu_uCookie).flatMap {
+            confirm(validGroup, verifiedReturnUrl, clientIdActual, skipThirdPartyLandingPageActual, sc_gu_uCookie, csrfToken).flatMap {
               case Right(result) => Future.successful(result)
               case Left(errors) => httpErrorHandler.onClientError(request, BAD_REQUEST, "Could not check user's group membership status")
             }
@@ -63,14 +67,15 @@ class ThirdPartyTsAndCs(
       returnUrl: ReturnUrl,
       clientId: Option[ClientID],
       skipConfirmation: Boolean,
-      userCookie: Cookie)
+      userCookie: Cookie,
+      csrfToken: Option[Token])
       (implicit request: UserAuthenticatedRequest[A]): Future[Either[ServiceExceptions, Result]] = {
 
     val signOutLink = new URI(routes.SignOutAction.signOut(Some(returnUrl.url)).url)
     checkUserForGroupMembership(groupCode, userCookie).flatMap {
       case Right(true) => Future.successful(Right(SeeOther(returnUrl.url)))
       case Right(false) if skipConfirmation => addToGroup(groupCode, userCookie, returnUrl)
-      case Right(false) => Future.successful(Right(renderTsAndCs(config, clientId, groupCode, returnUrl, signOutLink)))
+      case Right(false) => Future.successful(Right(renderTsAndCs(config, clientId, groupCode, returnUrl, signOutLink, csrfToken)))
       case Left(errors) => {
         logger.warn(s"Could not check user's group membership status {}", errors)
         Future.successful(Left(errors))

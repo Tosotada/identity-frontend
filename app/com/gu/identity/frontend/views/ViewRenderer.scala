@@ -247,8 +247,8 @@ object ViewRenderer {
   def renderErrorPage(configuration: Configuration, error: HttpError, resultGenerator: Html => Result)(implicit messages: Messages) =
     renderViewModel("error-page", ErrorPageViewModel(configuration, error), resultGenerator)
 
-  def renderTsAndCs(configuration: Configuration, clientId: Option[ClientID], group: GroupCode, returnUrl: ReturnUrl, signOutLink: URI)(implicit messages: Messages) = {
-    val model = TsAndCsViewModel(configuration, clientId, group, returnUrl, signOutLink)
+  def renderTsAndCs(configuration: Configuration, clientId: Option[ClientID], group: GroupCode, returnUrl: ReturnUrl, signOutLink: URI, csrfToken: Option[Token])(implicit messages: Messages) = {
+    val model = TsAndCsViewModel(configuration, clientId, group, returnUrl, signOutLink, csrfToken)
     renderViewModel("third-party-ts-and-cs-page", model)
   }
 
