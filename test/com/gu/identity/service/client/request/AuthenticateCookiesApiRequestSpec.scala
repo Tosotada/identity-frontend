@@ -2,7 +2,7 @@ package com.gu.identity.service.client.request
 
 import com.gu.identity.frontend.models.TrackingData
 import com.gu.identity.service.client.{ClientBadRequestError, IdentityClientConfiguration, IdentityClientRequestHandler}
-import org.scalatest.mock.MockitoSugar
+import org.scalatest.mockito.MockitoSugar
 import org.scalatest.{Matchers, WordSpec}
 
 

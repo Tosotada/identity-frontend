@@ -2,12 +2,12 @@ package com.gu.identity.frontend.views.models
 
 import com.gu.identity.frontend.configuration.Configuration
 import com.gu.identity.frontend.controllers.routes
-import com.gu.identity.frontend.csrf.CSRFToken
 import com.gu.identity.frontend.models.Text._
 import com.gu.identity.frontend.models._
 import com.gu.identity.frontend.mvt.ActiveMultiVariantTests
 import com.gu.identity.model.{CurrentUser, GuestUser, NewUser, UserType}
 import play.api.i18n.Messages
+import play.filters.csrf.CSRF.Token
 import play.twirl.api.HtmlFormat
 
 case class TwoStepSignInChoicesViewModel private(
@@ -20,7 +20,7 @@ case class TwoStepSignInChoicesViewModel private(
 
   errors: Seq[ErrorViewModel] = Seq.empty,
 
-  csrfToken: Option[CSRFToken],
+  csrfToken: Option[Token],
   returnUrl: String = "",
   skipConfirmation: Boolean = false,
   skipValidationReturn: Boolean = false,
@@ -53,7 +53,7 @@ object TwoStepSignInChoicesViewModel {
   def apply(
     configuration: Configuration,
     activeTests: ActiveMultiVariantTests,
-    csrfToken: Option[CSRFToken],
+    csrfToken: Option[Token],
     errors: Seq[ErrorViewModel],
     returnUrl: ReturnUrl,
     skipConfirmation: Option[Boolean],

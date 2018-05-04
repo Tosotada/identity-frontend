@@ -44,16 +44,16 @@ case class RegisterActionRequestBody private(
   val rememberMe = true
 }
 
-object RegisterActionRequestBody {
+class RegisterActionRequestBodyParser(formRequestBodyParser: FormRequestBodyParser) {
 
   lazy val bodyParser: BodyParser[RegisterActionRequestBody] =
-    FormRequestBodyParser("RegisterActionRequestBody")(registerForm)(handleFormErrors)
+    formRequestBodyParser.form("RegisterActionRequestBody")(registerForm)(handleFormErrors)
 
-  def registerForm(requestHeader: RequestHeader): Form[RegisterActionRequestBody] =
+  private def registerForm(requestHeader: RequestHeader): Form[RegisterActionRequestBody] =
     registerForm(requestHeader.headers.get(HeaderNames.REFERER))
 
-  def registerForm(refererHeader: Option[String]): Form[RegisterActionRequestBody] =
-    Form(FormMapping.registerFormMapping(refererHeader))
+  private def registerForm(refererHeader: Option[String]): Form[RegisterActionRequestBody] =
+    Form(RegisterActionRequestBodyFormMapping.registerFormMapping(refererHeader))
 
 
   private def handleFormErrors(formError: FormError): AppException = formError match {
@@ -67,7 +67,10 @@ object RegisterActionRequestBody {
     case e => RegisterActionBadRequestAppException(s"Unexpected error: ${e.message}")
   }
 
-  object FormMapping {
+
+}
+
+object RegisterActionRequestBodyFormMapping {
     import ClientID.FormMapping.clientId
     import GroupCode.FormMappings.groupCode
     import ReturnUrl.FormMapping.returnUrl
@@ -119,4 +122,3 @@ object RegisterActionRequestBody {
         "gaClientId" -> optional(text)
       )(RegisterActionRequestBody.apply)(RegisterActionRequestBody.unapply)
   }
-}

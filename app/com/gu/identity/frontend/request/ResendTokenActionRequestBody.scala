@@ -11,11 +11,12 @@ case class ResendTokenActionRequestBody(
   extends CSRFTokenRequestParameter
 
 
-object ResendTokenActionRequestBody {
+class ResendTokenActionRequestBodyParser(formRequestBodyParser: FormRequestBodyParser) {
 
-  lazy val bodyParser = FormRequestBodyParser("ResendTokenActionRequestBody")(_ => resendTokenForm)(handleFormErrors)
+  lazy val bodyParser =
+    formRequestBodyParser.form("ResendTokenActionRequestBody")(_ => resendTokenForm)(handleFormErrors)
 
-  lazy val resendTokenForm = Form(FormMapping.resetMapping)
+  private lazy val resendTokenForm = Form(FormMapping.resetMapping)
 
   private def handleFormErrors(formError: FormError): AppException = formError match {
     case FormError("token", messages, _) => ResendTokenBadTokenException(messages.headOption.getOrElse("Unknown"))
@@ -23,7 +24,7 @@ object ResendTokenActionRequestBody {
     case e => ResendTokenBadRequestAppException(e.message)
   }
 
-  object FormMapping {
+  private object FormMapping {
     import play.api.data.Forms._
 
     val resetMapping =

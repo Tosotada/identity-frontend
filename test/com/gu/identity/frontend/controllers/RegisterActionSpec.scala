@@ -4,29 +4,28 @@ import akka.actor.ActorSystem
 import akka.stream.{ActorMaterializer, Materializer}
 import com.gu.identity.frontend.analytics.AnalyticsEventActor
 import com.gu.identity.frontend.configuration.Configuration
-import com.gu.identity.frontend.csrf.CSRFConfig
 import com.gu.identity.frontend.errors.{RegisterServiceBadRequestException, RegisterServiceGatewayAppException}
 import com.gu.identity.frontend.logging.MetricsLoggingActor
-import com.gu.identity.frontend.models.{ClientIp, TrackingData, UrlBuilder}
-import com.gu.identity.frontend.services.IdentityService
+import com.gu.identity.frontend.models.{ClientIp, TrackingData}
+import com.gu.identity.frontend.request.{FormRequestBodyParser, RegisterActionRequestBodyParser}
+import com.gu.identity.frontend.services.{IdentityService, ServiceAction}
 import com.gu.identity.frontend.utils.UrlDecoder
 import com.gu.identity.service.client.{ClientBadRequestError, ClientGatewayError}
 import org.mockito.Matchers.{any => argAny, _}
 import org.mockito.Mockito._
-import org.scalatest.mock.MockitoSugar
+import org.scalatest.mockito.MockitoSugar
 import org.scalatestplus.play.PlaySpec
 import play.api.i18n.MessagesApi
 import play.api.mvc.Cookie
-import play.api.test.FakeRequest
+import play.api.test.{FakeRequest, Helpers}
 import play.api.test.Helpers._
 
 import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.ExecutionContext.Implicits.global
 
 class RegisterActionSpec extends PlaySpec with MockitoSugar {
 
   implicit lazy val materializer: Materializer = ActorMaterializer()(ActorSystem())
-
-  val fakeCsrfConfig = CSRFConfig.disabled
 
   trait WithControllerMockedDependencies {
     val mockIdentityService = mock[IdentityService]
@@ -34,8 +33,13 @@ class RegisterActionSpec extends PlaySpec with MockitoSugar {
     val config = Configuration.testConfiguration
     val metricsActor = mock[MetricsLoggingActor]
     val eventActor = mock[AnalyticsEventActor]
+    val cc = Helpers.stubControllerComponents()
+    val serviceAction = new ServiceAction(cc)
+    val formRequestBodyParser = new FormRequestBodyParser(Helpers.stubPlayBodyParsers)
+    val parser = new RegisterActionRequestBodyParser(formRequestBodyParser)
 
-    val controller = new RegisterAction(mockIdentityService, messages, metricsActor, eventActor, config, fakeCsrfConfig)
+    val controller =
+      new RegisterAction(mockIdentityService, cc, metricsActor, eventActor, config, serviceAction, parser)
   }
 
   def fakeRegisterRequest(

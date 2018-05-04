@@ -5,61 +5,55 @@ import com.gu.identity.frontend.analytics.client.{SigninEventRequest, SigninFirs
 import com.gu.identity.frontend.authentication.CookieService
 import com.gu.identity.frontend.configuration.Configuration
 import com.gu.identity.frontend.configuration.Configuration.Environment._
-import com.gu.identity.frontend.csrf.{CSRFCheck, CSRFConfig}
 import com.gu.identity.frontend.errors.ErrorIDs.SignInGatewayErrorID
 import com.gu.identity.frontend.errors._
 import com.gu.identity.frontend.logging.{LogOnErrorAction, Logging, MetricsLoggingActor}
-import com.gu.identity.frontend.models
 import com.gu.identity.frontend.models._
-import com.gu.identity.frontend.request.{EmailResubRequests, EmailResubscribeRequest, SignInActionRequestBody}
+import com.gu.identity.frontend.request._
 import com.gu.identity.frontend.services._
-import com.gu.identity.frontend.views.ViewRenderer.{renderErrorPage, renderSendSignInLinkSent}
 import com.gu.identity.model.CurrentUser
 import com.gu.identity.service.client.ClientGatewayError
 import com.gu.tip.Tip
-import play.api.i18n.{I18nSupport, MessagesApi}
-import play.api.libs.concurrent.Execution.Implicits.defaultContext
+import play.api.i18n.I18nSupport
 import play.api.libs.json.Json
 import play.api.mvc._
+
+import scala.concurrent.ExecutionContext
 
 /**
  * Form actions controller
  */
 class SigninAction(
     identityService: IdentityService,
-    val messagesApi: MessagesApi,
+    cc: ControllerComponents,
     metricsActor: MetricsLoggingActor,
     eventActor: AnalyticsEventActor,
-    csrfConfig: CSRFConfig,
-    val config: Configuration)
-  extends Controller
-    with Logging
-    with I18nSupport
-    with EmailResubRequests {
+    val config: Configuration,
+    serviceAction: ServiceAction,
+    emailResubFormParser: EmailResubRequestsParser,
+    signInActionRequestBodyParser: SignInActionRequestBodyParser)(implicit executionContext: ExecutionContext)
+  extends AbstractController(cc) with Logging with I18nSupport {
 
   val redirectRoute: String = routes.Application.signIn().url
 
   val signInSecondStepCurrentRedirectRoute: String = routes.Application.twoStepSignInChoices(CurrentUser.name).url
 
   val SignInServiceAction =
-    ServiceAction andThen
-    RedirectOnError(redirectRoute) andThen
-    LogOnErrorAction(logger) andThen
-    CSRFCheck(csrfConfig)
+    serviceAction andThen
+      RedirectOnError(redirectRoute, cc) andThen
+      (new LogOnErrorAction(logger, cc))
 
   val signInSecondStepCurrentServiceAction =
-      ServiceAction andThen
-      RedirectOnError(signInSecondStepCurrentRedirectRoute) andThen
-      LogOnErrorAction(logger) andThen
-      CSRFCheck(csrfConfig)
+    serviceAction andThen
+      RedirectOnError(signInSecondStepCurrentRedirectRoute, cc) andThen
+      (new LogOnErrorAction(logger, cc))
 
   val SignInSmartLockServiceAction =
-    ServiceAction andThen
-      ResultOnError(redirectRoute) andThen
-      LogOnErrorAction(logger) andThen
-      CSRFCheck(csrfConfig)
+    serviceAction andThen
+      ResultOnError(redirectRoute, cc) andThen
+      (new LogOnErrorAction(logger, cc))
 
-  val bodyParser = SignInActionRequestBody.bodyParser
+  val bodyParser = signInActionRequestBodyParser.bodyParser
 
   def signInMetricsLogger(request: Request[SignInActionRequestBody]) = {
     metricsActor.logSuccessfulSignin()
@@ -147,9 +141,9 @@ class SigninAction(
   }
 
   val TokenFromServiceAction: ServiceActionBuilder[Request] =
-    ServiceAction andThen
-      RedirectOnError(redirectRoute) andThen
-      LogOnErrorAction(logger)
+    serviceAction andThen
+      RedirectOnError(redirectRoute, cc) andThen
+      (new LogOnErrorAction(logger, cc))
 
   def permissionAuth(token:String, journey: Option[String]) = {
     TokenFromServiceAction {
@@ -171,7 +165,7 @@ class SigninAction(
     }
   }
 
-  def sendResubLinkAction(): Action[EmailResubscribeRequest] = Action.async(emailResubFormParser) { _req =>
+  def sendResubLinkAction(): Action[EmailResubscribeRequest] = Action.async(emailResubFormParser.bodyParser) { _req =>
     val req = _req.body
     identityService.sendResubEmail(req, ClientIp(_req)).map {
       case Right(_) =>
