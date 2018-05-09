@@ -21,6 +21,7 @@ GET        /resub-email                                 com.gu.identity.frontend
 
 GET        /resub-email/email-sent                     com.gu.identity.frontend.controllers.Application.sendResubLinkSent(clientId: Option[String] ?= None, emailProvider: Option[String] ?= None)
 
++ nocsrf
 POST       /actions/resub-email                         com.gu.identity.frontend.controllers.SigninAction.sendResubLinkAction()
 
 GET        /signout                                     com.gu.identity.frontend.controllers.SignOutAction.signOut(returnUrl: Option[String] ?= None)

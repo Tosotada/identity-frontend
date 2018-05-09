@@ -1,12 +1,10 @@
 package com.gu.identity.frontend.controllers
 
 import com.gu.identity.frontend.logging.Logging
-import play.api.mvc.Action
-import play.api.mvc.Results._
-import play.api.mvc.BodyParsers.parse
+import play.api.mvc.{AbstractController, ControllerComponents}
 
 
-class CSPViolationReporter extends Logging{
+class CSPViolationReporter(cc: ControllerComponents) extends AbstractController(cc) with Logging{
 
   def cspReport() = Action(parse.tolerantText) { implicit request =>
 

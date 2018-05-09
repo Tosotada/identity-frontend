@@ -3,11 +3,10 @@ package com.gu.identity.frontend.filters
 import akka.stream.Materializer
 import play.api.Logger
 import play.api.mvc.{Filter, RequestHeader, Result}
-import play.api.libs.concurrent.Execution.Implicits.defaultContext
 
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 
-class LogRequestsFilter(val mat: Materializer) extends Filter {
+class LogRequestsFilter(val mat: Materializer)(implicit executionContext: ExecutionContext) extends Filter {
 
   private val logger = Logger(this.getClass)
 

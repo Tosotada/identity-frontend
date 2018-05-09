@@ -25,6 +25,7 @@
     <section class="layout-section layout-section--no-border">
 
       <form method="POST" action="{{continueFormUrl}}" >
+        <input type="hidden" name="csrfToken" value="{{ csrfToken.value }}">
         <input type="hidden" name="groupCode" value="{{ groupCode }}">
         <input type="hidden" name="returnUrl" value="{{ returnUrl }}">
         <div class="form-field-wrap">

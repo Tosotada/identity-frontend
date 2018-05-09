@@ -1,10 +1,11 @@
 package com.gu.identity.frontend.controllers
 
 import com.gu.identity.frontend.logging.Logging
-import play.api.mvc.{Call, Action, Controller}
+import play.api.mvc.{AbstractController, Call, ControllerComponents}
 
 
-final class Redirects extends Controller with Logging {
+final class Redirects(cc: ControllerComponents)
+    extends AbstractController(cc) with Logging {
 
   lazy val signInRoute: Call = routes.Application.signIn()
   lazy val signOutRoute: Call = routes.SignOutAction.signOut()

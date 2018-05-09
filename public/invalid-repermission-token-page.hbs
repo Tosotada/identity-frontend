@@ -8,7 +8,7 @@
 
       <form id="resend-token-form" class="resend-consent-form" action="/repermission-token/resend" method="GET">
         <input type="hidden" name="token" value="{{ token }}">
-        <input type="hidden" name="{{ csrfToken.fieldName }}" value="{{ csrfToken.value }}">
+        <input type="hidden" name="csrfToken" value="{{ csrfToken.value }}">
 
         <div class="resend-consent-form__control--submit">
           <button class="resend-consent-form__submit-button" id="resend-consent_submit" type="submit">{{ text.buttonText }} {{> components/icon/arrow-inline }}</button>

@@ -6,19 +6,23 @@ import com.gu.identity.service.client._
 import com.gu.identity.service.client.models._
 import com.gu.identity.service.client.request._
 import org.joda.time.DateTime
-import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import play.api.libs.functional.syntax._
-import play.api.libs.json.Reads.jodaDateReads
 import play.api.libs.json.{Json, _}
 import play.api.libs.ws.{WSClient, WSResponse}
 
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 import scala.concurrent.duration._
 import scala.util.control.NonFatal
 
-class IdentityServiceRequestHandler (ws: WSClient) extends IdentityClientRequestHandler with ApplicationLogging {
+class IdentityServiceRequestHandler(
+    ws: WSClient)
+    (implicit executionContext: ExecutionContext)
+    extends IdentityClientRequestHandler with ApplicationLogging {
 
-  implicit val dateReads = jodaDateReads("yyyy-MM-dd'T'HH:mm:ssZ")
+  private val dateTimePattern = "yyyy-MM-dd'T'HH:mm:ssZ"
+  implicit val dateReads = JodaReads.jodaDateReads(dateTimePattern)
+  implicit val dateWrite = JodaWrites.jodaDateWrites(dateTimePattern)
+  implicit val dateTimeFormat = Format[DateTime](dateReads, dateWrite)
 
   // Cannot use just Json.format[Consent] because:
   // https://github.com/playframework/playframework/issues/2031
@@ -73,8 +77,8 @@ class IdentityServiceRequestHandler (ws: WSClient) extends IdentityClientRequest
 
   def handleRequest(request: ApiRequest): Future[Either[IdentityClientErrors, ApiResponse]] = {
     ws.url(request.url)
-      .withHeaders(request.headers.toSeq: _*)
-      .withQueryString(request.parameters.toSeq: _*)
+      .withHttpHeaders(request.headers.toSeq: _*)
+      .withQueryStringParameters(request.parameters.toSeq: _*)
       .withRequestTimeout(10 seconds)
       .withBody(request.body.map(handleRequestBody).getOrElse(""))
       .execute(request.method.toString)

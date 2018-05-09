@@ -1,10 +1,10 @@
 package com.gu.identity.frontend.controllers
 
-import org.joda.time.{DateTimeZone, DateTime}
+import org.joda.time.{DateTime, DateTimeZone}
 import org.joda.time.format.DateTimeFormat
-import play.api.mvc.{Request, ActionBuilder, Result}
+import play.api.mvc._
 
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.math.max
 
@@ -38,7 +38,9 @@ object Cached {
   def toHttpDateTimeString(dateTime: DateTime): String = dateTime.toString(HTTPDateFormat)
 }
 
-object CachedAction extends ActionBuilder[Request] {
+class CachedAction(val parser: BodyParser[AnyContent])(implicit val executionContext: ExecutionContext)
+    extends ActionBuilder[Request, AnyContent] {
+
   override def invokeBlock[A](request: Request[A], block: (Request[A]) => Future[Result]): Future[Result] =
     Cached(block(request))
 }

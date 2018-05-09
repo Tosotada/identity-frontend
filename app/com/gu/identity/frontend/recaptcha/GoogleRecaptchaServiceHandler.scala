@@ -5,13 +5,16 @@ import com.gu.identity.frontend.logging.Logging
 import play.api.libs.json.Json
 import play.api.libs.ws.WSClient
 
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 import scala.util.{Failure, Success, Try}
 import scala.util.control.NonFatal
 
-import play.api.libs.concurrent.Execution.Implicits.defaultContext
 
-class GoogleRecaptchaServiceHandler(ws: WSClient, configuration: Configuration) extends Logging{
+class GoogleRecaptchaServiceHandler(
+    ws: WSClient,
+    configuration: Configuration)
+    (implicit executionContext: ExecutionContext)
+  extends Logging{
 
   implicit val googleResponseFormat = Json.format[GoogleResponse]
 

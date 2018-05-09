@@ -4,7 +4,7 @@ import com.gu.identity.frontend.configuration.Configuration
 import com.gu.identity.frontend.logging.Logging
 import com.gu.identity.frontend.views.ViewRenderer
 import play.api.http.DefaultHttpErrorHandler
-import play.api.i18n.{I18nSupport, MessagesApi}
+import play.api.i18n.{I18nSupport, Messages, MessagesApi}
 import play.api.mvc.{RequestHeader, Result}
 import play.api.mvc.Results.{BadRequest, Forbidden, InternalServerError, NotFound, Status}
 import play.api.routing.Router
@@ -32,22 +32,26 @@ class ErrorHandler(
 
 
   override def onNotFound(request: RequestHeader, message: String): Future[Result] =
-    renderErrorPage(NotFoundError(message), NotFound.apply)
+    renderErrorPage(NotFoundError(message), NotFound.apply)(messagesApi.preferred(request))
 
   override def onBadRequest(request: RequestHeader, message: String): Future[Result] =
-    renderErrorPage(BadRequestError(message), BadRequest.apply)
+    renderErrorPage(BadRequestError(message), BadRequest.apply)(messagesApi.preferred(request))
 
   override def onForbidden(request: RequestHeader, message: String): Future[Result] =
-    renderErrorPage(ForbiddenError(message), Forbidden.apply)
+    renderErrorPage(ForbiddenError(message), Forbidden.apply)(messagesApi.preferred(request))
 
   override def onOtherClientError(request: RequestHeader, statusCode: Int, message: String): Future[Result] =
-    renderErrorPage(BadRequestError(message, statusCode), Status(statusCode).apply)
+    renderErrorPage(BadRequestError(message, statusCode), Status(statusCode).apply)(messagesApi.preferred(request))
 
   override def onProdServerError(request: RequestHeader, ex: UsefulException): Future[Result] =
-    renderErrorPage(UnexpectedError(ex), InternalServerError.apply)
+    renderErrorPage(UnexpectedError(ex), InternalServerError.apply)(messagesApi.preferred(request))
 
 
-  protected def renderErrorPage(error: HttpError, resultGenerator: Html => Result): Future[Result] =
+  protected def renderErrorPage(
+      error: HttpError,
+      resultGenerator: Html => Result)
+      (implicit messages: Messages): Future[Result] =
+
     Future.successful {
       ViewRenderer.renderErrorPage(configuration, error, resultGenerator)
     }

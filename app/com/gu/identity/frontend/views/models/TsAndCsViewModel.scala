@@ -8,6 +8,7 @@ import com.gu.identity.frontend.models.text._
 import com.gu.identity.frontend.controllers._
 import com.gu.identity.frontend.models._
 import play.api.i18n.Messages
+import play.filters.csrf.CSRF.Token
 
 case class TsAndCsViewModel private(
     layout: LayoutViewModel,
@@ -17,7 +18,8 @@ case class TsAndCsViewModel private(
     tsAndCsPageText: ThirdPartyTsAndCsText,
     returnUrl: String,
     groupCode: String,
-    continueFormUrl: String = routes.ThirdPartyTsAndCs.addToGroupAction.url
+    continueFormUrl: String = routes.ThirdPartyTsAndCs.addToGroupAction.url,
+    csrfToken: Option[Token]
 ) extends ViewModel with ViewModelResources
 
 object TsAndCsViewModel {
@@ -26,7 +28,8 @@ object TsAndCsViewModel {
     clientId: Option[ClientID],
     group: GroupCode,
     returnUrl: ReturnUrl,
-    signOutLink: URI)(implicit messages: Messages): TsAndCsViewModel = {
+    signOutLink: URI,
+    csrfToken: Option[Token])(implicit messages: Messages): TsAndCsViewModel = {
 
     val layout = LayoutViewModel(configuration, clientId, Some(returnUrl))
     TsAndCsViewModel(
@@ -36,7 +39,8 @@ object TsAndCsViewModel {
       clientId = clientId,
       tsAndCsPageText = TsAndCsPageText.getPageText(group, signOutLink),
       groupCode = group.id,
-      returnUrl = returnUrl.url
+      returnUrl = returnUrl.url,
+      csrfToken = csrfToken
     )
   }
 }
