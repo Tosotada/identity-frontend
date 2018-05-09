@@ -2,5 +2,5 @@
   "presets": [
     ["env"]
   ],
-  "plugins": ["transform-flow-strip-types","syntax-dynamic-import"]
+  "plugins": ["transform-flow-strip-types","syntax-dynamic-import","transform-object-rest-spread"]
 }
