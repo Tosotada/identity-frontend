@@ -133,12 +133,12 @@ const init = ($slide: HTMLElement): void => {
   ]
     .filter(_ => _ instanceof HTMLAnchorElement)
     .filter(_ =>
-      validAjaxLinkRoutes.map(r => _.href.contains(r)).some(c => c === true)
+      validAjaxLinkRoutes.map(r => _.href.includes(r)).some(c => c === true)
     );
 
   const $forms: HTMLFormElement[] = [...($slide.querySelectorAll(`form`): any)]
     .filter(_ => _ instanceof HTMLFormElement)
-    .filter(_ => validAjaxFormRoutes.some(r => _.action.contains(r)));
+    .filter(_ => validAjaxFormRoutes.some(r => _.action.includes(r)));
 
   $forms.forEach(($form: HTMLFormElement) => {
     $form.addEventListener('submit', (ev: Event) => {
