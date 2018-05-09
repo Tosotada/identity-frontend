@@ -3,31 +3,33 @@ package com.gu.identity.frontend.controllers
 import akka.actor.ActorSystem
 import akka.stream.{ActorMaterializer, Materializer}
 import com.gu.identity.frontend.configuration.Configuration
-import com.gu.identity.frontend.csrf.CSRFConfig
 import com.gu.identity.frontend.errors.ResetPasswordServiceGatewayAppException
 import com.gu.identity.frontend.models.ClientIp
-import com.gu.identity.frontend.request.ResetPasswordActionRequestBody
-import com.gu.identity.frontend.services.IdentityService
+import com.gu.identity.frontend.request.{FormRequestBodyParser, ResetPasswordActionRequestBody, ResetPasswordActionRequestBodyParser}
+import com.gu.identity.frontend.services.{IdentityService, ServiceAction}
 import com.gu.identity.service.client.{ClientGatewayError, SendResetPasswordEmailResponse}
-import org.scalatest.mock.MockitoSugar
+import org.scalatest.mockito.MockitoSugar
 import org.mockito.Matchers.{any => argAny, eq => argEq}
 import org.mockito.Mockito._
 import org.scalatestplus.play.PlaySpec
-import play.api.test.FakeRequest
+import play.api.test.{FakeRequest, Helpers}
 import play.api.test.Helpers._
 
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{ExecutionContext, Future}
 
 class ResetPasswordActionSpec extends PlaySpec with MockitoSugar {
 
   implicit lazy val materializer: Materializer = ActorMaterializer()(ActorSystem())
 
-  val fakeCsrfConfig = CSRFConfig.disabled
-
   trait WithControllerMockedDependencies {
     val mockIdentityService = mock[IdentityService]
     val config = Configuration.testConfiguration
-    lazy val controller = new ResetPasswordAction(mockIdentityService, fakeCsrfConfig)
+    val cc = Helpers.stubControllerComponents()
+    val serviceAction = new ServiceAction(cc)
+    val formRequestBodyParser = new FormRequestBodyParser(Helpers.stubPlayBodyParsers)
+    val parser = new ResetPasswordActionRequestBodyParser(formRequestBodyParser)
+    val controller = new ResetPasswordAction(mockIdentityService, cc, serviceAction, parser)
   }
 
   def fakeRequest(email: String) =
@@ -38,15 +40,20 @@ class ResetPasswordActionSpec extends PlaySpec with MockitoSugar {
     Seq(ResetPasswordServiceGatewayAppException(ClientGatewayError(message)))
 
   "POST /actions/reset" should {
-    "redirect to the email validation sent confirmation page when email was properly sent" in new WithControllerMockedDependencies {
+    "redirect to the email validation sent confirmation page when email was properly sent" in {
+      val mockIdentityService = mock[IdentityService]
+      val config = Configuration.testConfiguration
+      val cc = Helpers.stubControllerComponents()
+      val serviceAction = new ServiceAction(cc)
+      val formRequestBodyParser = new FormRequestBodyParser(Helpers.stubPlayBodyParsers)
+      val parser = new ResetPasswordActionRequestBodyParser(formRequestBodyParser)
+      lazy val controller =
+        new ResetPasswordAction(mockIdentityService, cc, serviceAction, parser)
+
       val email = "example@gu.com"
 
       when(mockIdentityService.sendResetPasswordEmail(argAny[ResetPasswordActionRequestBody], argAny[ClientIp])(argAny[ExecutionContext]))
-        .thenReturn {
-          Future.successful{
-            Right(SendResetPasswordEmailResponse())
-          }
-        }
+        .thenReturn(Future.successful{Right(SendResetPasswordEmailResponse())})
 
       val result = call(controller.reset, fakeRequest(email))
 

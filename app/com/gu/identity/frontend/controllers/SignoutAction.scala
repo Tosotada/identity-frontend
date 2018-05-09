@@ -6,15 +6,18 @@ import com.gu.identity.frontend.configuration.Configuration
 import com.gu.identity.frontend.logging.Logging
 import com.gu.identity.frontend.models.{ReturnUrl, TrackingData}
 import com.gu.identity.frontend.services.IdentityService
-import com.gu.identity.frontend.utils.ExecutionContexts
-import play.api.http.HttpErrorHandler
-import play.api.i18n.{I18nSupport, MessagesApi}
+import play.api.i18n.I18nSupport
 import play.api.mvc._
 import play.api.http.HeaderNames
 
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 
-class SignOutAction(identityService: IdentityService, val messagesApi: MessagesApi, config: Configuration) extends Controller with ExecutionContexts with Logging with I18nSupport {
+class SignOutAction(
+    identityService: IdentityService,
+    cc: ControllerComponents,
+    config: Configuration)
+    (implicit executionContext: ExecutionContext)
+    extends AbstractController(cc) with Logging with I18nSupport {
 
   implicit def cookieNameToString(cookieName: Name): String = cookieName.toString
 
@@ -36,6 +39,7 @@ class SignOutAction(identityService: IdentityService, val messagesApi: MessagesA
     }
   }
 
-  def performSignout(request: RequestHeader, returnUrl: ReturnUrl, signoutCookies: Seq[Cookie]) = AuthenticationService.terminateSession(request, returnUrl.url, config.identityCookieDomain, signoutCookies)
+  def performSignout(request: RequestHeader, returnUrl: ReturnUrl, signoutCookies: Seq[Cookie]) =
+    AuthenticationService.terminateSession(request, returnUrl.url, config.identityCookieDomain, signoutCookies)
 
 }

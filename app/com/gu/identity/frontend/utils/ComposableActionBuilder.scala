@@ -8,8 +8,11 @@ import scala.concurrent.Future
  * Adapts / patches Play's ActionBuilder fixing issues where composeAction
  * and composeParser does not properly compose when using `andThen` to chain.
  */
-trait ComposableActionBuilder[+R[_]] extends ActionBuilder[R] {
+abstract class ComposableActionBuilder[+R[_]](cc: ControllerComponents) extends ActionBuilder[R, AnyContent] {
   self =>
+
+  override val executionContext = cc.executionContext
+  override def parser: BodyParser[AnyContent] = cc.parsers.default
 
   // Patched accessors for ActionBuilder compose methods to get around
   // protected access in ActionBuilder
@@ -21,9 +24,10 @@ trait ComposableActionBuilder[+R[_]] extends ActionBuilder[R] {
 
 
   override def andThen[Q[_]](other: ActionFunction[R, Q]): ComposableActionBuilder[Q] =
-    new ComposableActionBuilder[Q] {
+    new ComposableActionBuilder[Q](cc) {
 
-      def invokeBlock[A](request: Request[A], block: Q[A] => Future[Result]) =
+
+      def invokeBlock[A](request: Request[A], block: Q[A] => Future[Result]): Future[Result] =
         self.invokeBlock[A](request, other.invokeBlock[A](_, block))
 
       override protected def composeParser[A](bodyParser: BodyParser[A]): BodyParser[A] =

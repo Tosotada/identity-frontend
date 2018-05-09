@@ -1,8 +1,8 @@
 package com.gu.identity.frontend.controllers
 
-import play.api.mvc.{Action, Controller}
+import play.api.mvc.{AbstractController, ControllerComponents}
 
-class HealthCheck extends Controller {
+class HealthCheck(cc: ControllerComponents) extends AbstractController(cc) {
 
   def healthCheck = Action {
     Ok("200 OK")

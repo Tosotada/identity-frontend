@@ -4,10 +4,10 @@ import akka.actor.ActorSystem
 import akka.stream.{ActorMaterializer, Materializer}
 import com.gu.identity.frontend.analytics.AnalyticsEventActor
 import com.gu.identity.frontend.configuration.Configuration
-import com.gu.identity.frontend.csrf.CSRFConfig
 import com.gu.identity.frontend.errors.{SignInServiceBadRequestException, SignInServiceGatewayAppException}
 import com.gu.identity.frontend.logging.MetricsLoggingActor
 import com.gu.identity.frontend.models.TrackingData
+import com.gu.identity.frontend.request.{EmailResubRequestsParser, FormRequestBodyParser, SignInActionRequestBodyParser}
 import com.gu.identity.frontend.request.RequestParameters.SignInRequestParameters
 import com.gu.identity.frontend.services._
 import com.gu.identity.service.client.{ClientBadRequestError, ClientGatewayError}
@@ -18,20 +18,18 @@ import org.scalatest.mockito.MockitoSugar
 import org.scalatestplus.play.PlaySpec
 import play.api.i18n.MessagesApi
 import play.api.mvc._
-import play.api.test.FakeRequest
+import play.api.test.{FakeRequest, Helpers}
 import play.api.test.Helpers._
 import org.scalatest.Matchers._
 
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{ExecutionContext, Future}
 
 class SigninActionSpec extends PlaySpec with MockitoSugar {
 
   implicit lazy val materializer: Materializer = ActorMaterializer()(ActorSystem())
 
-  val fakeCsrfConfig = CSRFConfig.disabled
-
   val signInPageUrl = routes.Application.signIn().url
-
 
   trait WithControllerMockedDependencies {
     val mockIdentityService = mock[IdentityService]
@@ -39,8 +37,15 @@ class SigninActionSpec extends PlaySpec with MockitoSugar {
     val config = Configuration.testConfiguration
     val metricsActor = mock[MetricsLoggingActor]
     val eventActor = mock[AnalyticsEventActor]
+    val cc = Helpers.stubControllerComponents()
+    val formRequestBodyParser = new FormRequestBodyParser(Helpers.stubPlayBodyParsers)
+    val emailParser = new EmailResubRequestsParser(formRequestBodyParser)
+    val signInParser = new SignInActionRequestBodyParser(formRequestBodyParser)
+    val serviceAction = new ServiceAction(cc)
 
-    lazy val controller = new SigninAction(mockIdentityService, messages, metricsActor, eventActor, fakeCsrfConfig, config)
+    lazy val controller =
+      new SigninAction(
+        mockIdentityService, cc, metricsActor, eventActor, config, serviceAction, emailParser, signInParser)
 
     def mockAuthenticate(
         email: String,

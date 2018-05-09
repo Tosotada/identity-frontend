@@ -20,7 +20,10 @@
 
 .banner--skin-opt-in {
   display: block;
-  background: #53bbd6 inline(opt-in.svg) no-repeat 50% 62.5%;
-  background-size: auto 12rem;
-  height: 22rem;
+  background: #1e8dcd;
+  .layout-wrap-width {
+    background: inline(missing.svg) no-repeat calc(var(--size-baseline) * 3) 62.5%;
+    background-size: auto 9rem;
+    height: 20rem;
+  }
 }

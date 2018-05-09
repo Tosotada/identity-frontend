@@ -1,14 +1,14 @@
 package com.gu.identity.frontend.controllers
 
-import org.scalatest.mock.MockitoSugar
+import org.scalatest.mockito.MockitoSugar
 import org.scalatestplus.play.PlaySpec
-import play.api.mvc.{Action, Controller}
-import play.api.test.FakeRequest
+import play.api.mvc.{AbstractController, Action, Controller}
+import play.api.test.{FakeRequest, Helpers}
 import play.api.test.Helpers._
 
 class CachedSpec extends PlaySpec with MockitoSugar {
 
-  class TestController extends Controller {
+  class TestController extends AbstractController(Helpers.stubControllerComponents()) {
     def cachedEndpoint = Action {
       Cached {
         Ok("Ok")

@@ -11,13 +11,12 @@ import com.gu.identity.service.client.ClientBadRequestError
 import org.mockito.ArgumentCaptor
 import org.mockito.Matchers.{any => argAny}
 import org.mockito.Mockito._
-import org.scalatest.mock.MockitoSugar
+import org.scalatest.mockito.MockitoSugar
 import org.scalatestplus.play.PlaySpec
-import play.api.i18n.MessagesApi
 import play.api.mvc._
-import play.api.test.FakeRequest
+import play.api.test.{FakeRequest, Helpers}
 import play.api.test.Helpers._
-
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{ExecutionContext, Future}
 
 class SignOutActionSpec extends PlaySpec with MockitoSugar {
@@ -26,9 +25,8 @@ class SignOutActionSpec extends PlaySpec with MockitoSugar {
 
   trait WithControllerMockedDependencies {
     val mockIdentityService = mock[IdentityService]
-    val messages = mock[MessagesApi]
     val config = Configuration.testConfiguration
-    lazy val controller = new SignOutAction(mockIdentityService, messages, config)
+    lazy val controller = new SignOutAction(mockIdentityService, Helpers.stubControllerComponents(), config)
   }
 
   val secureCookie = Cookie(name = CookieName.SC_GU_U.toString, value = "SC_GU_U_data", maxAge = None, path = "/", domain = Some("dev-theguardian.com"), secure = true, httpOnly = true)

@@ -11,7 +11,7 @@ import scala.concurrent.duration._
  * Delete all cookies: /opt/reset
  */
 
-class OptInController() extends Controller {
+class OptInController(cc: ControllerComponents) extends AbstractController(cc) {
 
   private val lifetime: Int = 90.days.toSeconds.toInt
 

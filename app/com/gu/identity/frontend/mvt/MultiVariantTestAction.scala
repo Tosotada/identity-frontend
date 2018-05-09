@@ -1,9 +1,9 @@
 package com.gu.identity.frontend.mvt
 
 import com.gu.identity.frontend.controllers.NoCache
-import play.api.mvc.{ActionBuilder, Request, Result, WrappedRequest}
+import play.api.mvc._
 
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 
 case class MultiVariantTestRequest[A](
     mvtCookie: Option[MultiVariantTestID],
@@ -35,7 +35,9 @@ object MultiVariantTestRequest {
 
 }
 
-object MultiVariantTestAction extends ActionBuilder[MultiVariantTestRequest] {
+class MultiVariantTestAction(val parser: BodyParser[AnyContent])(implicit val executionContext: ExecutionContext)
+    extends ActionBuilder[MultiVariantTestRequest, AnyContent] {
+
   override def invokeBlock[A](request: Request[A], block: (MultiVariantTestRequest[A]) => Future[Result]): Future[Result] = {
     val req = MultiVariantTestRequest[A](request)
     MultiVariantTests.allServerSide.headOption.map { _ =>

@@ -6,7 +6,10 @@ import play.api.mvc._
 import play.api.libs.json._
 import com.gu.identity.frontend.models.DigitalAsset._
 
-class DigitalAssetLinks(val configuration: Configuration) extends Controller {
+class DigitalAssetLinks(
+    val configuration: Configuration,
+    cc: ControllerComponents)
+  extends AbstractController(cc) {
 
   val loginPermission = "delegate_permission/common.get_login_creds"
 

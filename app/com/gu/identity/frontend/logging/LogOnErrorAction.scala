@@ -3,12 +3,12 @@ package com.gu.identity.frontend.logging
 import com.gu.identity.frontend.errors.{BadRequestAppException, SeqAppExceptions}
 import com.gu.identity.frontend.utils.ErrorRecoveryActionBuilder
 import org.slf4j.Logger
-import play.api.mvc.Request
+import play.api.mvc.{ControllerComponents, Request}
 
 import scala.concurrent.Future
 
 
-case class LogOnErrorAction(logger: Logger) extends ErrorRecoveryActionBuilder {
+case class LogOnErrorAction(logger: Logger, cc: ControllerComponents) extends ErrorRecoveryActionBuilder(cc) {
 
   def recoverErrors[A](request: Request[A]) = {
     // sneaky case will never match, ensures we log the error without
