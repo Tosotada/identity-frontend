@@ -33,6 +33,7 @@ case object BaseLayoutViewModel extends ViewModel with ViewModelResources {
       case _ => "*.theguardian.com"
     }),
     IndirectlyLoadedExternalResources("https://sentry.io"),
+    IndirectlyLoadedExternalResources("https://ipv4.guim.co.uk"),
     IndirectlyLoadedExternalImageResources("https://www.google-analytics.com"),
     IndirectlyLoadedExternalImageResources("https://hits-secure.theguardian.com"),
     IndirectlyLoadedExternalImageResources("https://sb.scorecardresearch.com"),
