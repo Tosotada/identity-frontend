@@ -112,6 +112,12 @@ Resources:
             - cloudwatch:*
             - logs:*
             Resource: '*'
+          - Effect: Allow
+            Action:
+            - kinesis:Describe*
+            - kinesis:Put*
+            Resource: '*'
+
   InstanceProfile:
     Type: AWS::IAM::InstanceProfile
     Properties:

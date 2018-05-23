@@ -9,9 +9,7 @@ class ELKLogging (config: Configuration) extends LazyLogging {
   logger.info("Adding Kinesis logger")
   try {
     config.kinesisStream match {
-      case Some(stream) =>
-        com.gu.identity.logging.LogStash.init(KinesisAppenderConfig(stream, "identity"))
-        logger.info("Kinesis logger added")
+      case Some(stream) => com.gu.identity.logging.LogStash.init(KinesisAppenderConfig(stream, "identity"))
       case None => logger.error("Kinesis logging stream name not present in configuration")
     }
   } catch {
