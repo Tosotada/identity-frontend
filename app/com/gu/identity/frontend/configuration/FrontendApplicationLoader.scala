@@ -16,9 +16,9 @@ import com.gu.identity.service.client.IdentityClient
 import jp.co.bizreach.play2handlebars.HandlebarsComponents
 import play.api.ApplicationLoader.Context
 import play.api.i18n.I18nComponents
+import play.api.libs.ws.ahc.AhcWSComponents
 import play.api.routing.Router
 import play.api.{Application => _, _}
-import play.api.libs.ws.ahc.AhcWSComponents
 import play.filters.csrf.CSRFComponents
 import play.filters.gzip.GzipFilter
 import router.Routes
@@ -138,4 +138,6 @@ class ApplicationComponents(context: Context)
   )
 
   val sentryLogging = new SentryLogging(frontendConfiguration) // don't make it lazy
+
+  val elkLogging = new ELKLogging(frontendConfiguration)
 }
