@@ -18,6 +18,7 @@ resolvers += "Guardian Github Releases" at "https://guardian.github.io/maven/rep
 val identityLibrariesVersion = "3.140"
 val akkaVersion = "2.5.11"
 val playJsonVersion = "2.6.8"
+val awsSdkVersion = "1.11.293"
 
 libraryDependencies ++= Seq(
   ws,
@@ -32,9 +33,14 @@ libraryDependencies ++= Seq(
   "com.gu.identity"                 %%  "identity-cookie"           %   identityLibrariesVersion,
   "com.gu.identity"                 %%  "identity-model"            %   identityLibrariesVersion,
   "com.gu"                          %%  "tip"                       %   "0.3.3",
-  "com.amazonaws"                   %   "aws-java-sdk-cloudwatch"   %   "1.10.54",
+  "com.amazonaws"                   %   "aws-java-sdk-cloudwatch"   %   awsSdkVersion,
   "com.getsentry.raven"             %   "raven-logback"             %   "8.0.3",
-  "com.googlecode.libphonenumber"   %   "libphonenumber"            %   "7.2.4"
+  "com.googlecode.libphonenumber"   %   "libphonenumber"            %   "7.2.4",
+  "com.gu"                          %   "kinesis-logback-appender"  %   "1.4.2",
+  "com.amazonaws"                   %   "aws-java-sdk"              %   awsSdkVersion,
+  "com.amazonaws"                   %   "aws-java-sdk-ec2"          %   awsSdkVersion,
+  "net.logstash.logback"            %   "logstash-logback-encoder"  %   "4.11"
+
 )
 
 // Set logs options and default local resource for running locally (run and test)

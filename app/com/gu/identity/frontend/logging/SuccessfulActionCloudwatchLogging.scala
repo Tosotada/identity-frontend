@@ -2,29 +2,31 @@ package com.gu.identity.frontend.logging
 
 import akka.actor.ActorSystem
 import com.amazonaws.handlers.AsyncHandler
-import com.amazonaws.services.cloudwatch.AmazonCloudWatchAsyncClient
-import com.amazonaws.services.cloudwatch.model.{Dimension, MetricDatum, PutMetricDataRequest}
+import com.amazonaws.services.cloudwatch.AmazonCloudWatchAsyncClientBuilder
+import com.amazonaws.services.cloudwatch.model.{Dimension, MetricDatum, PutMetricDataRequest, PutMetricDataResult}
 import com.gu.identity.frontend.configuration.Configuration._
 
 import scala.concurrent.ExecutionContext
 import scala.concurrent.duration._
 
-object LoggingAsyncHandler extends AsyncHandler[PutMetricDataRequest, Void] with Logging {
+object LoggingAsyncHandler extends AsyncHandler[PutMetricDataRequest, PutMetricDataResult] with Logging {
   def onError(exception: Exception) {
     logger.error(s"CloudWatch PutMetricDataRequest error: ${exception.getMessage}}")
   }
 
-  def onSuccess(request: PutMetricDataRequest, result: Void) {
+  def onSuccess(request: PutMetricDataRequest, result: PutMetricDataResult) {
     logger.debug("CloudWatch PutMetricDataRequest - success")
   }
+
 }
 
 object SuccessfulActionCloudwatchLogging {
 
   private lazy val cloudwatch = {
-    val client = new AmazonCloudWatchAsyncClient(AWSConfig.credentials, AWSConfig.clientConfiguration)
-    client.setEndpoint(AWSConfig.region.getServiceEndpoint(com.amazonaws.regions.ServiceAbbreviations.CloudWatch))
-    client
+    AmazonCloudWatchAsyncClientBuilder.standard()
+      .withCredentials(AWSConfig.credentials)
+      .withClientConfiguration(AWSConfig.clientConfiguration)
+      .build()
   }
 
   private lazy val stageDimension = new Dimension().withName("Stage").withValue(Environment.stage)
