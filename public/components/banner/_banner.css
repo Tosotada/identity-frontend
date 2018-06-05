@@ -17,13 +17,3 @@
     right: 0;
   }
 }
-
-.banner--skin-opt-in {
-  display: block;
-  background: #1e8dcd;
-  .layout-wrap-width {
-    background: inline(missing.svg) no-repeat calc(var(--size-baseline) * 3) 62.5%;
-    background-size: auto 9rem;
-    height: 20rem;
-  }
-}
