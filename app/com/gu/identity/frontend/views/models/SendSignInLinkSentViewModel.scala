@@ -7,7 +7,6 @@ import play.api.i18n.Messages
 
 case class SendSignInLinkSentViewModel private(
     layout: LayoutViewModel,
-    pageBanner: String,
     sendSignInLinkSentText: SendSignInLinkSentText,
     actions: Map[String, String] = Map.empty,
     inboxCtaLink: Option[String],
@@ -29,7 +28,6 @@ object SendSignInLinkSentViewModel {
 
     SendSignInLinkSentViewModel(
       layout = layout,
-      pageBanner = "opt-in",
       sendSignInLinkSentText = SendSignInLinkSentText(),
       actions = Map(
         "returnUrl" -> configuration.dotcomBaseUrl
