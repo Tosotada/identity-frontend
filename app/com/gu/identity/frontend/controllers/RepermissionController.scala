@@ -23,7 +23,7 @@ class RepermissionController(
   def acceptToken(repermissionToken: String): Action[AnyContent] = Action.async { implicit request =>
     identityService.authenticateRepermissionToken(repermissionToken).map {
       case Right(playCookies) =>
-        Redirect("/consents/staywithus", request.queryString).withCookies(playCookies: _*)
+        Redirect("/consents", request.queryString).withCookies(playCookies: _*)
       case Left(RepermissionTokenUnauthorizedException :: _) => Redirect(routes.Application.invalidRepermissioningToken(repermissionToken))
       case Left(_) => renderErrorPage(configuration, NotFoundError("The requested page was not found."), NotFound.apply)
     }.recover {
