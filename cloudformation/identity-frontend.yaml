@@ -53,6 +53,9 @@ Parameters:
     Description: Port that the app listens on
     Type: Number
     Default: 8860
+  SsmManagedPolicyArn:
+    Description: ARN of the managed policy to allow SSM
+    Type: String
 Mappings:
   StageVariables:
     PROD:
@@ -91,6 +94,8 @@ Resources:
           Action:
           - sts:AssumeRole
       Path: /
+      ManagedPolicyArns:
+        - !Ref SsmManagedPolicyArn
       Policies:
       - PolicyName: root
         PolicyDocument:
