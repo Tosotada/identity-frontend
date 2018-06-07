@@ -36,11 +36,8 @@ signinTwoStep.recoverPasswordAction=Forgot password?
 signinTwoStep.signInCtaEmailAction=Sign in with Email
 signinTwoStep.oauthStepTwoFieldTitle=You can sign in with your social accounts:
 
-signinTwoStep.newUserEmailNotFoundErrorPre=Sorry, we couldn''t find
-signinTwoStep.newUserEmailNotFoundErrorPost=in our records.
-signinTwoStep.newUserEmailNotFoundPrompt=Is that the right one?
-signinTwoStep.newUserCreateAccountAction=First time signing in to The Guardian? Create an account (it only takes 1 minute).
-signinTwoStep.newUserCreateSocialAccountAction=Alternatively, create a Guardian account using these social services:
+signinTwoStep.newUserCreateAccountAction=It looks like it’s your first time signing in to The Guardian. Please create an account (it only takes a minute).
+signinTwoStep.newUserCreateSocialAccountAction=Alternatively, you can create a Guardian account using your social accounts:
 
 # com.gu.identity.frontend.models.text.RegisterText
 register.pageTitle=Register

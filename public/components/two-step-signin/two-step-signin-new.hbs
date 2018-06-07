@@ -1,32 +1,21 @@
 <form class="two-step-signin" method="POST" action="{{ actions.signInWithEmailAndPassword }}">
 
-  <header class="layout-header">
-    <h1 class="layout-header__title">{{ twoStepSignInPageText.title }}</h1>
-  </header>
+  {{> components/two-step-signin/_email-header }}
 
   {{> components/two-step-signin/_helpers }}
   {{> components/form/form-feedback-wrap }}
 
-  <div class="form-feedback-wrap">
-    <div class="form-feedback form-feedback--info">
-      <p>
-        {{twoStepSignInPageText.newUserEmailNotFoundErrorPre}} <strong>{{{emailForDisplay}}}</strong> {{twoStepSignInPageText.newUserEmailNotFoundErrorPost}}
-      </p>
-      <p class="form-feedback__colourless">
-        {{twoStepSignInPageText.newUserEmailNotFoundPrompt}} <a href="{{signinUrl}}" class="link ajax-step-flow__link" data-is-reverse="true">{{twoStepSignInPageText.changeEmailLink}}</a>.
-      </p>
-    </div>
-    <div class="form-feedback form-feedback--bullet">
-      <div class="form-field-wrap">
-        <p class="form-field-wrap__title">{{twoStepSignInPageText.newUserCreateAccountAction}}</p>
-        <a href="{{registerUrl}}" class="form-button form-button--main form-field-wrap__field">{{twoStepSignInPageText.registerAction}} {{> components/icon/arrow-inline }}</a>
-      </div>
-    </div>
-    <div class="form-feedback form-feedback--bullet">
-      <div class="form-field-wrap">
-        <p class="form-field-wrap__title">{{twoStepSignInPageText.newUserCreateSocialAccountAction}}</p>
-        {{> components/oauth-cta/_oauth-cta-content }}
-      </div>
+  <div class="form-field-wrap">
+    <p class="layout-text">
+      {{twoStepSignInPageText.newUserCreateAccountAction}}
+    </p>
+    <a href="{{registerUrl}}" class="form-button form-button--main form-field-wrap__field">{{twoStepSignInPageText.registerAction}} {{> components/icon/arrow-inline }}</a>
+  </div>
+
+  <div class="layout-section">
+    <div class="form-field-wrap">
+      <p class="form-field-wrap__title">{{twoStepSignInPageText.newUserCreateSocialAccountAction}}</p>
+      {{> components/oauth-cta/_oauth-cta-content }}
     </div>
   </div>
 

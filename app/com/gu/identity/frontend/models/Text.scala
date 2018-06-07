@@ -103,9 +103,6 @@ object Text {
         "oauthStepTwoFieldTitle" -> messages("signinTwoStep.oauthStepTwoFieldTitle"),
         "signInCtaEmailAction" -> messages("signinTwoStep.signInCtaEmailAction"),
 
-        "newUserEmailNotFoundErrorPre" -> messages("signinTwoStep.newUserEmailNotFoundErrorPre"),
-        "newUserEmailNotFoundErrorPost" -> messages("signinTwoStep.newUserEmailNotFoundErrorPost"),
-        "newUserEmailNotFoundPrompt" -> messages("signinTwoStep.newUserEmailNotFoundPrompt"),
         "newUserCreateAccountAction" -> messages("signinTwoStep.newUserCreateAccountAction"),
         "newUserCreateSocialAccountAction" -> messages("signinTwoStep.newUserCreateSocialAccountAction")
       )
