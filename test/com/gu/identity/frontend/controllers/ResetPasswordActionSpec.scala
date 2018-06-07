@@ -1,7 +1,8 @@
 package com.gu.identity.frontend.controllers
 
-import akka.actor.ActorSystem
+import akka.actor.{ActorRef, ActorSystem}
 import akka.stream.{ActorMaterializer, Materializer}
+import com.gu.identity.frontend.analytics.AnalyticsEventActor
 import com.gu.identity.frontend.configuration.Configuration
 import com.gu.identity.frontend.errors.ResetPasswordServiceGatewayAppException
 import com.gu.identity.frontend.models.ClientIp
@@ -29,7 +30,8 @@ class ResetPasswordActionSpec extends PlaySpec with MockitoSugar {
     val serviceAction = new ServiceAction(cc)
     val formRequestBodyParser = new FormRequestBodyParser(Helpers.stubPlayBodyParsers)
     val parser = new ResetPasswordActionRequestBodyParser(formRequestBodyParser)
-    val controller = new ResetPasswordAction(mockIdentityService, cc, serviceAction, parser)
+    val eventActor = mock[AnalyticsEventActor]
+    val controller = new ResetPasswordAction(mockIdentityService, cc, serviceAction, parser, eventActor, config)
   }
 
   def fakeRequest(email: String) =
@@ -47,8 +49,9 @@ class ResetPasswordActionSpec extends PlaySpec with MockitoSugar {
       val serviceAction = new ServiceAction(cc)
       val formRequestBodyParser = new FormRequestBodyParser(Helpers.stubPlayBodyParsers)
       val parser = new ResetPasswordActionRequestBodyParser(formRequestBodyParser)
+      val eventActor = mock[AnalyticsEventActor]
       lazy val controller =
-        new ResetPasswordAction(mockIdentityService, cc, serviceAction, parser)
+        new ResetPasswordAction(mockIdentityService, cc, serviceAction, parser, eventActor, config)
 
       val email = "example@gu.com"
 

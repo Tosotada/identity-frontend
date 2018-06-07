@@ -18,7 +18,8 @@
 
         <input type="hidden" name="csrfToken" value="{{ csrfToken.value }}">
         <input type="hidden" name="returnUrl" value="{{ returnUrl }}">
-        <input type="hidden" name="clientId" value="{{ clientId.id }}">
+        <input type="hidden" class="ga-client-id" name="gaClientId" value="">
+        <input type="hidden" name="clientId" value="{{ client.clientId }}">
 
         <div class="form-field-wrap">
           <label class="form-field-wrap__title" for="srlf-email">{{sendSignInLinkText.emailInput}}</label>

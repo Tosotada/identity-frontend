@@ -12,7 +12,6 @@ import { init as initRegisterBindings } from './components/register-form/registe
 
 logPageView();
 loadComponents(document);
-
 if (isBrowserSupported) {
   initSigninBindings();
   initRegisterBindings();

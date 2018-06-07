@@ -1,7 +1,7 @@
 package com.gu.identity.frontend.controllers
 
 import com.gu.identity.frontend.analytics.AnalyticsEventActor
-import com.gu.identity.frontend.analytics.client.{SigninEventRequest, SigninFirstStepEventRequest}
+import com.gu.identity.frontend.analytics.client.{ResubRequestEvent, SigninEventRequest, SigninSecondStepEventRequest}
 import com.gu.identity.frontend.authentication.CookieService
 import com.gu.identity.frontend.configuration.Configuration
 import com.gu.identity.frontend.configuration.Configuration.Environment._
@@ -69,7 +69,7 @@ class SigninAction(
     metricsActor.logSuccessfulSigninFirstStep()
 
     if(request.body.gaClientId.isDefined) {
-      eventActor.sendSuccessfulSigninFirstStep(SigninFirstStepEventRequest(request, config.gaUID))
+      eventActor.sendSuccessfulSigninFirstStep(SigninSecondStepEventRequest(request, config.gaUID))
     } else {
       logger.warn("No GA Client ID passed for sign in request")
     }
@@ -103,7 +103,7 @@ class SigninAction(
       case _ => returnUrl
     }
 
-   identityService.getUserType(body).map {
+    identityService.getUserType(body).map {
       case Left(errors) =>
         Left(errors)
 
@@ -169,6 +169,7 @@ class SigninAction(
     val req = _req.body
     identityService.sendResubEmail(req, ClientIp(_req)).map {
       case Right(_) =>
+        eventActor.forward(ResubRequestEvent(_req, config.gaUID))
         SeeOther(routes.Application.sendResubLinkSent(
           clientId = req.clientId.map(_.id),
           emailProvider = EmailProvider.getProviderForEmail(_req.body.email).map(_.id)

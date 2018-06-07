@@ -1,8 +1,9 @@
 package com.gu.identity.frontend.analytics
 
 import akka.actor.{Actor, ActorRef, PoisonPill, Props}
-import com.gu.identity.frontend.analytics.client.{MeasurementProtocolClient, MeasurementProtocolRequest, RegisterEventRequest, SigninEventRequest, SigninFirstStepEventRequest}
+import com.gu.identity.frontend.analytics.client._
 import com.gu.identity.frontend.logging.Logging
+import com.gu.identity.frontend.request.RequestParameters.GaClientIdRequestParameter
 
 private sealed trait Message
 private sealed trait Event extends Message {
@@ -12,7 +13,7 @@ private sealed trait Event extends Message {
 private object Terminate extends Message
 private case class SignIn(request: SigninEventRequest) extends Event
 private case class Register(request: RegisterEventRequest) extends Event
-private case class SignInFirstStep(request: SigninFirstStepEventRequest) extends Event
+private case class SignInSecondStep(request: SigninSecondStepEventRequest) extends Event
 
 class AnalyticsEventActor(eventActor: ActorRef) {
 
@@ -24,8 +25,12 @@ class AnalyticsEventActor(eventActor: ActorRef) {
     eventActor ! SignIn(signinEventRequest)
   }
 
-  def sendSuccessfulSigninFirstStep(signinFirstStepEventRequest: SigninFirstStepEventRequest) = {
-    eventActor ! SignInFirstStep(signinFirstStepEventRequest)
+  def sendSuccessfulSigninFirstStep(signinSecondStepEventRequest: SigninSecondStepEventRequest) = {
+    eventActor ! SignInSecondStep(signinSecondStepEventRequest)
+  }
+
+  def forward(req: MeasurementProtocolRequest) = {
+    eventActor ! req
   }
 
   def terminateActor() = {
@@ -42,8 +47,9 @@ private class EventActor(measurementProtocolClient: MeasurementProtocolClient) e
 
   override def receive: Receive = {
     case SignIn(event) => measurementProtocolClient.sendSuccessfulSigninEvent(event)
-    case SignInFirstStep(event) => measurementProtocolClient.sendSuccessfulSigninFirstStepEvent(event)
+    case SignInSecondStep(event) => measurementProtocolClient.sendSuccessfulSigninFirstStepEvent(event)
     case Register(event) => measurementProtocolClient.sendSuccessfulRegisterEvent(event)
+    case e: MeasurementProtocolRequest => measurementProtocolClient.send(e)
     case _ =>  logger.warn("Unexpected event received by analytics event actor.")
   }
 }

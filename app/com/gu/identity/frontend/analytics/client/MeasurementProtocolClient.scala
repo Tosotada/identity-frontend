@@ -7,8 +7,10 @@ import scala.concurrent.duration._
 
 class MeasurementProtocolClient(ws: WSClient) extends Logging {
   def sendSuccessfulSigninEvent(signinEventRequest: SigninEventRequest) = makeRequest(signinEventRequest)
-  def sendSuccessfulSigninFirstStepEvent(signinFirstStepEventRequest: SigninFirstStepEventRequest) = makeRequest(signinFirstStepEventRequest)
+  def sendSuccessfulSigninFirstStepEvent(signinFirstStepEventRequest: SigninSecondStepEventRequest) = makeRequest(signinFirstStepEventRequest)
   def sendSuccessfulRegisterEvent(registerEventRequest: RegisterEventRequest) = makeRequest(registerEventRequest)
+
+  def send(request: MeasurementProtocolRequest) = makeRequest(request)
 
   private def makeRequest(request: MeasurementProtocolRequest) =
     ws.url(request.url)

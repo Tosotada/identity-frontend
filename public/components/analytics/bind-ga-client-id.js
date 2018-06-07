@@ -1,8 +1,8 @@
 // @flow
 
-import { fetchTracker } from '../analytics/ga';
+import { fetchTracker } from './ga';
 
-const selector: string = '.two-step-signin__ga-client-id';
+const selector: string = '.ga-client-id';
 
 const init = ($component: HTMLInputElement): void => {
   fetchTracker(tracker => {

@@ -1,11 +1,14 @@
 package com.gu.identity.frontend.controllers
 
+import com.gu.identity.frontend.analytics.AnalyticsEventActor
+import com.gu.identity.frontend.analytics.client.PasswordResetRequestEvent
+import com.gu.identity.frontend.configuration.Configuration
 import com.gu.identity.frontend.errors.RedirectOnError
 import com.gu.identity.frontend.logging.{LogOnErrorAction, Logging}
 import com.gu.identity.frontend.models.ClientIp
-import com.gu.identity.frontend.request.ResetPasswordActionRequestBodyParser
+import com.gu.identity.frontend.request.{ResetPasswordActionRequestBody, ResetPasswordActionRequestBodyParser}
 import com.gu.identity.frontend.services.{IdentityService, ServiceAction, ServiceActionBuilder}
-import play.api.mvc.{AbstractController, ControllerComponents, Request}
+import play.api.mvc.{AbstractController, Action, ControllerComponents, Request}
 
 import scala.concurrent.ExecutionContext
 
@@ -14,7 +17,9 @@ case class ResetPasswordAction(
     identityService: IdentityService,
     cc: ControllerComponents,
     serviceAction: ServiceAction,
-    resetPasswordActionRequestBodyParser: ResetPasswordActionRequestBodyParser)
+    resetPasswordActionRequestBodyParser: ResetPasswordActionRequestBodyParser,
+    eventActor: AnalyticsEventActor,
+    config: Configuration)
     (implicit executionContext: ExecutionContext)
     extends AbstractController(cc) with Logging {
 
@@ -27,15 +32,17 @@ case class ResetPasswordAction(
 
   val bodyParser = resetPasswordActionRequestBodyParser.bodyParser
 
-  def reset = ResetPasswordServiceAction(bodyParser) { request =>
+  def reset: Action[ResetPasswordActionRequestBody] = ResetPasswordServiceAction(bodyParser) { request =>
     val ip = ClientIp(request)
     identityService.sendResetPasswordEmail(request.body, ip).map {
       case Left(errors) =>
         Left(errors)
 
-      case Right(okResponse) => Right {
-        NoCache(SeeOther(routes.Application.resetPasswordEmailSent().url))
-      }
+      case Right(okResponse) =>
+        request.body.gaClientId.foreach(_ => eventActor.forward(PasswordResetRequestEvent(request, config.gaUID)))
+        Right {
+          NoCache(SeeOther(routes.Application.resetPasswordEmailSent().url))
+        }
     }
   }
 

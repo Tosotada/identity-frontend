@@ -1,15 +1,16 @@
 package com.gu.identity.frontend.request
 
-import com.gu.identity.frontend.errors.{ResetPasswordActionBadRequestAppException, ForgeryTokenAppException, ResetPasswordInvalidEmailAppException, AppException}
-import com.gu.identity.frontend.request.RequestParameters.CSRFTokenRequestParameter
-import play.api.data.{FormError, Form}
+import com.gu.identity.frontend.errors.{AppException, ForgeryTokenAppException, ResetPasswordActionBadRequestAppException, ResetPasswordInvalidEmailAppException}
+import com.gu.identity.frontend.request.RequestParameters.{CSRFTokenRequestParameter, GaClientIdRequestParameter}
+import play.api.data.{Form, FormError}
 
 
 case class ResetPasswordActionRequestBody(
     email: String,
-    csrfToken: String)
+    csrfToken: String,
+    gaClientId: Option[String])
   extends CSRFTokenRequestParameter
-
+  with GaClientIdRequestParameter
 
 class ResetPasswordActionRequestBodyParser(formRequestBodyParser: FormRequestBodyParser) {
 
@@ -30,7 +31,8 @@ class ResetPasswordActionRequestBodyParser(formRequestBodyParser: FormRequestBod
     val resetPasswordMapping =
       mapping(
         "email" -> email,
-        "csrfToken" -> text
+        "csrfToken" -> text,
+        "gaClientId" -> optional(text)
       )(ResetPasswordActionRequestBody.apply)(ResetPasswordActionRequestBody.unapply)
   }
 }

@@ -1,15 +1,31 @@
 package com.gu.identity.frontend.analytics.client
 
+import java.util.UUID
+
 import com.gu.identity.frontend.logging.Logging
 import com.gu.identity.frontend.request.RequestParameters.GaClientIdRequestParameter
-import com.gu.identity.frontend.request.{RegisterActionRequestBody, SignInActionRequestBody}
-import play.api.mvc.Request
+import com.gu.identity.frontend.request.{EmailResubscribeRequest, RegisterActionRequestBody, ResetPasswordActionRequestBody, SignInActionRequestBody}
+import play.api.mvc.{AnyContent, Request}
 
+// Utility typeclass for extracting a GA Client Id from a request
+trait GaClientIdExtractor[T] {
+  def gaClientIdFromRequest(req: Request[T]): Option[String]
+}
 
-trait MeasurementProtocolRequestBody[T <: GaClientIdRequestParameter] extends Logging {
-  def apply(request: Request[T], gaUID: String): String = {
+object GaClientIdExtractor {
+  implicit def instanceForParam[T <: GaClientIdRequestParameter]: GaClientIdExtractor[T] = (req: Request[GaClientIdRequestParameter]) => req.body.gaClientId
+  implicit def instanceForAnyContent: GaClientIdExtractor[AnyContent] = (req: Request[AnyContent]) => None
+  def apply[T](implicit gaClientId: GaClientIdExtractor[T]): GaClientIdExtractor[T] = (req: Request[T]) => gaClientId.gaClientIdFromRequest(req)
+}
+
+object GaClientId {
+  def apply[T: GaClientIdExtractor](req: Request[T]): Option[String] = GaClientIdExtractor[T].gaClientIdFromRequest(req)
+}
+
+trait MeasurementProtocolRequestBody extends Logging {
+  def apply[T](request: Request[T], gaUID: String)(implicit gaClientId: GaClientIdExtractor[T]): String = {
     val params = commonBodyParameters(
-      request.body.gaClientId.getOrElse(""),
+      GaClientId(request).getOrElse(UUID.randomUUID().toString),
       request.remoteAddress,
       request.headers.get("User-Agent").getOrElse(""),
       request.acceptLanguages.headOption.map(_.language).getOrElse(""),
@@ -57,7 +73,7 @@ trait MeasurementProtocolRequest {
   val body: String
 }
 
-private object SigninEventRequestBody extends MeasurementProtocolRequestBody[SignInActionRequestBody] {
+private object SigninEventRequestBody extends MeasurementProtocolRequestBody {
   override val extraBodyParams = Seq(
     "ea" -> "SigninSuccessful",
     "el" -> "RegularSignin",
@@ -69,19 +85,51 @@ case class SigninEventRequest(request: Request[SignInActionRequestBody], gaUID: 
   override val body = SigninEventRequestBody(request, gaUID)
 }
 
-private object SigninFirstStepEventRequestBody extends MeasurementProtocolRequestBody[SignInActionRequestBody] {
+private object SigninSecondStepEventRequestBody extends MeasurementProtocolRequestBody {
   override val extraBodyParams = Seq(
-    "ea" -> "SigninFirstStepSuccessful",
-    "el" -> "RegularSignin",
-    "cm2" -> "1"
+    "ea" -> "AuthenticationProgress",
+    "el" -> "ReachedSecondStep"
   )
 }
 
-case class SigninFirstStepEventRequest(request: Request[SignInActionRequestBody], gaUID: String) extends MeasurementProtocolRequest {
-  override val body = SigninFirstStepEventRequestBody(request, gaUID)
+case class ResubAuthenticationSuccess(request: Request[AnyContent], gaUID: String) extends MeasurementProtocolRequest {
+  override val body: String = ResubSigninSuccessBody(request, gaUID)
 }
 
-private object RegisterEventRequestBody extends MeasurementProtocolRequestBody[RegisterActionRequestBody] {
+case object ResubSigninSuccessBody extends MeasurementProtocolRequestBody {
+  override val extraBodyParams = Seq(
+    "ea" -> "SigninSuccessful",
+    "el" -> "ResubEmail"
+  )
+}
+
+case class ResubRequestEvent(request: Request[EmailResubscribeRequest], gaUID: String) extends MeasurementProtocolRequest {
+  override val body = ResubRequestEventBody(request, gaUID)
+}
+
+private object ResubRequestEventBody extends MeasurementProtocolRequestBody {
+  override val extraBodyParams = Seq(
+    "ea" -> "AuthenticationProgress",
+    "el" -> "RequestedResub"
+  )
+}
+
+case class PasswordResetRequestEvent(request: Request[ResetPasswordActionRequestBody], gaUID: String) extends MeasurementProtocolRequest {
+  override val body = PasswordResetRequestEventBody(request, gaUID)
+}
+
+private object PasswordResetRequestEventBody extends MeasurementProtocolRequestBody {
+  override val extraBodyParams = Seq(
+    "ea" -> "AuthenticationProgress",
+    "el" -> "RequestedPasswordReset"
+  )
+}
+
+case class SigninSecondStepEventRequest(request: Request[SignInActionRequestBody], gaUID: String) extends MeasurementProtocolRequest {
+  override val body = SigninSecondStepEventRequestBody(request, gaUID)
+}
+
+private object RegisterEventRequestBody extends MeasurementProtocolRequestBody {
   override val extraBodyParams = Seq(
     "ea" -> "RegisterSuccessful",
     "el" -> "RegularRegistration",
