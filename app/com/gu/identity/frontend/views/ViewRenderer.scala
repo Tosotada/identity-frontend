@@ -174,10 +174,12 @@ object ViewRenderer {
     renderViewModel("reset-password-page", model)
   }
 
-  def renderResetPasswordEmailSent(configuration: Configuration, clientId: Option[ClientID])(implicit messages: Messages) = {
+  def renderResetPasswordEmailSent(configuration: Configuration, clientId: Option[ClientID],     emailProvider: Option[EmailProvider]
+  )(implicit messages: Messages) = {
     val model = ResetPasswordEmailSentViewModel(
       configuration = configuration,
-      clientId = clientId
+      clientId = clientId,
+      emailProvider = emailProvider
     )
     renderViewModel("reset-password-email-sent-page", model)
   }

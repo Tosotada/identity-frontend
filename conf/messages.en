@@ -8,7 +8,6 @@ signin.prelude=Creating an account means you can save articles for later, leave 
 signin.prelude.moreinfo=Want to know more?
 signin.prelude.faq=Read our FAQs
 signin.dividetext=or
-signin.signInWithEmail=Sign in with Email
 signin.email=Email address
 signin.password=Password
 signin.forgottenpassword=Set or reset your password
@@ -18,9 +17,12 @@ signin.noaccount=New to The Guardian?
 signin.signup=Create an account
 signin.continue=Continue
 
+signinTwoStep.welcomeStepOne=Sign in / Create a Guardian account
 signinTwoStep.welcome=Hello,
 signinTwoStep.changeEmailLink=Change email
 signinTwoStep.changeEmailLinkShort=Change
+
+signinTwoStep.signInWithEmailAction=Sign in with Email
 signinTwoStep.signInAction=Sign In
 signinTwoStep.continueAction=Continue
 signinTwoStep.emailFieldTitle=Enter your email
@@ -88,6 +90,7 @@ terms.privacyWithOnlyGroup=To find out what personal data we collect and how we 
 # com.gu.identity.frontend.models.text.OAuthText
 oauth.signIn=Sign in with {0}
 oauth.register=Sign up with {0}
+oauth.continue=Continue with {0}
 oauth.facebook=Facebook
 oauth.google=Google
 

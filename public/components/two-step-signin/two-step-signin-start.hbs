@@ -2,14 +2,13 @@
   {{> components/two-step-signin/_helpers }}
   <fieldset class="form-field-wrap">
     {{> components/oauth-cta/_oauth-cta-content }}
-    <div class="cta-email-sign-in">
-      <button class="form-button form-button--secondary form-button--no-arrow form-button--reverse cta-email-sign-in__cta" type="button">{{> components/icon/envelope }} {{twoStepSignInPageText.signInCtaEmailAction}}</button>
-      <div class="form-field-wrap cta-email-sign-in__wrap">
-        <label class="form-field-wrap__title" for="tssf-email">{{twoStepSignInPageText.emailFieldTitle}}</label>
-        <input class="form-input form-field-wrap__field" id="tssf-email" required="required" type="email" name="email" autocomplete="username" autocapitalize="off" autocorrect="off" autofocus spellcheck="false" value="{{email}}" />
-        <input class="form-input form-field-wrap__field u-h" type="password" name="password" autocomplete="password" autocapitalize="off" autocorrect="off" spellcheck="false" value="{{password}}" />
-        <button class="form-button form-button--main form-field-wrap__field" type="submit">{{twoStepSignInPageText.continueAction}} {{> components/icon/arrow-inline }}</button>
-      </div>
+  </fieldset>
+  <p class="form-prelude"> <span>{{twoStepSignInPageText.divideText}}</span> </p>
+  <div class="form-field-wrap">
+      <label class="form-field-wrap__title" for="tssf-email">{{twoStepSignInPageText.emailFieldTitle}}</label>
+      <input autofocus="autofocus" class="form-input form-field-wrap__field" id="tssf-email" required="required" type="email" name="email" autocomplete="username" autocapitalize="off" autocorrect="off" autofocus spellcheck="false" value="{{email}}" />
+      <input class="form-input form-field-wrap__field u-h" type="password" name="password" autocomplete="password" autocapitalize="off" autocorrect="off" spellcheck="false" value="{{password}}" />
+      <button class="form-button form-button--main form-field-wrap__field" type="submit">{{twoStepSignInPageText.continueAction}} {{> components/icon/arrow-inline }}</button>
     </div>
   </fieldset>
 </form>

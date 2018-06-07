@@ -5,7 +5,7 @@ import com.gu.identity.frontend.analytics.client.PasswordResetRequestEvent
 import com.gu.identity.frontend.configuration.Configuration
 import com.gu.identity.frontend.errors.RedirectOnError
 import com.gu.identity.frontend.logging.{LogOnErrorAction, Logging}
-import com.gu.identity.frontend.models.ClientIp
+import com.gu.identity.frontend.models.{ClientIp, EmailProvider}
 import com.gu.identity.frontend.request.{ResetPasswordActionRequestBody, ResetPasswordActionRequestBodyParser}
 import com.gu.identity.frontend.services.{IdentityService, ServiceAction, ServiceActionBuilder}
 import play.api.mvc.{AbstractController, Action, ControllerComponents, Request}
@@ -41,7 +41,8 @@ case class ResetPasswordAction(
       case Right(okResponse) =>
         request.body.gaClientId.foreach(_ => eventActor.forward(PasswordResetRequestEvent(request, config.gaUID)))
         Right {
-          NoCache(SeeOther(routes.Application.resetPasswordEmailSent().url))
+          NoCache(SeeOther(routes.Application.resetPasswordEmailSent(emailProvider = EmailProvider.getProviderForEmail(request.body.email).map(_.id)
+          ).url))
         }
     }
   }
