@@ -129,6 +129,7 @@ object Configuration {
         new EnvironmentVariableCredentialsProvider(),
         new SystemPropertiesCredentialsProvider(),
         new ProfileCredentialsProvider(),
+        InstanceProfileCredentialsProvider.getInstance()
       )
       provider
     }
