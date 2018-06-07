@@ -36,10 +36,6 @@ libraryDependencies ++= Seq(
   "com.amazonaws"                   %   "aws-java-sdk-cloudwatch"   %   awsSdkVersion,
   "com.getsentry.raven"             %   "raven-logback"             %   "8.0.3",
   "com.googlecode.libphonenumber"   %   "libphonenumber"            %   "7.2.4",
-  "com.gu"                          %   "kinesis-logback-appender"  %   "1.4.2",
-  "com.amazonaws"                   %   "aws-java-sdk"              %   awsSdkVersion,
-  "com.amazonaws"                   %   "aws-java-sdk-ec2"          %   awsSdkVersion,
-  "net.logstash.logback"            %   "logstash-logback-encoder"  %   "4.11"
 
 )
 

@@ -139,5 +139,4 @@ class ApplicationComponents(context: Context)
 
   val sentryLogging = new SentryLogging(frontendConfiguration) // don't make it lazy
 
-  val elkLogging = new ELKLogging(frontendConfiguration)
 }
