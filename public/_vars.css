@@ -11,6 +11,7 @@
   --color-text-light: #3A3C3C;
 
   --color-error: #c70000;
+  --color-info: #005689;
 
   --color-link: var(--color-text);
   --color-link-underline: var(--color-border-hover);

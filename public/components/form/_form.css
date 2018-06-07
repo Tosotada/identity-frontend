@@ -102,7 +102,7 @@ feedback
 }
 
 .form-feedback--info {
-  color: var(--color-error);
+  color: var(--color-info);
   &:before {
     background-image: inline('status-info.svg');
   }
