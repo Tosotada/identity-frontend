@@ -58,8 +58,12 @@
     }
     > .layout-header__title__proxy {
       flex: 0 0 auto;
-      align-self: flex-end;
-      margin-left: var(--size-baseline);
+      margin-top: calc(var(--size-baseline)*1.5);
+      @media (--viewport-min-mobile-landscape) {
+        align-self: flex-end;
+        margin-top: 0;
+        margin-left: var(--size-baseline);
+      }
     }
   }
 }
