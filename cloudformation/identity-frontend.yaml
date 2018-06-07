@@ -29,8 +29,8 @@ Parameters:
   AMI:
     Description: Custom AMI to use for instances, created using Amigo
     Type: String
-  LogstashHost:
-    Description: Logstash load balancer host
+  KinesisStream:
+    Description: Kinesis Stream for logging
     Type: String
   AlarmEmailAddress:
     Description: Contact email for alarms
@@ -117,7 +117,8 @@ Resources:
             Action:
             - kinesis:Describe*
             - kinesis:Put*
-            Resource: '*'
+            Resource:
+            - !Sub arn:aws:kinesis:${AWS::Region}:${AWS::AccountId}:stream/${KinesisStream}
 
   InstanceProfile:
     Type: AWS::IAM::InstanceProfile
@@ -170,9 +171,6 @@ Resources:
       Tags:
       - Key: Stage
         Value: !Ref 'Stage'
-        PropagateAtLaunch: 'true'
-      - Key: LogstashHost
-        Value: !Ref 'LogstashHost'
         PropagateAtLaunch: 'true'
       - Key: Name
         Value: !Sub '${Stage}:${App}'
@@ -251,8 +249,9 @@ Resources:
                 stdin { }
                 file {
                     add_field => {
-                        'application' => '${App}'
+                        'app' => '${App}'
                         'stage' => '${Stage}'
+                        'stack' => '${Stack}'
                         'ec2_instance' => '$instanceid'
                     }
                     path => "/${App}/logs/${App}-app.log"
@@ -261,8 +260,9 @@ Resources:
                 }
                 file {
                     add_field => {
-                        'application' => '${App}'
+                        'app' => '${App}'
                         'stage' => '${Stage}'
+                        'stack' => '${Stack}'
                         'ec2_instance' => '$instanceid'
                     }
                     path => "/${App}/logs/${App}-access.log"
@@ -271,12 +271,10 @@ Resources:
                 }
             }
             output {
-                stdout { }
-                tcp {
-                    host => "${LogstashHost}"
-                    port => 6379
-                    codec => json_lines
-                }
+              kinesis {
+                stream_name => "${KinesisStream}"
+                region => "${AWS::Region}"
+              }
             }
             filter {
                 multiline {

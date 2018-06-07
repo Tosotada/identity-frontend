@@ -35,8 +35,6 @@ case class Configuration(
 
   gaUID: String,
 
-  kinesisStream: Option[String],
-
   collectSignupConsents: Boolean,
   collectV2Consents: Boolean,
 
@@ -48,9 +46,6 @@ object Configuration {
 
     def getString(path: String) =
       appConfiguration.get[String](path)
-
-    def getOptional(path: String) =
-      appConfiguration.getOptional[String](path)
 
     def getBoolean(path: String) =
       appConfiguration.get[Boolean](path)
@@ -85,8 +80,6 @@ object Configuration {
       sentryDsnScala = getString("sentry.dsn.scala"),
 
       gaUID = getString("ga-uid"),
-
-      kinesisStream = getOptional("logging.kinesisStream"),
 
       collectSignupConsents = false,
       collectV2Consents = false,
@@ -124,8 +117,6 @@ object Configuration {
 
     gaUID = "UA-78705427-123123",
 
-    kinesisStream = None,
-
     collectSignupConsents = false,
     collectV2Consents = false,
 
@@ -138,7 +129,6 @@ object Configuration {
         new EnvironmentVariableCredentialsProvider(),
         new SystemPropertiesCredentialsProvider(),
         new ProfileCredentialsProvider(),
-        InstanceProfileCredentialsProvider.getInstance()
       )
       provider
     }
