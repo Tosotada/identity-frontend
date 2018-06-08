@@ -1,3 +1,18 @@
+
+```
+                 ┏━━━━━━━━━┅┅~~ ~
+                 ┃ Thanks for contributing!
+                 ┗━━━━━━━━━┅┅~~ ~
+     /\**/\       │
+    ( o_o  )_     │
+     (u--u   \_)  │
+      (||___   )==\
+    ,dP"/b/=( /P"/b\
+    |8 || 8\=== || 8
+    `b,  ,P  `b,  ,P
+      """`     """`
+```
+
 # Contributing to identity-frontend
 
 1. Branch off of master, name your branch related to the feature you're
@@ -28,7 +43,7 @@ If you have any questions, come chat to us or send us an email.
 ### Structure
 
 ```
-identity-fronten
+identity-frontend
 ├── app              - Scala Play application
 └── public           - Client-side assets
     └── components   - Self-contained, reusable components
@@ -182,18 +197,3 @@ Append `?mvt_<testName>=<variantId>` to a route with a `MultiVariantTestAction`.
 - Tests should complete in under five minutes.
 - Prefer unit tests to integration/functional tests.
 - Unstable tests should be removed.
-
-
-```
-                 ┏━━━━━━━━━┅┅~~ ~
-                 ┃ thanks for contributing
-                 ┗━━━━━━━━━┅┅~~ ~
-     /\**/\       │
-    ( o_o  )_     │
-     (u--u   \_)  │
-      (||___   )==\
-    ,dP"/b/=( /P"/b\
-    |8 || 8\=== || 8
-    `b,  ,P  `b,  ,P
-      """`     """`
-```
