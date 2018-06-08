@@ -32,10 +32,6 @@
 
 @import 'components/register-form/_register-form.css';
 
-/** Register Confirmation page **/
-
-@import 'components/register-confirmation/_register-confirmation';
-
 /** Skins **/
 
 @import 'components/jobs/_jobs.css';

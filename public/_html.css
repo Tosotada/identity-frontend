@@ -87,31 +87,6 @@ body > main {
   }
 }
 
-%content-container--with-padding {
-  @extend %page-block--low-margin;
-  padding: 0 1rem;
-  width: auto;
-
-  @media (--viewport-min-mobile-landscape) {
-    padding: 0 0.5rem;
-    width: 100%;
-  }
-
-  @media (--viewport-min-tablet) {
-    padding: 0 1rem;
-  }
-}
-
-%content-container--no-padding {
-  @extend %page-block--low-margin;
-  width: auto;
-  padding: 0;
-
-  @media (--viewport-min-mobile-landscape) {
-    width: 100%;
-  }
-}
-
 .page-heading {
   @extend %font-heading-0;
   @extend %content-container;

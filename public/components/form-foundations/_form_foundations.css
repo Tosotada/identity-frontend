@@ -3,29 +3,6 @@
  * Use /form/_form.css
  */
 
-/** Form prelude - the "or" text before a form **/
-
-%form__prelude {
-  @extend %font-text-sans-3;
-  margin: 0;
-  padding: 2.5rem 0;
-  text-align: center;
-  font-weight: 300;
-  @supports (width: calc(100% + 1px)) {
-    background: linear-gradient(
-      to bottom,
-      transparent calc(50% - 1px),
-      var(--color-border) calc(50% - 1px),
-      var(--color-border) calc(50%),
-      transparent calc(50%)
-    );
-  }
-  > * {
-    background: var(--color-bg);
-    padding: 0 1rem;
-  }
-}
-
 /** Form fieldset **/
 
 %form__fieldset {
@@ -80,33 +57,8 @@
 
 /** Form fields **/
 
-%form__text-field-base {
-  @extend %font-text-sans-3;
-  box-sizing: border-box;
-  display: block;
-  background-color: #fff;
-  border: 1px solid var(--color-border);
-  color: #000;
-  padding: 0 var(--size-baseline-gutter);
-  line-height: 4.2rem;
-  height: 4.2rem;
-  border-radius: 99999px;
-  margin: 0.2rem 0;
-  width: 100%;
-  transition: 0.15s;
-
-  &:hover {
-    border-color: var(--color-border-hover);
-  }
-
-  &:focus {
-    border-color: color(var(--color-border-hover) lightness(-20%));
-    outline: none;
-  }
-}
-
 %form__text-field {
-  @extend %form__text-field-base;
+  @extend %form-input;
 
   /* override default invalid field styles, only show on focus */
   &:invalid:focus {
