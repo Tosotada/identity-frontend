@@ -64,7 +64,7 @@ generic input wrapper
 }
 
 .form-field-wrap__footer {
-  @extend %font-text-sans-1;
+  @extend %font-body-copy-small;
   &,
   .link {
     color: var(--color-text-light);
@@ -86,7 +86,7 @@ feedback
     height: calc(var(--size-baseline) * 6.5);
     position: absolute;
     left: 0;
-    top: calc(var(--size-baseline) * -0.75);
+    top: calc(var(--size-baseline) * -0.85);
   }
 }
 

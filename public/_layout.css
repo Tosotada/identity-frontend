@@ -65,7 +65,7 @@
 }
 
 .layout-header__title__proxy {
-  @extend %font-text-sans-1;
+  @extend %font-body-copy-small;
   @extend %link;
   color: currentColor;
 }
@@ -95,7 +95,7 @@ texty text
     text-align: center;
   }
   &.layout-text--small {
-    @extend %font-text-sans-1;
+    @extend %font-body-copy-small;
     color: var(--color-text-light);
   }
 }

@@ -34,13 +34,22 @@ html {
   font-weight: 300;
 }
 
+%font-body-copy-small {
+   @extend %font-sans-serif;
+   @include font-size(14, 20);
+ }
+
 %font-body-copy {
-  @extend %font-serif;
-  @include font-size(14, 20);
-  @media (--viewport-min-tablet) {
-    @include font-size(16, 24);
-  }
-}
+   @extend %font-body-copy-small;
+   @media (--viewport-min-mobile-landscape) {
+     @include font-size(16, 20);
+   }
+ }
+
+%font-button {
+   @extend %font-sans-serif;
+   @include font-size(16, 20);
+ }
 
 %font-heading-0 {
   @extend %font-heading;
