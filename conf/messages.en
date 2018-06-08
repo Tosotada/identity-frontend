@@ -17,7 +17,7 @@ signin.noaccount=New to The Guardian?
 signin.signup=Create an account
 signin.continue=Continue
 
-signinTwoStep.welcomeStepOne=Sign in / Create a Guardian account
+signinTwoStep.welcomeStepOne=Sign in / Create an account
 signinTwoStep.welcome=Hello,
 signinTwoStep.changeEmailLink=Change email
 signinTwoStep.changeEmailLinkShort=Change
