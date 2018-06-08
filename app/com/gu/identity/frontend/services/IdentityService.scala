@@ -26,6 +26,7 @@ trait IdentityService {
   def authenticateConsentToken(token: String)(implicit ec: ExecutionContext): Future[Either[ServiceExceptions, PlayCookies]]
   def authenticateRepermissionToken(token: String)(implicit ec: ExecutionContext): Future[Either[ServiceExceptions, PlayCookies]]
   def authenticateResubToken(loginToken: String)(implicit ec: ExecutionContext): Future[Either[ServiceExceptions, PlayCookies]]
+  def changeEmailWithToken(changeEmailToken: String)(implicit ec: ExecutionContext): Future[Either[ServiceExceptions, PlayCookies]]
   def deauthenticate(cookie: PlayCookie, trackingData: TrackingData)(implicit ec: ExecutionContext): Future[Either[ServiceExceptions, PlayCookies]]
   def registerThenSignIn(request: RegisterActionRequestBody, clientIp: ClientIp, trackingData: TrackingData)(implicit ec: ExecutionContext): Future[Either[ServiceExceptions, PlayCookies]]
   def register(request: RegisterActionRequestBody, clientIp: ClientIp, trackingData: TrackingData)(implicit ec: ExecutionContext): Future[Either[ServiceExceptions, RegisterResponseUser]]
@@ -79,6 +80,14 @@ class IdentityServiceImpl(config: Configuration, adapter: IdentityServiceRequest
 
   def authenticateResubToken(loginToken: String)(implicit ec: ExecutionContext): Future[Either[ServiceExceptions, PlayCookies]] = {
     client.authenticateResubToken(loginToken) map {
+      case Left(errors) =>
+        Left(errors.map(SignInServiceAppException.apply))
+      case Right(cookies) => Right(CookieService.signInCookies(cookies, rememberMe = false)(config))
+    }
+  }
+
+  def changeEmailWithToken(changeEmailToken: String)(implicit ec: ExecutionContext): Future[Either[ServiceExceptions, PlayCookies]] = {
+    client.changeEmailWithToken(changeEmailToken) map {
       case Left(errors) =>
         Left(errors.map(SignInServiceAppException.apply))
       case Right(cookies) => Right(CookieService.signInCookies(cookies, rememberMe = false)(config))
