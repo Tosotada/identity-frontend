@@ -2,15 +2,22 @@
 
 @import 'css/_vars.css';
 @import 'css/_mixins.css';
+@import 'css/_breakpoints.css';
+@import 'css/_normalise.css';
+@import 'css/_grid.css';
+@import 'css/_typography.css';
+@import 'css/_html.css';
+
+@import 'components/header/_header.css';
+@import 'components/footer/_footer.css';
 
 /* Base */
 
-@import 'css/_html.css';
 @import 'components/form-foundations/_form_foundations.css';
 
 /** Layout **/
 
-@import 'css/_layout.css';
+@import 'components/layout/_layout.css';
 
 /** Generic blocks **/
 
