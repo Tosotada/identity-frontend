@@ -130,7 +130,7 @@
 }
 
 .form-button .form-button__icon--facebook {
-  background-image: inline('components/icon/icon-facebook-white.svg');
+  background-image: inline('components/icon/icon-facebook.svg');
   background-size: 70%;
 }
 .form-button .form-button__icon--google {
