@@ -1,16 +1,16 @@
 /* Globals */
 
-@import '_vars.css';
-@import '_mixins.css';
+@import 'css/_vars.css';
+@import 'css/_mixins.css';
 
 /* Base */
 
-@import '_html.css';
+@import 'css/_html.css';
 @import 'components/form-foundations/_form_foundations.css';
 
 /** Layout **/
 
-@import '_layout.css';
+@import 'css/_layout.css';
 
 /** Generic blocks **/
 
