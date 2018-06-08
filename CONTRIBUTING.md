@@ -28,7 +28,7 @@ If you have any questions, come chat to us or send us an email.
 ### Structure
 
 ```
-identity-frontend
+identity-fronten
 ├── app              - Scala Play application
 └── public           - Client-side assets
     └── components   - Self-contained, reusable components
@@ -66,10 +66,9 @@ The build is triggered as part of the npm scripts. This is configured using
 the `watch` script in [`package.json`](https://github.com/guardian/identity-frontend/blob/master/package.json).
 
 ### CSS guidelines
-CSS source should be written using [Idiomatic CSS](https://github.com/necolas/idiomatic-css) style.
+CSS source should be written using [Medium's](https://medium.com/@fat/mediums-css-is-actually-pretty-fucking-good-b8e2a6c78b06) CSS style guide.
 
-CSS is processed using [PostCSS](https://github.com/postcss/postcss) configured
-using plugins defined in [postcss.config.js](https://github.com/guardian/identity-frontend/blob/master/postcss.config.js).
+CSS is processed using [PostCSS](https://github.com/postcss/postcss) configured using plugins defined in [postcss.config.js](https://github.com/guardian/identity-frontend/blob/master/postcss.config.js).
 
 CSS is structured using [BEM](https://css-tricks.com/bem-101/) (Block-Element-Modifier):
 
@@ -78,7 +77,7 @@ CSS is structured using [BEM](https://css-tricks.com/bem-101/) (Block-Element-Mo
     .[block]--[modifier]
     .[block]__[element]--[modifier]
 
-Try to keep CSS scoped to an element level and to keep elements as reusable as possible. In practical terms this mostly means setting the placement (margin, position) from a container.
+Try to keep CSS scoped to an **element level** and to keep elements as reusable as possible. In practical terms this mostly means setting the placement (margin, position) from a container.
 
 ```css
 /* no 😿 */
@@ -100,7 +99,7 @@ Try to keep CSS scoped to an element level and to keep elements as reusable as p
 }
 ```
 
-Whenever possible try to stick with standard css syntax such as using `var(--color-main)` instead of `$color-main`. At the moment a couple of redundant postcss plugins live within the projects but the aim is to trim them down.
+Whenever possible try to stick with standard css syntax such as using `var(--color-main)` instead of `$color-main`. At the moment a couple of redundant postcss plugins exist within the projects but the aim is to eventually remove them and write standard CSS.
 
 All size units should be expressed in `rem` ("root em") units as much as
 possible.CSS is written to override the default base-font size to a
@@ -183,3 +182,18 @@ Append `?mvt_<testName>=<variantId>` to a route with a `MultiVariantTestAction`.
 - Tests should complete in under five minutes.
 - Prefer unit tests to integration/functional tests.
 - Unstable tests should be removed.
+
+
+```
+                 ┏━━━━━━━━━┅┅~~ ~
+                 ┃ thanks for contributing
+                 ┗━━━━━━━━━┅┅~~ ~
+     /\**/\       │
+    ( o_o  )_     │
+     (u--u   \_)  │
+      (||___   )==\
+    ,dP"/b/=( /P"/b\
+    |8 || 8\=== || 8
+    `b,  ,P  `b,  ,P
+      """`     """`
+```
