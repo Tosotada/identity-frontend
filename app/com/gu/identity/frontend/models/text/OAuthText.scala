@@ -15,6 +15,21 @@ object OAuthText {
     messages("oauth.google")
 }
 
+case class OAuthTwoStepSignInText private(
+    facebook: String,
+    google: String)
+  extends OAuthText
+
+object OAuthTwoStepSignInText {
+  import OAuthText._
+
+  def apply()(implicit messages: Messages): OAuthTwoStepSignInText =
+    OAuthTwoStepSignInText(
+      facebook = messages("oauth.continue", facebook),
+      google = messages("oauth.continue", google)
+    )
+}
+
 case class OAuthSignInText private(
     facebook: String,
     google: String)

@@ -12,7 +12,6 @@ object Text {
         "preludeMoreInfo" -> messages("signin.prelude.moreinfo"),
         "preludeFaq" -> messages("signin.prelude.faq"),
         "email" -> messages("signin.email"),
-        "signInWithEmail" -> messages("signin.signInWithEmail"),
         "divideText" -> messages("signin.dividetext"),
         "password" -> messages("signin.password"),
         "forgottenPassword" -> messages("signin.forgottenpassword"),
@@ -31,13 +30,13 @@ object Text {
   object TwoStepSignInStartPageText {
     def toMap(isMembership: Boolean)(implicit messages: Messages): Map[String, String] = {
       Map (
-        "title" -> (if(isMembership) messages("signin.title.supporter") else messages("signin.title")),
+        "title" -> (if(isMembership) messages("signin.title.supporter") else messages("signinTwoStep.welcomeStepOne")),
         "pageTitle" -> messages("signin.pagetitle"),
         "prelude" -> messages("signin.prelude"),
         "preludeMoreInfo" -> messages("signin.prelude.moreinfo"),
         "preludeFaq" -> messages("signin.prelude.faq"),
         "email" -> messages("signin.email"),
-        "signInWithEmail" -> messages("signin.signInWithEmail"),
+        "signInWithEmail" -> messages("signinTwoStep.signInWithEmailAction"),
         "password" -> messages("signin.password"),
         "forgottenPassword" -> messages("signin.forgottenpassword"),
         "rememberMe" -> messages("signin.rememberme"),
@@ -77,7 +76,7 @@ object Text {
         "preludeMoreInfo" -> messages("signin.prelude.moreinfo"),
         "preludeFaq" -> messages("signin.prelude.faq"),
         "email" -> messages("signin.email"),
-        "signInWithEmail" -> messages("signin.signInWithEmail"),
+        "signInWithEmail" -> messages("signinTwoStep.signInWithEmailAction"),
         "password" -> messages("signin.password"),
         "forgottenPassword" -> messages("signin.forgottenpassword"),
         "rememberMe" -> messages("signin.rememberme"),
@@ -104,9 +103,6 @@ object Text {
         "oauthStepTwoFieldTitle" -> messages("signinTwoStep.oauthStepTwoFieldTitle"),
         "signInCtaEmailAction" -> messages("signinTwoStep.signInCtaEmailAction"),
 
-        "newUserEmailNotFoundErrorPre" -> messages("signinTwoStep.newUserEmailNotFoundErrorPre"),
-        "newUserEmailNotFoundErrorPost" -> messages("signinTwoStep.newUserEmailNotFoundErrorPost"),
-        "newUserEmailNotFoundPrompt" -> messages("signinTwoStep.newUserEmailNotFoundPrompt"),
         "newUserCreateAccountAction" -> messages("signinTwoStep.newUserCreateAccountAction"),
         "newUserCreateSocialAccountAction" -> messages("signinTwoStep.newUserCreateSocialAccountAction")
       )

@@ -5,12 +5,13 @@
 
   --color-border: #abc2c9;
   --color-border-hsla: hsla(0, 0%, 0%, 0.14);
-  --color-border-hover: #839CA3;
+  --color-border-hover: #839ca3;
 
   --color-text: #121212;
-  --color-text-light: #3A3C3C;
+  --color-text-light: #3a3c3c;
 
   --color-error: #c70000;
+  --color-info: #005689;
 
   --color-link: var(--color-text);
   --color-link-underline: var(--color-border-hover);

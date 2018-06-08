@@ -138,8 +138,9 @@ const onSlide = (
 
   /* make sure the container looks ok during transitions */
   $component.style.minHeight = `${$slide.clientHeight * 1.1}px`;
+};
 
-  /* autofocus inputs after push */
+const triggerAutoFocus = ($slide): void => {
   const $focusable = $slide.querySelector('[autofocus]');
   if ($focusable) {
     $focusable.focus();
@@ -152,8 +153,15 @@ const preservePasswordField = (
 ) => {
   const $passwordOld = $oldSlide.querySelector('input[name=password]');
   const $passwordNew = $newSlide.querySelector('input[name=password]');
-  if ($passwordOld && $passwordNew && $passwordNew.parentElement) {
+  if (
+    $passwordOld &&
+    $passwordNew &&
+    $passwordNew.parentElement &&
+    $passwordNew instanceof HTMLInputElement &&
+    $passwordOld instanceof HTMLInputElement
+  ) {
     $passwordOld.className = $passwordNew.className;
+    $passwordOld.autofocus = $passwordNew.autofocus;
     $passwordNew.parentElement.replaceChild($passwordOld, $passwordNew);
   }
 };
@@ -177,6 +185,7 @@ const init = ($component: HTMLElement): void => {
       pushSlide($slide, $new, ev.detail.reverse).then(() => {
         onSlide($component, $new, url);
         loadComponents((($new.parentElement: any): HTMLElement));
+        triggerAutoFocus($new);
       });
     } else {
       throw new Error(ERR_MALFORMED_EVENT);

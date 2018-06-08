@@ -8,7 +8,6 @@ signin.prelude=Creating an account means you can save articles for later, leave 
 signin.prelude.moreinfo=Want to know more?
 signin.prelude.faq=Read our FAQs
 signin.dividetext=or
-signin.signInWithEmail=Sign in with Email
 signin.email=Email address
 signin.password=Password
 signin.forgottenpassword=Set or reset your password
@@ -18,27 +17,27 @@ signin.noaccount=New to The Guardian?
 signin.signup=Create an account
 signin.continue=Continue
 
+signinTwoStep.welcomeStepOne=Sign in / Create an account
 signinTwoStep.welcome=Hello,
 signinTwoStep.changeEmailLink=Change email
 signinTwoStep.changeEmailLinkShort=Change
+
+signinTwoStep.signInWithEmailAction=Sign in with Email
 signinTwoStep.signInAction=Sign In
 signinTwoStep.continueAction=Continue
-signinTwoStep.emailFieldTitle=Enter your email
+signinTwoStep.emailFieldTitle=Enter your email address
 signinTwoStep.passwordFieldTitle=Please enter your password
 signinTwoStep.dividetext=or
 signinTwoStep.registerAction=Create an account
 signinTwoStep.setPasswordTitle=To continue, first you need to verify it’s you. Just click the button below and we’ll email you a link.
-signinTwoStep.setPasswordAction=Send me a link to set a password
+signinTwoStep.setPasswordAction=Send me a confirmation link
 signinTwoStep.recoverPasswordAction=Forgot password?
 
 signinTwoStep.signInCtaEmailAction=Sign in with Email
 signinTwoStep.oauthStepTwoFieldTitle=You can sign in with your social accounts:
 
-signinTwoStep.newUserEmailNotFoundErrorPre=Sorry, we couldn''t find
-signinTwoStep.newUserEmailNotFoundErrorPost=in our records.
-signinTwoStep.newUserEmailNotFoundPrompt=Is that the right one?
-signinTwoStep.newUserCreateAccountAction=First time signing in to The Guardian? Create an account (it only takes 1 minute).
-signinTwoStep.newUserCreateSocialAccountAction=Alternatively, create a Guardian account using these social services:
+signinTwoStep.newUserCreateAccountAction=It looks like it’s your first time signing in to The Guardian. Please create an account (it only takes a minute).
+signinTwoStep.newUserCreateSocialAccountAction=Alternatively, you can create a Guardian account using your social accounts:
 
 # com.gu.identity.frontend.models.text.RegisterText
 register.pageTitle=Register
@@ -88,6 +87,7 @@ terms.privacyWithOnlyGroup=To find out what personal data we collect and how we 
 # com.gu.identity.frontend.models.text.OAuthText
 oauth.signIn=Sign in with {0}
 oauth.register=Sign up with {0}
+oauth.continue=Continue with {0}
 oauth.facebook=Facebook
 oauth.google=Google
 

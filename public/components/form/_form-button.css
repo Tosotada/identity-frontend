@@ -115,16 +115,16 @@
   }
   &.form-button--oauth-facebook {
     color: #fff;
-    background-color: #4267B2;
+    background-color: #4267b2;
     &:hover {
-      background-color: color(#4267B2 shade(10%));
+      background-color: color(#4267b2 shade(10%));
     }
   }
   &.form-button--oauth-google {
     color: #fff;
-    background-color: #4285F4;
+    background-color: #4285f4;
     &:hover {
-      background-color: color(#4285F4 shade(10%));
+      background-color: color(#4285f4 shade(10%));
     }
   }
 }
