@@ -117,14 +117,14 @@
     color: #fff;
     background-color: #4267B2;
     &:hover {
-      background-color: color(#4267B2 shade(20%));
+      background-color: color(#4267B2 shade(10%));
     }
   }
   &.form-button--oauth-google {
     color: #fff;
     background-color: #4285F4;
     &:hover {
-      background-color: color(#4285F4 shade(20%));
+      background-color: color(#4285F4 shade(10%));
     }
   }
 }
