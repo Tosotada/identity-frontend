@@ -3,7 +3,7 @@
  */
 
 .footer {
-  @extend %font-text-sans-0;
+  @extend %font-body-copy-small;
   background-color: var(--color-brand);
   color: color(var(--color-brand) lightness(80%));
 }
