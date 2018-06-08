@@ -131,27 +131,6 @@ body > main {
 }
 
 /**
- * Smaller heading
- */
-.page-heading--small {
-  @extend %font-sub-heading-2;
-  @extend %content-container;
-  padding-bottom: 0.4rem;
-  padding-top: 1.4rem;
-}
-
-/**
- * Second version of smaller heading
- */
-.page-heading--small-2 {
-  @extend %font-sub-heading-3;
-  @extend %content-container;
-  margin-top: 0.85rem;
-  padding-bottom: 1.71rem;
-  padding-top: 0.28rem;
-}
-
-/**
  * Page standfirst - section and paragraph under the page-heading
  */
 .page-standfirst {

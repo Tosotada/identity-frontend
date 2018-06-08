@@ -27,6 +27,7 @@ html {
 %font-sans-serif {
   font-family: GuardianTextSansWeb, 'Helvetica Neue', Helvetica, Arial,
     'Lucida Grande', sans-serif;
+  letter-spacing: 0.2px;
 }
 
 %font-heading {
@@ -42,7 +43,7 @@ html {
 %font-body-copy {
   @extend %font-body-copy-small;
   @media (--viewport-min-mobile-landscape) {
-    @include font-size(16, 20);
+    @include font-size(16, 22);
   }
 }
 
@@ -76,29 +77,9 @@ html {
   font-weight: 500;
 }
 
-%font-sub-heading-0 {
-  @extend %font-heading;
-  @include font-size(16, 20);
-}
-
-%font-sub-heading-1 {
-  @extend %font-heading;
-  @include font-size(18, 22);
-}
-
 %font-sub-heading-2 {
   @extend %font-heading;
   @include font-size(20, 28);
-}
-
-%font-sub-heading-3 {
-  @extend %font-heading;
-  @include font-size(21, 25);
-}
-
-%font-text-0 {
-  @extend %font-serif;
-  @include font-size(13, 18);
 }
 
 %font-text-1 {
@@ -108,11 +89,6 @@ html {
 
 %font-text-2 {
   @extend %font-body-copy;
-}
-
-%font-text-sans-0 {
-  @extend %font-sans-serif;
-  @include font-size(13, 18);
 }
 
 %font-text-sans-1 {
