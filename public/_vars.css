@@ -3,19 +3,19 @@
   --color-brand: #121212;
   --color-cta: #ffe500;
 
-  --color-border: #dcdcdc;
+  --color-border: #abc2c9;
   --color-border-hsla: hsla(0, 0%, 0%, 0.14);
-  --color-border-hover: #a4a3a5;
+  --color-border-hover: #839CA3;
 
   --color-text: #121212;
-  --color-text-light: #444;
+  --color-text-light: #3A3C3C;
 
   --color-error: #c70000;
 
   --color-link: var(--color-text);
   --color-link-underline: var(--color-border-hover);
 
-  --color-bg: #f6f6f6;
+  --color-bg: #e9eff1;
 }
 
 /* Metrics */

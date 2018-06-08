@@ -64,7 +64,7 @@
 }
 
 %form__label--checkbox {
-  @extend %font-text-1;
+  @extend %font-body-copy-small;
   display: block;
   position: relative;
   cursor: pointer;

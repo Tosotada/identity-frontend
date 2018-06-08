@@ -3,7 +3,7 @@
 }
 
 %form-button {
-  @extend %font-text-sans-3;
+  @extend %font-button;
   border: 0;
   border-radius: 9999px;
   text-align: left;
@@ -60,11 +60,11 @@
 
 %form-button--icon-left {
   padding-left: calc(
-    (var(--form-button-icon-size) * 1) + var(--size-baseline-gutter)
+    (var(--form-button-icon-size) * 1) + calc(var(--size-baseline-gutter) * 0.8)
   );
   svg,
   .form-button__icon {
-    left: calc(var(--size-baseline-gutter) * 0.45);
+    left: calc(var(--size-baseline-gutter) * 0.33);
     right: auto;
   }
   &:not(.form-button--no-arrow):hover svg,
@@ -75,11 +75,11 @@
 
 %form-button--icon-right {
   padding-right: calc(
-    (var(--form-button-icon-size) * 1) + var(--size-baseline-gutter)
+    (var(--form-button-icon-size) * 1) + calc(var(--size-baseline-gutter) * 0.8)
   );
   svg,
   .form-button__icon {
-    right: calc(var(--size-baseline-gutter) * 0.45);
+    right: calc(var(--size-baseline-gutter) * 0.33);
   }
   &:not(.form-button--no-arrow):hover svg,
   &:not(.form-button--no-arrow):hover .form-button__icon {
@@ -113,13 +113,29 @@
       border-color: var(--color-border-hover);
     }
   }
+  &.form-button--oauth-facebook {
+    color: #fff;
+    background-color: #4267B2;
+    &:hover {
+      background-color: color(#4267B2 shade(10%));
+    }
+  }
+  &.form-button--oauth-google {
+    color: #fff;
+    background-color: #4285F4;
+    &:hover {
+      background-color: color(#4285F4 shade(10%));
+    }
+  }
 }
 
 .form-button .form-button__icon--facebook {
   background-image: inline('components/icon/icon-facebook.svg');
-  background-size: 75%;
+  background-size: 70%;
 }
 .form-button .form-button__icon--google {
+  background-color: #fff;
   background-image: inline('components/icon/icon-google.svg');
+  border-radius: 100%;
   background-size: 75%;
 }
