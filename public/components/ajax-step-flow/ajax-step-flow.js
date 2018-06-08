@@ -138,7 +138,6 @@ const onSlide = (
 
   /* make sure the container looks ok during transitions */
   $component.style.minHeight = `${$slide.clientHeight * 1.1}px`;
-
 };
 
 const triggerAutoFocus = ($slide): void => {
@@ -146,7 +145,7 @@ const triggerAutoFocus = ($slide): void => {
   if ($focusable) {
     $focusable.focus();
   }
-}
+};
 
 const preservePasswordField = (
   $oldSlide: HTMLElement,
@@ -154,7 +153,13 @@ const preservePasswordField = (
 ) => {
   const $passwordOld = $oldSlide.querySelector('input[name=password]');
   const $passwordNew = $newSlide.querySelector('input[name=password]');
-  if ($passwordOld && $passwordNew && $passwordNew.parentElement) {
+  if (
+    $passwordOld &&
+    $passwordNew &&
+    $passwordNew.parentElement &&
+    $passwordNew instanceof HTMLInputElement &&
+    $passwordOld instanceof HTMLInputElement
+  ) {
     $passwordOld.className = $passwordNew.className;
     $passwordOld.autofocus = $passwordNew.autofocus;
     $passwordNew.parentElement.replaceChild($passwordOld, $passwordNew);

@@ -35,34 +35,34 @@ html {
 }
 
 %font-body-copy-small {
-   @extend %font-sans-serif;
-   @include font-size(14, 20);
- }
+  @extend %font-sans-serif;
+  @include font-size(14, 20);
+}
 
 %font-body-copy {
-   @extend %font-body-copy-small;
-   @media (--viewport-min-mobile-landscape) {
-     @include font-size(16, 20);
-   }
- }
+  @extend %font-body-copy-small;
+  @media (--viewport-min-mobile-landscape) {
+    @include font-size(16, 20);
+  }
+}
 
 %font-button {
-   @extend %font-sans-serif;
-   font-weight: 500;
-   @include font-size(16, 20);
- }
+  @extend %font-sans-serif;
+  font-weight: 500;
+  @include font-size(16, 20);
+}
 
 %font-header {
-   @extend %font-heading;
-   @include font-size(28, 32);
-   font-weight: 500;
- }
+  @extend %font-heading;
+  @include font-size(28, 32);
+  font-weight: 500;
+}
 
 %font-header-standfirst {
-   @extend %font-heading;
+  @extend %font-heading;
   font-weight: 400;
-   @include font-size(20, 26);
- }
+  @include font-size(20, 26);
+}
 
 %font-heading-0 {
   @extend %font-heading;
