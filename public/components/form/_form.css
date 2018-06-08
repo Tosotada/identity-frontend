@@ -45,7 +45,7 @@ generic input wrapper
 }
 
 .form-field-wrap > * {
-  margin-bottom: calc(var(--size-baseline) * 2);
+  margin-bottom: calc(var(--size-baseline) * 1.5);
 }
 
 .form-field-wrap > label {

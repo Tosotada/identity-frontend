@@ -65,6 +65,7 @@
     "curl-amd": "^0.8.12",
     "intl-tel-input": "^9.0.9",
     "jquery": "^3.1.0",
+    "postcss-color-function": "^4.0.1",
     "qs": "^6.5.1",
     "raven-js": "3.24.1"
   }

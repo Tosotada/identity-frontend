@@ -1,3 +1,3 @@
 {{#each oauth.all }}
-  <a id="oauth_cta_{{ id }}" href="{{ url }}" class="form-button form-button--no-arrow form-button--reverse form-button--secondary form-field-wrap__field oauth-cta" type="submit"><span class="form-button__icon form-button__icon--{{ id }}"></span> {{text}}</a>
+  <a id="oauth_cta_{{ id }}" href="{{ url }}" class="form-button form-button--no-arrow form-button--reverse form-button--oauth-{{id}} form-field-wrap__field oauth-cta" type="submit"><span class="form-button__icon form-button__icon--{{ id }}"></span> {{text}}</a>
 {{/each }}

@@ -1,6 +1,6 @@
 .layout-wrap-width {
   @extend %content-container;
-  max-width: 48em;
+  max-width: 36em;
   padding-bottom: var(--size-baseline-vertical);
 }
 
@@ -29,8 +29,8 @@
 }
 
 .layout-header__title {
-  @extend %font-heading-1;
-  font-weight: normal;
+  @extend %font-header;
+  font-weight: 500;
   margin: 0;
   color: currentColor;
   text-decoration: none;
@@ -39,10 +39,10 @@
     color: currentColor;
   }
   &.layout-header__title--standfirst {
-    @extend %font-sub-heading-2;
+    @extend %font-header-standfirst;
     font-weight: 300;
     color: var(--color-text-light);
-    margin-top: var(--size-baseline);
+    margin-top: calc(var(--size-baseline)/2);
   }
   &.layout-header__title--has-proxy {
     display: flex;

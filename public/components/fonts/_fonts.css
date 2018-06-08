@@ -36,7 +36,7 @@
 
 /* GuardianEgyptianWeb */
 @include guFontFace(GuardianHeadline, ascii, GHGuardianHeadline-Medium, 500);
-@include guFontFace(GuardianHeadline, ascii, GHGuardianHeadline-Light, 300);
+@include guFontFace(GuardianHeadline, ascii, GHGuardianHeadline-Regular, 400);
 
 /* GuardianTextEgyptianWeb */
 @include guFontFace(
@@ -46,4 +46,5 @@
 );
 
 /* GuardianTextSansWeb */
-@include guFontFace(GuardianTextSansWeb, all, GuardianTextSansWeb-Regular);
+@include guFontFace(GuardianTextSansWeb, all, GuardianTextSansWeb-Regular, 400);
+@include guFontFace(GuardianTextSansWeb, all, GuardianTextSansWeb-Medium, 500);
