@@ -41,7 +41,6 @@
   &.layout-header__title--standfirst {
     @extend %font-header-standfirst;
     font-weight: 300;
-    color: var(--color-text-light);
     margin-top: calc(var(--size-baseline) / 2);
   }
   &.layout-header__title--has-proxy {
@@ -100,6 +99,5 @@ texty text
   }
   &.layout-text--small {
     @extend %font-body-copy-small;
-    color: var(--color-text-light);
   }
 }

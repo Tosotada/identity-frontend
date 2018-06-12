@@ -110,7 +110,7 @@ generic input wrapper
   @extend %font-body-copy-small;
   &,
   .link {
-    color: var(--color-text-light);
+    color: var(--color-text);
   }
 }
 
