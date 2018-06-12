@@ -31,7 +31,7 @@ const smartLockSignIn = (
         body: qs.stringify({
           email: credentials.id,
           password: credentials.password,
-          clientId: tracker.get('clientId'),
+          gaClientId: tracker.get('clientId'),
           csrfToken
         })
       })
