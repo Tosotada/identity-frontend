@@ -52,8 +52,6 @@ const init = ($element: HTMLElement): void => {
   if (navigator && navigator.credentials !== null) {
     const credentialsContainer = (navigator: any).credentials;
 
-    credentialsContainer.preventSilentAccess();
-
     credentialsContainer
       .get({
         password: true
