@@ -11,6 +11,8 @@
     <input type="hidden" name="clientId" value="{{ clientId.id }}">
   {{/ clientId }}
 
+  <div class="smartlock-trigger" data-csrf-token="{{ csrfToken.value }}" data-return-url="{{ returnUrl }}" role="presentation"></div>
+
   <input id="signin_ga_client_id" type="hidden" name="gaClientId" value="">
 
   <p class="signin-form__prelude">
