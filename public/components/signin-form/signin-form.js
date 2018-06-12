@@ -83,7 +83,6 @@ class SignInFormModel {
       }).then(r => {
         if (r.status == 200) {
           this.updateSmartLockStatus(true);
-          customMetric({ name: 'SigninSuccessful', type: 'SmartLockSignin' });
           this.storeRedirect(c);
         } else {
           r.json().then(j => {

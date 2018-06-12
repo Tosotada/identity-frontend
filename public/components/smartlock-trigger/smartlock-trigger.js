@@ -2,7 +2,6 @@
 
 import qs from 'qs';
 import { route } from 'js/config';
-import { customMetric } from 'components/analytics/ga';
 
 const selector: string = '.smartlock-trigger';
 
@@ -33,7 +32,6 @@ const smartLockSignIn = (
     })
   }).then(r => {
     if (r.status === 200) {
-      customMetric({ name: 'SigninSuccessful', type: 'SmartLockSignin' });
       window.location.href = returnUrl;
     } else {
       throw new Error(ERR_FAILED_SIGNIN);
