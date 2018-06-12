@@ -15,7 +15,6 @@ class SignInFormModel {
     this.passwordFieldElement = passwordField;
     this.gaClientIdElement = gaClientIdElement;
     this.addBindings();
-    this.smartLock();
     this.saveClientId();
   }
 
@@ -46,21 +45,6 @@ class SignInFormModel {
         password: this.passwordFieldElement.value()
       });
       this.updateSmartLockStatus(true);
-      this.smartLockSignIn(c);
-    }
-  }
-
-  smartLock() {
-    if (navigator.credentials && navigator.credentials.preventSilentAccess) {
-      navigator.credentials
-        .get({
-          password: true
-        })
-        .then(c => {
-          if (c instanceof PasswordCredential) {
-            this.smartLockSignIn(c);
-          }
-        });
     }
   }
 
@@ -68,31 +52,6 @@ class SignInFormModel {
     navigator.credentials.store(c).then(_ => {
       window.location = getElementById('signin_returnUrl').value();
     });
-  }
-
-  smartLockSignIn(c) {
-    if (this.smartLockStatus.status) {
-      const form = new FormData(document.querySelector('#signin_form'));
-      form.set('email', c.id);
-      form.set('password', c.password);
-
-      fetch('/actions/signin/smartlock', {
-        credentials: 'same-origin',
-        method: 'POST',
-        body: form
-      }).then(r => {
-        if (r.status == 200) {
-          this.updateSmartLockStatus(true);
-          customMetric({ name: 'SigninSuccessful', type: 'SmartLockSignin' });
-          this.storeRedirect(c);
-        } else {
-          r.json().then(j => {
-            this.updateSmartLockStatus(false);
-            window.location = j.url;
-          });
-        }
-      });
-    }
   }
 
   updateSmartLockStatus(status) {

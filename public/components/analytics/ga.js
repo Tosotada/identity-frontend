@@ -6,11 +6,6 @@
 import { configuration } from '../configuration/configuration';
 
 const gaTracker = 'IdentityPropertyTracker';
-const events = {
-  metricMap: {
-    SmartLockSignin: 'metric3'
-  }
-};
 
 export function init() {
   const gaUID = configuration.gaUID;
@@ -39,7 +34,7 @@ function record(gaUID) {
 }
 
 function buildGoogleAnalyticsEvent(event) {
-  const fieldsObject = {
+  return {
     eventCategory: 'identity',
     eventAction: event.name,
     eventLabel: event.type,
@@ -48,14 +43,6 @@ function buildGoogleAnalyticsEvent(event) {
     dimension5: window.location.href,
     forceSSL: true
   };
-
-  // Increment the appropriate metric based on the event type
-  const metricId = events.metricMap[event.type];
-  if (metricId) {
-    fieldsObject[metricId] = 1;
-  }
-
-  return fieldsObject;
 }
 
 function loadGA() {
