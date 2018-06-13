@@ -20,11 +20,11 @@ class ChangeEmailController(
                              implicit val executionContext: ExecutionContext
                            ) extends AbstractController(cc) with Logging with I18nSupport {
 
-  def changeEmailAndSignIn(token: String, returnUrl: Option[String]) = Action.async { implicit request =>
+  def changeEmail(token: String, returnUrl: Option[String]) = Action.async { implicit request =>
     identityService.changeEmailWithToken(token).map {
-      case Right(cookies) =>
+      case Right(okResponse) =>
         eventActor.forward(ChangeEmailSuccess(request, configuration.gaUID))
-        SeeOther(returnUrl.getOrElse(configuration.dotcomBaseUrl)).withCookies(cookies: _*)
+        SeeOther(returnUrl.getOrElse(configuration.dotcomBaseUrl))
       case Left(_) =>
         ViewRenderer.renderErrorPage(configuration, EmailChangeTokenRejected("The link was expired or invalid, please request a new one."), Results.Unauthorized.apply)
     }

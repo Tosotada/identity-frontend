@@ -26,7 +26,7 @@ trait IdentityService {
   def authenticateConsentToken(token: String)(implicit ec: ExecutionContext): Future[Either[ServiceExceptions, PlayCookies]]
   def authenticateRepermissionToken(token: String)(implicit ec: ExecutionContext): Future[Either[ServiceExceptions, PlayCookies]]
   def authenticateResubToken(loginToken: String)(implicit ec: ExecutionContext): Future[Either[ServiceExceptions, PlayCookies]]
-  def changeEmailWithToken(changeEmailToken: String)(implicit ec: ExecutionContext): Future[Either[ServiceExceptions, PlayCookies]]
+  def changeEmailWithToken(changeEmailToken: String)(implicit ec: ExecutionContext): Future[Either[ServiceExceptions, SendChangeEmailResponse]]
   def deauthenticate(cookie: PlayCookie, trackingData: TrackingData)(implicit ec: ExecutionContext): Future[Either[ServiceExceptions, PlayCookies]]
   def registerThenSignIn(request: RegisterActionRequestBody, clientIp: ClientIp, trackingData: TrackingData)(implicit ec: ExecutionContext): Future[Either[ServiceExceptions, PlayCookies]]
   def register(request: RegisterActionRequestBody, clientIp: ClientIp, trackingData: TrackingData)(implicit ec: ExecutionContext): Future[Either[ServiceExceptions, RegisterResponseUser]]
@@ -86,11 +86,11 @@ class IdentityServiceImpl(config: Configuration, adapter: IdentityServiceRequest
     }
   }
 
-  def changeEmailWithToken(changeEmailToken: String)(implicit ec: ExecutionContext): Future[Either[ServiceExceptions, PlayCookies]] = {
+  def changeEmailWithToken(changeEmailToken: String)(implicit ec: ExecutionContext): Future[Either[ServiceExceptions, SendChangeEmailResponse]] = {
     client.changeEmailWithToken(changeEmailToken) map {
       case Left(errors) =>
-        Left(errors.map(SignInServiceAppException.apply))
-      case Right(cookies) => Right(CookieService.signInCookies(cookies, rememberMe = false)(config))
+        Left(errors.map(ChangeEmailTokenAppException.apply))
+      case Right(okResponse) => Right(okResponse)
     }
   }
 

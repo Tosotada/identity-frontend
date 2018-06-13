@@ -157,6 +157,10 @@ errors.signinLink.pageTitle=Sign in Failed
 errors.signinLink.title=Sign In Failed
 errors.signinLink.description=Sorry - that sign in link is expired or invalid. Please request a new one.
 
+errors.emailChange.pageTitle=Email change Failed
+errors.emailChange.title=Email change Failed
+errors.emailChange.description=Sorry - that email change link failed.
+
 errors.unexpected.pageTitle=Unexpected error
 errors.unexpected.title=Unexpected error: {0}
 errors.unexpected.description=Sorry - an unexpected error has occurred, please try again later.

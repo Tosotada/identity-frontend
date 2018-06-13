@@ -79,7 +79,7 @@ GET        /robots.txt                                  controllers.Assets.at(pa
 
 GET        /resub-email/:token                          com.gu.identity.frontend.controllers.SigninTokenController.signinWithResubToken(token: String, returnUrl: Option[String] ?= None)
 
-GET        /change-email/:token                         com.gu.identity.frontend.controllers.ChangeEmailController.changeEmailAndSignIn(token: String, returnUrl: Option[String] ?= None)
+GET        /change-email/:token                         com.gu.identity.frontend.controllers.ChangeEmailController.changeEmail(token: String, returnUrl: Option[String] ?= None)
 
 # Redirects
 GET        /                                            com.gu.identity.frontend.controllers.Redirects.indexRedirect

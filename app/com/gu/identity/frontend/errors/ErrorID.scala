@@ -138,6 +138,14 @@ object ErrorIDs {
     val key = "unauthorized-repermission-token-error-gateway"
   }
 
+  case object ChangeEmailTokenGatewayErrorID extends ErrorID {
+    val key = "change-email-token-error-gateway"
+  }
+
+  case object UnauthorizedChangeEmailTokenErrorID extends ErrorID {
+    val key = "unauthorized-change-email-token-error-gateway"
+  }
+
   case object GetUserGatewayErrorID extends ErrorID {
     val key = "getuser-error-gateway"
   }

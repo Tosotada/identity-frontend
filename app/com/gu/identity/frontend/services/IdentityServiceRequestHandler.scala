@@ -188,6 +188,14 @@ class IdentityServiceRequestHandler(
         handleUnexpectedResponse(response)
       }
 
+    case r: ChangeEmailTokenRequest =>
+      if (response.status == 200) {
+        Right(SendChangeEmailResponse())
+      }
+      else {
+        handleUnexpectedResponse(response)
+      }
+
     case r: UserTypeRequest =>
       if (response.status == 200) {
         Right(response.json.as[UserTypeResponse])

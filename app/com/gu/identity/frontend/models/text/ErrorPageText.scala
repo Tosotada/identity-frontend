@@ -14,6 +14,7 @@ object ErrorPageText {
     case NotFoundError(_) => NotFoundErrorPageText()
     case ForbiddenError(_) => ForbiddenErrorPageText()
     case SigninTokenRejected(_) => SigninLinkFailedText()
+    case EmailChangeTokenRejected(_) => EmailChangeFailedText()
     case err: BadRequestError => BadRequestErrorPageText(err)
     case err: UnexpectedError => UnexpectedErrorPageText(err)
   }
@@ -86,6 +87,20 @@ object SigninLinkFailedText {
     )
 }
 
+case class EmailChangeFailedText private(
+                                         pageTitle: String,
+                                         title: String,
+                                         description: String)
+  extends ErrorPageText
+
+object EmailChangeFailedText {
+  def apply()(implicit messages: Messages): EmailChangeFailedText =
+    EmailChangeFailedText(
+      pageTitle = messages("errors.emailChange.pageTitle"),
+      title = messages("errors.emailChange.title"),
+      description = messages("errors.emailChange.description")
+    )
+}
 
 /** 5xx Unexpected text */
 case class UnexpectedErrorPageText private(
