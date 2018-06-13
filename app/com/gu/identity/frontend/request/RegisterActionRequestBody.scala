@@ -10,6 +10,7 @@ import play.api.data.{Form, FormError, Mapping}
 import play.api.http.HeaderNames
 import play.api.mvc.{BodyParser, BodyParsers, RequestHeader, Result}
 import com.gu.identity.model.{Consent, ConsentUnapply}
+import com.sun.org.apache.xalan.internal.xsltc.compiler.util.ErrorMsg
 
 import scala.util.matching.Regex
 
@@ -22,8 +23,8 @@ case class RegisterActionRequestBody private(
     password: String,
     countryCode: Option[String],
     localNumber: Option[String],
-    receiveGnmMarketing: Boolean,
-    receive3rdPartyMarketing: Boolean,
+    receiveGnmMarketing: Boolean = false,
+    receive3rdPartyMarketing: Boolean = false,
     consents: List[Consent],
     returnUrl: Option[ReturnUrl],
     skipConfirmation: Option[Boolean],
@@ -104,8 +105,8 @@ object RegisterActionRequestBodyFormMapping {
         "password" -> password,
         "countryCode" -> optional(text),
         "localNumber" -> optional(text),
-        "receiveGnmMarketing" -> boolean,
-        "receive3rdPartyMarketing" -> boolean,
+        "receiveGnmMarketing" -> boolean.verifying("do not set old consents", _ == false),
+        "receive3rdPartyMarketing" -> boolean.verifying("do not set old consents", _ == false),
         "consents" -> list(
           mapping(
             "id" -> text,
