@@ -27,8 +27,8 @@ object RegisterApiRequest {
           telephoneNumber = getPhoneNumber(request)
         ),
         RegisterRequestBodyStatusFields(
-          receiveGnmMarketing = request.receiveGnmMarketing,
-          receive3rdPartyMarketing = request.receive3rdPartyMarketing
+          receiveGnmMarketing = false,
+          receive3rdPartyMarketing = false
         ),
         request.consents
       )),
@@ -63,7 +63,7 @@ case class RegisterRequestBodyPrivateFields(
     telephoneNumber: Option[RegisterRequestTelephoneNumber] = None)
 
 case class RegisterRequestBodyStatusFields(
-    receiveGnmMarketing: Boolean,
-    receive3rdPartyMarketing: Boolean)
+    receiveGnmMarketing: Boolean = false,
+    receive3rdPartyMarketing: Boolean = false)
 
 case class RegisterRequestTelephoneNumber(countryCode: String, localNumber: String)

@@ -97,11 +97,20 @@ class IdentityServiceImpl(config: Configuration, adapter: IdentityServiceRequest
 
   override def register(request: RegisterActionRequestBody, clientIp: ClientIp, trackingData: TrackingData)(implicit ec: ExecutionContext): Future[Either[ServiceExceptions, RegisterResponseUser]] = {
     val apiRequest = RegisterApiRequest(request, clientIp, trackingData)
+    oldConsentsInvariant(apiRequest)
     client.register(apiRequest).map {
       case Left(errors) =>
         Left(errors.map(RegisterServiceAppException.apply))
 
       case Right(user) => Right(user)
+    }
+  }
+
+  private def oldConsentsInvariant(request: RegisterApiRequest) = {
+    request.body.foreach { body =>
+      val registerBody = body.asInstanceOf[RegisterRequestBody]
+      require(registerBody.statusFields.receive3rdPartyMarketing == false, "do not set old consents")
+      require(registerBody.statusFields.receiveGnmMarketing == false, "do not set old consents")
     }
   }
 

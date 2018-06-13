@@ -43,7 +43,7 @@ class IdentityServiceRequestHandlerSpec extends WordSpec with Matchers with Mock
         password,
         RegisterRequestBodyPublicFields(displayName),
         RegisterRequestBodyPrivateFields(firstName, secondName, registrationIp),
-        RegisterRequestBodyStatusFields(receiveGnmMarketing, receive3rdPartyMarketing),
+        RegisterRequestBodyStatusFields(false, false),
         consents
       )
       val bodyString: String = handler.handleRequestBody(requestBodyModel)
