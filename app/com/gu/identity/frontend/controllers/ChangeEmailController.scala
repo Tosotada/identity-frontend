@@ -24,7 +24,7 @@ class ChangeEmailController(
     identityService.changeEmailWithToken(token).map {
       case Right(okResponse) =>
         eventActor.forward(ChangeEmailSuccess(request, configuration.gaUID))
-        SeeOther(returnUrl.getOrElse(configuration.dotcomBaseUrl))
+        NoCache(SeeOther(routes.Application.changeEmail().url))
       case Left(_) =>
         ViewRenderer.renderErrorPage(configuration, EmailChangeTokenRejected("The link was expired or invalid, please request a new one."), Results.Unauthorized.apply)
     }

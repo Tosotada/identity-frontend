@@ -140,6 +140,11 @@ resetPasswordEmailSent.instructions2=Click the ‘Set a password’ button in th
 resetPasswordEmailSent.instructions3=Please note that the link is valid for 30 minutes, so be sure to use it soon.
 resetPasswordEmailSent.instructions4=Please check your inbox!
 
+changeEmailSuccessful.pageTitle=Successfully changed your email address
+changeEmailSuccessful.title=Successfully changed your email address
+changeEmailSuccessful.description=Go to your account page to edit preferences
+changeEmailSuccessful.unexpectedTitle=PROBLEM
+
 errors.badRequest.pageTitle=Bad request: {0}
 errors.badRequest.title=Bad request: {0}
 errors.badRequest.description=Your request was not recognised. Please try again.
