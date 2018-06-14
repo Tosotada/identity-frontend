@@ -27,7 +27,6 @@ input
    line-height: 4.2rem;
    height: 4.2rem;
    border-radius: 99999px;
-   margin: 0.2rem 0;
    width: 100%;
    transition: 0.15s;
 
@@ -88,7 +87,7 @@ generic input wrapper
 }
 
 .form-field-wrap > * {
-  margin-bottom: calc(var(--size-baseline) * 2);
+  margin-bottom: var(--size-baseline);
 }
 
 .form-field-wrap > label {

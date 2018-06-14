@@ -1,17 +1,14 @@
-<div class="register-form__control--name">
-  <label class="register-form__label--name" for="register_field_firstname">{{ registerPageText.name }}</label>
-
-  <div class="register-form__control-column--firstname">
-    <input class="register-form__field--firstname" id="register_field_firstname" type="text" name="firstName" placeholder="{{ registerPageText.firstName }}" title="{{ registerPageText.firstOrLastNameHelp }}" required maxlength="25" autocomplete="on" autocapitalize="off" autocorrect="off" spellcheck="false" pattern="^[^:/]*$" />
-  </div>
-  <div class="register-form__control-column--lastname">
-    <input class="register-form__field--lastname" id="register_field_lastname" type="text" name="lastName" placeholder="{{ registerPageText.lastName }}" title="{{ registerPageText.firstOrLastNameHelp }}" required maxlength="25" autocomplete="on" autocapitalize="off" autocorrect="off" spellcheck="false" pattern="^[^:/]*$" />
+<div class="form-field-wrap">
+  <label class="form-field-wrap__title" for="register_field_firstname">{{ registerPageText.name }}</label>
+  <div class="layout-sbs-col form-field-wrap__field">
+    <input class="form-input" id="register_field_firstname" type="text" name="firstName" placeholder="{{ registerPageText.firstName }}" title="{{ registerPageText.firstOrLastNameHelp }}" required maxlength="25" autocomplete="on" autocapitalize="off" autocorrect="off" spellcheck="false" pattern="^[^:/]*$" />
+    <input class="form-input" id="register_field_lastname" type="text" name="lastName" placeholder="{{ registerPageText.lastName }}" title="{{ registerPageText.firstOrLastNameHelp }}" required maxlength="25" autocomplete="on" autocapitalize="off" autocorrect="off" spellcheck="false" pattern="^[^:/]*$" />
   </div>
 </div>
 
-<div class="register-form__control--email">
-  <label class="register-form__label--email" for="register_field_email">{{ registerPageText.email }}</label>
-  <input class="register-form__field--email" id="register_field_email" type="email" pattern="{{ emailValidationRegex }}" name="email" placeholder="{{ registerPageText.emailHelp }}" autocomplete="on" autocapitalize="off" autocorrect="off"
+<div class="form-field-wrap">
+  <label class="form-field-wrap__title" for="register_field_email">{{ registerPageText.email }}</label>
+  <input class="form-field-wrap__field form-input" id="register_field_email" type="email" pattern="{{ emailValidationRegex }}" name="email" placeholder="{{ registerPageText.emailHelp }}" autocomplete="on" autocapitalize="off" autocorrect="off"
          spellcheck="false" value="{{email}}" required />
 </div>
 
@@ -23,41 +20,39 @@
 
 
 {{# askForPhoneNumber }}
-  <div class="register-form__control--phone-number">
-    <div class="register-form__control-column--area-code">
-      <label class="register-form__label--country-code" for="register_field_countryCode">
+  <div class="form-field-wrap form-field-wrap--phone">
+
+    <div>
+      <label class="form-field-wrap__title" for="register_field_countryCode">
         {{ registerPageText.countryCode }}
       </label>
       <input type="hidden" id="register_field_countryIsoName" />
-      <select class="register-form__select--country-code" id="register_field_countryCode" type="tel"
+      <select class="form-field-wrap__field form-input" id="register_field_countryCode" type="tel"
               name="countryCode" autocomplete="on" autocapitalize="off" autocorrect="off" spellcheck="false">
         {{#each countryCodes.codes }}
           <option value="{{ code }}">+ {{ code }}</option>
         {{/ each }}
       </select>
     </div>
-    <div class="register-form__control-column--local-number">
-      <label class="register-form__label--local-number" for="register_field_localNumber">
-        {{ registerPageText.phone }}
-          <a hidden class="register-form__link--why-phone-number">{{ registerPageText.whyPhone }}</a>
-      </label>
-      <input class="register-form__field--local-number" id="register_field_localNumber" type="tel"
-             name="localNumber" autocomplete="on" autocapitalize="off" autocorrect="off" spellcheck="false"
-             required minlength="3" maxlength="20"/>
-        </div>
-        <div class="register-form__tooltip--phone-number register-form__tooltip--phone-number--nojs">
-            <button class="register-form__tooltip--phone-number__close" aria-label="Close tooltip"
-                    type="button">
-                <i class="register-form__icon--close"></i>
-            </button>
-            <p>{{ registerPageText.becausePhone }}</p>
-        </div>
+
+    <label class="form-field-wrap__title" for="register_field_localNumber">
+      {{ registerPageText.phone }}
+        <a hidden class="register-form__link--why-phone-number">{{ registerPageText.whyPhone }}</a>
+    </label>
+    <input class="form-field-wrap__field form-input" id="register_field_localNumber" type="tel"
+           name="localNumber" autocomplete="on" autocapitalize="off" autocorrect="off" spellcheck="false"
+           required minlength="3" maxlength="20"/>
+
+    <div class="form-field-wrap__footer">
+      {{ registerPageText.becausePhone }}
     </div>
+  </div>
 {{/ askForPhoneNumber }}
 
-<div class="register-form__control--displayName {{#if hideDisplayName}}hidden{{/if}}">
-  <label class="register-form__label--displayName" for="register_field_displayName"><span>{{ registerPageText.displayName }}</span> <span class="register-form__label--displayName-note">{{ registerPageText.displayNameNote }}</span></label>
-  <input class="register-form__field--displayName" id="register_field_displayName" type="text" name="displayName" placeholder="{{ registerPageText.displayNameHelp }}" autocomplete="on" autocapitalize="off" autocorrect="off" spellcheck="false" title="{{ registerPageText.displayNameHelp }}" {{#unless hideDisplayName}} required minlength="2" maxlength="50" {{/unless}} />
+<div class="form-field-wrap {{#if hideDisplayName}}hidden{{/if}}">
+  <label class="form-field-wrap__title" for="register_field_displayName">{{ registerPageText.displayName }}</label>
+  <input class="form-field-wrap__field form-input" id="register_field_displayName" type="text" name="displayName" placeholder="{{ registerPageText.displayNameHelp }}" autocomplete="on" autocapitalize="off" autocorrect="off" spellcheck="false" title="{{ registerPageText.displayNameHelp }}" {{#unless hideDisplayName}} required minlength="2" maxlength="50" {{/unless}} />
+  <span class="form-field-wrap__footer">{{ registerPageText.displayNameNote }}</span>
 </div>
 
 {{# unless hideDisplayName}}
@@ -66,9 +61,9 @@
   {{/ each }}
 {{/unless}}
 
-<div class="register-form__control--password">
-    <label class="register-form__label--password" for="register_field_password">{{ registerPageText.password }}</label>
-    <input class="register-form__field--password" id="register_field_password" type="password" name="password" placeholder="{{ registerPageText.passwordHelp }}" required minlength="6" />
+<div class="form-field-wrap">
+    <label class="form-field-wrap__title" for="register_field_password">{{ registerPageText.password }}</label>
+    <input class="form-field-wrap__field form-input" id="register_field_password" type="password" name="password" placeholder="{{ registerPageText.passwordHelp }}" required minlength="6" />
 </div>
 
 {{#each errors.passwordErrors }}
