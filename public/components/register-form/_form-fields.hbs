@@ -11,7 +11,7 @@
   <input class="form-field-wrap__field form-input" id="register_field_email" type="email" pattern="{{ emailValidationRegex }}" name="email" placeholder="{{ registerPageText.emailHelp }}" autocomplete="on" autocapitalize="off" autocorrect="off"
          spellcheck="false" value="{{email}}" required />
   {{#each errors.emailErrors }}
-    <p id="{{ id }}" class="form-feedback form-feedback--error form-field-wrap__field">{{ message }}</p>
+    <p id="{{ id }}" class="form-feedback form-feedback--error form-field-wrap__field">{{{ message }}}</p>
   {{/ each }}
 </div>
 

@@ -22,7 +22,7 @@ object ErrorViewModel {
     RegisterGatewayErrorID -> "There was a problem creating your account; please try again.",
     RegisterBadRequestErrorID -> "One or more inputs was not valid; please try again.",
     RegisterActionBadRequestErrorID -> "One or more inputs was not valid; please try again.",
-    RegisterEmailConflictErrorID -> "You already have a Guardian account. Please sign in or use another email address.",
+    RegisterEmailConflictErrorID -> "Looks like you may already have a Guardian account. Please <a href=\"/signin\">sign in</a>, <a href=\"/reset\">set or reset your password</a> or use a different email address.",
     RegisterEmailReservedErrorID -> "This email is not available. Please use another email address.",
     RegisterActionInvalidFirstNameErrorID -> (minMaxLength("First name", 1, 25) + " " + invalidNameCharacters("First name")),
     RegisterActionInvalidLastNameErrorID ->(minMaxLength("Last name", 1, 25) + " " + invalidNameCharacters("Last name")),

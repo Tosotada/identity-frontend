@@ -134,6 +134,11 @@ feedback
 
 .form-feedback {
   @extend %form-feedback;
+  a {
+    @extend %link;
+    color: currentColor;
+    text-decoration-color: currentColor;
+  }
 }
 
 .form-feedback--error {
