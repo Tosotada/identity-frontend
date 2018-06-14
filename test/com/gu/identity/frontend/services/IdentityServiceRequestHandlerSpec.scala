@@ -41,7 +41,7 @@ class IdentityServiceRequestHandlerSpec extends WordSpec with Matchers with Mock
       val requestBodyModel = RegisterRequestBody(
         email,
         password,
-        RegisterRequestBodyPublicFields(displayName),
+        RegisterRequestBodyPublicFields(None),
         RegisterRequestBodyPrivateFields(firstName, secondName, registrationIp),
         RegisterRequestBodyStatusFields(false, false),
         consents
