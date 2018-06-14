@@ -54,7 +54,7 @@ case class RegisterRequestBody(
     consents: List[Consent])
   extends ApiRequestBody
 
-case class RegisterRequestBodyPublicFields(displayName: String)
+case class RegisterRequestBodyPublicFields(displayName: Option[String])
 
 case class RegisterRequestBodyPrivateFields(
     firstName: String,

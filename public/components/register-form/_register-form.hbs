@@ -20,7 +20,9 @@
   <input class="ga-client-id" type="hidden" name="gaClientId" value="">
 
   {{#each errors.otherErrors }}
-    <p id="{{ id }}" class="form-feedback form-feedback--error">{{ message }}</p>
+    <div class="form-field-wrap">
+      <p id="{{ id }}" class="form-feedback form-feedback--error">{{ message }}</p>
+    </div>
   {{/ each }}
 
   {{> components/register-form/_form-fields}}

@@ -19,7 +19,7 @@ case class RegisterActionRequestBody private(
     firstName: String,
     lastName: String,
     email: String,
-    displayName: String,
+    displayName: Option[String],
     password: String,
     countryCode: Option[String],
     localNumber: Option[String],
@@ -62,7 +62,6 @@ class RegisterActionRequestBodyParser(formRequestBodyParser: FormRequestBodyPars
     case FormError("firstName", msg, _) => RegisterActionInvalidFirstNameAppException(msg.headOption.getOrElse("unknown"))
     case FormError("lastName", msg, _) => RegisterActionInvalidLastNameAppException(msg.headOption.getOrElse("unknown"))
     case FormError("email", msg, _) => RegisterActionInvalidEmailAppException(msg.headOption.getOrElse("unknown"))
-    case FormError("displayName", msg, _) => RegisterActionInvalidDisplayNameAppException(msg.headOption.getOrElse("unknown"))
     case FormError("password", msg, _) => RegisterActionInvalidPasswordAppException(msg.headOption.getOrElse("unknown"))
     case FormError("groupCode", msg, _) => RegisterActionInvalidGroupAppException(msg.headOption.getOrElse("unknown"))
     case e => RegisterActionBadRequestAppException(s"Unexpected error: ${e.message}")
@@ -101,7 +100,7 @@ object RegisterActionRequestBodyFormMapping {
         "firstName" -> validNameText(1, 25),
         "lastName" -> validNameText(1, 25),
         "email" -> dotlessDomainEmail,
-        "displayName" -> validNameText(2, 50),
+        "displayName" -> optional(validNameText(2, 50)),
         "password" -> password,
         "countryCode" -> optional(text),
         "localNumber" -> optional(text),

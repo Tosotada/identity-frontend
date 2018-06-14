@@ -10,13 +10,10 @@
   <label class="form-field-wrap__title" for="register_field_email">{{ registerPageText.email }}</label>
   <input class="form-field-wrap__field form-input" id="register_field_email" type="email" pattern="{{ emailValidationRegex }}" name="email" placeholder="{{ registerPageText.emailHelp }}" autocomplete="on" autocapitalize="off" autocorrect="off"
          spellcheck="false" value="{{email}}" required />
+  {{#each errors.emailErrors }}
+    <p id="{{ id }}" class="form-feedback form-feedback--error form-field-wrap__field">{{ message }}</p>
+  {{/ each }}
 </div>
-
-
-{{#each errors.emailErrors }}
-  <p id="{{ id }}" class="form-feedback form-feedback--error-form__error">{{ message }}</p>
-{{/ each }}
-
 
 
 {{# askForPhoneNumber }}
@@ -53,22 +50,21 @@
   <label class="form-field-wrap__title" for="register_field_displayName">{{ registerPageText.displayName }}</label>
   <input class="form-field-wrap__field form-input" id="register_field_displayName" type="text" name="displayName" placeholder="{{ registerPageText.displayNameHelp }}" autocomplete="on" autocapitalize="off" autocorrect="off" spellcheck="false" title="{{ registerPageText.displayNameHelp }}" {{#unless hideDisplayName}} required minlength="2" maxlength="50" {{/unless}} />
   <span class="form-field-wrap__footer">{{ registerPageText.displayNameNote }}</span>
+  {{# unless hideDisplayName}}
+    {{#each errors.displayNameErrors }}
+      <p id="{{ id }}" class="form-feedback form-feedback--error form-field-wrap__field">{{ message }}</p>
+    {{/ each }}
+  {{/unless}}
 </div>
-
-{{# unless hideDisplayName}}
-  {{#each errors.displayNameErrors }}
-      <p id="{{ id }}" class="form-feedback form-feedback--error">{{ message }}</p>
-  {{/ each }}
-{{/unless}}
 
 <div class="form-field-wrap">
     <label class="form-field-wrap__title" for="register_field_password">{{ registerPageText.password }}</label>
     <input class="form-field-wrap__field form-input" id="register_field_password" type="password" name="password" placeholder="{{ registerPageText.passwordHelp }}" required minlength="6" />
+  {{#each errors.passwordErrors }}
+    <p id="{{ id }}" class="form-feedback form-feedback--error form-field-wrap__field">{{ message }}</p>
+  {{/ each }}
 </div>
 
-{{#each errors.passwordErrors }}
-  <p id="{{ id }}" class="form-feedback form-feedback--error">{{ message }}</p>
-{{/ each }}
 
 {{#if shouldCollectConsents }}
 
