@@ -14,7 +14,7 @@
 
 
 {{#each errors.emailErrors }}
-  <p id="{{ id }}" class="register-form__error">{{ message }}</p>
+  <p id="{{ id }}" class="form-feedback form-feedback--error-form__error">{{ message }}</p>
 {{/ each }}
 
 
@@ -57,7 +57,7 @@
 
 {{# unless hideDisplayName}}
   {{#each errors.displayNameErrors }}
-      <p id="{{ id }}" class="register-form__error">{{ message }}</p>
+      <p id="{{ id }}" class="form-feedback form-feedback--error">{{ message }}</p>
   {{/ each }}
 {{/unless}}
 
@@ -67,17 +67,17 @@
 </div>
 
 {{#each errors.passwordErrors }}
-  <p id="{{ id }}" class="register-form__error">{{ message }}</p>
+  <p id="{{ id }}" class="form-feedback form-feedback--error">{{ message }}</p>
 {{/ each }}
 
 {{#if shouldCollectConsents }}
 
   {{#if shouldCollectV2Consents}}
-    <div class="register-form__control--supporter-consent">
+    <div class="form-checkbox">
       <input type="hidden" id="consents_0_actor" name="consents[0].actor" value="user">
       <input type="hidden" id="consents_0_id" name="consents[0].id" value={{ registerPageText.consent.SupporterConsentIdentifier }}>
-      <input class="register-form__checkbox--supporter-consent" id="register_field_supporter_consent" type="checkbox" name="consents[0].consented" value="true"/>
-      <label class="register-form__label--supporter-consent" for="register_field_supporter_consent">{{ registerPageText.consent.SupporterConsentText }}</label>
+      <input class="form-checkbox__input" id="register_field_supporter_consent" type="checkbox" name="consents[0].consented" value="true"/>
+      <label class="form-checkbox__label" for="register_field_supporter_consent">{{ registerPageText.consent.SupporterConsentText }}</label>
     </div>
 
   {{/if}}

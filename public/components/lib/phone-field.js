@@ -23,12 +23,11 @@ export function initPhoneField(
     $style.innerText = css.default+'.intl-tel-input{display:block;}';
     document.body.appendChild($style);
 
-    const formElement = form.formElement.elem;
     initializeFields(
-      $(formElement),
-      $(countryCodeElement.elem),
-      $(countryIsoName.elem),
-      $(localNumberElement.elem)
+      $(form),
+      $(countryCodeElement),
+      $(countryIsoName),
+      $(localNumberElement)
     );
   });
 }

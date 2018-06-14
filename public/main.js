@@ -8,11 +8,8 @@ import { logPageView } from './components/analytics/analytics';
 
 import { init as initSigninBindings } from './components/signin-form/signin-form';
 
-import { init as initRegisterBindings } from './components/register-form/register-form';
-
 logPageView();
 loadComponents(document);
 if (isBrowserSupported) {
   initSigninBindings();
-  initRegisterBindings();
 }
