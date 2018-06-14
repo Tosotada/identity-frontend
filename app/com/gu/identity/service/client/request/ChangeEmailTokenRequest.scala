@@ -7,7 +7,7 @@ final case class ChangeEmailTokenRequestBody(token: String) extends ApiRequestBo
 
 object ChangeEmailTokenRequest {
   def apply(token: String, config: IdentityClientConfiguration): ChangeEmailTokenRequest = {
-    val pathComponents = Seq("auth", "change-email")
+    val pathComponents = Seq("user", "change-email")
     new ChangeEmailTokenRequest(ApiRequest.apiEndpoint(pathComponents: _*)(config)) {
       override val method: HttpMethod = POST
       override val headers = Iterable(ApiRequest.apiKeyHeader(config))
