@@ -94,6 +94,10 @@ generic input wrapper
   display: block;
 }
 
+.form-field-wrap > .form-feedback {
+  margin-top: calc(var(--size-baseline-vertical)/2);
+}
+
 .form-field-wrap > .form-button {
   @supports (box-sizing: border-box) {
     width: 100%;
