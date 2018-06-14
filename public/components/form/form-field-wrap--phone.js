@@ -8,7 +8,7 @@ const init = ($component: Element): void => {
     $component.closest('form'),
     $component.querySelector('#register_field_countryCode'),
     $component.querySelector('#register_field_countryIsoName'),
-    $component.querySelector('#register_field_localNumber'),
+    $component.querySelector('#register_field_localNumber')
   );
 };
 

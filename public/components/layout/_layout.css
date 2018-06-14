@@ -89,7 +89,6 @@
   }
 }
 
-
 /*
 collapsing side by side columns
 */
@@ -103,7 +102,6 @@ collapsing side by side columns
     grid: 1fr / auto-flow;
   }
 }
-
 
 /*
 texty text

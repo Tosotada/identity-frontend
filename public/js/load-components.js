@@ -4,7 +4,7 @@ import Raven from 'raven-js';
 
 import {
   init as initFormFieldWrapPhone,
-  selector as selectorFormFieldWrapPhone,
+  selector as selectorFormFieldWrapPhone
 } from 'components/form/form-field-wrap--phone';
 import {
   init as initAjaxForm,

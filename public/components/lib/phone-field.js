@@ -20,7 +20,7 @@ export function initPhoneField(
     const $ = jq.default;
 
     const $style = document.createElement('style');
-    $style.innerText = css.default+'.intl-tel-input{display:block;}';
+    $style.innerText = css.default + '.intl-tel-input{display:block;}';
     document.body.appendChild($style);
 
     initializeFields(
