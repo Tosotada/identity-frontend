@@ -49,7 +49,7 @@
   </div>
 {{/ askForPhoneNumber }}
 
-<div class="form-field-wrap {{#if hideDisplayName}}hidden{{/if}}">
+<div class="form-field-wrap {{#if hideDisplayName}}u-none{{/if}}">
   <label class="form-field-wrap__title" for="register_field_displayName">{{ registerPageText.displayName }}</label>
   <input class="form-field-wrap__field form-input" id="register_field_displayName" type="text" name="displayName" placeholder="{{ registerPageText.displayNameHelp }}" autocomplete="on" autocapitalize="off" autocorrect="off" spellcheck="false" title="{{ registerPageText.displayNameHelp }}" {{#unless hideDisplayName}} required minlength="2" maxlength="50" {{/unless}} />
   <span class="form-field-wrap__footer">{{ registerPageText.displayNameNote }}</span>
