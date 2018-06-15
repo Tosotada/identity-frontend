@@ -17,29 +17,28 @@ checkbox
 input
 */
 %form-input {
-   @extend %font-text-sans-3;
-   box-sizing: border-box;
-   display: block;
-   background-color: #fff;
-   border: 1px solid var(--color-border);
-   color: #000;
-   padding: 0 var(--size-baseline-gutter);
-   line-height: 4.2rem;
-   height: 4.2rem;
-   border-radius: 99999px;
-   margin: 0.2rem 0;
-   width: 100%;
-   transition: 0.15s;
+  @extend %font-text-sans-3;
+  box-sizing: border-box;
+  display: block;
+  background-color: #fff;
+  border: 1px solid var(--color-border);
+  color: #000;
+  padding: 0 var(--size-baseline-gutter);
+  line-height: 4.2rem;
+  height: 4.2rem;
+  border-radius: 99999px;
+  width: 100%;
+  transition: 0.15s;
 
-   &:hover {
-     border-color: var(--color-border-hover);
-   }
+  &:hover {
+    border-color: var(--color-border-hover);
+  }
 
-   &:focus {
-     border-color: color(var(--color-border-hover) lightness(-20%));
-     outline: none;
-   }
- }
+  &:focus {
+    border-color: color(var(--color-border-hover) lightness(-20%));
+    outline: none;
+  }
+}
 .form-input {
   @extend %form-input;
   &.form-input__display-errors:invalid {
@@ -52,24 +51,24 @@ input
 prelude
 */
 %form__prelude {
-   @extend %font-body-copy;
-   margin: 0;
-   padding: calc(var(--size-baseline-vertical)*0.75) 0;
-   text-align: center;
-   @supports (width: calc(100% + 1px)) {
-     background: linear-gradient(
-       to bottom,
-       transparent calc(50% - .9px),
-       var(--color-border) calc(50% - .9px),
-       var(--color-border) calc(50%),
-       transparent calc(50%)
-     );
-   }
-   > * {
-     background: var(--color-bg);
-     padding: 0 0.1rem;
-   }
- }
+  @extend %font-body-copy;
+  margin: 0;
+  padding: calc(var(--size-baseline-vertical) * 0.75) 0;
+  text-align: center;
+  @supports (width: calc(100% + 1px)) {
+    background: linear-gradient(
+      to bottom,
+      transparent calc(50% - 0.9px),
+      var(--color-border) calc(50% - 0.9px),
+      var(--color-border) calc(50%),
+      transparent calc(50%)
+    );
+  }
+  > * {
+    background: var(--color-bg);
+    padding: 0 0.1rem;
+  }
+}
 .form-prelude {
   @extend %form__prelude;
 }
@@ -88,11 +87,15 @@ generic input wrapper
 }
 
 .form-field-wrap > * {
-  margin-bottom: calc(var(--size-baseline) * 2);
+  margin-bottom: var(--size-baseline);
 }
 
 .form-field-wrap > label {
   display: block;
+}
+
+.form-field-wrap > .form-feedback {
+  margin-top: calc(var(--size-baseline-vertical) / 2);
 }
 
 .form-field-wrap > .form-button {

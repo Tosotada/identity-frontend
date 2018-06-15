@@ -35,9 +35,9 @@
 @import 'components/signin-form/_signin-form.css';
 @import 'components/oauth-cta/_oauth-cta.css';
 
-/** Register page **/
+/** Libs **/
 
-@import 'components/register-form/_register-form.css';
+@import 'components/lib/phone-field.css';
 
 /** Skins **/
 

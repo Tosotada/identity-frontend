@@ -2,6 +2,9 @@
   @extend %content-container;
   max-width: 38em;
   padding-bottom: var(--size-baseline-vertical);
+  &.layout-wrap-width--wide {
+    max-width: 52em;
+  }
 }
 
 .layout-skip-link {
@@ -83,6 +86,20 @@
   &.layout-section--no-border {
     padding-top: 0;
     border-top: 0;
+  }
+}
+
+/*
+collapsing side by side columns
+*/
+.layout-sbs-col {
+  display: grid;
+  grid: auto-flow / 1fr;
+  grid-column-gap: var(--size-baseline-gutter);
+  grid-row-gap: var(--size-baseline);
+  @media (--viewport-min-mobile-landscape) {
+    display: grid;
+    grid: 1fr / auto-flow;
   }
 }
 

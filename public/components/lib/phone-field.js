@@ -20,20 +20,15 @@ export function initPhoneField(
     const $ = jq.default;
 
     const $style = document.createElement('style');
-    $style.innerText = css.default;
+    $style.innerText = css.default + '.intl-tel-input{display:block;}';
     document.body.appendChild($style);
 
-    const tooltipElement = form.formElement.elem.querySelector(
-      '.register-form__tooltip--phone-number'
-    );
-    const formElement = form.formElement.elem;
     initializeFields(
-      $(formElement),
-      $(countryCodeElement.elem),
-      $(countryIsoName.elem),
-      $(localNumberElement.elem)
+      $(form),
+      $(countryCodeElement),
+      $(countryIsoName),
+      $(localNumberElement)
     );
-    initialiseTooltip($, tooltipElement, formElement);
   });
 }
 
@@ -68,25 +63,5 @@ function initializeFields(form, countryCode, countryIsoName, localNumber) {
         .replace(new RegExp('^\\+' + dialCode), '')
     );
     countryIsoName.val(iso2);
-  }
-}
-
-function initialiseTooltip($, tooltip, formElement) {
-  tooltip.setAttribute('hidden', '');
-  $(tooltip).removeClass('register-form__tooltip--phone-number--nojs');
-  $('.register-form__link--why-phone-number', formElement)
-    .removeAttr('hidden')
-    .on('click', toggleDropdown);
-  $('.register-form__tooltip--phone-number__close', formElement).on(
-    'click',
-    toggleDropdown
-  );
-
-  function toggleDropdown() {
-    if (tooltip.hasAttribute('hidden')) {
-      tooltip.removeAttribute('hidden');
-    } else {
-      tooltip.setAttribute('hidden', '');
-    }
   }
 }
