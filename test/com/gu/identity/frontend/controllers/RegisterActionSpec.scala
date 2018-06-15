@@ -46,7 +46,6 @@ class RegisterActionSpec extends PlaySpec with MockitoSugar {
      firstName: String = "first",
      lastName: String = "last",
      email: String = "test@email.com",
-     displayName: String = "displayName",
      password: String = "password",
      receiveGnmMarketing: Boolean = false,
      receive3rdPartyMarketing: Boolean = false,
@@ -57,7 +56,6 @@ class RegisterActionSpec extends PlaySpec with MockitoSugar {
       "firstName" -> firstName,
       "lastName" -> lastName,
       "email" -> email,
-      "displayName" -> displayName,
       "password" -> password,
       "receiveGnmMarketing" -> "false",
       "receive3rdPartyMarketing" -> "false",
@@ -421,34 +419,6 @@ class RegisterActionSpec extends PlaySpec with MockitoSugar {
 
       queryParams.contains("group") mustEqual true
       queryParams.get("group") mustEqual group
-    }
-
-    "return register-error-displayName if displayName is too short" in new WithControllerMockedDependencies {
-      val displayName = "1"
-
-      val result = call(controller.register, fakeRegisterRequest(displayName = displayName))
-
-      val queryParams = UrlDecoder.getQueryParams(redirectLocation(result).get)
-      status(result) mustEqual SEE_OTHER
-
-      queryParams.contains("error") mustEqual true
-      queryParams.get("error") mustEqual Some("register-error-displayName")
-
-      redirectLocation(result).get must startWith (routes.Application.register(Seq.empty, None).url)
-    }
-
-    "return register-error-displayName if displayName is too long" in new WithControllerMockedDependencies {
-      val displayName = "12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901"
-
-      val result = call(controller.register, fakeRegisterRequest(displayName = displayName))
-
-      val queryParams = UrlDecoder.getQueryParams(redirectLocation(result).get)
-      status(result) mustEqual SEE_OTHER
-
-      queryParams.contains("error") mustEqual true
-      queryParams.get("error") mustEqual Some("register-error-displayName")
-
-      redirectLocation(result).get must startWith (routes.Application.register(Seq.empty, None).url)
     }
 
     "return register-error-password if password is too short" in new WithControllerMockedDependencies {

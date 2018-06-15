@@ -17,20 +17,17 @@
     <input type="hidden" name="clientId" value="{{ clientId.id }}">
   {{/ clientId }}
 
-  <input id="register_ga_client_id" type="hidden" name="gaClientId" value="">
-
-  <p class="register-form__prelude">
-    <span>{{ registerPageText.divideText }}</span>
-  </p>
+  <input class="ga-client-id" type="hidden" name="gaClientId" value="">
 
   {{#each errors.otherErrors }}
-    <p id="{{ id }}" class="register-form__error">{{ message }}</p>
+    <div class="form-field-wrap">
+      <p id="{{ id }}" class="form-feedback form-feedback--error">{{ message }}</p>
+    </div>
   {{/ each }}
 
-  <fieldset class="register-form__fieldset">
-    {{> components/register-form/_form-fields}}
-    <div class="register-form__control--submit">
-      <button class="register-form__submit-button" id="register_submit" type="submit">{{ registerPageText.createAccount }} {{> components/icon/arrow-inline }}</button>
-    </div>
-  </fieldset>
+  {{> components/register-form/_form-fields}}
+  <div class="form-field-wrap">
+    <button class="form-button form-button--main form-field-wrap__field" id="register_submit" type="submit">{{ registerPageText.createAccount }} {{> components/icon/arrow-inline }}</button>
+  </div>
+
 </form>

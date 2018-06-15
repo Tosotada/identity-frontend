@@ -3,6 +3,10 @@
 import Raven from 'raven-js';
 
 import {
+  init as initFormFieldWrapPhone,
+  selector as selectorFormFieldWrapPhone
+} from 'components/form/form-field-wrap--phone';
+import {
   init as initAjaxForm,
   selector as selectorAjaxForm,
   initOnce as initOnceAjaxForm
@@ -47,7 +51,8 @@ const components: any[] = [
   [initInPageClick, selectorInPageClick],
   [initFormErrorWrap, selectorErrorWrap],
   [initOauthCta, selectorOauthCta],
-  [initGAClientIdFormField, gaClientIdSelector]
+  [initGAClientIdFormField, gaClientIdSelector],
+  [initFormFieldWrapPhone, selectorFormFieldWrapPhone]
 ];
 
 const initOnceList = [];

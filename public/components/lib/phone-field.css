@@ -1,0 +1,19 @@
+.register-form__control--phone-number
+  .intl-tel-input.allow-dropdown
+  .flag-container:hover
+  .selected-flag {
+  background-color: inherit;
+}
+
+.intl-tel-input .iti-flag {
+  background-image: inline(
+    '../node_modules/intl-tel-input/build/img/flags.png'
+  );
+
+  @media only screen and (min-resolution: 192dpi),
+    only screen and (min-resolution: 2dppx) {
+    background-image: inline(
+      '../node_modules/intl-tel-input/build/img/flags@2x.png'
+    );
+  }
+}

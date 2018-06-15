@@ -27,7 +27,6 @@ object ErrorViewModel {
     RegisterActionInvalidFirstNameErrorID -> (minMaxLength("First name", 1, 25) + " " + invalidNameCharacters("First name")),
     RegisterActionInvalidLastNameErrorID ->(minMaxLength("Last name", 1, 25) + " " + invalidNameCharacters("Last name")),
     RegisterActionInvalidEmailErrorID -> "Invalid email address; please try again.",
-    RegisterActionInvalidDisplayNameErrorID -> (minMaxLength("Display name", 2, 50) + " " + invalidNameCharacters("Display name")),
     RegisterActionInvalidPasswordErrorID -> "Invalid password; your password must be between 6 and 72 characters long.",
 
     SocialRegistrationFacebookEmailErrorID -> "We need your email address when you sign in with Facebook so that we can keep in touch (you can choose which emails you receive in your account settings). Try again and allow access to your email address or provide it manually below.",

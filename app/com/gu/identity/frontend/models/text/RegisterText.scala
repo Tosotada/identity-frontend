@@ -21,7 +21,6 @@ case class RegisterText private(
    signInCta: String,
    standfirst: String,
    title: String,
-   displayName: String,
    displayNameNote: String,
    displayNameHelp: String,
    displayNameHelpShortened: String,
@@ -59,7 +58,6 @@ object RegisterText {
         case Some(GuardianMembersClientID) => messages("register.title.supporter")
         case _ => messages("register.title")
       },
-      displayName = messages("register.displayName"),
       displayNameNote = messages("register.displayNameNote"),
       displayNameHelp = messages("register.displayNameHelp"),
       displayNameHelpShortened = messages("register.displayNameHelpShortened"),
