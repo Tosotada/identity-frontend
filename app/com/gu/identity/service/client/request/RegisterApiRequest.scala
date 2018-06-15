@@ -19,7 +19,6 @@ object RegisterApiRequest {
       body = Some(RegisterRequestBody(
         request.email,
         request.password,
-        RegisterRequestBodyPublicFields(request.displayName),
         RegisterRequestBodyPrivateFields(
           firstName = request.firstName,
           secondName = request.lastName,
@@ -48,13 +47,10 @@ object RegisterApiRequest {
 case class RegisterRequestBody(
     primaryEmailAddress: String,
     password: String,
-    publicFields: RegisterRequestBodyPublicFields,
     privateFields: RegisterRequestBodyPrivateFields,
     statusFields: RegisterRequestBodyStatusFields,
     consents: List[Consent])
   extends ApiRequestBody
-
-case class RegisterRequestBodyPublicFields(displayName: Option[String])
 
 case class RegisterRequestBodyPrivateFields(
     firstName: String,

@@ -30,7 +30,6 @@ class IdentityServiceRequestHandlerSpec extends WordSpec with Matchers with Mock
     "Encode correct json when using a Register Request." in {
       val email = "test@guardian.co.uk"
       val password = "some%thing"
-      val displayName = "myDisplayname"
       val firstName = "First"
       val secondName = "Last"
       val receiveGnmMarketing = false
@@ -41,7 +40,6 @@ class IdentityServiceRequestHandlerSpec extends WordSpec with Matchers with Mock
       val requestBodyModel = RegisterRequestBody(
         email,
         password,
-        RegisterRequestBodyPublicFields(None),
         RegisterRequestBodyPrivateFields(firstName, secondName, registrationIp),
         RegisterRequestBodyStatusFields(false, false),
         consents
@@ -51,7 +49,6 @@ class IdentityServiceRequestHandlerSpec extends WordSpec with Matchers with Mock
 
       (bodyJson \ "primaryEmailAddress").as[String] should equal(email)
       (bodyJson \ "password").as[String] should equal(password)
-      (bodyJson \ "publicFields" \ "displayName").as[String] should equal(displayName)
       (bodyJson \ "privateFields" \ "firstName").as[String] should equal(firstName)
       (bodyJson \ "privateFields" \ "secondName").as[String] should equal(secondName)
       (bodyJson \ "privateFields" \ "registrationIp").as[String] should equal(registrationIp)

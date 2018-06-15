@@ -83,14 +83,6 @@ case class RegisterActionInvalidEmailAppException(message: String)
   val id = RegisterActionInvalidEmailErrorID
 }
 
-case class RegisterActionInvalidDisplayNameAppException(message: String)
-  extends AbstractAppException(message)
-  with BadRequestAppException
-  with RegisterAppException {
-
-  val id = RegisterActionInvalidDisplayNameErrorID
-}
-
 case class RegisterActionInvalidPasswordAppException(message: String)
   extends AbstractAppException(message)
   with BadRequestAppException

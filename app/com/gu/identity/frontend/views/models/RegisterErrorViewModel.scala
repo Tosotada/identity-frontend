@@ -6,7 +6,6 @@ case class RegisterErrorViewModel(displayNameErrors: Seq[ErrorViewModel], emailE
 object RegisterErrorViewModel {
 
   val errorIdToFields: Map[ErrorID, String] = Map(
-    RegisterActionInvalidDisplayNameErrorID -> "displayNameError",
     RegisterActionInvalidEmailErrorID -> "emailError",
     RegisterEmailConflictErrorID -> "emailError",
     RegisterEmailReservedErrorID -> "emailError",

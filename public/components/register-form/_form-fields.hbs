@@ -46,17 +46,6 @@
   </div>
 {{/ askForPhoneNumber }}
 
-<div class="form-field-wrap {{#if hideDisplayName}}u-none{{/if}}">
-  <label class="form-field-wrap__title" for="register_field_displayName">{{ registerPageText.displayName }}</label>
-  <input class="form-field-wrap__field form-input" id="register_field_displayName" type="text" name="displayName" placeholder="{{ registerPageText.displayNameHelp }}" autocomplete="on" autocapitalize="off" autocorrect="off" spellcheck="false" title="{{ registerPageText.displayNameHelp }}" {{#unless hideDisplayName}} required minlength="2" maxlength="50" {{/unless}} />
-  <span class="form-field-wrap__footer">{{ registerPageText.displayNameNote }}</span>
-  {{# unless hideDisplayName}}
-    {{#each errors.displayNameErrors }}
-      <p id="{{ id }}" class="form-feedback form-feedback--error form-field-wrap__field">{{ message }}</p>
-    {{/ each }}
-  {{/unless}}
-</div>
-
 <div class="form-field-wrap">
     <label class="form-field-wrap__title" for="register_field_password">{{ registerPageText.password }}</label>
     <input class="form-field-wrap__field form-input" id="register_field_password" type="password" name="password" placeholder="{{ registerPageText.passwordHelp }}" required minlength="6" />

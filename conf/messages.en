@@ -49,7 +49,6 @@ register.name=Name
 register.firstName=First name
 register.lastName=Last name
 register.firstOrLastNameHelp=1 to 20 characters, letters and numbers only
-register.displayName=Display name
 register.displayNameNote=(This name will be displayed on any comments you make)
 register.displayNameHelp=2 to 40 characters, letters and numbers only
 register.displayNameHelpShortened=2-30 characters, letters & numbers only
