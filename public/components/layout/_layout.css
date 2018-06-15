@@ -117,4 +117,7 @@ texty text
   &.layout-text--small {
     @extend %font-body-copy-small;
   }
+  &.layout-text--bold {
+    font-weight: 500;
+  }
 }

@@ -43,10 +43,6 @@
 
 @import 'components/jobs/_jobs.css';
 
-/** Reset password page **/
-
-@import 'components/reset-password/_reset-password';
-
 /** Resend Consent page **/
 
 @import 'components/resend-consent/_resend-consent.css';
