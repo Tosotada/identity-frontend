@@ -4,7 +4,7 @@
   {{> components/two-step-signin/_helpers }}
   {{> components/form/form-feedback-wrap }}
 
-  <div class="form-field-wrap">
+    <div class="form-field-wrap">
       <input class="u-none" name="email" autocomplete="username" value="{{email}}" />
       <label class="form-field-wrap__title" for="tsse-password">{{twoStepSignInPageText.passwordFieldTitle}}</label>
       <input class="form-input form-field-wrap__field" type="password" name="password" id="tsse-password" autocomplete="password" autocapitalize="off" autocorrect="off" spellcheck="false" autofocus="autofocus" value="{{password}}" />
@@ -13,18 +13,16 @@
           <input class="form-checkbox__input" type="checkbox" name="rememberMe" checked="checked" value="true"/>
           <span class="form-checkbox__label">{{twoStepSignInPageText.rememberMe}}</span>
         </label>
-        <a class="link" href="{{forgotPasswordUrl}}">{{twoStepSignInPageText.recoverPasswordAction}}</a>
       </div>
     </div>
     <div class="form-field-wrap">
       <button class="form-button form-button--main form-field-wrap__field" type="submit">{{twoStepSignInPageText.signInAction}} {{> components/icon/arrow-inline }}</button>
     </div>
 
-    <p class="form-prelude"> <span>{{twoStepSignInPageText.divideText}}</span> </p>
-
-    <fieldset class="form-field-wrap">
-      <label class="form-field-wrap__title" for="signin_field_email">{{twoStepSignInPageText.oauthStepTwoFieldTitle}}</label>
-      {{> components/oauth-cta/_oauth-cta-content }}
-    </fieldset>
-
+    <div class="layout-section layout-section--no-border">
+      <div class="form-field-wrap">
+        <a class="form-field-wrap__field u-link layout-text u-block" href="{{forgotPasswordUrl}}">{{twoStepSignInPageText.recoverPasswordAction}}</a>
+        <a class="form-field-wrap__field u-link layout-text u-block ajax-step-flow__link" data-is-reverse="true" href="{{signinUrl}}">{{twoStepSignInPageText.changeEmailLink}}</a>
+      </div>
+    </div>
 </form>
