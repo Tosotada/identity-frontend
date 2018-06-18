@@ -92,7 +92,7 @@ body > main {
   padding-top: 0.5rem;
 
   a:not(.form-button) {
-    @extend .link;
+    @extend %link;
     color: var(--color-text);
     font-weight: 500;
   }
