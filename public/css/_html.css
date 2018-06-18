@@ -64,22 +64,6 @@ body > main {
   max-width: 58rem;
 }
 
-%page-block--low-margin {
-  margin: 0 1rem;
-  background-color: #fff;
-  box-sizing: border-box;
-
-  @media (--viewport-min-mobile-landscape) {
-    margin: 0 auto;
-    max-width: 44rem;
-  }
-
-  @media (--viewport-min-tablet) {
-    margin: 0 auto;
-    max-width: 46rem;
-  }
-}
-
 .page-heading {
   @extend %font-heading-0;
   @extend %content-container;
@@ -116,26 +100,6 @@ body > main {
   & .page-standfirst__paragraph {
     margin: 0;
   }
-
-  &.page-standfirst--register-promo {
-    position: relative;
-    margin-top: 0;
-    .page-standfirst__paragraph {
-      @extend %font-text-sans-3;
-      color: var(--color-text);
-    }
-    @media (--viewport-min-mobile-landscape) {
-      display: flex;
-      align-items: center;
-      .form-button {
-        width: auto;
-      }
-      .page-standfirst__paragraph {
-        white-space: nowrap;
-        margin-right: 1em;
-      }
-    }
-  }
 }
 
 .page-content {
@@ -165,23 +129,4 @@ p {
 
 .link {
   @extend %link;
-}
-
-.page__footer {
-  display: flex;
-  flex-direction: column;
-  margin-top: 3rem;
-  position: relative;
-
-  > section:last-of-type {
-    flex-grow: 1;
-  }
-
-  & > *:first-child::before {
-    content: '';
-    display: block;
-    width: 100%;
-    background-color: var(--color-border);
-    height: 1px;
-  }
 }

@@ -30,11 +30,6 @@
 
 @import 'components/terms/_terms.css';
 
-/** Sign in page **/
-
-@import 'components/signin-form/_signin-form.css';
-@import 'components/oauth-cta/_oauth-cta.css';
-
 /** Libs **/
 
 @import 'components/lib/phone-field.css';
