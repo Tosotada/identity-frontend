@@ -1,7 +1,7 @@
 // @flow
 
 /*
-You can se this component to wrap any flow of n steps
+You can use this component to wrap any flow of n steps
 in a nice single page app way, you can see how this works
 in the sign in page or in the sign in token request page
 but basically you want to wrap your flow in

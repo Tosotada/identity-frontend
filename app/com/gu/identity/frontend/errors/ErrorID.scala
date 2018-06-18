@@ -40,6 +40,10 @@ object ErrorIDs {
     val key = "register-error-email-conflict"
   }
 
+  case object RegisterEmailConflictHydratedErrorID extends ErrorID {
+    val key = "register-error-email-conflict-hydrated"
+  }
+
   case object RegisterEmailReservedErrorID extends ErrorID {
     val key = "register-error-email-reserved"
   }

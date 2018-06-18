@@ -120,7 +120,10 @@ object Text {
 
   object ClientSideText {
     def toMap(implicit messages: Messages): Map[String, String] = {
-      Map()
+      Map(
+        "actions.signIn" -> messages("actions.signIn"),
+        "actions.reset" -> messages("actions.reset")
+      )
     }
   }
 
