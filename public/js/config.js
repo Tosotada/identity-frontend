@@ -12,7 +12,7 @@ const reduceReplacers = (text: string, ...replacers: string[]): string =>
     text
   );
 
-const getSearchParams = (urlRaw: String): ?string => {
+const getSearchParams = (urlRaw: string): ?string => {
   try {
     const url: URL = new URL(urlRaw);
     const string = searchParams
