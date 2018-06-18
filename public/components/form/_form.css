@@ -137,11 +137,13 @@ feedback
   a {
     @extend %link;
   }
-   a, a:hover, a:focus {
-     color: inherit;
-     text-decoration-color: inherit;
-   }
-   a:focus {
+  a,
+  a:hover,
+  a:focus {
+    color: inherit;
+    text-decoration-color: inherit;
+  }
+  a:focus {
     outline: auto;
   }
 }
