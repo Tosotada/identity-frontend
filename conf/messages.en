@@ -205,3 +205,6 @@ thirdPartyTerms.jobsFeature1=Creating a job alert and receiving relevant jobs st
 thirdPartyTerms.jobsFeature2=Shortlisting jobs that interest you so you can access them later on different devices
 thirdPartyTerms.jobsFeature3=Uploading your CV and let employers find you
 thirdPartyTerms.jobsFeatureOutro=Or <a href="{0}">sign out</a> to browse jobs anonymously.
+
+actions.signIn=sign in
+actions.reset=set or reset your password

@@ -22,7 +22,11 @@ import {
 import {
   init as initFormErrorWrap,
   selector as selectorErrorWrap
-} from 'components/form-feedback-wrap/index';
+} from 'components/form/form-feedback-wrap';
+import {
+  init as initFormFeedbackHydratable,
+  selector as selectorFormFeedbackHydratable
+} from 'components/form/form-feedback--hydratable';
 import {
   init as initGAClientIdFormField,
   selector as gaClientIdSelector
@@ -52,7 +56,8 @@ const components: any[] = [
   [initFormErrorWrap, selectorErrorWrap],
   [initOauthCta, selectorOauthCta],
   [initGAClientIdFormField, gaClientIdSelector],
-  [initFormFieldWrapPhone, selectorFormFieldWrapPhone]
+  [initFormFieldWrapPhone, selectorFormFieldWrapPhone],
+  [initFormFeedbackHydratable, selectorFormFeedbackHydratable]
 ];
 
 const initOnceList = [];
