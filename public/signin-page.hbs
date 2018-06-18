@@ -2,33 +2,35 @@
 
 {{# partial "content" }}
 
-  {{#showPrelude}}
-    <div class="signin__prelude">
-      <p>{{signInPageText.prelude}}</p>
-      <p> {{signInPageText.preludeMoreInfo}} <a href="https://www.theguardian.com/help/identity-faq"> {{signInPageText.preludeFaq}} </a>.</p>
+  <section class="layout-wrap-width layout-wrap-width--wide">
+
+    <header class="layout-header">
+      <h1 data-commitId="{{ gitCommitId }}" class="layout-header__title">{{ signInPageText.title }}</h1>
+    </header>
+    <div class="layout-header">
+      <p class="layout-header__title layout-header__title--standfirst">
+        {{signInPageText.noAccount}}
+        <a href="{{registerUrl}}" class="form-button form-button--black">
+          {{signInPageText.signUp}}  {{> components/icon/arrow-inline }}
+        </a>
+      </p>
     </div>
-  {{/showPrelude}}
 
-  <h1 class="page-heading">{{ signInPageText.title }}</h1>
+    <section class="form-field-wrap">
+      {{> components/oauth-cta/_oauth-cta-content }}
+    </section>
 
-  <section class="page-standfirst page-standfirst--register-promo">
-    <p class="page-standfirst__paragraph">
-      {{signInPageText.noAccount}}
+    <p class="form-prelude">
+      <span>{{signInPageText.divideText}}</span>
     </p>
-    <a href="{{registerUrl}}" class="form-button form-button--black">{{signInPageText.signUp}}  {{> components/icon/arrow-inline }}</a>
-  </section>
 
-  <section class="signin__section">
-    {{> components/oauth-cta/_oauth-cta }}
+    <section class="form-field-wrap">
+      {{> components/signin-form/_signin-form }}
+    </section>
 
-    {{> components/signin-form/_signin-form }}
-  </section>
-
-  <section class="page__footer">
-
-    {{> components/terms/_terms }}
-
-  </section>
+    <footer class="layout-section">
+      {{> components/terms/_terms-inline }}
+    </footer>
 
 {{/partial}}
 

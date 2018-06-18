@@ -16,7 +16,6 @@ case class SignInViewModel private(
     signInPageText: Map[String, String],
     terms: TermsViewModel,
 
-    showPrelude: Boolean = false,
     hasErrors: Boolean = false,
     errors: Seq[ErrorViewModel] = Seq.empty,
 
