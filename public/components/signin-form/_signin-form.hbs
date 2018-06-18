@@ -1,4 +1,4 @@
-<form id="signin_form" class="signin-form{{# hasErrors }}--with-errors{{/ hasErrors }}" action="{{ actions.signIn }}" method="POST">
+<form action="{{ actions.signIn }}" method="POST">
   <input type="hidden" name="csrfToken" value="{{ csrfToken.value }}">
   <input type="hidden" id="signin_returnUrl" name="returnUrl" value="{{returnUrl}}">
   <input type="hidden" name="skipConfirmation" value="{{skipConfirmation}}">
@@ -13,41 +13,37 @@
 
   <div class="smartlock-trigger" data-csrf-token="{{ csrfToken.value }}" data-return-url="{{ returnUrl }}" role="presentation"></div>
 
-  <input id="signin_ga_client_id" type="hidden" name="gaClientId" value="">
-
-  <p class="signin-form__prelude">
-    <span>{{signInPageText.divideText}}</span>
-  </p>
+  <input class="ga-client-id" type="hidden" name="gaClientId" value="">
 
   {{#each errors }}
-    <p id="{{ id }}" class="signin-form__error">{{ message }}</p>
+    <p id="{{ id }}" class="form-field-wrap form-feedback form-feedback--error">{{ message }}</p>
   {{/each}}
 
-  <fieldset class="signin-form__fieldset">
-    <div class="signin-form__control--email">
-      <label class="signin-form__label--email" for="signin_field_email">{{signInPageText.email}}</label>
-      <input class="signin-form__field--email" id="signin_field_email" type="email" name="email" autocomplete="username" autocapitalize="off" autocorrect="off" spellcheck="false" value="{{email}}" />
+    <div class="form-field-wrap">
+      <label class="form-field-wrap__title" for="signin_field_email">{{signInPageText.email}}</label>
+      <input class="form-field-wrap__field form-input" id="signin_field_email" type="email" name="email" autocomplete="username" autocapitalize="off" autocorrect="off" spellcheck="false" value="{{email}}" />
     </div>
 
-    <div class="signin-form__control--password">
-      <label class="signin-form__label--password" for="signin_field_password">{{signInPageText.password}}</label>
-      <input class="signin-form__field--password" id="signin_field_password" type="password" name="password" autocomplete="current-password"/>
-    </div>
-    <div class="signin-form__cta--reset"><a class="signin-form__cta-link--reset" href="{{forgotPasswordUrl}}">{{signInPageText.forgottenPassword}}</a></div>
-
-    <div class="signin-form__control--remember-me">
-      <input class="signin-form__checkbox--remember-me" id="signin_field_remember_me" type="checkbox" name="rememberMe" checked="checked" value="true"/>
-      <label class="signin-form__label--remember-me" for="signin_field_remember_me">{{signInPageText.rememberMe}}</label>
+    <div class="form-field-wrap">
+      <label class="form-field-wrap__title" for="signin_field_password">{{signInPageText.password}}</label>
+      <input class="form-field-wrap__field form-input" id="signin_field_password" type="password" name="password" autocomplete="current-password"/>
+      <div class="u-flexrow form-field-wrap__footer">
+        <label for="signin_field_remember_me" class="form-checkbox">
+          <input id="signin_field_remember_me" class="form-checkbox__input" type="checkbox" name="rememberMe" checked="checked" value="true"/>
+          <span class="form-checkbox__label">{{signInPageText.rememberMe}}</span>
+        </label>
+        <a class="link" href="{{forgotPasswordUrl}}">{{signInPageText.forgottenPassword}}</a>
+      </div>
     </div>
 
     {{#if recaptchaModel}}
-      <div class="signin-form__recaptcha-wrapper">
-        <div class="g-recaptcha signin-form__recaptcha" data-sitekey="{{recaptchaModel.googleSiteKey}}"></div>
+      <div class="form-field-wrap">
+        <div class="g-recaptcha" data-sitekey="{{recaptchaModel.googleSiteKey}}"></div>
       </div>
     {{/if}}
 
-    <div class="signin-form__control--submit">
-      <button class="signin-form__submit-button" id="signin_submit" type="submit">{{signInPageText.signIn}} {{> components/icon/arrow-inline }}</button>
+    <div class="form-field-wrap">
+      <button class="form-button form-button--main form-field-wrap__field" id="signin_submit" type="submit">{{signInPageText.signIn}} {{> components/icon/arrow-inline }}</button>
     </div>
-  </fieldset>
+
 </form>

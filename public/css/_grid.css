@@ -17,27 +17,3 @@ $gridcolumns: 12;
 %row {
   @extend %clearfix;
 }
-
-%column {
-  box-sizing: border-box;
-  float: left;
-  min-height: 1px;
-  width: 100%;
-}
-
-/* TODO: breakpoints for responsive columns */
-
-%column-3 {
-  @extend %column;
-  width: calc(100% / $gridcolumns * 3);
-}
-
-%column-6 {
-  @extend %column;
-  width: calc(100% / $gridcolumns * 6);
-}
-
-%column-9 {
-  @extend %column;
-  width: calc(100% / $gridcolumns * 9);
-}

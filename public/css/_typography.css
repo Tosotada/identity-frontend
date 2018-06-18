@@ -6,8 +6,9 @@
 
 @import 'components/fonts/_fonts.css';
 
-$base-font-size: 10;
-
+:root {
+  --base-font-size: 10;
+}
 html {
   font-size: 0.625em;
   text-rendering: optimizeSpeed;
@@ -16,8 +17,8 @@ html {
 }
 
 @mixin font-size($size, $line-height) {
-  font-size: calc($size / $base-font-size * 1rem);
-  line-height: calc($line-height / $base-font-size * 1rem);
+  font-size: calc($size / var(--base-font-size) * 1rem);
+  line-height: calc($line-height / var(--base-font-size) * 1rem);
 }
 
 %font-serif {
@@ -65,6 +66,10 @@ html {
   @include font-size(20, 26);
 }
 
+
+/**
+* Do not use these!
+*/
 %font-heading-0 {
   @extend %font-heading;
   @include font-size(24, 36);
@@ -89,16 +94,6 @@ html {
 
 %font-text-2 {
   @extend %font-body-copy;
-}
-
-%font-text-sans-1 {
-  @extend %font-sans-serif;
-  @include font-size(13, 18);
-}
-
-%font-text-sans-2 {
-  @extend %font-sans-serif;
-  @include font-size(14, 20);
 }
 
 %font-text-sans-3 {

@@ -29,6 +29,9 @@
   &:hover {
     text-decoration: none;
   }
+  & + .layout-header {
+    margin-top: calc(var(--size-baseline-vertical) / -2);
+  }
 }
 
 .layout-header__title {
@@ -37,9 +40,16 @@
   margin: 0;
   color: currentColor;
   text-decoration: none;
-  a {
+  a:not([class]) {
     @extend %link;
     color: currentColor;
+  }
+  .form-button {
+    @media (--viewport-min-tablet) {
+      display: inline-flex;
+      vertical-align: 10%;
+      margin-left: calc(var(--size-baseline-gutter) / 2);
+    }
   }
   &.layout-header__title--standfirst {
     @extend %font-header-standfirst;
