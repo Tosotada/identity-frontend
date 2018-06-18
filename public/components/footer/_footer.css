@@ -37,12 +37,14 @@
   list-style: none;
 
   a {
+    text-decoration: none;
     display: inline-block;
     margin: 0 0 0.6rem;
     color: currentColor;
 
     &:hover {
       color: #fff;
+      text-decoration: underline;
     }
   }
 }

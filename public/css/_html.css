@@ -149,23 +149,13 @@ p {
   }
 }
 
-%a {
+/** Global style for links in the body text */
+%link {
   color: var(--color-link);
   cursor: pointer;
-  text-decoration: none;
-
-  &:hover {
-    text-decoration: underline;
-  }
-}
-
-/** Global style for links in the body text */
-
-%link {
-  @extend %a;
   text-decoration: underline;
   text-decoration-color: var(--color-link-underline);
-  transition: border-color 0.15s ease-out;
+  transition: text-decoration-color 0.15s ease-out;
 
   &:hover,
   &:focus {
@@ -175,10 +165,6 @@ p {
 
 .link {
   @extend %link;
-}
-
-a {
-  @extend %a;
 }
 
 .page__footer {
