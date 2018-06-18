@@ -7,9 +7,13 @@ const selector: string = '.form-feedback--hydratable';
 const hydratableIds = {
   'register-error-email-conflict': {
     replacers: [
-      `<a href="${route('signIn')}">${text('actions.signIn')}</a>`,
-      `<a href="${route('reset')}">${text('actions.reset')}</a>`
-    ],
+      `<a data-link-name="register-dupe : sign-in" href="${route(
+        'signIn'
+      )}">${text('actions.signIn')}</a>`,
+      `<a data-link-name="register-dupe : reset" href="${route(
+        'reset'
+      )}">${text('actions.reset')}</a>`
+    ]
   }
 };
 

@@ -3,12 +3,33 @@
 const ERR_MISSING_KEY: string = 'Missing configuration part';
 const ERR_MISSING_CONFIG: string = 'Missing #id_config';
 
-const reduceReplacers = (text: string, ...replacers: string[]) =>
+const searchParams = ['skipConfirmation', 'returnUrl', 'clientId'];
+
+const reduceReplacers = (text: string, ...replacers: string[]): string =>
   replacers.reduce(
     (returnableText, replacer, key) =>
       returnableText.replace(`{${key}}`, replacer),
     text
   );
+
+const getSearchParams = (urlRaw: String): ?string => {
+  try {
+    const url: URL = new URL(urlRaw);
+    const string = searchParams
+      .map(param => [param, url.searchParams.get(param)])
+      .filter(param => param[1])
+      .map(param => param.map(encodeURIComponent).join('='))
+      .join('&');
+
+    if (string.length > 0) {
+      return string;
+    }
+
+    throw new Error(`No params in url "${urlRaw}"`);
+  } catch (e) {
+    return null;
+  }
+};
 
 const config = (() => {
   try {
@@ -28,9 +49,12 @@ const get = (key: string): any => {
 };
 
 const route = (routeToGet: string): string => {
+  const params = getSearchParams(window.location.href);
   if (config.routes && config.routes[routeToGet])
-    return config.routes[routeToGet];
-  throw new Error(ERR_MISSING_KEY);
+    return params
+      ? `${config.routes[routeToGet]}?${params}`
+      : config.routes[routeToGet];
+  throw new Error([ERR_MISSING_KEY, routeToGet].join());
 };
 
 const text = (textKey: string, ...replacers: string[]): string => {
