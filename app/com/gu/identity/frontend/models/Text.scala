@@ -79,7 +79,7 @@ object Text {
         "signInWithEmail" -> messages("signinTwoStep.signInWithEmailAction"),
         "password" -> messages("signin.password"),
         "forgottenPassword" -> messages("signin.forgottenpassword"),
-        "rememberMe" -> messages("signin.rememberme"),
+        "rememberMe" -> messages("signinTwoStep.rememberme"),
         "signIn" -> messages("signin.signin"),
         "noAccount" -> messages("signin.noaccount"),
         "signUp" -> messages("signin.signup"),

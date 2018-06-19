@@ -36,6 +36,10 @@ body > main {
   justify-content: space-between;
 }
 
+.u-block {
+  display: block;
+}
+
 %page-block {
   margin: 0 auto;
   box-sizing: border-box;
@@ -127,6 +131,6 @@ p {
   }
 }
 
-.link {
+.u-link {
   @extend %link;
 }

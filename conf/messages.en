@@ -19,14 +19,15 @@ signin.continue=Continue
 
 signinTwoStep.welcomeStepOne=Sign in / Create an account
 signinTwoStep.welcome=Hello,
-signinTwoStep.changeEmailLink=Change email
+signinTwoStep.changeEmailLink=Back to sign in options
 signinTwoStep.changeEmailLinkShort=Change
+signinTwoStep.rememberme=Keep me logged in on this device
 
 signinTwoStep.signInWithEmailAction=Sign in with Email
-signinTwoStep.signInAction=Sign In
-signinTwoStep.continueAction=Continue
-signinTwoStep.emailFieldTitle=Enter your email address
-signinTwoStep.passwordFieldTitle=Please enter your password
+signinTwoStep.signInAction=Sign me in
+signinTwoStep.continueAction=Next
+signinTwoStep.emailFieldTitle=1. Enter your email address
+signinTwoStep.passwordFieldTitle=2. Enter your password
 signinTwoStep.dividetext=or
 signinTwoStep.registerAction=Create an account
 signinTwoStep.setPasswordTitle=To continue, first you need to verify it’s you. Just click the button below and we’ll email you a link.
