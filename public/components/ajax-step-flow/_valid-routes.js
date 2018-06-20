@@ -5,8 +5,7 @@ type ValidRouteList = string[];
 const formRoutes: ValidRouteList = [
   'twoStepSignInAction',
   'signInSecondStepCurrentAction',
-  'sendResubLinkAction',
-  'registerAction'
+  'sendResubLinkAction'
 ].map(_ => route(_, true));
 
 const linkRoutes: ValidRouteList = [route('twoStepSignIn')];
