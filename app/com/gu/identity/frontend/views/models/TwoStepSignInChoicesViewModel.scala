@@ -4,6 +4,7 @@ import com.gu.identity.frontend.configuration.Configuration
 import com.gu.identity.frontend.controllers.routes
 import com.gu.identity.frontend.models.Text._
 import com.gu.identity.frontend.models._
+import com.gu.identity.frontend.models.text.TwoStepSignInChoicesPageText
 import com.gu.identity.frontend.mvt.ActiveMultiVariantTests
 import com.gu.identity.model.{CurrentUser, GuestUser, NewUser, UserType}
 import play.api.i18n.Messages
