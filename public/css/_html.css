@@ -30,10 +30,22 @@ body > main {
   display: none !important;
 }
 
+/*
+collapsing side by side columns
+*/
 .u-flexrow {
-  display: flex;
-  align-items: center;
+  display: grid;
+  grid: auto-flow / 1fr;
+  grid-column-gap: var(--size-baseline-gutter);
+  grid-row-gap: var(--size-baseline);
   justify-content: space-between;
+  @media (--viewport-min-mobile-landscape) {
+    display: grid;
+    grid: 1fr / auto-flow;
+  }
+  &.u-flexrow--half {
+    justify-content: inherit;
+  }
 }
 
 .u-block {
