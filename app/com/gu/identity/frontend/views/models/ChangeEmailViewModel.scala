@@ -1,8 +1,8 @@
 package com.gu.identity.frontend.views.models
 
 import com.gu.identity.frontend.configuration.Configuration
-import com.gu.identity.frontend.models.{ClientID, EmailProvider}
-import com.gu.identity.frontend.models.text.{ChangeEmailText, ResetPasswordEmailSentText, SendSignInLinkSentText}
+import com.gu.identity.frontend.models.{ClientID}
+import com.gu.identity.frontend.models.text.ChangeEmailText
 import play.api.i18n.Messages
 
 case class ChangeEmailViewModel private(

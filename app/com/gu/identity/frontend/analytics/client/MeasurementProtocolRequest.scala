@@ -93,7 +93,7 @@ private object SigninSecondStepEventRequestBody extends MeasurementProtocolReque
 }
 
 case class ChangeEmailSuccess(request: Request[AnyContent], gaUID: String) extends MeasurementProtocolRequest {
-  override val body: String = ResubSigninSuccessBody(request, gaUID)
+  override val body: String = ChangeEmailSuccessBody(request, gaUID)
 }
 
 case object ChangeEmailSuccessBody extends MeasurementProtocolRequestBody {

@@ -5,7 +5,13 @@
   {{# unless errors}}
     <h1 class="page-heading">{{ ChangeEmailSuccessfulText.title }}</h1>
     <section class="page-standfirst">
-      <p class="page-standfirst__paragraph resend-link-description">{{ChangeEmailSuccessfulText.description}}</p>
+      <div class="form-field-wrap">
+        <a href="account/edit" data-link-name="change-email-cta1 : {{ChangeEmailSuccessfulText.button1}}" class="form-button form-button--main form-field-wrap__field">{{ChangeEmailSuccessfulText.button1}}
+          {{>components/icon/arrow-inline
+        }}</a>
+        <a href="https://www.theguardian.com" data-link-name="change-email-cta2 : {{ChangeEmailSuccessfulText.button2}}" class="form-button form-button--secondary form-field-wrap__field">{{ChangeEmailSuccessfulText.button2}} {{>
+        components/icon/arrow-inline }}</a>
+      </div>
     </section>
   {{/unless}}
 

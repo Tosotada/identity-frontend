@@ -140,10 +140,11 @@ resetPasswordEmailSent.instructions2=Click the ‘Set a password’ button in th
 resetPasswordEmailSent.instructions3=Please note that the link is valid for 30 minutes, so be sure to use it soon.
 resetPasswordEmailSent.instructions4=Please check your inbox!
 
-changeEmailSuccessful.pageTitle=Successfully changed your email address
-changeEmailSuccessful.title=Successfully changed your email address
-changeEmailSuccessful.description=Go to your account page to edit preferences
-changeEmailSuccessful.unexpectedTitle=PROBLEM
+changeEmailSuccessful.pageTitle=Email changed
+changeEmailSuccessful.title=Success! Your email address has been updated.
+changeEmailSuccessful.button1=Back to Account details
+changeEmailSuccessful.button2=Continue to The Guardian homepage
+changeEmailSuccessful.unexpectedTitle=Sorry there was a problem
 
 errors.badRequest.pageTitle=Bad request: {0}
 errors.badRequest.title=Bad request: {0}
@@ -162,9 +163,9 @@ errors.signinLink.pageTitle=Sign in Failed
 errors.signinLink.title=Sign In Failed
 errors.signinLink.description=Sorry - that sign in link is expired or invalid. Please request a new one.
 
-errors.emailChange.pageTitle=Email change Failed
+errors.emailChange.pageTitle=Email change failed
 errors.emailChange.title=Email change Failed
-errors.emailChange.description=Sorry - that email change link failed.
+errors.emailChange.description=Sorry - that email change link was expired or invalid.
 
 errors.unexpected.pageTitle=Unexpected error
 errors.unexpected.title=Unexpected error: {0}
