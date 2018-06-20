@@ -4,7 +4,7 @@ import buildinfo.BuildInfo
 import com.gu.identity.frontend.configuration.Configuration
 import com.gu.identity.frontend.controllers.routes
 import com.gu.identity.frontend.models._
-import com.gu.identity.frontend.models.text.RegisterText
+import com.gu.identity.frontend.models.text.{RegisterFormText, RegisterText}
 import com.gu.identity.frontend.mvt._
 import com.gu.identity.frontend.request.RegisterActionRequestBodyFormMapping
 import play.api.i18n.Messages
@@ -17,6 +17,7 @@ case class RegisterViewModel(
                               oauth: OAuthRegistrationViewModel,
 
                               registerPageText: Map[String, _],
+                              registerFormText: Map[String, _],
                               terms: TermsViewModel,
 
                               hasErrors: Boolean,
@@ -76,6 +77,7 @@ object RegisterViewModel {
       oauth = OAuthRegistrationViewModel(configuration, returnUrl, skipConfirmation, clientId, group, activeTests),
 
       registerPageText = RegisterText.toMap(clientId),
+      registerFormText = RegisterFormText.toMap(),
       terms = Terms.getTermsModel(group),
 
       hasErrors = errors.nonEmpty,

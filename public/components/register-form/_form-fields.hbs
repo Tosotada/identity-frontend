@@ -1,14 +1,14 @@
 <div class="form-field-wrap">
-  <label class="form-field-wrap__title" for="register_field_firstname">{{ registerPageText.name }}</label>
+  <label class="form-field-wrap__title" for="register_field_firstname">{{ registerFormText.name }}</label>
   <div class="u-flexrow u-flexrow--half form-field-wrap__field">
-    <input class="form-input" id="register_field_firstname" type="text" name="firstName" placeholder="{{ registerPageText.firstName }}" title="{{ registerPageText.firstOrLastNameHelp }}" required maxlength="25" autocomplete="on" autocapitalize="off" autocorrect="off" spellcheck="false" pattern="^[^:/]*$" />
-    <input class="form-input" id="register_field_lastname" type="text" name="lastName" placeholder="{{ registerPageText.lastName }}" title="{{ registerPageText.firstOrLastNameHelp }}" required maxlength="25" autocomplete="on" autocapitalize="off" autocorrect="off" spellcheck="false" pattern="^[^:/]*$" />
+    <input class="form-input" id="register_field_firstname" type="text" name="firstName" placeholder="{{ registerFormText.firstName }}" title="{{ registerFormText.firstOrLastNameHelp }}" required maxlength="25" autocomplete="on" autocapitalize="off" autocorrect="off" spellcheck="false" pattern="^[^:/]*$" />
+    <input class="form-input" id="register_field_lastname" type="text" name="lastName" placeholder="{{ registerFormText.lastName }}" title="{{ registerFormText.firstOrLastNameHelp }}" required maxlength="25" autocomplete="on" autocapitalize="off" autocorrect="off" spellcheck="false" pattern="^[^:/]*$" />
   </div>
 </div>
 
 <div class="form-field-wrap">
-  <label class="form-field-wrap__title" for="register_field_email">{{ registerPageText.email }}</label>
-  <input class="form-field-wrap__field form-input" id="register_field_email" type="email" pattern="{{ emailValidationRegex }}" name="email" placeholder="{{ registerPageText.emailHelp }}" autocomplete="on" autocapitalize="off" autocorrect="off"
+  <label class="form-field-wrap__title" for="register_field_email">{{ registerFormText.email }}</label>
+  <input class="form-field-wrap__field form-input" id="register_field_email" type="email" pattern="{{ emailValidationRegex }}" name="email" placeholder="{{ registerFormText.emailHelp }}" autocomplete="on" autocapitalize="off" autocorrect="off"
          spellcheck="false" value="{{email}}" required />
   {{#each errors.emailErrors }}
     <p data-feedback-id="{{ id }}" class="form-feedback form-feedback--error form-feedback--hydratable form-field-wrap__field">{{ message }}</p>
@@ -21,7 +21,7 @@
 
     <div>
       <label class="form-field-wrap__title" for="register_field_countryCode">
-        {{ registerPageText.countryCode }}
+        {{ registerFormText.countryCode }}
       </label>
       <input type="hidden" id="register_field_countryIsoName" />
       <select class="form-field-wrap__field form-input" id="register_field_countryCode" type="tel"
@@ -33,22 +33,22 @@
     </div>
 
     <label class="form-field-wrap__title" for="register_field_localNumber">
-      {{ registerPageText.phone }}
-        <a hidden class="register-form__link--why-phone-number">{{ registerPageText.whyPhone }}</a>
+      {{ registerFormText.phone }}
+        <a hidden class="register-form__link--why-phone-number">{{ registerFormText.whyPhone }}</a>
     </label>
     <input class="form-field-wrap__field form-input" id="register_field_localNumber" type="tel"
            name="localNumber" autocomplete="on" autocapitalize="off" autocorrect="off" spellcheck="false"
            required minlength="3" maxlength="20"/>
 
     <div class="form-field-wrap__footer">
-      {{ registerPageText.becausePhone }}
+      {{ registerFormText.becausePhone }}
     </div>
   </div>
 {{/ askForPhoneNumber }}
 
 <div class="form-field-wrap">
-    <label class="form-field-wrap__title" for="register_field_password">{{ registerPageText.password }}</label>
-    <input class="form-field-wrap__field form-input" id="register_field_password" type="password" name="password" placeholder="{{ registerPageText.passwordHelp }}" required minlength="6" />
+    <label class="form-field-wrap__title" for="register_field_password">{{ registerFormText.password }}</label>
+    <input class="form-field-wrap__field form-input" id="register_field_password" type="password" name="password" placeholder="{{ registerFormText.passwordHelp }}" required minlength="6" />
   {{#each errors.passwordErrors }}
     <p data-feedback-id="{{ id }}" class="form-feedback form-feedback--error form-feedback--hydratable form-field-wrap__field">{{ message }}</p>
   {{/ each }}
@@ -60,9 +60,9 @@
   {{#if shouldCollectV2Consents}}
     <div class="form-checkbox">
       <input type="hidden" id="consents_0_actor" name="consents[0].actor" value="user">
-      <input type="hidden" id="consents_0_id" name="consents[0].id" value={{ registerPageText.consent.SupporterConsentIdentifier }}>
+      <input type="hidden" id="consents_0_id" name="consents[0].id" value={{ registerFormText.consent.SupporterConsentIdentifier }}>
       <input class="form-checkbox__input" id="register_field_supporter_consent" type="checkbox" name="consents[0].consented" value="true"/>
-      <label class="form-checkbox__label" for="register_field_supporter_consent">{{ registerPageText.consent.SupporterConsentText }}</label>
+      <label class="form-checkbox__label" for="register_field_supporter_consent">{{ registerFormText.consent.SupporterConsentText }}</label>
     </div>
 
   {{/if}}
