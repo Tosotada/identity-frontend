@@ -1,15 +1,28 @@
-<form class="two-step-signin" method="POST" action="{{ actions.signInSecondStepCurrent }}">
+<form class="two-step-signin" method="POST" action="{{ actions.register }}">
 
   {{> components/two-step-signin/_email-header }}
-
   {{> components/two-step-signin/_helpers }}
+  <input type="hidden" name="email" value="{{email}}" />
+
   {{> components/form/form-feedback-wrap }}
 
-  <div class="form-field-wrap">
-    <p class="layout-text">
-      {{twoStepSignInPageText.newUserCreateAccountAction}}
-    </p>
-    <a href="{{registerUrl}}" class="form-button form-button--main form-field-wrap__field">{{twoStepSignInPageText.registerAction}} {{> components/icon/arrow-inline }}</a>
+  <p class="layout-text">
+    {{twoStepSignInPageText.newUserCreateAccountAction}}
+  </p>
+
+  <div class="layout-section layout-section--no-border">
+
+    {{> components/register-form/_form-field-name text=twoStepSignInPageText.registerForm }}
+
+    {{> components/register-form/_form-field-phone
+      text=twoStepSignInPageText.registerForm askForPhoneNumber=askForPhoneNumber countryCodes=countryCodes
+    }}
+
+    {{> components/register-form/_form-field-password text=twoStepSignInPageText.registerForm }}
+
+    <div class="form-field-wrap">
+      <button class="form-button form-button--main form-field-wrap__field">{{twoStepSignInPageText.registerAction}} {{> components/icon/arrow-inline }}</button>
+    </div>
   </div>
 
   <div class="layout-section">

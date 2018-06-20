@@ -132,6 +132,7 @@ object LayoutViewModel {
       routes = Map(
         "signIn" -> routes.Application.signIn().url,
         "reset" -> routes.Application.reset().url,
+        "registerAction" -> routes.RegisterAction.register().url,
         "twoStepSignIn" -> routes.Application.twoStepSignInStart().url,
         "twoStepSignInAction" -> routes.SigninAction.emailSignInFirstStep().url,
         "signInSecondStepCurrentAction" -> routes.SigninAction.signInSecondStepCurrent().url,

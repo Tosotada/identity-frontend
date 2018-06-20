@@ -3,10 +3,10 @@ import { route } from 'js/config';
 type ValidRouteList = string[];
 
 const formRoutes: ValidRouteList = [
-  route('twoStepSignInAction'),
-  route('signInSecondStepCurrentAction'),
-  route('sendResubLinkAction')
-];
+  'twoStepSignInAction',
+  'signInSecondStepCurrentAction',
+  'sendResubLinkAction'
+].map(_ => route(_, true));
 
 const linkRoutes: ValidRouteList = [route('twoStepSignIn')];
 

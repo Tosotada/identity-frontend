@@ -6,7 +6,6 @@ import { fetchTracker } from 'components/analytics/ga';
 
 const selector: string = '.smartlock-trigger';
 
-const ERR_WRONG_CREDENTIAL = 'Error fetching smart lock credentials';
 const ERR_FAILED_SIGNIN = 'Error signing in with smart lock';
 const ERR_MISSING_PARAMS = 'Missing parameters';
 
@@ -66,8 +65,6 @@ const init = ($element: HTMLElement): void => {
         // $FlowFixMe
         if (c instanceof PasswordCredential) {
           smartLockSignIn(c, returnUrl, csrfToken);
-        } else {
-          throw new Error(ERR_WRONG_CREDENTIAL);
         }
       });
   }
