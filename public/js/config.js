@@ -3,7 +3,12 @@
 const ERR_MISSING_KEY: string = 'Missing configuration part';
 const ERR_MISSING_CONFIG: string = 'Missing #id_config';
 
-const searchParams = ['skipConfirmation', 'returnUrl', 'clientId'];
+const searchParams = [
+  'skipConfirmation',
+  'returnUrl',
+  'clientId',
+  'skipValidationReturn'
+];
 
 const reduceReplacers = (text: string, ...replacers: string[]): string =>
   replacers.reduce(

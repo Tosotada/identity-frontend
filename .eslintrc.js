@@ -18,6 +18,7 @@ module.exports = {
   },
   rules: {
     'import/no-extraneous-dependencies': 'off',
+    'import/prefer-default-export': 'off',
     'prettier/prettier': 'error',
     'no-extend-native': 'error',
     'no-param-reassign': ['error', { props: false }],
