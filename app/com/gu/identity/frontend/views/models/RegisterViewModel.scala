@@ -110,13 +110,13 @@ object RegisterViewModel {
     )
   }
 
-  private def showStandfirst(clientId: Option[ClientID]) =
+  def showStandfirst(clientId: Option[ClientID]) =
     clientId.contains(GuardianJobsClientID) || clientId.contains(GuardianMembersClientID)
 
-  private def askForPhoneNumber(clientId: Option[ClientID]) =
+  def askForPhoneNumber(clientId: Option[ClientID]) =
     clientId.contains(GuardianCommentersClientID)
 
-  private def countryCodes(clientId: Option[ClientID]) : Option[CountryCodes] = {
+  def countryCodes(clientId: Option[ClientID]) : Option[CountryCodes] = {
     clientId match {
       case Some(c) => if (c.id == "comments") Option(CountryCodes.apply) else None
       case _ => None

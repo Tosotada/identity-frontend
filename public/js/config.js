@@ -48,8 +48,10 @@ const get = (key: string): any => {
   throw new Error(ERR_MISSING_KEY);
 };
 
-const route = (routeToGet: string): string => {
-  const params = getSearchParams(window.location.href);
+const route = (routeToGet: string, doNotAppendQueryParams: boolean): string => {
+  const params = doNotAppendQueryParams
+    ? null
+    : getSearchParams(window.location.href);
   if (config.routes && config.routes[routeToGet])
     return params
       ? `${config.routes[routeToGet]}?${params}`
