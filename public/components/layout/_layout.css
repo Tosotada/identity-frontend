@@ -99,20 +99,6 @@
 }
 
 /*
-collapsing side by side columns
-*/
-.layout-sbs-col {
-  display: grid;
-  grid: auto-flow / 1fr;
-  grid-column-gap: var(--size-baseline-gutter);
-  grid-row-gap: var(--size-baseline);
-  @media (--viewport-min-mobile-landscape) {
-    display: grid;
-    grid: 1fr / auto-flow;
-  }
-}
-
-/*
 texty text
 */
 .layout-text {

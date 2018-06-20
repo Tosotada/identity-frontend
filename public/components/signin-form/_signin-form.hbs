@@ -27,11 +27,12 @@
     <div class="form-field-wrap">
       <label class="form-field-wrap__title" for="signin_field_password">{{signInPageText.password}}</label>
       <input class="form-field-wrap__field form-input" id="signin_field_password" type="password" name="password" autocomplete="current-password"/>
-      <div class="form-field-wrap__footer">
+      <div class="form-field-wrap__footer u-flexrow">
         <label for="signin_field_remember_me" class="form-checkbox">
           <input id="signin_field_remember_me" class="form-checkbox__input" type="checkbox" name="rememberMe" checked="checked" value="true"/>
           <span class="form-checkbox__label">{{signInPageText.rememberMe}}</span>
         </label>
+        <a class="u-link" href="{{forgotPasswordUrl}}">{{signInPageText.forgottenPassword}}</a>
       </div>
     </div>
 
@@ -43,12 +44,6 @@
 
     <div class="form-field-wrap">
       <button class="form-button form-button--main form-field-wrap__field" id="signin_submit" type="submit">{{signInPageText.signIn}} {{> components/icon/arrow-inline }}</button>
-    </div>
-
-    <div class="layout-section layout-section--no-border">
-      <div class="form-field-wrap">
-        <a class="form-field-wrap__field u-link layout-text u-block" href="{{forgotPasswordUrl}}">{{signInPageText.forgottenPassword}}</a>
-      </div>
     </div>
 
 </form>
