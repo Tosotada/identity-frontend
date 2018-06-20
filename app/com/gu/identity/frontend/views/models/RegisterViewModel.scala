@@ -17,7 +17,6 @@ case class RegisterViewModel(
                               oauth: OAuthRegistrationViewModel,
 
                               registerPageText: Map[String, _],
-                              registerFormText: Map[String, _],
                               terms: TermsViewModel,
 
                               hasErrors: Boolean,
@@ -76,8 +75,9 @@ object RegisterViewModel {
 
       oauth = OAuthRegistrationViewModel(configuration, returnUrl, skipConfirmation, clientId, group, activeTests),
 
-      registerPageText = RegisterText.toMap(clientId),
-      registerFormText = RegisterFormText.toMap(),
+      registerPageText = RegisterText.toMap(clientId) ++ Map(
+        "registerForm" -> RegisterFormText.toMap()
+      ),
       terms = Terms.getTermsModel(group),
 
       hasErrors = errors.nonEmpty,

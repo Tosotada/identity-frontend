@@ -25,9 +25,39 @@
     </div>
   {{/ each }}
 
-  {{> components/register-form/_form-fields}}
+  {{> components/register-form/_form-field-name text=text }}
+
+  {{> components/register-form/_form-field-email
+    text=text emailValidationRegex=emailValidationRegex email=email }}
+  {{# each errors.emailErrors }}
+    <p data-feedback-id="{{ id }}" class="form-feedback form-feedback--error form-feedback--hydratable form-field-wrap__field">{{ message }}</p>
+  {{/ each }}
+
+  {{> components/register-form/_form-field-phone
+    text=text askForPhoneNumber=askForPhoneNumber countryCodes=countryCodes
+  }}
+
+  {{> components/register-form/_form-field-password text=text }}
+  {{# each errors.passwordErrors }}
+    <p data-feedback-id="{{ id }}" class="form-feedback form-feedback--error form-feedback--hydratable form-field-wrap__field">{{ message }}</p>
+  {{/ each }}
+
+  {{#if shouldCollectConsents }}
+
+    {{#if shouldCollectV2Consents}}
+      <div class="form-checkbox">
+        <input type="hidden" id="consents_0_actor" name="consents[0].actor" value="user">
+        <input type="hidden" id="consents_0_id" name="consents[0].id" value={{ text.consent.SupporterConsentIdentifier }}>
+        <input class="form-checkbox__input" id="register_field_supporter_consent" type="checkbox" name="consents[0].consented" value="true"/>
+        <label class="form-checkbox__label" for="register_field_supporter_consent">{{ text.consent.SupporterConsentText }}</label>
+      </div>
+
+    {{/if}}
+
+  {{/if}}
+
   <div class="form-field-wrap">
-    <button class="form-button form-button--main form-field-wrap__field" id="register_submit" type="submit">{{ registerFormText.createAccount }} {{> components/icon/arrow-inline }}</button>
+    <button class="form-button form-button--main form-field-wrap__field" id="register_submit" type="submit">{{ text.createAccount }} {{> components/icon/arrow-inline }}</button>
   </div>
 
 </form>
