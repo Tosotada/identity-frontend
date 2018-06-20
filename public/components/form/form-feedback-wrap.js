@@ -8,7 +8,7 @@ const selector: string = '.form-feedback-wrap';
 const errors: string[] = [];
 
 const renderErrors = (): void => {
-  $elements.filter((el, index) => index === 0).forEach($element => {
+  $elements.forEach($element => {
     $element.innerHTML = '';
     errors.forEach(error => {
       const $div = document.createElement('div');
@@ -35,6 +35,7 @@ const showErrorText = (error: string): void => {
 
 const init = ($element: HTMLElement): Promise<void> => {
   $elements.push($element);
+  errors.length = 0;
   return Promise.resolve();
 };
 
