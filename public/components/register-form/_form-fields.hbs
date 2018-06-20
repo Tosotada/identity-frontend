@@ -1,59 +1,19 @@
-<div class="form-field-wrap">
-  <label class="form-field-wrap__title" for="register_field_firstname">{{ registerFormText.name }}</label>
-  <div class="u-flexrow u-flexrow--half form-field-wrap__field">
-    <input class="form-input" id="register_field_firstname" type="text" name="firstName" placeholder="{{ registerFormText.firstName }}" title="{{ registerFormText.firstOrLastNameHelp }}" required maxlength="25" autocomplete="on" autocapitalize="off" autocorrect="off" spellcheck="false" pattern="^[^:/]*$" />
-    <input class="form-input" id="register_field_lastname" type="text" name="lastName" placeholder="{{ registerFormText.lastName }}" title="{{ registerFormText.firstOrLastNameHelp }}" required maxlength="25" autocomplete="on" autocapitalize="off" autocorrect="off" spellcheck="false" pattern="^[^:/]*$" />
-  </div>
-</div>
+{{> components/register-form/_form-field-name text=registerFormText }}
 
-<div class="form-field-wrap">
-  <label class="form-field-wrap__title" for="register_field_email">{{ registerFormText.email }}</label>
-  <input class="form-field-wrap__field form-input" id="register_field_email" type="email" pattern="{{ emailValidationRegex }}" name="email" placeholder="{{ registerFormText.emailHelp }}" autocomplete="on" autocapitalize="off" autocorrect="off"
-         spellcheck="false" value="{{email}}" required />
-  {{#each errors.emailErrors }}
-    <p data-feedback-id="{{ id }}" class="form-feedback form-feedback--error form-feedback--hydratable form-field-wrap__field">{{ message }}</p>
-  {{/ each }}
-</div>
+{{> components/register-form/_form-field-email
+    text=registerFormText emailValidationRegex=emailValidationRegex email=email }}
+{{# each errors.emailErrors }}
+  <p data-feedback-id="{{ id }}" class="form-feedback form-feedback--error form-feedback--hydratable form-field-wrap__field">{{ message }}</p>
+{{/ each }}
 
+{{> components/register-form/_form-field-phone
+    text=registerFormText askForPhoneNumber=askForPhoneNumber countryCodes=countryCodes
+}}
 
-{{# askForPhoneNumber }}
-  <div class="form-field-wrap form-field-wrap--phone">
-
-    <div>
-      <label class="form-field-wrap__title" for="register_field_countryCode">
-        {{ registerFormText.countryCode }}
-      </label>
-      <input type="hidden" id="register_field_countryIsoName" />
-      <select class="form-field-wrap__field form-input" id="register_field_countryCode" type="tel"
-              name="countryCode" autocomplete="on" autocapitalize="off" autocorrect="off" spellcheck="false">
-        {{#each countryCodes.codes }}
-          <option value="{{ code }}">+ {{ code }}</option>
-        {{/ each }}
-      </select>
-    </div>
-
-    <label class="form-field-wrap__title" for="register_field_localNumber">
-      {{ registerFormText.phone }}
-        <a hidden class="register-form__link--why-phone-number">{{ registerFormText.whyPhone }}</a>
-    </label>
-    <input class="form-field-wrap__field form-input" id="register_field_localNumber" type="tel"
-           name="localNumber" autocomplete="on" autocapitalize="off" autocorrect="off" spellcheck="false"
-           required minlength="3" maxlength="20"/>
-
-    <div class="form-field-wrap__footer">
-      {{ registerFormText.becausePhone }}
-    </div>
-  </div>
-{{/ askForPhoneNumber }}
-
-<div class="form-field-wrap">
-    <label class="form-field-wrap__title" for="register_field_password">{{ registerFormText.password }}</label>
-    <input class="form-field-wrap__field form-input" id="register_field_password" type="password" name="password" placeholder="{{ registerFormText.passwordHelp }}" required minlength="6" />
-  {{#each errors.passwordErrors }}
-    <p data-feedback-id="{{ id }}" class="form-feedback form-feedback--error form-feedback--hydratable form-field-wrap__field">{{ message }}</p>
-  {{/ each }}
-</div>
-
+{{> components/register-form/_form-field-password text=registerFormText }}
+{{# each errors.passwordErrors }}
+  <p data-feedback-id="{{ id }}" class="form-feedback form-feedback--error form-feedback--hydratable form-field-wrap__field">{{ message }}</p>
+{{/ each }}
 
 {{#if shouldCollectConsents }}
 
