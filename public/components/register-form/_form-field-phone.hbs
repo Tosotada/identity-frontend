@@ -1,0 +1,29 @@
+{{# askForPhoneNumber }}
+  <div class="form-field-wrap form-field-wrap--phone">
+
+    <div>
+      <label class="form-field-wrap__title" for="register_field_countryCode">
+        {{ text.countryCode }}
+      </label>
+      <input type="hidden" id="register_field_countryIsoName" />
+      <select class="form-field-wrap__field form-input" id="register_field_countryCode" type="tel"
+              name="countryCode" autocomplete="on" autocapitalize="off" autocorrect="off" spellcheck="false">
+        {{#each countryCodes.codes }}
+          <option value="{{ code }}">+ {{ code }}</option>
+        {{/ each }}
+      </select>
+    </div>
+
+    <label class="form-field-wrap__title" for="register_field_localNumber">
+      {{ text.phone }}
+      <a hidden class="register-form__link--why-phone-number">{{ text.whyPhone }}</a>
+    </label>
+    <input class="form-field-wrap__field form-input" id="register_field_localNumber" type="tel"
+           name="localNumber" autocomplete="on" autocapitalize="off" autocorrect="off" spellcheck="false"
+           required minlength="3" maxlength="20"/>
+
+    <div class="form-field-wrap__footer">
+      {{ text.becausePhone }}
+    </div>
+  </div>
+{{/ askForPhoneNumber }}

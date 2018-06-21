@@ -11,7 +11,7 @@ signin.dividetext=or
 signin.email=Email address
 signin.password=Password
 signin.forgottenpassword=Set or reset your password
-signin.rememberme=Remember me
+signin.rememberme=Keep me logged in on this device
 signin.signin=Sign in
 signin.noaccount=New to The Guardian?
 signin.signup=Create an account
@@ -37,7 +37,7 @@ signinTwoStep.recoverPasswordAction=Forgot password?
 signinTwoStep.signInCtaEmailAction=Sign in with Email
 signinTwoStep.oauthStepTwoFieldTitle=You can sign in with your social accounts:
 
-signinTwoStep.newUserCreateAccountAction=It looks like it’s your first time signing in to The Guardian. Please create an account (it only takes a minute).
+signinTwoStep.newUserCreateAccountAction=Looks like it’s your first time signing in to The Guardian. Complete the form below to create a Guardian account.
 signinTwoStep.newUserCreateSocialAccountAction=Alternatively, you can create a Guardian account using your social accounts:
 
 # com.gu.identity.frontend.models.text.RegisterText

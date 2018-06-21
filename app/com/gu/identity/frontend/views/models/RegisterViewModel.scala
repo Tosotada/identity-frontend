@@ -4,7 +4,7 @@ import buildinfo.BuildInfo
 import com.gu.identity.frontend.configuration.Configuration
 import com.gu.identity.frontend.controllers.routes
 import com.gu.identity.frontend.models._
-import com.gu.identity.frontend.models.text.RegisterText
+import com.gu.identity.frontend.models.text.{RegisterFormText, RegisterText}
 import com.gu.identity.frontend.mvt._
 import com.gu.identity.frontend.request.RegisterActionRequestBodyFormMapping
 import play.api.i18n.Messages
@@ -16,7 +16,7 @@ case class RegisterViewModel(
 
                               oauth: OAuthRegistrationViewModel,
 
-                              registerPageText: RegisterText,
+                              registerPageText: Map[String, _],
                               terms: TermsViewModel,
 
                               hasErrors: Boolean,
@@ -75,7 +75,9 @@ object RegisterViewModel {
 
       oauth = OAuthRegistrationViewModel(configuration, returnUrl, skipConfirmation, clientId, group, activeTests),
 
-      registerPageText = RegisterText.loadText(clientId),
+      registerPageText = RegisterText.toMap(clientId) ++ Map(
+        "registerForm" -> RegisterFormText.toMap()
+      ),
       terms = Terms.getTermsModel(group),
 
       hasErrors = errors.nonEmpty,
@@ -108,13 +110,13 @@ object RegisterViewModel {
     )
   }
 
-  private def showStandfirst(clientId: Option[ClientID]) =
+  def showStandfirst(clientId: Option[ClientID]) =
     clientId.contains(GuardianJobsClientID) || clientId.contains(GuardianMembersClientID)
 
-  private def askForPhoneNumber(clientId: Option[ClientID]) =
+  def askForPhoneNumber(clientId: Option[ClientID]) =
     clientId.contains(GuardianCommentersClientID)
 
-  private def countryCodes(clientId: Option[ClientID]) : Option[CountryCodes] = {
+  def countryCodes(clientId: Option[ClientID]) : Option[CountryCodes] = {
     clientId match {
       case Some(c) => if (c.id == "comments") Option(CountryCodes.apply) else None
       case _ => None

@@ -9,7 +9,7 @@
 }
 
 .header__inner {
-  @extend %page-block;
+  @extend %layout-wrap-page;
   overflow: hidden;
 }
 

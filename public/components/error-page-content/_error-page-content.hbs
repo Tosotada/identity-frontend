@@ -1,11 +1,10 @@
-<h1 class="page-heading">{{ text.title }}</h1>
+<header class="layout-header">
+  <h1 class="layout-header__title">{{ text.title }}</h1>
+  <p class="layout-header__title layout-header__title--standfirst">{{{ text.description }}}</p>
+</header>
 
-<section class="page-standfirst">
-  <p class="page-standfirst__paragraph">{{{ text.description }}}</p>
-</section>
-
-<section class="page-content">
+<section class="layout-section">
   {{# text.details }}
-    <p class="error-content__details">{{ text.details }}</p>
+    <p class="layout-text">{{ text.details }}</p>
   {{/text.details}}
 </section>

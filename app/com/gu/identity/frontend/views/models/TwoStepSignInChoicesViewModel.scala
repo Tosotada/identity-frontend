@@ -4,7 +4,10 @@ import com.gu.identity.frontend.configuration.Configuration
 import com.gu.identity.frontend.controllers.routes
 import com.gu.identity.frontend.models.Text._
 import com.gu.identity.frontend.models._
+import com.gu.identity.frontend.models.text.{RegisterFormText, TwoStepSignInChoicesPageText}
 import com.gu.identity.frontend.mvt.ActiveMultiVariantTests
+import com.gu.identity.frontend.request.RegisterActionRequestBodyFormMapping
+import com.gu.identity.frontend.views.models.RegisterViewModel.{countryCodes,askForPhoneNumber}
 import com.gu.identity.model.{CurrentUser, GuestUser, NewUser, UserType}
 import play.api.i18n.Messages
 import play.filters.csrf.CSRF.Token
@@ -15,7 +18,7 @@ case class TwoStepSignInChoicesViewModel private(
 
   oauth: OAuthViewModel,
 
-  twoStepSignInPageText: Map[String, String],
+  twoStepSignInPageText: Map[String, _],
   terms: TermsViewModel,
 
   errors: Seq[ErrorViewModel] = Seq.empty,
@@ -36,12 +39,16 @@ case class TwoStepSignInChoicesViewModel private(
 
   userTypes: Map[String, Boolean],
 
+  askForPhoneNumber: Boolean,
+  countryCodes: Option[CountryCodes],
+  emailValidationRegex: String,
   recaptchaModel: Option[Any],
 
   actions: Map[String, String] = Map(
     "signInWithEmailAndPassword" -> routes.SigninAction.signIn().url,
     "resetPassword" -> routes.ResetPasswordAction.reset().url,
-    "signInSecondStepCurrent" -> routes.SigninAction.signInSecondStepCurrent().url
+    "signInSecondStepCurrent" -> routes.SigninAction.signInSecondStepCurrent().url,
+    "register" -> routes.RegisterAction.register().url
   ),
   resources: Seq[PageResource with Product],
   indirectResources: Seq[PageResource with Product])
@@ -80,7 +87,9 @@ object TwoStepSignInChoicesViewModel {
 
       oauth = oauth,
 
-      twoStepSignInPageText = TwoStepSignInChoicesPageText.toMap(),
+      twoStepSignInPageText = TwoStepSignInChoicesPageText.toMap() ++ Map(
+        "registerForm" -> RegisterFormText.toMap()
+      ),
       terms = Terms.getTermsModel(group),
 
       errors = errors,
@@ -104,6 +113,9 @@ object TwoStepSignInChoicesViewModel {
         ("isGuest", userType.contains(GuestUser))
       ),
 
+      countryCodes = countryCodes(clientId),
+      askForPhoneNumber = askForPhoneNumber(clientId),
+      emailValidationRegex = RegisterActionRequestBodyFormMapping.dotlessDomainEmailRegex.pattern.toString,
       recaptchaModel = recaptchaModel,
 
       resources = resources,

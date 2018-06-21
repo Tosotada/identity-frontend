@@ -1,5 +1,6 @@
 // @flow
 
+import Raven from 'raven-js';
 import { showErrorText } from '../form/form-feedback-wrap';
 import { getUrlErrors } from '../../js/get-url-errors';
 import {
@@ -108,7 +109,7 @@ const catchSlide = ($slide: HTMLElement, err: Error): void => {
   } else {
     showErrorText('error-unexpected');
   }
-  console.error(err);
+  Raven.captureException(err, JSON.stringify(err));
 };
 
 const fetchAndDispatchSlide = (

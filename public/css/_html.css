@@ -26,98 +26,6 @@ body > main {
   flex-grow: 1;
 }
 
-.u-none {
-  display: none !important;
-}
-
-.u-flexrow {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.u-block {
-  display: block;
-}
-
-%page-block {
-  margin: 0 auto;
-  box-sizing: border-box;
-  padding: 0 calc(var(--size-baseline) * 3);
-
-  @media (--viewport-min-mobile-landscape) {
-    max-width: 56rem;
-  }
-
-  @media (--viewport-min-tablet) {
-    max-width: 74rem;
-  }
-
-  @media (--viewport-min-desktop) {
-    max-width: 98rem;
-  }
-}
-
-/**
- * Off horizontally centred container of a content width of 540px
- */
-
-%content-container {
-  @extend %page-block;
-  width: 100%;
-  max-width: 58rem;
-}
-
-.page-heading {
-  @extend %font-heading-0;
-  @extend %content-container;
-  font-weight: normal;
-  padding-top: 0.5rem;
-  padding-bottom: 2rem;
-
-  & + .page-standfirst {
-    margin-top: -2rem;
-  }
-}
-
-@media (--viewport-min-tablet) {
-  .page-heading {
-    @extend %font-heading-1;
-  }
-}
-
-/**
- * Page standfirst - section and paragraph under the page-heading
- */
-.page-standfirst {
-  @extend %font-sub-heading-2;
-  @extend %content-container;
-  padding-bottom: 2rem;
-  padding-top: 0.5rem;
-
-  a:not(.form-button) {
-    @extend %link;
-    color: var(--color-text);
-    font-weight: 500;
-  }
-
-  & .page-standfirst__paragraph {
-    margin: 0;
-  }
-}
-
-.page-content {
-  @extend %content-container;
-}
-
-p {
-  margin: 0;
-  + p {
-    margin-top: var(--size-baseline-gutter);
-  }
-}
-
-/** Global style for links in the body text */
 %link {
   color: var(--color-link);
   cursor: pointer;
@@ -131,6 +39,50 @@ p {
   }
 }
 
+%clearfix {
+  zoom: 1;
+
+  &::before,
+  &::after {
+    content: ' ';
+    display: table;
+  }
+
+  &::after {
+    clear: both;
+  }
+}
+
+.u-none {
+  display: none !important;
+}
+
+.u-flexrow {
+  display: grid;
+  grid: auto-flow / 1fr;
+  grid-column-gap: var(--size-baseline-gutter);
+  grid-row-gap: var(--size-baseline);
+  justify-content: space-between;
+  @media (--viewport-min-mobile-landscape) {
+    display: grid;
+    grid: 1fr / auto-flow;
+  }
+  &.u-flexrow--half {
+    justify-content: inherit;
+  }
+}
+
+.u-block {
+  display: block;
+}
+
 .u-link {
   @extend %link;
+}
+
+p {
+  margin: 0;
+  + p {
+    margin-top: var(--size-baseline-gutter);
+  }
 }

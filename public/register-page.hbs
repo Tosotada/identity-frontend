@@ -2,7 +2,7 @@
 
 {{# partial "content" }}
 
-  <section class="layout-wrap-width layout-wrap-width--wide">
+  <section class="layout-wrap-width">
 
     <header class="layout-header">
       <h1 data-commitId="{{ gitCommitId }}" class="layout-header__title">{{ registerPageText.title }}</h1>
@@ -22,7 +22,7 @@
     </p>
 
     <section class="form-field-wrap">
-      {{> components/register-form/_register-form }}
+      {{> components/register-form/_register-form text=registerPageText.registerForm }}
     </section>
 
     <section class="layout-section">
