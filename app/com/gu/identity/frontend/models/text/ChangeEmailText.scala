@@ -14,8 +14,8 @@ object ChangeEmailText {
     ChangeEmailText(
       pageTitle = messages("changeEmailSuccessful.pageTitle"),
       title = messages("changeEmailSuccessful.title"),
-      button1 = messages("changeEmailSuccessful.button1"),
-      button2 = messages("changeEmailSuccessful.button2"),
+      button1 = messages("changeEmailSuccessful.backToAccountAction"),
+      button2 = messages("changeEmailSuccessful.returnToGuardianAction"),
       error = messages("changeEmailSuccessful.unexpectedTitle")
     )
 }

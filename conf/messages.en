@@ -142,8 +142,8 @@ resetPasswordEmailSent.instructions4=Please check your inbox!
 
 changeEmailSuccessful.pageTitle=Email changed
 changeEmailSuccessful.title=Success! Your email address has been updated.
-changeEmailSuccessful.button1=Back to Account details
-changeEmailSuccessful.button2=Continue to The Guardian homepage
+changeEmailSuccessful.backToAccountAction=Back to Account details
+changeEmailSuccessful.returnToGuardianAction=Continue to The Guardian homepage
 changeEmailSuccessful.unexpectedTitle=Sorry there was a problem
 
 errors.badRequest.pageTitle=Bad request: {0}
