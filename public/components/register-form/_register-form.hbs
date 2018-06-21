@@ -20,9 +20,7 @@
   <input class="ga-client-id" type="hidden" name="gaClientId" value="">
 
   {{#each errors.otherErrors }}
-    <div class="form-field-wrap">
-      <p id="{{ id }}" class="form-feedback form-feedback--error">{{ message }}</p>
-    </div>
+    <p id="{{ id }}" class="form-feedback form-feedback--error form-field-wrap">{{ message }}</p>
   {{/ each }}
 
   {{> components/register-form/_form-field-name text=text }}
@@ -30,7 +28,7 @@
   {{> components/register-form/_form-field-email
     text=text emailValidationRegex=emailValidationRegex email=email }}
   {{# each errors.emailErrors }}
-    <p data-feedback-id="{{ id }}" class="form-feedback form-feedback--error form-feedback--hydratable form-field-wrap__field">{{ message }}</p>
+    <p data-feedback-id="{{ id }}" class="form-feedback form-feedback--error form-feedback--hydratable form-field-wrap">{{ message }}</p>
   {{/ each }}
 
   {{> components/register-form/_form-field-phone
@@ -39,7 +37,7 @@
 
   {{> components/register-form/_form-field-password text=text }}
   {{# each errors.passwordErrors }}
-    <p data-feedback-id="{{ id }}" class="form-feedback form-feedback--error form-feedback--hydratable form-field-wrap__field">{{ message }}</p>
+    <p data-feedback-id="{{ id }}" class="form-feedback form-feedback--error form-feedback--hydratable form-field-wrap>{{ message }}</p>
   {{/ each }}
 
   {{#if shouldCollectConsents }}
