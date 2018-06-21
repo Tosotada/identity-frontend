@@ -2,28 +2,34 @@
 
 {{# partial "content" }}
 
-  {{# unless errors}}
-    <h1 class="page-heading">{{ ChangeEmailSuccessfulText.title }}</h1>
-    <section class="page-standfirst">
-      <div class="form-field-wrap">
-        <a href="account/edit" data-link-name="change-email-cta1 : {{ChangeEmailSuccessfulText.button1}}" class="form-button form-button--main form-field-wrap__field">{{ChangeEmailSuccessfulText.button1}}
-          {{>components/icon/arrow-inline
-        }}</a>
-        <a href="https://www.theguardian.com" data-link-name="change-email-cta2 : {{ChangeEmailSuccessfulText.button2}}" class="form-button form-button--secondary form-field-wrap__field">{{ChangeEmailSuccessfulText.button2}} {{>
-        components/icon/arrow-inline }}</a>
-      </div>
+  <div class="layout-wrap-width">
+
+    {{# unless errors}}
+      <header class="layout-header">
+        <h1 class="layout-header__title">{{ ChangeEmailSuccessfulText.title }}</h1>
+      </header>
+
+      <section class="layout-section layout-section--no-border">
+        <div class="form-field-wrap">
+          <a href="account/edit" data-link-name="change-email-cta1 : {{ChangeEmailSuccessfulText.button1}}" class="form-button form-button--main form-field-wrap__field">{{ChangeEmailSuccessfulText.button1}}
+            {{>components/icon/arrow-inline
+          }}</a>
+          <a href="https://www.theguardian.com" data-link-name="change-email-cta2 : {{ChangeEmailSuccessfulText.button2}}" class="form-button form-button--secondary form-field-wrap__field">{{ChangeEmailSuccessfulText.button2}} {{>
+          components/icon/arrow-inline }}</a>
+        </div>
+      </section>
+    {{/unless}}
+
+    <section class="layout-header">
+      {{#if errors}}
+        <h1 class="layout-header__title">{{ ChangeEmailSuccessfulText.unexpectedTitle }}</h1>
+      {{/if}}
+
+      {{#each errors}}
+        <p id="{{id}}" class="form__error">{{message}}</p>
+      {{/each}}
     </section>
-  {{/unless}}
 
-  <section class="page-content">
-    {{#if errors}}
-      <h1 class="page-heading">{{ ChangeEmailSuccessfulText.unexpectedTitle }}</h1>
-    {{/if}}
-
-    {{#each errors}}
-      <p id="{{id}}" class="resend-consent-form__error">{{message}}</p>
-    {{/each}}
-  </section>
-
+  </div>
 {{/partial}}
 {{> layout}}
