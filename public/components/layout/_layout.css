@@ -1,5 +1,25 @@
+%layout-wrap-page {
+  margin: 0 auto;
+  box-sizing: border-box;
+  padding: 0 calc(var(--size-baseline) * 3);
+
+  @media (--viewport-min-mobile-landscape) {
+    max-width: 56rem;
+  }
+
+  @media (--viewport-min-tablet) {
+    max-width: 74rem;
+  }
+
+  @media (--viewport-min-desktop) {
+    max-width: 98rem;
+  }
+}
+
 .layout-wrap-width {
-  @extend %content-container;
+  width: 100%;
+  margin: 0 auto;
+  box-sizing: border-box;
   max-width: 38em;
   padding-bottom: var(--size-baseline-vertical);
   &.layout-wrap-width--wide {

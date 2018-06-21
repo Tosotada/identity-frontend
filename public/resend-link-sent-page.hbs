@@ -2,22 +2,26 @@
 
 {{# partial "content" }}
 
+  <section class="layout-wrap-width layout-wrap-width--wide">
+
   {{# unless errors}}
-    <h1 class="page-heading">{{ resendLinkEmailSentText.title }}</h1>
-    <section class="page-standfirst">
-      <p class="page-standfirst__paragraph resend-link-description">{{resendLinkEmailSentText.description}}</p>
-    </section>
+    <header class="layout-header">
+      <h1 class="layout-header__title">{{ resendLinkEmailSentText.title }}</h1>
+    </header>
+
+    <p class="layout-text">{{{ resendLinkEmailSentText.description }}}</p>
   {{/unless}}
 
-  <section class="page-content">
   {{#if errors}}
-      <h1 class="page-heading">{{ resendLinkEmailSentText.unexpectedTitle }}</h1>
+    <header class="layout-header">
+      <h1 class="layout-header__title">{{ resendLinkEmailSentText.unexpectedTitle }}</h1>
+    </header>
+    <div class="form-field-wrap">
+      {{#each errors}}
+        <p id="{{id}}" class="form-feedback form-feedback--error form-field-wrap__field">{{message}}</p>
+      {{/each}}
+    </div>
   {{/if}}
-
-  {{#each errors}}
-    <p id="{{id}}" class="resend-consent-form__error">{{message}}</p>
-  {{/each}}
-  </section>
 
 {{/partial}}
 {{> layout}}

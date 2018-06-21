@@ -26,13 +26,37 @@ body > main {
   flex-grow: 1;
 }
 
+%link {
+  color: var(--color-link);
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-color: var(--color-link-underline);
+  transition: text-decoration-color 0.15s ease-out;
+
+  &:hover,
+  &:focus {
+    text-decoration-color: var(--color-link);
+  }
+}
+
+%clearfix {
+  zoom: 1;
+
+  &::before,
+  &::after {
+    content: ' ';
+    display: table;
+  }
+
+  &::after {
+    clear: both;
+  }
+}
+
 .u-none {
   display: none !important;
 }
 
-/*
-collapsing side by side columns
-*/
 .u-flexrow {
   display: grid;
   grid: auto-flow / 1fr;
@@ -52,74 +76,8 @@ collapsing side by side columns
   display: block;
 }
 
-%page-block {
-  margin: 0 auto;
-  box-sizing: border-box;
-  padding: 0 calc(var(--size-baseline) * 3);
-
-  @media (--viewport-min-mobile-landscape) {
-    max-width: 56rem;
-  }
-
-  @media (--viewport-min-tablet) {
-    max-width: 74rem;
-  }
-
-  @media (--viewport-min-desktop) {
-    max-width: 98rem;
-  }
-}
-
-/**
- * Off horizontally centred container of a content width of 540px
- */
-
-%content-container {
-  @extend %page-block;
-  width: 100%;
-  max-width: 58rem;
-}
-
-.page-heading {
-  @extend %font-heading-0;
-  @extend %content-container;
-  font-weight: normal;
-  padding-top: 0.5rem;
-  padding-bottom: 2rem;
-
-  & + .page-standfirst {
-    margin-top: -2rem;
-  }
-}
-
-@media (--viewport-min-tablet) {
-  .page-heading {
-    @extend %font-heading-1;
-  }
-}
-
-/**
- * Page standfirst - section and paragraph under the page-heading
- */
-.page-standfirst {
-  @extend %font-sub-heading-2;
-  @extend %content-container;
-  padding-bottom: 2rem;
-  padding-top: 0.5rem;
-
-  a:not(.form-button) {
-    @extend %link;
-    color: var(--color-text);
-    font-weight: 500;
-  }
-
-  & .page-standfirst__paragraph {
-    margin: 0;
-  }
-}
-
-.page-content {
-  @extend %content-container;
+.u-link {
+  @extend %link;
 }
 
 p {
@@ -127,22 +85,4 @@ p {
   + p {
     margin-top: var(--size-baseline-gutter);
   }
-}
-
-/** Global style for links in the body text */
-%link {
-  color: var(--color-link);
-  cursor: pointer;
-  text-decoration: underline;
-  text-decoration-color: var(--color-link-underline);
-  transition: text-decoration-color 0.15s ease-out;
-
-  &:hover,
-  &:focus {
-    text-decoration-color: var(--color-link);
-  }
-}
-
-.u-link {
-  @extend %link;
 }

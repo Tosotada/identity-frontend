@@ -2,20 +2,23 @@
 
 
 {{# partial "content" }}
-  <h1 class="page-heading">{{ text.title }}</h1>
-  <section class="page-standfirst">
-      <p class="page-standfirst__paragraph resend-link-description">{{ text.description }}</p>
 
-      <form id="resend-token-form" class="resend-consent-form" action="/repermission-token/resend" method="GET">
-        <input type="hidden" name="token" value="{{ token }}">
-        <input type="hidden" name="csrfToken" value="{{ csrfToken.value }}">
+<section class="layout-wrap-width layout-wrap-width--wide">
+  <header class="layout-header">
+    <h1 class="layout-header__title">{{ text.title }}</h1>
+    <p class="layout-header__title layout-header__title--standfirst">{{{ text.description }}}</p>
+  </header>
 
-        <div class="resend-consent-form__control--submit">
-          <button class="resend-consent-form__submit-button" id="resend-consent_submit" type="submit">{{ text.buttonText }} {{> components/icon/arrow-inline }}</button>
-        </div>
+  <form id="resend-token-form" action="/repermission-token/resend" method="GET">
+    <input type="hidden" name="token" value="{{ token }}">
+    <input type="hidden" name="csrfToken" value="{{ csrfToken.value }}">
 
-      </form>
+    <div class="form-field-wrap">
+      <button class="form-button form-button--main form-field-wrap__field" id="resend-consent_submit" type="submit">{{ text.buttonText }} {{> components/icon/arrow-inline }}</button>
+    </div>
 
-  </section>
+  </form>
+</section>
+
 {{/partial}}
 {{> layout}}
