@@ -2,26 +2,29 @@
 
 
 {{# partial "content" }}
-  <h1 class="page-heading">{{ text.title }}</h1>
-  <section class="page-content">
+
+  <section class="layout-wrap-width layout-wrap-width--wide">
+    <header class="layout-header">
+      <h1 class="layout-header__title">{{ text.title }}</h1>
+    </header>
 
     {{#each errors}}
-      <p id="{{id}}" class="reset-password-form__error">{{message}}</p>
+      <p id="{{id}}" class="form-feedback form-feedback--error form-feedback--hydratable form-field-wrap__field">{{message}}</p>
 
-      {{else}}
-      <p class="resend-consent__text">{{ text.description }}</p>
+    {{else}}
+
+      <p class="layout-text">{{ text.description }}</p>
 
       <form id="resend-token-form" class="resend-consent-form" action="/consent-token/resend" method="GET">
         <input type="hidden" name="token" value="{{ token }}">
         <input type="hidden" name="csrfToken" value="{{ csrfToken.value }}">
 
-        <div class="resend-consent-form__control--submit">
-          <button class="resend-consent-form__submit-button" id="resend-consent_submit" type="submit">Resend link {{> components/icon/arrow-inline }}</button>
+        <div class="form-field-wrap">
+          <button class="form-button form-button--main form-field-wrap__field" id="resend-consent_submit" type="submit">Resend link {{> components/icon/arrow-inline }}</button>
         </div>
 
       </form>
     {{/each}}
 
-  </section>
 {{/partial}}
 {{> layout}}

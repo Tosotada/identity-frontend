@@ -1,9 +1,0 @@
-/** Component: terms and conditions **/
-
-.terms {
-  @extend %content-container;
-  margin-bottom: 2.4rem;
-  &:before {
-    margin-bottom: 0.6rem;
-  }
-}

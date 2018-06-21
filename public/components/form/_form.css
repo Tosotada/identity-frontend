@@ -5,7 +5,7 @@
 input
 */
 %form-input {
-  @extend %font-text-sans-3;
+  @extend %font-body-copy;
   box-sizing: border-box;
   display: block;
   background-color: #fff;

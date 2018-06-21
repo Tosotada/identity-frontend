@@ -4,16 +4,11 @@
 @import 'css/_mixins.css';
 @import 'css/_breakpoints.css';
 @import 'css/_normalise.css';
-@import 'css/_grid.css';
 @import 'css/_typography.css';
 @import 'css/_html.css';
 
 @import 'components/header/_header.css';
 @import 'components/footer/_footer.css';
-
-/* Base */
-
-@import 'components/form-foundations/_form_foundations.css';
 
 /** Layout **/
 
@@ -23,12 +18,7 @@
 
 @import 'components/form/_form.css';
 @import 'components/banner/_banner.css';
-@import 'components/error-page-content/_error-page-content.css';
 @import 'components/ajax-step-flow/_ajax-step-flow.css';
-
-/** Terms and conditions **/
-
-@import 'components/terms/_terms.css';
 
 /** Libs **/
 
@@ -37,7 +27,3 @@
 /** Skins **/
 
 @import 'components/jobs/_jobs.css';
-
-/** Resend Consent page **/
-
-@import 'components/resend-consent/_resend-consent.css';

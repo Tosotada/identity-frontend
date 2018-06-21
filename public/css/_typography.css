@@ -65,37 +65,3 @@ html {
   font-weight: 400;
   @include font-size(20, 26);
 }
-
-/**
-* Do not use these!
-*/
-%font-heading-0 {
-  @extend %font-heading;
-  @include font-size(24, 36);
-  font-weight: 500;
-}
-
-%font-heading-1 {
-  @extend %font-heading;
-  @include font-size(32, 36);
-  font-weight: 500;
-}
-
-%font-sub-heading-2 {
-  @extend %font-heading;
-  @include font-size(20, 28);
-}
-
-%font-text-1 {
-  @extend %font-serif;
-  @include font-size(14, 20);
-}
-
-%font-text-2 {
-  @extend %font-body-copy;
-}
-
-%font-text-sans-3 {
-  @extend %font-sans-serif;
-  @include font-size(16, 20);
-}
