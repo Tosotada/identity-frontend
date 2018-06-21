@@ -1,7 +1,12 @@
-%layout-wrap-page {
+%layout {
   margin: 0 auto;
   box-sizing: border-box;
-  padding: 0 calc(var(--size-baseline) * 3);
+  padding: 0 calc(var(--size-baseline-gutter)/2);
+  width: 100%;
+}
+
+%layout-wrap-page {
+  @extend %layout;
 
   @media (--viewport-min-mobile-landscape) {
     max-width: 56rem;
@@ -17,9 +22,7 @@
 }
 
 .layout-wrap-width {
-  width: 100%;
-  margin: 0 auto;
-  box-sizing: border-box;
+  @extend %layout;
   max-width: 38em;
   padding-bottom: var(--size-baseline-vertical);
   &.layout-wrap-width--wide {
