@@ -1,5 +1,28 @@
+%layout {
+  margin: 0 auto;
+  box-sizing: border-box;
+  padding: 0 calc(var(--size-baseline-gutter)/2);
+  width: 100%;
+}
+
+%layout-wrap-page {
+  @extend %layout;
+
+  @media (--viewport-min-mobile-landscape) {
+    max-width: 56rem;
+  }
+
+  @media (--viewport-min-tablet) {
+    max-width: 74rem;
+  }
+
+  @media (--viewport-min-desktop) {
+    max-width: 98rem;
+  }
+}
+
 .layout-wrap-width {
-  @extend %content-container;
+  @extend %layout;
   max-width: 38em;
   padding-bottom: var(--size-baseline-vertical);
   &.layout-wrap-width--wide {
