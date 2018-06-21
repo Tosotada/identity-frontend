@@ -53,6 +53,7 @@ class AuthenticationServiceSpec extends PlaySpec {
       resultCookies.get(CookieName.gu_user_features_expiry).value.value.isEmpty mustBe true
       resultCookies.get(CookieName.gu_paying_member).value.value.isEmpty mustBe true
       resultCookies.get(CookieName.gu_recurring_contributor).value.value.isEmpty mustBe true
+      resultCookies.get(CookieName.gu_digital_subscriber).value.value.isEmpty mustBe true
       resultCookies.get(CookieName.GU_U).value.value.isEmpty mustBe true
       resultCookies.get(CookieName.SC_GU_U).value.value.isEmpty mustBe true
       resultCookies.get(CookieName.GU_ID_CSRF).value.value.isEmpty mustBe true
@@ -67,6 +68,7 @@ class AuthenticationServiceSpec extends PlaySpec {
       resultCookies.get(CookieName.gu_user_features_expiry).value.value.isEmpty mustBe true
       resultCookies.get(CookieName.gu_paying_member).value.value.isEmpty mustBe true
       resultCookies.get(CookieName.gu_recurring_contributor).value.value.isEmpty mustBe true
+      resultCookies.get(CookieName.gu_digital_subscriber).value.value.isEmpty mustBe true
       resultCookies.get(CookieName.GU_U).value.value.isEmpty mustBe true
       resultCookies.get(CookieName.SC_GU_U).value.value.isEmpty mustBe true
       resultCookies.get(CookieName.GU_ID_CSRF).value.value.isEmpty mustBe true
