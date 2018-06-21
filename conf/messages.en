@@ -37,7 +37,7 @@ signinTwoStep.recoverPasswordAction=Forgot password?
 signinTwoStep.signInCtaEmailAction=Sign in with Email
 signinTwoStep.oauthStepTwoFieldTitle=You can sign in with your social accounts:
 
-signinTwoStep.newUserCreateAccountAction=Look like it’s your first time signing in to the Guardian. Complete the form below to create a Guardian account.
+signinTwoStep.newUserCreateAccountAction=Looks like it’s your first time signing in to The Guardian. Complete the form below to create a Guardian account.
 signinTwoStep.newUserCreateSocialAccountAction=Alternatively, you can create a Guardian account using your social accounts:
 
 # com.gu.identity.frontend.models.text.RegisterText
