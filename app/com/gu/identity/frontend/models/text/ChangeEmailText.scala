@@ -5,8 +5,8 @@ import play.api.i18n.Messages
 case class ChangeEmailText private(
                                                pageTitle: String,
                                                title: String,
-                                               button1: String,
-                                               button2: String,
+                                               backToAccountAction: String,
+                                               returnToGuardianAction: String,
                                                error:String)
 
 object ChangeEmailText {
@@ -14,8 +14,8 @@ object ChangeEmailText {
     ChangeEmailText(
       pageTitle = messages("changeEmailSuccessful.pageTitle"),
       title = messages("changeEmailSuccessful.title"),
-      button1 = messages("changeEmailSuccessful.backToAccountAction"),
-      button2 = messages("changeEmailSuccessful.returnToGuardianAction"),
+      backToAccountAction = messages("changeEmailSuccessful.backToAccountAction"),
+      returnToGuardianAction = messages("changeEmailSuccessful.returnToGuardianAction"),
       error = messages("changeEmailSuccessful.unexpectedTitle")
     )
 }
