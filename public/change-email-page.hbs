@@ -11,10 +11,8 @@
 
       <section class="layout-section layout-section--no-border">
         <div class="form-field-wrap">
-          <button href="account/edit" data-link-name="change-email-backToAccountAction : {{ChangeEmailSuccessfulText.backToAccountAction}}" class="form-button form-button--main form-field-wrap__field">{{ChangeEmailSuccessfulText.backToAccountAction}}
-            {{>components/icon/arrow-inline
-          }}</button>
-          <button href="https://www.theguardian.com" data-link-name="change-email-returnToGuardianAction : {{ChangeEmailSuccessfulText.returnToGuardianAction}}" class="form-button form-button--secondary form-field-wrap__field">{{ChangeEmailSuccessfulText.returnToGuardianAction}} {{>components/icon/arrow-inline }}</button>
+          <a href="account/edit" data-link-name="change-email-backToAccountAction : {{ChangeEmailSuccessfulText.backToAccountAction}}" class="form-button form-button--main form-field-wrap__field">{{ChangeEmailSuccessfulText.backToAccountAction}}{{>components/icon/arrow-inline}}</a>
+          <a href="https://www.theguardian.com" data-link-name="change-email-returnToGuardianAction : {{ChangeEmailSuccessfulText.returnToGuardianAction}}" class="form-button form-button--secondary form-field-wrap__field">{{ChangeEmailSuccessfulText.returnToGuardianAction}} {{>components/icon/arrow-inline }}</a>
         </div>
       </section>
     {{/unless}}
