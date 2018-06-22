@@ -81,7 +81,7 @@ GET        /resub-email/:token                          com.gu.identity.frontend
 
 GET        /change-email/:token                         com.gu.identity.frontend.controllers.ChangeEmailController.changeEmail(token: String, returnUrl: Option[String] ?= None)
 
-GET        /change-email-succesful                      com.gu.identity.frontend.controllers.Application.changeEmail(clientId: Option[String] ?= None)
+GET        /change-email-successful                      com.gu.identity.frontend.controllers.Application.changeEmail(clientId: Option[String] ?= None)
 
 # Redirects
 GET        /                                            com.gu.identity.frontend.controllers.Redirects.indexRedirect
