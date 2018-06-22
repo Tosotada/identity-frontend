@@ -1,0 +1,34 @@
+{{# partial "pageTitle" }}{{ ChangeEmailSuccessfulText.pageTitle }}{{/ partial }}
+
+{{# partial "content" }}
+
+  <div class="layout-wrap-width">
+
+    {{# unless errors}}
+      <header class="layout-header">
+        <h1 class="layout-header__title">{{ ChangeEmailSuccessfulText.title }}</h1>
+      </header>
+
+      <section class="layout-section layout-section--no-border">
+        <div class="form-field-wrap">
+          <button href="account/edit" data-link-name="change-email-backToAccountAction : {{ChangeEmailSuccessfulText.backToAccountAction}}" class="form-button form-button--main form-field-wrap__field">{{ChangeEmailSuccessfulText.backToAccountAction}}
+            {{>components/icon/arrow-inline
+          }}</button>
+          <button href="https://www.theguardian.com" data-link-name="change-email-returnToGuardianAction : {{ChangeEmailSuccessfulText.returnToGuardianAction}}" class="form-button form-button--secondary form-field-wrap__field">{{ChangeEmailSuccessfulText.returnToGuardianAction}} {{>components/icon/arrow-inline }}</button>
+        </div>
+      </section>
+    {{/unless}}
+
+    <section class="layout-header">
+      {{#if errors}}
+        <h1 class="layout-header__title">{{ ChangeEmailSuccessfulText.unexpectedTitle }}</h1>
+      {{/if}}
+
+      {{#each errors}}
+        <p id="{{id}}" class="form-feedback form-feedback--error form-field-wrap">{{message}}</p>
+      {{/each}}
+    </section>
+
+  </div>
+{{/partial}}
+{{> layout}}

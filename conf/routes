@@ -79,6 +79,10 @@ GET        /robots.txt                                  controllers.Assets.at(pa
 
 GET        /resub-email/:token                          com.gu.identity.frontend.controllers.SigninTokenController.signinWithResubToken(token: String, returnUrl: Option[String] ?= None)
 
+GET        /change-email/:token                         com.gu.identity.frontend.controllers.ChangeEmailController.changeEmail(token: String, returnUrl: Option[String] ?= None)
+
+GET        /change-email-successful                      com.gu.identity.frontend.controllers.Application.changeEmail(clientId: Option[String] ?= None)
+
 # Redirects
 GET        /                                            com.gu.identity.frontend.controllers.Redirects.indexRedirect
 GET        /signin/                                     com.gu.identity.frontend.controllers.Redirects.signInPageTrailingSlash

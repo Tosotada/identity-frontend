@@ -92,6 +92,17 @@ private object SigninSecondStepEventRequestBody extends MeasurementProtocolReque
   )
 }
 
+case class ChangeEmailSuccess(request: Request[AnyContent], gaUID: String) extends MeasurementProtocolRequest {
+  override val body: String = ChangeEmailSuccessBody(request, gaUID)
+}
+
+case object ChangeEmailSuccessBody extends MeasurementProtocolRequestBody {
+  override val extraBodyParams = Seq(
+    "ea" -> "ChangeEmailSuccessful",
+    "el" -> "ChangeEmail"
+  )
+}
+
 case class ResubAuthenticationSuccess(request: Request[AnyContent], gaUID: String) extends MeasurementProtocolRequest {
   override val body: String = ResubSigninSuccessBody(request, gaUID)
 }

@@ -25,6 +25,15 @@ class IdentityClient extends Logging {
     }
   }
 
+  def changeEmailWithToken(token: String)(implicit configuration: IdentityClientConfiguration, ec: ExecutionContext): Future[Either[IdentityClientErrors, SendChangeEmailResponse]] = {
+    configuration.requestHandler.handleRequest(ChangeEmailTokenRequest(token, configuration)).map {
+      case Left(error) => Left(error)
+      case Right(r: SendChangeEmailResponse) =>
+        Right(r)
+      case Right(other) => Left(Seq(ClientGatewayError("Unknown response")))
+    }
+  }
+
   def authenticateTokenCookies(token: String, trackingData: TrackingData)(implicit configuration: IdentityClientConfiguration, ec: ExecutionContext): Future[Either[IdentityClientErrors, Seq[IdentityApiCookie]]] =
     AuthenticateCookiesApiRequest(None, None, false, Some(token), trackingData) match {
       case Right(request) => authenticateCookies(request)
