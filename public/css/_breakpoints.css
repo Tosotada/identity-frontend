@@ -2,6 +2,8 @@
 
 @custom-media --viewport-min-mobile (min-width: 320px);
 @custom-media --viewport-max-mobile (max-width: 320px);
+@custom-media --viewport-min-mobile-medium (min-width: 375px);
+@custom-media --viewport-max-mobile-medium (max-width: 375px);
 @custom-media --viewport-min-mobile-landscape (min-width: 480px);
 @custom-media --viewport-max-mobile-landscape (max-width: 480px);
 @custom-media --viewport-min-phablet (min-width: 660px);
