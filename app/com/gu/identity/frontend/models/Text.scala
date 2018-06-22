@@ -28,9 +28,9 @@ object Text {
   }
 
   object TwoStepSignInStartPageText {
-    def toMap(isMembership: Boolean)(implicit messages: Messages): Map[String, String] = {
+    def toMap(clientId: Option[ClientID])(implicit messages: Messages): Map[String, String] = {
       Map (
-        "title" -> (if(isMembership) messages("signin.title.supporter") else messages("signinTwoStep.welcomeStepOne")),
+        "title" -> (if(clientId.contains(GuardianMembersClientID)) messages("signin.title.supporter") else messages("signinTwoStep.welcomeStepOne")),
         "pageTitle" -> messages("signin.pagetitle"),
         "prelude" -> messages("signin.prelude"),
         "preludeMoreInfo" -> messages("signin.prelude.moreinfo"),
@@ -47,7 +47,7 @@ object Text {
         "continue" -> messages("signin.continue"),
         "termsOfService" -> messages("signin.termsofservice"),
         "privacyPolicy" -> messages("signin.privacypolicy"),
-
+        "supportingParagraph" -> (if(clientId.contains(GuardianRecurringContributionsClientID)) messages("signinTwoStep.recurringSupportingParagraph") else ""),
         "emailFieldTitle" -> messages("signinTwoStep.emailFieldTitle"),
         "setPasswordTitle" -> messages("signinTwoStep.setPasswordTitle"),
         "setPasswordAction" -> messages("signinTwoStep.setPasswordAction"),

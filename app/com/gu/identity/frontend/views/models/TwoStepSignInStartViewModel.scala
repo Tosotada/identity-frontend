@@ -26,6 +26,7 @@ case class TwoStepSignInStartViewModel private(
 
   email:Option[String],
   skipValidationReturn: Boolean = false,
+  showSupportingParagraph: Boolean = false,
 
   registerUrl: String = "",
   signinUrl: String = "",
@@ -60,14 +61,12 @@ object TwoStepSignInStartViewModel {
 
     val resources = getResources(layout, recaptchaModel) ++ Seq(IndirectlyLoadedExternalResources(UrlBuilder(configuration.identityProfileBaseUrl,routes.SigninAction.signInWithSmartLock())))
 
-    val isMembership = clientId.exists(_ == GuardianMembersClientID)
-
     TwoStepSignInStartViewModel(
       layout = layout,
 
       oauth = OAuthTwoStepSignInViewModel(configuration, returnUrl, skipConfirmation, clientId, group, activeTests),
 
-      twoStepSignInPageText = TwoStepSignInStartPageText.toMap(isMembership),
+      twoStepSignInPageText = TwoStepSignInStartPageText.toMap(clientId),
       terms = Terms.getTermsModel(group),
 
       errors = errors,
@@ -79,7 +78,7 @@ object TwoStepSignInStartViewModel {
       group = group,
       email = email,
       skipValidationReturn = skipValidationReturn.getOrElse(false),
-
+      showSupportingParagraph = clientId.exists(_ == GuardianRecurringContributionsClientID),
       registerUrl = UrlBuilder(routes.Application.register(), returnUrl, skipConfirmation, clientId, group.map(_.id), Some(TwoStepSignInType), skipValidationReturn),
       signinUrl = UrlBuilder(routes.Application.twoStepSignInStart(), returnUrl, skipConfirmation, clientId, group.map(_.id)),
       forgotPasswordUrl = UrlBuilder("/reset", returnUrl, skipConfirmation, clientId, group.map(_.id)),
