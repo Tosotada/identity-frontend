@@ -99,6 +99,11 @@ class Application(
     renderResetPasswordEmailSent(configuration, clientIdOpt, emailProviderOpt)
   }
 
+  def changeEmail(clientId: Option[String]) = Action { implicit request =>
+    val clientIdOpt = ClientID(clientId)
+    renderEmailChange(configuration, clientIdOpt)
+  }
+
   def invalidConsentToken(errorIds: Seq[String], token: String) = Action { implicit req =>
     val csrfToken = CSRF.getToken(req)
     renderInvalidConsentToken(configuration, token, csrfToken, errorIds)

@@ -24,6 +24,8 @@ case object ConsentTokenUsed extends ApiResponse
 
 case class SendResetPasswordEmailResponse() extends ApiResponse
 
+case class SendChangeEmailResponse() extends ApiResponse
+
 case class SendSignInTokenEmailResponse() extends ApiResponse
 
 case class ResendTokenResponse() extends ApiResponse

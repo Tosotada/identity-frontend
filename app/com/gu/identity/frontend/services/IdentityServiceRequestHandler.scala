@@ -72,6 +72,8 @@ class IdentityServiceRequestHandler(
   implicit val resubEmailRequestBodyFormat = Json.format[SendResubEmailApiRequestBody]
   implicit val resubTokenRequestBodyFormat = Json.format[ResubTokenRequestBody]
 
+  implicit val changeEmailRequestBodyFormat = Json.format[ChangeEmailTokenRequestBody]
+
   implicit val assignGroupResponseFormat = Json.format[AssignGroupResponse]
 
   def handleRequest(request: ApiRequest): Future[Either[IdentityClientErrors, ApiResponse]] = {
@@ -105,6 +107,7 @@ class IdentityServiceRequestHandler(
     case b: SendResetPasswordEmailRequestBody => Json.stringify(Json.toJson(b))
     case b: SendResubEmailApiRequestBody => Json.stringify(Json.toJson(b))
     case b: ResubTokenRequestBody => Json.stringify(Json.toJson(b))
+    case b: ChangeEmailTokenRequestBody => Json.stringify(Json.toJson(b))
   }
 
   private def encodeBody(params: (String, String)*) = {
@@ -182,6 +185,14 @@ class IdentityServiceRequestHandler(
       if (response.status == 200) {
         Right(response.json.as[AuthenticationCookiesResponse])
       } else {
+        handleUnexpectedResponse(response)
+      }
+
+    case r: ChangeEmailTokenRequest =>
+      if (response.status == 200) {
+        Right(SendChangeEmailResponse())
+      }
+      else {
         handleUnexpectedResponse(response)
       }
 

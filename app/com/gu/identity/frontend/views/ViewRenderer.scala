@@ -184,6 +184,14 @@ object ViewRenderer {
     renderViewModel("reset-password-email-sent-page", model)
   }
 
+  def renderEmailChange(configuration: Configuration, clientId: Option[ClientID])(implicit message: Messages) = {
+    val model = ChangeEmailViewModel(
+      configuration = configuration,
+      clientId = clientId
+    )
+    renderViewModel("change-email-page", model)
+  }
+
   def renderResubLink(
     configuration: Configuration,
     clientId: Option[ClientID],

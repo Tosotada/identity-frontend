@@ -85,6 +85,7 @@ class ApplicationComponents(context: Context)
   lazy val resendRepermissionTokenController = new ResendRepermissionTokenAction(identityService, controllerComponents, serviceAction, resendTokenActionRequestBodyParser)
   lazy val repermissionController = new RepermissionController(frontendConfiguration, identityService, controllerComponents, ExecutionContext.Implicits.global)
   lazy val signinTokenController = new SigninTokenController(frontendConfiguration, identityService, controllerComponents, analyticsEventActor, ExecutionContext.Implicits.global)
+  lazy val changeEmailController = new ChangeEmailController(frontendConfiguration, identityService, controllerComponents, analyticsEventActor, ExecutionContext.Implicits.global)
   lazy val optInController = new OptInController(controllerComponents)
   lazy val redirects = new Redirects(controllerComponents)
 
@@ -134,6 +135,7 @@ class ApplicationComponents(context: Context)
     optInController,
     assets,
     signinTokenController,
+    changeEmailController,
     redirects
   )
 
