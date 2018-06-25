@@ -10,12 +10,17 @@
       <header class="layout-header">
         <h1 class="layout-header__title">{{ twoStepSignInPageText.title }}</h1>
       </header>
+      {{# showSupportingParagraph}}
+        <p class="layout-text">
+          {{{twoStepSignInPageText.supportingParagraph}}}
+        </p>
+      {{/ showSupportingParagraph }}
 
-      {{> components/form/form-feedback-wrap }}
-
-      <section>
+      <section class="layout-section layout-section--no-border">
         {{> components/two-step-signin/two-step-signin-start }}
       </section>
+
+      {{> components/form/form-feedback-wrap }}
 
       <footer class="layout-section">
         {{> components/terms/_terms-inline }}

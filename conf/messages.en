@@ -22,6 +22,7 @@ signinTwoStep.welcome=Hello,
 signinTwoStep.changeEmailLink=Back to sign in options
 signinTwoStep.changeEmailLinkShort=Change
 signinTwoStep.rememberme=Keep me logged in on this device
+signinTwoStep.recurringSupportingParagraph=To complete your contribution, please sign in to your Guardian account or quickly create one.<br/><br/>This will help you manage future payments. Staying signed in means you’ll no longer see the “since you’re here” messages asking you to support our journalism.
 
 signinTwoStep.signInWithEmailAction=Sign in with Email
 signinTwoStep.signInAction=Sign me in
