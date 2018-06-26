@@ -66,6 +66,7 @@
     "intl-tel-input": "^9.0.9",
     "jquery": "^3.1.0",
     "postcss-color-function": "^4.0.1",
+    "preact": "^8.2.9",
     "qs": "^6.5.1",
     "raven-js": "3.24.1"
   }
