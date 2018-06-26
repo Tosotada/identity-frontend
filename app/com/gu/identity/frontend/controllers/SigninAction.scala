@@ -69,7 +69,7 @@ class SigninAction(
     metricsActor.logSuccessfulSigninFirstStep()
 
     if(request.body.gaClientId.isDefined) {
-      eventActor.sendSuccessfulSigninFirstStep(SigninSecondStepEventRequest(request, config.gaUID))
+      eventActor.sendSuccessfulSigninSecondStep(SigninSecondStepEventRequest(request, config.gaUID))
     } else {
       logger.warn("No GA Client ID passed for sign in request")
     }

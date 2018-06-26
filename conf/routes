@@ -11,7 +11,7 @@ GET        /signin/:signInType                          com.gu.identity.frontend
 
 GET        /register                                    com.gu.identity.frontend.controllers.Application.register(error: Seq[String] ?= Seq.empty, returnUrl: Option[String] ?= None, skipConfirmation: Option[Boolean] ?= None, clientId:Option[String] ?= None, group: Option[String] ?= None, signInType: Option[String] ?= None, skipValidationReturn: Option[Boolean] ?= None)
 
-GET        /reset                                       com.gu.identity.frontend.controllers.Application.reset(error: Seq[String] ?= Seq.empty, clientId: Option[String] ?= None)
+GET        /reset                                       com.gu.identity.frontend.controllers.Application.reset(error: Seq[String] ?= Seq.empty, clientId: Option[String] ?= None, returnUrl: Option[String] ?= None)
 
 GET        /reset/resend                                com.gu.identity.frontend.controllers.Application.resetResend(error: Seq[String] ?= Seq.empty, clientId: Option[String] ?= None)
 
