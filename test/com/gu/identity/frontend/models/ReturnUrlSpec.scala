@@ -78,4 +78,11 @@ class ReturnUrlSpec extends FlatSpec with Matchers {
     result.url shouldEqual config.preferredMembershipUrl
     result shouldBe 'default
   }
+
+  it should "Use the support return url for clientId=recurringContributions as the default fallback" in {
+    val result = ReturnUrl(None, None, config, Some(GuardianRecurringContributionsClientID))
+
+    result.url shouldEqual config.preferredSupportUrl
+    result shouldBe 'default
+  }
 }
