@@ -34,8 +34,6 @@ object OAuthProviderViewModel {
       case None => UrlBuilder(baseUrl, finalReturnUrl, skipConfirmation, clientId, group = None)
     }
 
-
-
     provider match {
       case GoogleOAuth =>
         OAuthProviderViewModel(provider.id, text.google, returnUrl)

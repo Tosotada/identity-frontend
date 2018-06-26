@@ -77,12 +77,13 @@ class Application(
     renderSendSignInLinkSent(configuration, clientIdOpt, emailProviderOpt)
   }
 
-  def reset(error: Seq[String], clientId: Option[String]) = Action { implicit req =>
+  def reset(error: Seq[String], clientId: Option[String], returnUrl: Option[String]) = Action { implicit req =>
     val clientIdOpt = ClientID(clientId)
     val csrfToken = CSRF.getToken(req)
     val email: Option[String] = req.cookies.get("GU_SIGNIN_EMAIL").map(_.value)
+    val _returnUrl = returnUrl.map(url => ReturnUrl(Some(url), req.headers.get("Referer"), configuration, clientIdOpt))
 
-    renderResetPassword(configuration, error, csrfToken, email, resend = false, clientIdOpt)
+    renderResetPassword(configuration, error, csrfToken, email, resend = false, clientIdOpt, _returnUrl)
   }
 
   def resetResend(error: Seq[String], clientId: Option[String]) = Action { implicit req =>

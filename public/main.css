@@ -27,3 +27,5 @@
 /** Skins **/
 
 @import 'components/jobs/_jobs.css';
+
+@import 'components/recurringContributions/_recurringContributions.css';

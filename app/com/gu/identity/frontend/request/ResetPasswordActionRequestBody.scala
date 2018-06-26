@@ -8,7 +8,8 @@ import play.api.data.{Form, FormError}
 case class ResetPasswordActionRequestBody(
     email: String,
     csrfToken: String,
-    gaClientId: Option[String])
+    gaClientId: Option[String],
+    returnUrl: Option[String])
   extends CSRFTokenRequestParameter
   with GaClientIdRequestParameter
 
@@ -32,7 +33,8 @@ class ResetPasswordActionRequestBodyParser(formRequestBodyParser: FormRequestBod
       mapping(
         "email" -> email,
         "csrfToken" -> text,
-        "gaClientId" -> optional(text)
+        "gaClientId" -> optional(text),
+        "returnUrl" -> optional(text)
       )(ResetPasswordActionRequestBody.apply)(ResetPasswordActionRequestBody.unapply)
   }
 }

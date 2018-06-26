@@ -51,7 +51,6 @@ class IdentityServiceRequestHandler(
   implicit val registerRequestBodyStatusFieldsFormat = Json.format[RegisterRequestBodyStatusFields]
   implicit val registerRequestBodyFormat = Json.format[RegisterRequestBody]
 
-  implicit val sendResetPasswordEmailRequestBody = Json.format[SendResetPasswordEmailRequestBody]
 
   implicit val resendRepermissionEmailRequestBody = Json.format[ResendRepermissionFromTokenApiRequestBody]
 
@@ -75,6 +74,7 @@ class IdentityServiceRequestHandler(
   implicit val changeEmailRequestBodyFormat = Json.format[ChangeEmailTokenRequestBody]
 
   implicit val assignGroupResponseFormat = Json.format[AssignGroupResponse]
+  implicit val sendResetPasswordEmailRequestBody = Json.format[SendResetPasswordEmailRequestBody]
 
   def handleRequest(request: ApiRequest): Future[Either[IdentityClientErrors, ApiResponse]] = {
     ws.url(request.url)

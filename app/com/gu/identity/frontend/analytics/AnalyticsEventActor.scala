@@ -25,7 +25,7 @@ class AnalyticsEventActor(eventActor: ActorRef) {
     eventActor ! SignIn(signinEventRequest)
   }
 
-  def sendSuccessfulSigninFirstStep(signinSecondStepEventRequest: SigninSecondStepEventRequest) = {
+  def sendSuccessfulSigninSecondStep(signinSecondStepEventRequest: SigninSecondStepEventRequest) = {
     eventActor ! SignInSecondStep(signinSecondStepEventRequest)
   }
 
