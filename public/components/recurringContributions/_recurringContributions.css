@@ -5,7 +5,7 @@
 
 .skin-recurringContributions {
   .header {
-    padding: calc(var(--gu-v-spacing) / 2) 0 calc(var(--gu-v-spacing)/2);
+    padding: calc(var(--gu-v-spacing) / 2) 0 calc(var(--gu-v-spacing) / 2);
     height: 54px;
 
     @media (--viewport-min-mobile-medium) {

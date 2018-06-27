@@ -255,6 +255,13 @@ object ViewRenderer {
     renderViewModel("invalid-repermission-token-page", model)
   }
 
+  def renderCollectConsents(configuration: Configuration, clientId: Option[ClientID], returnUrl: Option[ReturnUrl])(implicit messages: Messages) = {
+    val model = ChangeEmailViewModel(
+      configuration = configuration,
+      clientId = clientId
+    )
+    renderViewModel("collect-consents", model)
+  }
 
   def renderErrorPage(configuration: Configuration, error: HttpError, resultGenerator: Html => Result)(implicit messages: Messages) =
     renderViewModel("error-page", ErrorPageViewModel(configuration, error), resultGenerator)

@@ -61,6 +61,7 @@
     "webpack-cli": "^2.0.10"
   },
   "dependencies": {
+    "babel-plugin-transform-react-jsx": "^6.24.1",
     "cookie-cutter": "^0.1.1",
     "curl-amd": "^0.8.12",
     "intl-tel-input": "^9.0.9",

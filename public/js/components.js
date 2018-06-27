@@ -41,6 +41,10 @@ import {
   init as initInPageClick,
   selector as selectorInPageClick
 } from 'components/analytics/analytics-in-page-click';
+import {
+  init as initReactIsland,
+  selector as selectorReactIsland
+} from 'components/react-island/react-island';
 
 export const components: any[] = [
   [initFormInput, selectorFormInput],
@@ -52,5 +56,6 @@ export const components: any[] = [
   [initOauthCta, selectorOauthCta],
   [initGAClientIdFormField, gaClientIdSelector],
   [initFormFieldWrapPhone, selectorFormFieldWrapPhone],
+  [initReactIsland, selectorReactIsland],
   [initFormFeedbackHydratable, selectorFormFeedbackHydratable]
 ];
