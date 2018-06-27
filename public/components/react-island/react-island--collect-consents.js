@@ -5,7 +5,7 @@ const init = ($component: HTMLElement): void => {
   Promise.all([
     import('elements/CollectConsents'),
     import('js/hydrate-react-island')
-  ]).then(([{CollectConsents}, {hydrate}]) => {
+  ]).then(([{ CollectConsents }, { hydrate }]) => {
     hydrate($component, CollectConsents);
   });
 };
