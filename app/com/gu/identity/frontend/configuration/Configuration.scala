@@ -107,7 +107,7 @@ object Configuration {
 
     preferredMembershipUrl = "https://membership.theguardian.com/supporter",
 
-    preferredSupportUrl = "https://support.theguardian.com/contribute",
+    preferredSupportUrl = "https://support.theguardian.com",
 
     jobsBaseUrl = "https://jobs.theguardian.com",
 
