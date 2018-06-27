@@ -1,3 +1,6 @@
+@import '../../css/_vars.css';
+@import '../../css/_typography.css';
+
 %layout {
   margin: 0 auto;
   box-sizing: border-box;

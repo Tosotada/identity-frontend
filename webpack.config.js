@@ -1,7 +1,21 @@
 /*eslint-env node*/
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
+const webpack = require( 'webpack' );
+const path = require( 'path' );
 
-var webpack = require( 'webpack' );
-var path = require( 'path' );
+
+const getCssLoaderConfig = modules => ([
+  MiniCssExtractPlugin.loader,
+  { loader: "css-loader",
+    options: {
+      modules,
+      import: false,
+      importLoaders: 1
+    }
+  },
+  "postcss-loader"
+]);
 
 module.exports = {
   entry: {
@@ -23,10 +37,13 @@ module.exports = {
       },
       {
         test: /\.css$/,
+        exclude: [/node_modules/,/main\.css$/],
+        use: getCssLoaderConfig(true)
+      },
+      {
+        test: /main\.css$/,
         exclude: /node_modules/,
-        use: [{
-          loader: 'raw-loader'
-        }]
+        use: getCssLoaderConfig(false)
       },
       {
         test: /\.svg/,
@@ -40,8 +57,16 @@ module.exports = {
   plugins: [
     new webpack.optimize.MinChunkSizePlugin({
       minChunkSize: 99999,
+    }),
+    new MiniCssExtractPlugin({
+      filename: 'bundle.css',
     })
   ],
+  optimization: {
+    minimizer: [
+      new OptimizeCSSAssetsPlugin({})
+    ]
+  },
   resolve: {
     modules: [
       path.resolve(__dirname, 'public'),

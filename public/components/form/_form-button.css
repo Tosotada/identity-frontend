@@ -1,3 +1,6 @@
+@import '../../css/_vars.css';
+@import '../../css/_typography.css';
+
 :root {
   --form-button-icon-size: 3rem;
 }

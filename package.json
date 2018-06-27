@@ -11,15 +11,11 @@
   "scripts": {
     "postinstall": "./tools/sync-githooks.js",
     "install": "npm run build",
-    "build": "npm run build-css && npm run build-js",
-    "prebuild-css": "mkdir -p ./target/web/build-npm",
-    "build-css": "postcss public/main.css -o target/web/build-npm/bundle.css",
-    "build-js": "webpack --bail --mode production --devtool=source-map",
-    "watch-css": "postcss public/main.css -o target/web/public/main/bundle.css -w -m --verbose",
-    "watch-js": "webpack --watch --mode development --devtool=inline-source-map -o ./target/web/public/main/main.bundle.js",
+    "build": "webpack --bail --mode production --devtool=source-map",
+    "prebuild": "mkdir -p ./target/web/build-npm",
+    "watch-webpack": "webpack --watch --mode development --devtool=inline-source-map -o ./target/web/public/main/main.bundle.js",
     "lint-css": "stylelint 'public/**/*.css'",
-    "watch-assets": "concurrently --kill-others \"npm run watch-css\" \"npm run watch-js\"",
-    "watch": "node ./tools/banner.js && concurrently --kill-others \"npm run watch-assets\" \"./start-frontend.sh\"",
+    "watch": "node ./tools/banner.js && concurrently --kill-others \"npm run watch-webpack\" \"./start-frontend.sh\"",
     "fix": "eslint 'public/**/*.js' --fix && prettier --write 'public/**/*.js' 'public/**/*.css'",
     "lint": "eslint 'public/**/*.js'",
     "flow": "flow"
@@ -47,6 +43,7 @@
     "eslint-plugin-react": "^7.7.0",
     "execa": "^0.9.0",
     "flow-bin": "^0.67.1",
+    "mini-css-extract-plugin": "^0.4.0",
     "normalize.css": "^3.0.3",
     "postcss-assets": "^5.0.0",
     "postcss-cli": "^5.0.0",
@@ -58,18 +55,22 @@
     "raw-loader": "^0.5.1",
     "stylelint": "^4.3.3",
     "svg-inline-loader": "^0.8.0",
-    "webpack": "^4.1.0",
+    "webpack": "^4.12.2",
     "webpack-cli": "^2.0.10"
   },
   "dependencies": {
     "babel-plugin-transform-react-jsx": "^6.24.1",
     "cookie-cutter": "^0.1.1",
+    "css-loader": "^0.28.11",
     "curl-amd": "^0.8.12",
     "intl-tel-input": "^9.0.9",
     "jquery": "^3.1.0",
+    "optimize-css-assets-webpack-plugin": "^4.0.3",
     "postcss-color-function": "^4.0.1",
+    "postcss-loader": "^2.1.5",
     "preact": "^8.2.9",
     "qs": "^6.5.1",
-    "raven-js": "3.24.1"
+    "raven-js": "3.24.1",
+    "style-loader": "^0.21.0"
   }
 }

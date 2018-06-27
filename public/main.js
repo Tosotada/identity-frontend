@@ -1,3 +1,4 @@
+import 'main.css';
 import './components/sentry/sentry';
 
 import { components } from './js/components';
