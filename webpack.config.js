@@ -27,6 +27,13 @@ module.exports = {
         use: [{
           loader: 'raw-loader'
         }]
+      },
+      {
+        test: /\.svg/,
+        exclude: /node_modules/,
+        use: [{
+          loader: 'svg-inline-loader'
+        }]
       }
     ]
   },

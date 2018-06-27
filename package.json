@@ -57,6 +57,7 @@
     "prettier": "^1.11.1",
     "raw-loader": "^0.5.1",
     "stylelint": "^4.3.3",
+    "svg-inline-loader": "^0.8.0",
     "webpack": "^4.1.0",
     "webpack-cli": "^2.0.10"
   },

@@ -1,10 +1,13 @@
 import { h, Component } from 'preact';
+import { Button } from 'elements/Button'
+import { Header } from 'elements/Header'
 
 class CollectConsents extends Component {
   render() {
     return (
       <div>
-        <marquee>Hello</marquee>
+        <Header title={'Thank you for creating a Guardian account'} />
+        <Button href={"/test"}>Continue</Button>
         <pre>
           {JSON.stringify(this.props)}
         </pre>
@@ -13,4 +16,4 @@ class CollectConsents extends Component {
   }
 }
 
-export default CollectConsents;
+export { CollectConsents};

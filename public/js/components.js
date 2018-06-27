@@ -42,9 +42,9 @@ import {
   selector as selectorInPageClick
 } from 'components/analytics/analytics-in-page-click';
 import {
-  init as initReactIsland,
-  selector as selectorReactIsland
-} from 'components/react-island/react-island';
+  init as initReactIslandCc,
+  selector as selectorReactIslandCc
+} from 'components/react-island/react-island--collect-consents';
 
 export const components: any[] = [
   [initFormInput, selectorFormInput],
@@ -56,6 +56,6 @@ export const components: any[] = [
   [initOauthCta, selectorOauthCta],
   [initGAClientIdFormField, gaClientIdSelector],
   [initFormFieldWrapPhone, selectorFormFieldWrapPhone],
-  [initReactIsland, selectorReactIsland],
+  [initReactIslandCc, selectorReactIslandCc],
   [initFormFeedbackHydratable, selectorFormFeedbackHydratable]
 ];
