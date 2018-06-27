@@ -54,6 +54,7 @@ const init = ($element: HTMLElement): void => {
     throw new Error(ERR_MISSING_PARAMS);
   }
 
+  // $FlowFixMe
   if (navigator && navigator.credentials !== null) {
     const credentialsContainer = (navigator: any).credentials;
 

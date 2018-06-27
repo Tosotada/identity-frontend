@@ -42,7 +42,6 @@
     "eslint-plugin-prettier": "^2.6.0",
     "eslint-plugin-react": "^7.7.0",
     "execa": "^0.9.0",
-    "flow-bin": "^0.67.1",
     "mini-css-extract-plugin": "^0.4.0",
     "normalize.css": "^3.0.3",
     "postcss-assets": "^5.0.0",
@@ -59,10 +58,13 @@
     "webpack-cli": "^2.0.10"
   },
   "dependencies": {
+    "babel-plugin-syntax-flow": "^6.18.0",
     "babel-plugin-transform-react-jsx": "^6.24.1",
     "cookie-cutter": "^0.1.1",
     "css-loader": "^0.28.11",
     "curl-amd": "^0.8.12",
+    "eslint-config-standard-preact": "^1.1.6",
+    "flow-bin": "^0.75.0",
     "intl-tel-input": "^9.0.9",
     "jquery": "^3.1.0",
     "optimize-css-assets-webpack-plugin": "^4.0.3",

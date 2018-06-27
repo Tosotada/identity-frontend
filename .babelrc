@@ -3,6 +3,7 @@
     ["env"]
   ],
   "plugins": [
+    "syntax-flow",
     "transform-flow-strip-types",
     "syntax-dynamic-import",
     "transform-object-rest-spread",

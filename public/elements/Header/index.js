@@ -1,5 +1,7 @@
+// @flow
+
 import { h, Component } from 'preact';
-import css from 'components/form/_form-button.css';
+import css from 'components/layout/_layout.css';
 
 type Props = {
   title: string
@@ -8,10 +10,10 @@ type Props = {
 class Header extends Component<Props> {
   render() {
     return (
-      <header class="layout-header">
-        <h1 class="layout-header__title">{this.props.title}</h1>
+      <header className={css['layout-header']}>
+        <h1 className={css['layout-header__title']}>{this.props.title}</h1>
       </header>
-    )
+    );
   }
 }
 
