@@ -18,7 +18,8 @@
     "watch": "node ./tools/banner.js && concurrently --kill-others \"npm run watch-webpack\" \"./start-frontend.sh\"",
     "fix": "eslint 'public/**/*.js' --fix && prettier --write 'public/**/*.js' 'public/**/*.css'",
     "lint": "eslint 'public/**/*.js'",
-    "flow": "flow"
+    "flow": "flow",
+    "stat": "webpack-bundle-analyzer target/web/build-npm/stats.json"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
@@ -72,6 +73,8 @@
     "preact": "^8.2.9",
     "qs": "^6.5.1",
     "raven-js": "3.24.1",
-    "style-loader": "^0.21.0"
+    "style-loader": "^0.21.0",
+    "webpack-stats-plugin": "^0.2.1",
+    "webpack-visualizer-plugin": "^0.1.11"
   }
 }
