@@ -23,7 +23,7 @@
     "prebuild": "npm run clean-target",
     "prewatch-webpack": "npm run clean-target"
   },
-  "devDependencies": {
+  "dependencies": {
     "babel-core": "^6.26.0",
     "babel-eslint": "^8.2.2",
     "babel-loader": "^7.1.4",
@@ -57,9 +57,7 @@
     "stylelint": "^4.3.3",
     "svg-inline-loader": "^0.8.0",
     "webpack": "^4.12.2",
-    "webpack-cli": "^2.0.10"
-  },
-  "dependencies": {
+    "webpack-cli": "^2.0.10",
     "babel-plugin-syntax-flow": "^6.18.0",
     "babel-plugin-transform-react-jsx": "^6.24.1",
     "cookie-cutter": "^0.1.1",
