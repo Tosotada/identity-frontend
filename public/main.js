@@ -7,3 +7,4 @@ import { logPageView } from './components/analytics/analytics';
 
 logPageView();
 loadComponents(document, components);
+import('components/fonts/_fonts.css')
