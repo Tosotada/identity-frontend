@@ -12,14 +12,17 @@
     "postinstall": "./tools/sync-githooks.js",
     "install": "npm run build",
     "build": "webpack --bail --mode production --devtool=source-map",
-    "prebuild": "rm -rf ./target/web/build-npm && mkdir -p ./target/web/build-npm",
+    "clean-target": "rm -rf ./target/web/build-npm && mkdir -p ./target/web/build-npm",
     "watch-webpack": "webpack --watch --mode development --devtool=inline-source-map -o ./target/web/public/main/main.bundle.js",
     "lint-css": "stylelint 'public/**/*.css'",
     "watch": "node ./tools/banner.js && concurrently --kill-others \"npm run watch-webpack\" \"./start-frontend.sh\"",
     "fix": "eslint 'public/**/*.js' --fix && prettier --write 'public/**/*.js' 'public/**/*.css'",
     "lint": "eslint 'public/**/*.js'",
     "flow": "flow",
-    "stat": "webpack-bundle-analyzer target/web/build-npm/stats.json"
+    "stat": "webpack-bundle-analyzer target/web/build-npm/stats.json",
+
+    "prebuild": "npm run clean-target",
+    "prewatch-webpack": "npm run clean-target"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
