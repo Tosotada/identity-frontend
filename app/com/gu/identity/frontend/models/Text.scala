@@ -4,9 +4,9 @@ import play.api.i18n.Messages
 
 object Text {
   object SignInPageText {
-    def toMap(isMembership: Boolean)(implicit messages: Messages): Map[String, String] = {
+    def toMap(showSupportMessaging: Boolean)(implicit messages: Messages): Map[String, String] = {
       Map (
-        "title" -> (if(isMembership) messages("signin.title.supporter") else messages("signin.title")),
+        "title" -> (if(showSupportMessaging) messages("signin.title.supporter") else messages("signin.title")),
         "pageTitle" -> messages("signin.pagetitle"),
         "prelude" -> messages("signin.prelude"),
         "preludeMoreInfo" -> messages("signin.prelude.moreinfo"),
@@ -28,9 +28,12 @@ object Text {
   }
 
   object TwoStepSignInStartPageText {
+
+    val showSupportMessaging = (clientId: Option[ClientID]) => clientId.contains(GuardianMembersClientID) || clientId.contains(GuardianRecurringContributionsClientID)
+
     def toMap(clientId: Option[ClientID])(implicit messages: Messages): Map[String, String] = {
       Map (
-        "title" -> (if(clientId.contains(GuardianMembersClientID)) messages("signin.title.supporter") else messages("signinTwoStep.welcomeStepOne")),
+        "title" -> (if(showSupportMessaging(clientId)) messages("signin.title.supporter") else messages("signinTwoStep.welcomeStepOne")),
         "pageTitle" -> messages("signin.pagetitle"),
         "prelude" -> messages("signin.prelude"),
         "preludeMoreInfo" -> messages("signin.prelude.moreinfo"),
@@ -65,7 +68,7 @@ object Text {
       )
     }
   }
-  
+
   object LayoutText {
     def toMap(implicit messages: Messages): Map[String, String] = {
       Map(
