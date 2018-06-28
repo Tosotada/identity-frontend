@@ -56,14 +56,14 @@ object SignInViewModel {
 
     val resources = getResources(layout, recaptchaModel) ++ Seq(IndirectlyLoadedExternalResources(UrlBuilder(configuration.identityProfileBaseUrl,routes.SigninAction.signInWithSmartLock())))
 
-    val isMembership = clientId.exists(_ == GuardianMembersClientID)
+    val showSupportMessaging = clientId.contains(GuardianMembersClientID) || clientId.contains(GuardianRecurringContributionsClientID)
 
     SignInViewModel(
       layout = layout,
 
       oauth = OAuthSignInViewModel(configuration, returnUrl, skipConfirmation, clientId, group, activeTests),
 
-      signInPageText = SignInPageText.toMap(isMembership),
+      signInPageText = SignInPageText.toMap(showSupportMessaging),
       terms = Terms.getTermsModel(group),
 
       hasErrors = errors.nonEmpty,

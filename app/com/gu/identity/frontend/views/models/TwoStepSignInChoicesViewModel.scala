@@ -74,9 +74,7 @@ object TwoStepSignInChoicesViewModel {
     val recaptchaModel : Option[GoogleRecaptchaViewModel] = None
 
     val resources = getResources(layout, recaptchaModel) ++ Seq(IndirectlyLoadedExternalResources(UrlBuilder(configuration.identityProfileBaseUrl,routes.SigninAction.signInWithSmartLock())))
-
-    val isMembership = clientId.exists(_ == GuardianMembersClientID)
-
+    
     val oauth = userType match {
       case Some(NewUser) => OAuthRegistrationViewModel(configuration, returnUrl, skipConfirmation, clientId, group, activeTests)
       case _ => OAuthSignInViewModel(configuration, returnUrl, skipConfirmation, clientId, group, activeTests)

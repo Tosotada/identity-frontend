@@ -19,6 +19,8 @@ case class Configuration(
   dotcomBaseUrl: String,
   preferredMembershipUrl: String,
 
+  preferredSupportUrl: String,
+
   jobsBaseUrl: String,
 
   identityFederationApiHost: String,
@@ -65,6 +67,8 @@ object Configuration {
 
       preferredMembershipUrl = getString("identity.frontend.preferredMembershipUrl"),
 
+      preferredSupportUrl = getString("identity.frontend.preferredSupportUrl"),
+
       jobsBaseUrl = getString("identity.frontend.jobsBaseUrl"),
 
       googleRecaptchaSiteKey = getString("google.recaptcha.site"),
@@ -100,7 +104,11 @@ object Configuration {
     identityProfileBaseUrl = "https://profile.code.dev-theguardian.com",
 
     dotcomBaseUrl = "https://www.theguardian.com",
+
     preferredMembershipUrl = "https://membership.theguardian.com/supporter",
+
+    preferredSupportUrl = "https://support.theguardian.com",
+
     jobsBaseUrl = "https://jobs.theguardian.com",
 
     googleRecaptchaSiteKey = "--recaptcha-key--",

@@ -1,6 +1,6 @@
 package com.gu.identity.frontend.models.text
 
-import com.gu.identity.frontend.models.{ClientID, GuardianMembersClientID}
+import com.gu.identity.frontend.models.{ClientID, GuardianMembersClientID, GuardianRecurringContributionsClientID}
 import play.api.i18n.Messages
 import com.gu.identity.model.Consent._
 
@@ -40,10 +40,12 @@ object RegisterText {
       "signInCta" -> messages("register.signInCta"),
       "standfirst" -> (clientId match {
         case Some(GuardianMembersClientID) => messages("register.title")
+        case Some(GuardianRecurringContributionsClientID) => messages("register.title")
         case _ => messages("register.standfirst")
       }),
       "title" -> (clientId match {
         case Some(GuardianMembersClientID) => messages("register.title.supporter")
+        case Some(GuardianRecurringContributionsClientID) => messages("register.title.supporter")
         case _ => messages("register.title")
       }),
     )

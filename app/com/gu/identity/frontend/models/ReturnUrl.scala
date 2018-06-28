@@ -48,9 +48,13 @@ object ReturnUrl {
   def defaultForMembership(configuration: Configuration) =
     defaultFromUrl(configuration.preferredMembershipUrl)
 
+  def defaultForSupport(configuration: Configuration) =
+    defaultFromUrl(configuration.preferredSupportUrl)
+
   def defaultForClient(configuration: Configuration, clientId: Option[ClientID]) =
     clientId match {
       case Some(GuardianMembersClientID) => defaultForMembership(configuration)
+      case Some(GuardianRecurringContributionsClientID) => defaultForSupport(configuration)
       case _ => default(configuration)
     }
 
