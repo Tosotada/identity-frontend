@@ -220,3 +220,7 @@ thirdPartyTerms.jobsFeatureOutro=Or <a href="{0}">sign out</a> to browse jobs an
 
 actions.signIn=sign in
 actions.reset=set or reset your password
+
+reactIslandFallback.loading=Please wait
+reactIslandFallback.error=Sorry, something went wrong loading this
+reactIslandFallback.cta=Continue

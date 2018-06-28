@@ -1,0 +1,18 @@
+<div class="react-island__fallback">
+  <div class="layout-section layout-section--no-border">
+    <p class="layout-text layout-text--center react-island__fallback__spinner">
+      {{text.loading}}
+    </p>
+    <div class="form-field-wrap react-island__fallback__cta">
+      <p class="layout-text layout-text--center" aria-hidden="true">
+        {{text.error}}
+      </p>
+      {{#returnUrl}}
+        <a href="{{returnUrl}}" data-link-name="island-fallback-link" class="form-field-wrap__field form-button form-button--main">
+          {{text.cta}}
+          {{> components/icon/arrow-inline }}
+        </a>
+      {{/returnUrl}}
+    </div>
+  </div>
+</div>

@@ -1,7 +1,7 @@
 %layout {
   margin: 0 auto;
   box-sizing: border-box;
-  padding: 0 calc(var(--size-baseline-gutter)/2);
+  padding: 0 calc(var(--size-baseline-gutter) / 2);
   width: 100%;
 }
 
