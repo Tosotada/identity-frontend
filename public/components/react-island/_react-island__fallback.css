@@ -10,9 +10,9 @@
 }
 
 .react-island__fallback__cta {
-  animation: react-island-fallback-toggle .01s 3s both reverse;
+  animation: react-island-fallback-toggle 0.01s 3s both reverse;
 }
 
 .react-island__fallback__spinner {
-  animation: react-island-fallback-toggle .01s 3s both;
+  animation: react-island-fallback-toggle 0.01s 3s both;
 }
