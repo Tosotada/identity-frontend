@@ -17,23 +17,23 @@ import play.filters.csrf.CSRF.Token
 import play.twirl.api.Html
 
 /**
- * Adapter for Handlebars view renderer
- */
+  * Adapter for Handlebars view renderer
+  */
 object ViewRenderer {
   def render(view: String, attributes: Map[String, Any] = Map.empty) =
     HBS(view, attributes)
 
   def renderSignIn(
-      configuration: Configuration,
-      activeTests: Map[MultiVariantTest, MultiVariantTestVariant],
-      csrfToken: Option[Token],
-      errorIds: Seq[String],
-      returnUrl: ReturnUrl,
-      skipConfirmation: Option[Boolean],
-      clientId: Option[ClientID],
-      group: Option[GroupCode],
-      email: Option[String])
-      (implicit messages: Messages) = {
+    configuration: Configuration,
+    activeTests: Map[MultiVariantTest, MultiVariantTestVariant],
+    csrfToken: Option[Token],
+    errorIds: Seq[String],
+    returnUrl: ReturnUrl,
+    skipConfirmation: Option[Boolean],
+    clientId: Option[ClientID],
+    group: Option[GroupCode],
+    email: Option[String])
+    (implicit messages: Messages) = {
 
     val model = SignInViewModel(
       configuration = configuration,
@@ -121,20 +121,20 @@ object ViewRenderer {
   }
 
   def renderRegister(
-      configuration: Configuration,
-      activeTests: Map[MultiVariantTest, MultiVariantTestVariant],
-      errorIds: Seq[String],
-      csrfToken: Option[Token],
-      returnUrl: ReturnUrl,
-      skipConfirmation: Option[Boolean],
-      clientId: Option[ClientID],
-      group: Option[GroupCode],
-      email: Option[String],
-      signInType: Option[SignInType],
-      shouldCollectConsents: Boolean,
-      shouldCollectV2Consents: Boolean,
-      skipValidationReturn: Option[Boolean])
-      (implicit messages: Messages) = {
+    configuration: Configuration,
+    activeTests: Map[MultiVariantTest, MultiVariantTestVariant],
+    errorIds: Seq[String],
+    csrfToken: Option[Token],
+    returnUrl: ReturnUrl,
+    skipConfirmation: Option[Boolean],
+    clientId: Option[ClientID],
+    group: Option[GroupCode],
+    email: Option[String],
+    signInType: Option[SignInType],
+    shouldCollectConsents: Boolean,
+    shouldCollectV2Consents: Boolean,
+    skipValidationReturn: Option[Boolean])
+    (implicit messages: Messages) = {
 
     val model = RegisterViewModel(
       configuration = configuration,
@@ -199,7 +199,7 @@ object ViewRenderer {
     clientId: Option[ClientID],
     errorIds: Seq[String],
     csrfToken: Option[Token])
-                     (implicit messages: Messages) = {
+    (implicit messages: Messages) = {
     val model = SendSignInLinkViewModel(
       configuration = configuration,
       errors = errorIds.map(ErrorViewModel.apply),
@@ -255,10 +255,11 @@ object ViewRenderer {
     renderViewModel("invalid-repermission-token-page", model)
   }
 
-  def renderCollectConsents(configuration: Configuration, clientId: Option[ClientID], returnUrl: Option[ReturnUrl])(implicit messages: Messages) = {
-    val model = ChangeEmailViewModel(
+  def renderCollectConsents(configuration: Configuration, clientId: Option[ClientID], returnUrl: String)(implicit messages: Messages) = {
+    val model = CollectConsentsViewModel(
       configuration = configuration,
-      clientId = clientId
+      clientId = clientId,
+      returnUrl = returnUrl,
     )
     renderViewModel("collect-consents", model)
   }
@@ -272,9 +273,9 @@ object ViewRenderer {
   }
 
   def renderViewModel(
-      view: String,
-      model: ViewModel with ViewModelResources with Product,
-      resultGenerator: Html => Result = Results.Ok.apply): Result = {
+    view: String,
+    model: ViewModel with ViewModelResources with Product,
+    resultGenerator: Html => Result = Results.Ok.apply): Result = {
 
     val html = HBS.withProduct(view, model)
 

@@ -122,7 +122,7 @@ class Application(
 
   def collectConsents(returnUrl: Option[String], clientId: Option[String]) = Action { implicit req =>
     val clientIdOpt = ClientID(clientId)
-    val _returnUrl = returnUrl.map(url => ReturnUrl(Some(url), req.headers.get("Referer"), configuration, clientIdOpt))
+    val _returnUrl = returnUrl.getOrElse(configuration.dotcomBaseUrl)
     renderCollectConsents(configuration, clientIdOpt, _returnUrl)
   }
 
