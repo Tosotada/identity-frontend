@@ -120,6 +120,12 @@ class Application(
     renderResendTokenSent(configuration, csrfToken, error)
   }
 
+  def collectConsents(returnUrl: Option[String], clientId: Option[String]) = Action { implicit req =>
+    val clientIdOpt = ClientID(clientId)
+    val _returnUrl = returnUrl.getOrElse(configuration.dotcomBaseUrl)
+    renderCollectConsents(configuration, clientIdOpt, _returnUrl)
+  }
+
   //TODO: This is a placeholder until a generic invalid-token page is made for general token use
   def invalidRepermissioningToken(token: String) = Action { implicit req =>
     val csrfToken = CSRF.getToken(req)
