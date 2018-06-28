@@ -16,7 +16,7 @@ case object BaseLayoutViewModel extends ViewModel with ViewModelResources {
 
   val resources: Seq[PageResource with Product] = Seq(
     JavascriptResource("https://assets.guim.co.uk/polyfill.io/v2/polyfill.min.js?rum=0&features=default,es6,es7,es2017,fetch,promise&flags=gated&unknown=polyfill","https://assets.guim.co.uk/", isInHead = false),
-    LocalJavascriptResource.fromAsset("main.bundle.js", isInHead = false)
+    LocalJavascriptResource.fromAsset("main.jaffa.js", isInHead = false)
   )
 
   val indirectResources: Seq[PageResource with Product] = Seq(
@@ -155,7 +155,7 @@ object LayoutViewModel {
       InlinedJSONResource("id_runtime_params", r.toJSONString)
     }
 
-    val cssResources = LocalCSSResource.fromAsset("bundle.css")
+    val cssResources = LocalCSSResource.fromAsset("main.jaffa.css")
 
     val resources: Seq[PageResource with Product] = BaseLayoutViewModel.resources ++ Seq(Some(inlinedJSConfig), inlinedJSRuntimeParams).flatten ++ Seq(cssResources)
 
