@@ -1,8 +1,8 @@
 // @flow
 
 import { h, Component } from 'preact';
-import { Button } from 'elements/Button';
-import { Header } from 'elements/Header';
+import { Button } from 'react-elements/Button';
+import { Header } from 'react-elements/Header';
 
 type Props = {
   returnUrl: ?string
