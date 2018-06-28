@@ -4,12 +4,14 @@ import com.gu.identity.frontend.configuration.Configuration
 import com.gu.identity.frontend.models.{ClientID, ReturnUrl}
 import com.gu.identity.frontend.models.text.ReactIslandFallbackText
 import play.api.i18n.Messages
+import play.api.libs.json.Json
 
 case class CollectConsentsViewModel private(
   layout: LayoutViewModel,
   reactIslandFallbackText: Map[String, String],
   resources: Seq[PageResource with Product],
   indirectResources: Seq[PageResource with Product],
+  bootstrap: String,
 
   returnUrl: String
 )
@@ -26,6 +28,9 @@ object CollectConsentsViewModel {
       resources = layout.resources,
       indirectResources = layout.indirectResources,
 
+      bootstrap = Json.toJson(Map(
+        "returnUrl" -> returnUrl
+      )).toString(),
       returnUrl = returnUrl
     )
   }

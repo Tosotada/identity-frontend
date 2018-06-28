@@ -4,13 +4,18 @@ import { h, Component } from 'preact';
 import { Button } from 'elements/Button';
 import { Header } from 'elements/Header';
 
-class CollectConsents extends Component {
+type Props = {
+  returnUrl: ?string
+};
+
+class CollectConsents extends Component<Props> {
   render() {
     return (
       <div>
         <Header title="Thank you for creating a Guardian account" />
-        <Button href="/test">Continue</Button>
-        <pre>{JSON.stringify(this.props)}</pre>
+        {this.props.returnUrl && (
+          <Button href={this.props.returnUrl}>Continue</Button>
+        )}
       </div>
     );
   }
