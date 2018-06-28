@@ -12,7 +12,7 @@
     "postinstall": "./tools/sync-githooks.js",
     "install": "npm run build",
     "build": "webpack --bail --mode production --devtool=source-map",
-    "prebuild": "mkdir -p ./target/web/build-npm",
+    "prebuild": "rm -rf ./target/web/build-npm && mkdir -p ./target/web/build-npm",
     "watch-webpack": "webpack --watch --mode development --devtool=inline-source-map -o ./target/web/public/main/main.bundle.js",
     "lint-css": "stylelint 'public/**/*.css'",
     "watch": "node ./tools/banner.js && concurrently --kill-others \"npm run watch-webpack\" \"./start-frontend.sh\"",
