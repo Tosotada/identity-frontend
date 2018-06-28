@@ -6,11 +6,6 @@ const webpack = require('webpack');
 const path = require('path');
 const { StatsWriterPlugin } = require('webpack-stats-plugin');
 
-const report = isDev => {
-  const [emoji, name] = isDev ? ['😻', 'development'] : ['📦', 'production'];
-  console.log(`${emoji} Webpack is running in ${name} mode`);
-};
-
 const getCssLoaderConfig = (modules, isDev) => [
   MiniCssExtractPlugin.loader,
   {
@@ -34,8 +29,6 @@ module.exports = (env, argv) => {
 
   const isDev = argv && argv.mode === 'development';
   const globalCssModules = [/main\.css$/, /_fonts\.css$/];
-
-  report(isDev);
 
   return {
     entry: {
