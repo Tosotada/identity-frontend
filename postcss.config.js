@@ -7,26 +7,21 @@ module.exports = {
     },
     "postcss-mixins": {
       mixins: {
-        font: (mixin, family, fontSet, filebase, weight = 400, style = 'normal') => {
+        font: function (mixin, family, fontSet, filebase, weight = 400, style = 'normal') {
           const path = `v0/${fontSet}/${family}/${filebase}`;
-          const rule = postcss.atRule({name:'font-face'});
-          const props = {
-            'font-family': family,
-            'src': `inline('${path}.woff') format('woff'), resolve('${path}.ttf') format('truetype')`,
-            'font-weight': weight,
-            'font-style': style,
-            'font-stretch': 'normal'
-          };
-          Object.entries(props).forEach(([prop, value])=>{
-            rule.append({
-              prop, value
-            });
-          });
-          console.log(rule.toString());
-          mixin.replaceWith(rule);
+          return {
+            '@font-face': {
+              'font-family': family,
+              'src': `inline("${path}.woff") format("woff"), resolve("${path}.ttf") format("truetype")`,
+              'font-weight': weight,
+              'font-style': style,
+              'font-stretch': 'normal'
+            }
+          }
         }
       }
     },
+    "postcss-extend": {},
     "postcss-assets":{
       basePath: `${__dirname}/public/`,
       loadPaths: [`${__dirname}/public/components/**`],
