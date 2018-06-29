@@ -4,8 +4,8 @@
 /*
 input
 */
-%form-input {
-  @extend %font-body-copy;
+@define-mixin form-input {
+  @mixin font-body-copy;
   box-sizing: border-box;
   display: block;
   background-color: #fff;
@@ -28,7 +28,7 @@ input
   }
 }
 .form-input {
-  @extend %form-input;
+  @mixin form-input;
   &.form-input__display-errors:invalid {
     border-color: var(--color-error);
     color: var(--color-error);
@@ -38,8 +38,8 @@ input
 /*
 prelude
 */
-%form__prelude {
-  @extend %font-body-copy;
+@define-mixin form__prelude {
+  @mixin font-body-copy;
   margin: 0;
   padding: calc(var(--size-baseline-vertical) * 0.75) 0;
   text-align: center;
@@ -58,7 +58,7 @@ prelude
   }
 }
 .form-prelude {
-  @extend %form__prelude;
+  @mixin form__prelude;
 }
 
 /*
@@ -94,11 +94,11 @@ generic input wrapper
 }
 
 .form-field-wrap__title {
-  @extend %font-body-copy;
+  @mixin font-body-copy;
 }
 
 .form-field-wrap__footer {
-  @extend %font-body-copy-small;
+  @mixin font-body-copy-small;
   &,
   .link {
     color: var(--color-text);
@@ -108,8 +108,8 @@ generic input wrapper
 /*
 feedback
 */
-%form-feedback {
-  @extend %font-body-copy;
+@define-mixin form-feedback {
+  @mixin font-body-copy;
   padding: 0 0 0 calc(var(--size-baseline) * 8);
   position: relative;
   &:before {
@@ -123,7 +123,7 @@ feedback
     top: calc(var(--size-baseline) * -0.85);
   }
   a {
-    @extend %link;
+    @mixin link;
   }
   a,
   a:hover,
@@ -137,7 +137,7 @@ feedback
 }
 
 .form-feedback {
-  @extend %form-feedback;
+  @mixin form-feedback;
 }
 
 .form-feedback--error {

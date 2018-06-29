@@ -3,13 +3,13 @@
  */
 
 .footer {
-  @extend %font-body-copy-small;
+  @mixin font-body-copy-small;
   background-color: var(--color-brand);
-  color: color(var(--color-brand) lightness(80%));
+  color: color(#fff lightness(80%));
 }
 
 .footer__inner {
-  @extend %layout-wrap-page;
+  @mixin layout-wrap-page;
 }
 
 .footer__copyright {
@@ -31,7 +31,7 @@
   padding: 0;
   list-style: none;
 
-  a {
+  & a {
     text-decoration: none;
     display: inline-block;
     margin: 0 0 0.6rem;

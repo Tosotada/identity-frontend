@@ -1,12 +1,12 @@
-%form-checkbox__label {
-  @extend %font-body-copy-small;
+@define-mixin form-checkbox__label {
+  @mixin font-body-copy-small;
   display: block;
   position: relative;
   cursor: pointer;
   padding-left: 2.5rem;
 }
 
-%form-checkbox__box {
+@define-mixin form-checkbox__box {
   display: block;
   content: ' ';
   position: absolute;
@@ -28,8 +28,8 @@
   line-height: 20px;
 }
 
-%form-checkbox__box--checked {
-  @extend %form-checkbox__box;
+@define-mixin form-checkbox__box--checked {
+  @mixin form-checkbox__box;
   background-color: var(--color-brand);
   background-image: inline('tick.svg');
 }
@@ -49,16 +49,16 @@
   }
 
   &:checked + .form-checkbox__label::before {
-    @extend %form-checkbox__box--checked;
+    @mixin form-checkbox__box--checked;
   }
 
   &:not(:checked) + .form-checkbox__label::before {
-    @extend %form-checkbox__box;
+    @mixin form-checkbox__box;
   }
 }
 
 .form-checkbox__label {
-  @extend %form-checkbox__label;
+  @mixin form-checkbox__label;
   font-size: inherit;
   font-family: inherit;
 }

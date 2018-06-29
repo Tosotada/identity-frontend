@@ -21,14 +21,19 @@ module.exports = {
         }
       }
     },
-    "postcss-extend": {},
     "postcss-assets":{
       basePath: `${__dirname}/public/`,
       loadPaths: [`${__dirname}/public/components/**`],
       baseUrl: `/static/`,
     },
     "postcss-strip-units":{},
-    "postcss-preset-env":{},
     "postcss-color-function":{},
+    "postcss-preset-env":{
+      stage: 4,
+      features: {
+        'nesting-rules': true,
+        'custom-media-queries': true,
+      }
+    },
   }
 }
