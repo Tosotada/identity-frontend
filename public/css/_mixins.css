@@ -1,10 +1,10 @@
-@mixin multiline-height($number) {
-  $bgsize: calc($number * 4 - 3);
-  height: calc($bgsize * 1px);
+@define-mixin multiline-height $number {
+  --bgsize: calc($number * 4 - 3);
+  height: calc(var(--bgsize) * 1px);
 }
 
-@mixin multiline($number, $color, $position: bottom) {
-  $bgsize: calc($number * 4 - 3);
+@define-mixin multiline $number, $color, $position: bottom {
+  --bgsize: calc($number * 4 - 3);
   background-image: repeating-linear-gradient(
     to bottom,
     $color,
@@ -14,5 +14,5 @@
   );
   background-repeat: repeat-x;
   background-position: $position;
-  background-size: 1px calc($bgsize * 1px);
+  background-size: 1px calc(var(--bgsize) * 1px);
 }

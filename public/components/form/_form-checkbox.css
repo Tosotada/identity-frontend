@@ -34,9 +34,7 @@
   background-image: inline('tick.svg');
 }
 
-@mixin formCheckbox($labelClass) {
-  /* Only display nicer checkbox when browser supports CSS3 - should fallback nicely */
-
+.form-checkbox__input {
   &:checked,
   &:not(:checked) {
     position: absolute;
@@ -45,22 +43,18 @@
     pointer-events: none;
   }
 
-  &:focus + $labelClass::before,
-  &:hover + $labelClass::before {
+  &:focus + .form-checkbox__label::before,
+  &:hover + .form-checkbox__label::before {
     border-color: var(--color-border-hover);
   }
 
-  &:checked + $labelClass::before {
+  &:checked + .form-checkbox__label::before {
     @extend %form-checkbox__box--checked;
   }
 
-  &:not(:checked) + $labelClass::before {
+  &:not(:checked) + .form-checkbox__label::before {
     @extend %form-checkbox__box;
   }
-}
-
-.form-checkbox__input {
-  @include formCheckbox(.form-checkbox__label);
 }
 
 .form-checkbox__label {
