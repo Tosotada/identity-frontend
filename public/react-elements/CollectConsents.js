@@ -1,6 +1,6 @@
 // @flow
 
-import { h, Component } from 'preact';
+import React, { Component } from 'react';
 import { Button } from 'react-elements/Button';
 import { Header } from 'react-elements/Header';
 

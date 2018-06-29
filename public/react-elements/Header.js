@@ -1,6 +1,6 @@
 // @flow
 
-import { h, Component } from 'preact';
+import React, { Component } from 'react';
 import css from 'components/layout/_layout.css';
 
 type Props = {

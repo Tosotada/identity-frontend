@@ -1,5 +1,6 @@
 // @flow
-import { h, render, Component } from 'preact';
+import { createElement } from 'react';
+import { render } from 'react-dom';
 import Raven from 'raven-js';
 
 const getBootstrap = ($component: HTMLElement): {} => {
@@ -18,12 +19,10 @@ const getBootstrap = ($component: HTMLElement): {} => {
   }
 };
 
-const hydrate = ($component: HTMLElement, island: Component): void => {
+const hydrate = ($component: HTMLElement, island: any): void => {
   const bootstrap = getBootstrap($component);
-
   while ($component.firstChild) $component.removeChild($component.firstChild);
-
-  render(h(island, bootstrap), $component);
+  render(createElement(island, bootstrap), $component);
 };
 
 export { hydrate };

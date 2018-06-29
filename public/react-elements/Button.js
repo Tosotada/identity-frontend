@@ -1,6 +1,6 @@
 /* eslint react/no-danger: off */
 
-import { h, Component } from 'preact';
+import React, { Component } from 'react';
 import arrow from 'components/form/arrow-right.svg';
 import css from 'components/form/_form-button.css';
 
