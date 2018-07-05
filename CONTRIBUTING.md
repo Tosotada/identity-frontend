@@ -57,14 +57,15 @@ You can define an island from an HBS template [like this](https://github.com/gua
  - A fallback element that will render if javascript is disabled or slow and can contain a button to continue to a given URL if this is an optional part of a flow
  - A JSON bootstrap that contains the default props for the main react element to be rendered. 
  
-Islands are hydrated like any other javascript element, however there's a small helper tool at `js/hydrate-react-island` that will automatically replace the island with the element and put in the props for you, []this is how that looks like](https://github.com/guardian/identity-frontend/blob/561eeda377ff3853057dbb903b91099a8bfb8b7a/public/components/react-island/react-island--collect-consents.js).  
+Islands are hydrated like any other javascript element, however there's a small helper tool at `js/hydrate-react-island` that will automatically replace the island with the element and put in the props for you, [this is how that looks like](https://github.com/guardian/identity-frontend/blob/561eeda377ff3853057dbb903b91099a8bfb8b7a/public/components/react-island/react-island--collect-consents.js).  
 
 Due to the overhead of React at the moment we are using async loading for islands, this keeps the main js bundle to an extremely small size. However, since the only entry point for react code is in the island components you don't have to bother yourself with async loading inside the react elements themselves, only at the component level.
 
 
-#### CSS Modules
-Whenever possible, React elements should import CSS as CSS Modules [like this](https://github.com/guardian/identity-frontend/blob/a53a696f3d352dd336539928c955376fb1106d1b/public/react-elements/Button.js) instead of using global class names. CSS used only by react elements should live alongside them instead of in `/components`
+#### CSS in React
+React components that replicate existing static elements should use the existing global css class names.
 
+CSS used only by React elements should live alongside them in `/react-elements` instead of in `/components` and can be imported as [CSS Modules](https://github.com/css-modules/css-modules). From the react element itself.
 
 ## Structure
 
@@ -104,7 +105,15 @@ the `watch` script in [`package.json`](https://github.com/guardian/identity-fron
 ### CSS guidelines
 CSS source should be written using [Medium's](https://medium.com/@fat/mediums-css-is-actually-pretty-fucking-good-b8e2a6c78b06) CSS style guide.
 
-CSS is processed using [PostCSS](https://github.com/postcss/postcss) configured using plugins defined in [postcss.config.js](https://github.com/guardian/identity-frontend/blob/master/postcss.config.js).
+CSS is processed using Webpack and [PostCSS](https://github.com/postcss/postcss) configured using plugins defined in [postcss.config.js](https://github.com/guardian/identity-frontend/blob/master/postcss.config.js) and loaders defined in [`webpack.config.js`](https://github.com/guardian/identity-frontend/blob/master/webpack.config.js).
+
+All global critical CSS is loaded from [`js/load-global-css.js`](https://github.com/guardian/identity-frontend/blob/5933c17d47f8c030e28c2fcf7d98268a96ac0e97/public/js/load-global-css.js). All standard imports there will go in the main CSS bundle while the async imports will be chunked using webpack rules.
+
+There's a webpack rule in place to load all 
+
+React elements can import their own locally scoped CSS from their own JS files. Hydrated javascript components can also import clobal css
+
+
 
 CSS is structured using [BEM](https://css-tricks.com/bem-101/) (Block-Element-Modifier):
 
