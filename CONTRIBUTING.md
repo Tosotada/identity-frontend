@@ -40,7 +40,7 @@ If you have any questions, come chat to us (`Digital/Identity` in hangouts) or s
 - **Views:** [handlebars](http://jknack.github.io/handlebars.java/) used, view
   inputs defined in view model objects, only use built in helpers if you can
 
-## Architecture
+## Architecture overview
 `identity-frontend` is primarily a Scala app, however some functionality is offered using javascript. Our line in the sand here is that **signing in or up must not require javascript**. This means you must make a judgement cal on how to build up new features, either as server-side code (Scala+HBS optionally hydrated with JS) or as client-side code (React)
 
 
@@ -61,13 +61,13 @@ export const selector = '.hello-world';
 <div class="hello-world"></div>
 ```
 
-When putting new html in the page it is your responsibility to scan it for components, you can do this by importing `loadComponents` and passing it the new HTML. [Here's an example](https://github.com/guardian/identity-frontend/blob/5632078ea8bfe55d5fd7bf1acd340ada9c08ecdd/public/components/ajax-step-flow/ajax-step-flow.js#L188).
+When putting new HTML in the page it is your responsibility to scan it for components, you can do this by importing `loadComponents` and passing it the new HTML:
 
 ```js
 import { loadComponents } from 'js/load-components';
 
 export const init = ($target) => {
-  fetchHtml('./my-awesome-page.html').then( (html:string) =>{
+  fetchHtml('./my-awesome-page.html').then( html => {
     $target.innerHTML = html;
     loadComponents($target);
   })
@@ -75,7 +75,9 @@ export const init = ($target) => {
 ```
 
 ### Using React 
-We use react in a similar fashion, attaching it to an existing HTML element. To simplify handling passing initial state and fallback rendering we have what we call "React Islands" (called islands because they are isolated divs).
+We use React inside this component system, attaching it to an existing HTML element. To simplify handling passing initial state and fallback rendering we have what we call "React Islands" (called islands because they are isolated divs).
+
+React elements themselves go inside `/react-elements` as they are architecturally different from traditional components and mixing them could lead to confusion. This also helps prevent potential 'mixing and matching' of react elements with traditional components as much as possible.
 
 You can define an island from an HBS template:
 ```html
@@ -96,7 +98,7 @@ Islands are hydrated like any other javascript element, however there's a small 
 export const init = ($component): void => {
   Promise.all([
     import('js/hydrate-react-island'),
-    import('elements/CollectConsents'),
+    import('react-elements/CollectConsents'),
   ]).then(([{ hydrate }, { CollectConsents }]) => {
     hydrate($component, CollectConsents);
   });
