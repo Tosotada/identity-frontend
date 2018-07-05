@@ -1,6 +1,3 @@
-@import './_form-button.css';
-@import './_form-checkbox.css';
-
 /*
 input
 */
@@ -23,7 +20,7 @@ input
   }
 
   &:focus {
-    border-color: color(var(--color-border-hover) lightness(-20%));
+    border-color: color-mod(var(--color-border-hover) lightness(-20%));
     outline: none;
   }
 }
@@ -122,16 +119,16 @@ feedback
     left: 0;
     top: calc(var(--size-baseline) * -0.85);
   }
-  a {
+  & a {
     @mixin link;
   }
-  a,
-  a:hover,
-  a:focus {
+  & a,
+  & a:hover,
+  & a:focus {
     color: inherit;
     text-decoration-color: inherit;
   }
-  a:focus {
+  & a:focus {
     outline: auto;
   }
 }
@@ -161,9 +158,9 @@ feedback
 }
 
 .form-feedback-wrap {
-  .form-feedback {
+  & .form-feedback {
     margin: 0 0 var(--size-baseline-vertical) 0;
-    .form-feedback__colourless {
+    & .form-feedback__colourless {
       color: var(--color-text);
     }
     &:not(:first-child) {

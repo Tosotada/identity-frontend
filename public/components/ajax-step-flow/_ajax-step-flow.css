@@ -1,7 +1,9 @@
+@import 'css/_globals.css';
+
 .ajax-step-flow[data-enhanced] {
   position: relative;
   min-height: 100%;
-  .ajax-step-flow__slide {
+  & .ajax-step-flow__slide {
     left: 0;
     right: 0;
     top: 0;

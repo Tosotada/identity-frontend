@@ -27,11 +27,11 @@ module.exports = {
       baseUrl: `/static/`,
     },
     "postcss-strip-units":{},
-    "postcss-color-function":{},
     "postcss-preset-env":{
-      stage: 4,
+      stage: 2,
       features: {
         'nesting-rules': true,
+        'custom-properties': true,
         'custom-media-queries': true,
       }
     },

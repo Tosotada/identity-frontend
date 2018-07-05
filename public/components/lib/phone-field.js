@@ -1,5 +1,7 @@
 /* eslint-disable */
 
+import 'components/lib/phone-field.css';
+
 const PLUGIN_OPTIONS = {
   initialCountry: 'gb',
   preferredCountries: ['gb', 'us', 'au']
