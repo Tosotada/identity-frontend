@@ -13,7 +13,6 @@ const getCssLoaderConfig = (modules, isDev) => [
     options: {
       modules,
       sourceMap: isDev,
-      import: false,
       importLoaders: 1
     }
   },
@@ -28,7 +27,7 @@ const getCssLoaderConfig = (modules, isDev) => [
 module.exports = (env, argv) => {
 
   const isDev = argv && argv.mode === 'development';
-  const globalCssModules = [/main\.css$/, /_fonts\.css$/];
+  const globalCssModules = ['main.css',/\/components\/(.*)\.css$/];
 
   return {
     entry: {

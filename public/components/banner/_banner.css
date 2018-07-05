@@ -1,3 +1,5 @@
+@import 'css/_globals.css';
+
 .banner {
   width: 100%;
   display: none;

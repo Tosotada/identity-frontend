@@ -1,3 +1,5 @@
+@import 'css/_globals.css';
+
 @define-mixin form-checkbox__label {
   @mixin font-body-copy-small;
   display: block;
