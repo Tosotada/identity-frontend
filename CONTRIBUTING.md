@@ -16,37 +16,66 @@
 # Contributing to identity-frontend
 
 1. Branch off of master, name your branch related to the feature you're
-   implementing, or prefix with `fix-` for bug fixes
+   implementing, prefix with your initials/name (`bikercat-feature-name`,`bc-feature-name`)
 2. Do your thing
 3. Ensure tests pass locally with `sbt test`
-4. Make sure your branch is up to date with our master
-  - by merging or (preferably, if possible) rebasing onto master
-  - this makes sure any conflicts are resolved prior to code review
+4. Make sure your branch is up to date with master
+    - by merging or (preferably, if possible) rebasing onto master
+    - this makes sure any conflicts are resolved prior to code review
 5. Open a pull request
 6. Code will be reviewed and require a :+1: from a team member before it
    will be merged
 7. The merger is required to ensure the change is deployed to production.
 
-If you have any questions, come chat to us or send us an email.
+If you have any questions, come chat to us (`Digital/Identity` in hangouts) or send us [an email](identitydev@theguardian.com).
 
 
 ## Coding conventions
 
 - 2 space indent, trimmed spaces, lf, utf8, enforced with
   [Prettier](https://prettier.io/), please install the plugin for your
-  editor
+  editor if you can
 - **Commits:** Please don't squash, history is good
 - **Scala:** [Scala style guide](http://docs.scala-lang.org/style/)
 - **Views:** [handlebars](http://jknack.github.io/handlebars.java/) used, view
   inputs defined in view model objects, only use built in helpers if you can
 
-### Structure
+## Architecture
+`identity-frontend` is primarily a Scala app, however some functionality is offered using javascript. Our line in the sand here is that **signing in or up must not require javascript**. This means you must make a judgement cal on how to build up new features, either as server-side code (Scala+HBS optionally hydrated with JS) or as client-side code (React)
+
+
+### Javascript hydration
+All javascript must attach itself to a existing HTML element with given classnames. Components are loaded in [js/components.js](https://github.com/guardian/identity-frontend/blob/master/public/js/components.js) and must export the selector they want to attach themselves to, and a `init` function that will receive the components. This abstracts away manually handling binding javascript and html together.
+
+When putting new html in the page it is your responsibility to scan it for components, you can do this by importing `loadComponents` and passing it the new HTML. [Here's an example](https://github.com/guardian/identity-frontend/blob/5632078ea8bfe55d5fd7bf1acd340ada9c08ecdd/public/components/ajax-step-flow/ajax-step-flow.js#L188).
+
+### Using React 
+We use react in a similar fashion, attaching it to an existing HTML element. To simplify handling passing initial state and fallback rendering we have what we call "React Islands" (called islands because they are isolated divs).
+
+You can define an island from an HBS template [like this](https://github.com/guardian/identity-frontend/blob/561eeda377ff3853057dbb903b91099a8bfb8b7a/public/collect-consents.hbs), islands in handlebars contain two things:
+ 
+ - A fallback element that will render if javascript is disabled or slow and can contain a button to continue to a given URL if this is an optional part of a flow
+ - A JSON bootstrap that contains the default props for the main react element to be rendered. 
+ 
+Islands are hydrated like any other javascript element, however there's a small helper tool at `js/hydrate-react-island` that will automatically replace the island with the element and put in the props for you, []this is how that looks like](https://github.com/guardian/identity-frontend/blob/561eeda377ff3853057dbb903b91099a8bfb8b7a/public/components/react-island/react-island--collect-consents.js).  
+
+Due to the overhead of React at the moment we are using async loading for islands, this keeps the main js bundle to an extremely small size. However, since the only entry point for react code is in the island components you don't have to bother yourself with async loading inside the react elements themselves, only at the component level.
+
+
+#### CSS Modules
+Whenever possible, React elements should import CSS as CSS Modules [like this](https://github.com/guardian/identity-frontend/blob/a53a696f3d352dd336539928c955376fb1106d1b/public/react-elements/Button.js) instead of using global class names. CSS used only by react elements should live alongside them instead of in `/components`
+
+
+## Structure
 
 ```
 identity-frontend
-├── app              - Scala Play application
-└── public           - Client-side assets
-    └── components   - Self-contained, reusable components
+├── app                 - Scala Play application
+└── public              - Client-side assets
+    └── css             - Global CSS helpers
+    └── js              - Global JS helpers
+    └── components      - HBS Components
+    └── react-elements  - React elements
 ```
 
 The **`app`** directory contains the Scala Play Application which runs the web application.
@@ -58,19 +87,11 @@ are within the **`public/components`** directory.
 
 The **`public/components`** directory contains components for all pages within
 the application. A component is a self-contained, reusable set of relating logic.
-This can be groups of interface elements, or self contained libraries. All supporting
-resources for a component should be within the component directory, regardless
-of filetype or technology. So its not uncommon for a component directory to contain
-Javascript modules, Handlebars views, CSS, and image assets. Directory structure
-should be flat to be browsable, and component names should be simple and logical.
+This can be groups of interface elements, or self contained libraries. 
 
-As convention, partial templates and CSS stylesheets are prefixed with an underscore.
-
+The **`public/react-elements`** directory contains React elements. 
 
 ### Javascript guidelines
-Javascript source should be written in ES6 in the [Idiomatic JS](https://github.com/rwaldron/idiomatic.js)
-style. This is enforced using [Prettier](https://prettier.io/) when running tests and before push.
-
 We use [Flow](https://flow.org/en/) to type check javascript. This happens at pre-push time but you can also manually test your types by running `npm run flow`. 
 
 ES6 is transpiled with [Babel](https://babeljs.io/) as part of a
@@ -129,7 +150,7 @@ Pixel fallbacks for `rem` units are added with PostCSS automatically via the
 also automatically added via PostCSS and `cssnext` with `autoprefixer`.
 
 
-### Multi-Variant Tests
+## Multi-Variant Tests
 All Multi-Variant tests are defined server-side in [MultiVariantTests.scala](https://github.com/guardian/identity-frontend/blob/master/app/com/gu/identity/frontend/configuration/MultiVariantTests.scala).
 
 For example:
@@ -177,7 +198,7 @@ import { getClientSideActiveTestResults } from 'components/analytics/mvt';
 const results = getClientSideActiveTestResults();
 ```
 
-#### Recording test results
+### Recording test results
 Test results will be recorded on page view automatically in Ophan.
 But to have test results recorded correctly by the data team, a test definition
 must be created in the [guardian/frontend]() repo.
@@ -189,7 +210,7 @@ an example.
 All tests are prefixed automatically with `ab` when recorded, and tests defined
 in this repo are automatically namespaced with `Identity`.
 
-#### Manually testing variants
+### Manually testing variants
 Append `?mvt_<testName>=<variantId>` to a route with a `MultiVariantTestAction`.
 
 ### Test guidelines
