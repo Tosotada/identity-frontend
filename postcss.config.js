@@ -27,8 +27,5 @@ module.exports = {
     "postcss-strip-units":{},
     "postcss-cssnext":{},
     "postcss-color-function":{},
-    "cssnano":{
-      autoprefixer: false
-    }
   }
 }

@@ -1,3 +1,7 @@
+@import 'css/_vars.css';
+@import 'css/_typography.css';
+@import 'css/_breakpoints.css';
+
 %layout {
   margin: 0 auto;
   box-sizing: border-box;

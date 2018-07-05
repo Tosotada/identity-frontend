@@ -1,5 +1,5 @@
 module.exports = {
-  extends: ['airbnb', 'prettier'],
+  extends: ['airbnb', 'prettier', 'plugin:react/recommended'],
   plugins: ['prettier','import','flow'],
   env: {
     browser: true,
@@ -20,10 +20,13 @@ module.exports = {
     'import/no-extraneous-dependencies': 'off',
     'import/prefer-default-export': 'off',
     'prettier/prettier': 'error',
+    'jsx-quotes': ['error', 'prefer-double'],
     'no-extend-native': 'error',
     'no-param-reassign': ['error', { props: false }],
     'func-style': ['error', 'expression', { allowArrowFunctions: true }],
     'prefer-destructuring': 'off',
+    'react/jsx-filename-extension': 'off',
+    'react/prefer-stateless-function': 'off',
     'no-console': ['error', { allow: ['error'] }]
   },
   // don't look for eslintrcs above here

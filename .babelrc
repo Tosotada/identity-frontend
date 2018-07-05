@@ -2,5 +2,11 @@
   "presets": [
     ["env"]
   ],
-  "plugins": ["transform-flow-strip-types","syntax-dynamic-import","transform-object-rest-spread"]
+  "plugins": [
+    "syntax-flow",
+    "transform-flow-strip-types",
+    "syntax-dynamic-import",
+    "transform-object-rest-spread",
+    "transform-react-jsx"
+  ]
 }

@@ -30,3 +30,8 @@
   --z-index-banner: 500;
   --z-index-header: 600;
 }
+
+/* Etc */
+:root {
+  --base-font-size: 10;
+}
