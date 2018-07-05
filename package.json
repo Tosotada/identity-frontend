@@ -73,6 +73,7 @@
     "webpack": "^4.12.2",
     "webpack-cli": "^3.0.8",
     "webpack-stats-plugin": "^0.2.1",
+    "webpack-stringify-loaders": "^1.1.1",
     "webpack-visualizer-plugin": "^0.1.11"
   },
   "devDependencies": {
