@@ -44,31 +44,127 @@ If you have any questions, come chat to us (`Digital/Identity` in hangouts) or s
 `identity-frontend` is primarily a Scala app, however some functionality is offered using javascript. Our line in the sand here is that **signing in or up must not require javascript**. This means you must make a judgement cal on how to build up new features, either as server-side code (Scala+HBS optionally hydrated with JS) or as client-side code (React)
 
 
-### Javascript hydration
-All javascript must attach itself to a existing HTML element with given classnames. Components are loaded in [js/components.js](https://github.com/guardian/identity-frontend/blob/master/public/js/components.js) and must export the selector they want to attach themselves to, and a `init` function that will receive the components. This abstracts away manually handling binding javascript and html together.
+### Javascript
+All javascript must attach itself to a existing HTML element with given CSS class names. Components are manually loaded from a list in [js/components.js](https://github.com/guardian/identity-frontend/blob/master/public/js/components.js), when yu write a component you must export the following, then add it to the component list.
+ 
+ - A css `selector` they want to attach themselves to
+ - An `init` function that will receive the components. This abstracts away manually handling binding javascript and html together. 
+ - There's also `initOnce` which is optional and runs only once in the app lifecycle regardless of how many elements your component hits.
+
+```js
+//hello-world.js
+export const init = ($target) => $target.innerText = 'hello world'; 
+export const initOnce = () => alert('this happens once, ever');
+export const selector = '.hello-world';
+
+//hello-world.html
+<div class="hello-world"></div>
+```
 
 When putting new html in the page it is your responsibility to scan it for components, you can do this by importing `loadComponents` and passing it the new HTML. [Here's an example](https://github.com/guardian/identity-frontend/blob/5632078ea8bfe55d5fd7bf1acd340ada9c08ecdd/public/components/ajax-step-flow/ajax-step-flow.js#L188).
+
+```js
+import { loadComponents } from 'js/load-components';
+
+export const init = ($target) => {
+  fetchHtml('./my-awesome-page.html').then( (html:string) =>{
+    $target.innerHTML = html;
+    loadComponents($target);
+  })
+} 
+```
 
 ### Using React 
 We use react in a similar fashion, attaching it to an existing HTML element. To simplify handling passing initial state and fallback rendering we have what we call "React Islands" (called islands because they are isolated divs).
 
-You can define an island from an HBS template [like this](https://github.com/guardian/identity-frontend/blob/561eeda377ff3853057dbb903b91099a8bfb8b7a/public/collect-consents.hbs), islands in handlebars contain two things:
+You can define an island from an HBS template:
+```html
+<div class="react-island react-island--name-to-look-for-in-js">
+  {{> components/react-island/_react-island__fallback text=reactIslandFallbackText returnUrl=returnUrl }}
+  {{> components/react-island/_react-island__bootstrap json=bootstrap }}
+</div>
+```
+
+Islands in handlebars contain two things:
  
  - A fallback element that will render if javascript is disabled or slow and can contain a button to continue to a given URL if this is an optional part of a flow
  - A JSON bootstrap that contains the default props for the main react element to be rendered. 
  
-Islands are hydrated like any other javascript element, however there's a small helper tool at `js/hydrate-react-island` that will automatically replace the island with the element and put in the props for you, [this is how that looks like](https://github.com/guardian/identity-frontend/blob/561eeda377ff3853057dbb903b91099a8bfb8b7a/public/components/react-island/react-island--collect-consents.js).  
+Islands are hydrated like any other javascript element, however there's a small helper tool at `js/hydrate-react-island` that will automatically replace the island with the element and put in the props for you, this is how that looks like:
+
+```js
+export const init = ($component): void => {
+  Promise.all([
+    import('js/hydrate-react-island'),
+    import('elements/CollectConsents'),
+  ]).then(([{ hydrate }, { CollectConsents }]) => {
+    hydrate($component, CollectConsents);
+  });
+};
+```
 
 Due to the overhead of React at the moment we are using async loading for islands, this keeps the main js bundle to an extremely small size. However, since the only entry point for react code is in the island components you don't have to bother yourself with async loading inside the react elements themselves, only at the component level.
 
+### CSS 
+All global critical CSS is loaded from [`js/load-global-css.js`](https://github.com/guardian/identity-frontend/blob/5933c17d47f8c030e28c2fcf7d98268a96ac0e97/public/js/load-global-css.js). All standard imports there will go in the main CSS bundle while the async imports will be chunked using webpack rules.
 
-#### CSS in React
-React components that replicate existing static elements should use the existing global css class names.
+We use [CSS Modules](https://github.com/css-modules/css-modules) for all css files. There's however a webpack rule to treat file names `(file).global.css` as fully global CSS for Scala+HBS components. 
 
-CSS used only by React elements should live alongside them in `/react-elements` instead of in `/components` and can be imported as [CSS Modules](https://github.com/css-modules/css-modules). From the react element itself.
+#### When using CSS in Javascript
+Javascript elements (react or traditional) can import their own CSS as a normal import. You will get an object witch all css module names as the children. Locally scoped CSS Modules (vs global ones) are preferable for all use cases where it's not needed to use the css on server side rendered templates.
+
+```js
+import css from 'Card.css';
+
+export const render = ({title}) => `
+  <div class="${css.card}">
+    <header class="${css.title}">${title}</div>
+  </div>
+`
+```
+
+Components that replicate existing static elements should use the existing global css class names. CSS used only by React elements should live alongside them in `/react-elements` instead of in `/components`
+```js
+export const render = ({name}) => `
+  <button class="form-button">
+    ${name}
+  </button>
+`
+```
+
+
+#### When using global CSS
+Global CSS uses [BEM](https://css-tricks.com/bem-101/) (Block-Element-Modifier):
+
+    .[block]
+    .[block]__[element]
+    .[block]--[modifier]
+    .[block]__[element]--[modifier]
+
+Try to keep CSS scoped to an **element level** and to keep elements as reusable as possible. In practical terms this mostly means setting the placement (margin, position) from the container instead of from the element itself.
+
+```css
+/* no 😿 */
+.ui-button {
+  display: block;
+  background: var(--color-button);
+  position: absolute;
+  bottom: 0;
+}
+
+/* yes 😻 */
+.ui-button {
+  display: block;
+  background: var(--color-button);
+}
+.ui-dialog .ui-button {
+  position: absolute;
+  bottom: 0;
+}
+```
+
 
 ## Structure
-
 ```
 identity-frontend
 ├── app                 - Scala Play application
@@ -92,7 +188,7 @@ This can be groups of interface elements, or self contained libraries.
 
 The **`public/react-elements`** directory contains React elements. 
 
-### Javascript guidelines
+### Javascript processing
 We use [Flow](https://flow.org/en/) to type check javascript. This happens at pre-push time but you can also manually test your types by running `npm run flow`. 
 
 ES6 is transpiled with [Babel](https://babeljs.io/) as part of a
@@ -102,62 +198,10 @@ is defined in [`webpack.config.js`](https://github.com/guardian/identity-fronten
 The build is triggered as part of the npm scripts. This is configured using
 the `watch` script in [`package.json`](https://github.com/guardian/identity-frontend/blob/master/package.json).
 
-### CSS guidelines
-CSS source should be written using [Medium's](https://medium.com/@fat/mediums-css-is-actually-pretty-fucking-good-b8e2a6c78b06) CSS style guide.
-
+### CSS Processing
 CSS is processed using Webpack and [PostCSS](https://github.com/postcss/postcss) configured using plugins defined in [postcss.config.js](https://github.com/guardian/identity-frontend/blob/master/postcss.config.js) and loaders defined in [`webpack.config.js`](https://github.com/guardian/identity-frontend/blob/master/webpack.config.js).
 
-All global critical CSS is loaded from [`js/load-global-css.js`](https://github.com/guardian/identity-frontend/blob/5933c17d47f8c030e28c2fcf7d98268a96ac0e97/public/js/load-global-css.js). All standard imports there will go in the main CSS bundle while the async imports will be chunked using webpack rules.
-
-There's a webpack rule in place to load all 
-
-React elements can import their own locally scoped CSS from their own JS files. Hydrated javascript components can also import clobal css
-
-
-
-CSS is structured using [BEM](https://css-tricks.com/bem-101/) (Block-Element-Modifier):
-
-    .[block]
-    .[block]__[element]
-    .[block]--[modifier]
-    .[block]__[element]--[modifier]
-
-Try to keep CSS scoped to an **element level** and to keep elements as reusable as possible. In practical terms this mostly means setting the placement (margin, position) from a container.
-
-```css
-/* no 😿 */
-.ui-button {
-  display: block;
-  background: var(--color-button);
-  position: absolute;
-  bottom: 0;
-}
-
-/* yes 😻 */
-.ui-button {
-  display: block;
-  background: var(--color-button);
-}
-.ui-dialog .ui-button {
-  position: absolute;
-  bottom: 0;
-}
-```
-
-Whenever possible try to stick with standard css syntax such as using `var(--color-main)` instead of `$color-main`. At the moment a couple of redundant postcss plugins exist within the projects but the aim is to eventually remove them and write standard CSS.
-
-All size units should be expressed in `rem` ("root em") units as much as
-possible.CSS is written to override the default base-font size to a
-representative `10px`, so `1rem = 10px`. This is to improve accessibility by
-allowing pages to scale if the user's browser has a larger font size set.
-
-Pixel units should only be used when a constant size is required for User
-Experience purposes, such as `border: 1px` on buttons.
-
-Pixel fallbacks for `rem` units are added with PostCSS automatically via the
-[cssnext](http://cssnext.io/) plugin. Vendor prefixes for "Modern" CSS are
-also automatically added via PostCSS and `cssnext` with `autoprefixer`.
-
+As much as possible we stick to the css spec by using `postcss-preset-env`. This means native variables and calc for example. A huge gotcha you will fall into is nesting requires to have `&` to work in all rules. There's also mixins (but try not to use function mixins) and asset bundling.
 
 ## Multi-Variant Tests
 All Multi-Variant tests are defined server-side in [MultiVariantTests.scala](https://github.com/guardian/identity-frontend/blob/master/app/com/gu/identity/frontend/configuration/MultiVariantTests.scala).
