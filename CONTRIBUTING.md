@@ -108,7 +108,7 @@ export const init = ($component): void => {
 Due to the overhead of React at the moment we are using async loading for islands, this keeps the main js bundle to an extremely small size. However, since the only entry point for react code is in the island components you don't have to bother yourself with async loading inside the react elements themselves, only at the component level.
 
 ### CSS 
-All global critical CSS is loaded from [`js/load-global-css.js`](https://github.com/guardian/identity-frontend/blob/5933c17d47f8c030e28c2fcf7d98268a96ac0e97/public/js/load-global-css.js). All standard imports there will go in the main CSS bundle while the async imports will be chunked using webpack rules.
+All global critical CSS is loaded from [`js/load-global-css.js`](https://github.com/guardian/identity-frontend/blob/lg-islands-stage-2/public/js/load-global-css.js). All standard imports there will go in the main CSS bundle while the async imports will be chunked using webpack rules.
 
 We use [CSS Modules](https://github.com/css-modules/css-modules) for all css files. There's however a webpack rule to treat file names `(file).global.css` as fully global CSS for Scala+HBS components. 
 
