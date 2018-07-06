@@ -1,3 +1,5 @@
+@import 'css/_globals.css';
+
 .header {
   border-bottom: 1px solid var(--color-border);
   border-bottom-color: var(--color-border);
@@ -9,7 +11,7 @@
 }
 
 .header__inner {
-  @extend %layout-wrap-page;
+  @mixin layout-wrap-page;
   overflow: hidden;
 }
 

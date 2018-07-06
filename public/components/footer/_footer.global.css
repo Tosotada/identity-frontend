@@ -1,42 +1,39 @@
+@import 'css/_globals.css';
+
 /**
  * Page footer styles
  */
 
 .footer {
-  @extend %font-body-copy-small;
+  @mixin font-body-copy-small;
   background-color: var(--color-brand);
-  color: color(var(--color-brand) lightness(80%));
+  color: color-mod(#fff lightness(80%));
 }
 
 .footer__inner {
-  @extend %layout-wrap-page;
+  @mixin layout-wrap-page;
 }
 
 .footer__copyright {
-  border-top: 1px solid color(var(--color-brand) lightness(25%));
+  border-top: 1px solid color-mod(var(--color-brand) lightness(25%));
   clear: both;
   margin: 0;
   padding: 0.6rem 0 2.5rem;
   opacity: 0.75;
 }
 
-@mixin footer-columns($cols: 1, $gap: 0) {
-  column-count: $cols;
-  column-gap: $gap;
-}
-
 .colophon__list {
-  @include footer-columns(2);
+  column-count: 2;
 
   @media all and (min-width: 600px) {
-    @include footer-columns(3);
+    column-count: 3;
   }
 
   margin: 2.5rem 0 0.6rem;
   padding: 0;
   list-style: none;
 
-  a {
+  & a {
     text-decoration: none;
     display: inline-block;
     margin: 0 0 0.6rem;

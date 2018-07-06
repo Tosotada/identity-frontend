@@ -2,7 +2,6 @@
 
 import React, { Component } from 'react';
 import arrow from 'components/form/arrow-right.svg';
-import css from 'components/form/_form-button.css';
 
 type Props = {
   href: ?string,
@@ -14,13 +13,13 @@ class Button extends Component<Props> {
     return this.props.href ? (
       <a
         href={this.props.href}
-        className={[css['form-button'], css['form-button--main']].join(' ')}
+        className={['form-button', 'form-button--main'].join(' ')}
       >
         {this.props.children}
         <span dangerouslySetInnerHTML={{ __html: arrow }} />
       </a>
     ) : (
-      <button className="form-button form-button--main">
+      <button className={['form-button', 'form-button--main'].join(' ')}>
         {this.props.children}
         <span dangerouslySetInnerHTML={{ __html: arrow }} />
       </button>

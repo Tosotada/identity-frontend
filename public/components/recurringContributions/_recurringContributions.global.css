@@ -1,3 +1,5 @@
+@import 'css/_globals.css';
+
 :root {
   --gu-h-spacing: calc(var(--size-baseline) * 5);
   --gu-v-spacing: calc(var(--size-baseline) * 3);

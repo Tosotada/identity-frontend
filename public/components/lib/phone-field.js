@@ -14,6 +14,7 @@ export function initPhoneField(
   Promise.all([
     import('jquery'),
     import('raw-loader!intl-tel-input/build/css/intlTelInput.css'),
+    import('components/lib/phone-field.css'),
     import('intl-tel'),
     import('intl-tel-utils')
   ]).then(([jq, css]) => {

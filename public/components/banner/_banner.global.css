@@ -1,3 +1,5 @@
+@import 'css/_globals.css';
+
 .banner {
   width: 100%;
   display: none;
@@ -9,8 +11,8 @@
     content: '';
     background-color: var(--color-bg);
     $border: var(--color-border);
-    @include multiline(4, $border);
-    @include multiline-height(4);
+    @mixin multiline 4, $border;
+    @mixin multiline-height 4;
     position: absolute;
     bottom: -1px;
     left: 0;
