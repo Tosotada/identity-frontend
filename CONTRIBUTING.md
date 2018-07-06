@@ -34,11 +34,12 @@ If you have any questions, come chat to us (`Digital/Identity` in hangouts) or s
 
 
 ### Javascript
-Since most javascript operations involve hydrating an existing element, and to avoid directly querying the DOM there's a small abstraction layer in [js/components.js](https://github.com/guardian/identity-frontend/blob/master/public/js/components.js). This handles hydrating 
-All javascript must attach itself to a existing HTML element with given CSS class names. Components are manually loaded from a list in [js/components.js](https://github.com/guardian/identity-frontend/blob/master/public/js/components.js), when you write a component you must export the following, then add it to the component list.
+Since most javascript operations involve hydrating an existing element, and directly querying the DOM is error-prone, there's a small abstraction layer that handles hydrating elements and attaching your Javascript code to all matching elements on the page.
+
+All javascript must attach itself to a existing HTML element with a given CSS classname. Components are manually loaded from a list in [js/components.js](https://github.com/guardian/identity-frontend/blob/master/public/js/components.js), when you write a component you must export the following, then add it to the component list.
  
- - A CSS `selector` they want to attach themselves to
- - An `init` function that will receive the components. This abstracts away manually handling binding javascript and HTML together. 
+ - An `init` function that will receive the html element.
+ - A CSS `selector` your components wants to attach itself to
  - There's also `initOnce` which is optional and runs only once in the app lifecycle regardless of how many elements your component hits.
 
 ```js
@@ -63,6 +64,8 @@ export const init = ($target) => {
   })
 } 
 ```
+
+It's up to you to decide how much Javascript to use on a rendered component. If you want to use progressive enhancement on the existing content you will want traditional javascript. However, for more complex operations you should consider using React as follows:
 
 ### Using React 
 We use React inside this component system, attaching it to an existing HTML element. To simplify handling passing initial state and fallback rendering we have what we call "React Islands" (called islands because they are isolated divs).
