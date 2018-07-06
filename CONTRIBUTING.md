@@ -45,7 +45,7 @@ If you have any questions, come chat to us (`Digital/Identity` in hangouts) or s
 
 
 ### Javascript
-All javascript must attach itself to a existing HTML element with given CSS class names. Components are manually loaded from a list in [js/components.js](https://github.com/guardian/identity-frontend/blob/master/public/js/components.js), when yu write a component you must export the following, then add it to the component list.
+All javascript must attach itself to a existing HTML element with given CSS class names. Components are manually loaded from a list in [js/components.js](https://github.com/guardian/identity-frontend/blob/master/public/js/components.js), when you write a component you must export the following, then add it to the component list.
  
  - A css `selector` they want to attach themselves to
  - An `init` function that will receive the components. This abstracts away manually handling binding javascript and html together. 
