@@ -13,7 +13,6 @@ const getCssLoaderConfig = (modules, isDev) => [
     options: {
       modules,
       sourceMap: isDev,
-      import: false,
       importLoaders: 1
     }
   },
@@ -28,7 +27,6 @@ const getCssLoaderConfig = (modules, isDev) => [
 module.exports = (env, argv) => {
 
   const isDev = argv && argv.mode === 'development';
-  const globalCssModules = [/main\.css$/, /_fonts\.css$/];
 
   return {
     entry: {
@@ -52,14 +50,14 @@ module.exports = (env, argv) => {
           ]
         },
         {
-          test: /\.css$/,
-          exclude: [/node_modules/, ...globalCssModules],
-          use: getCssLoaderConfig(true, isDev)
-        },
-        {
-          test: globalCssModules,
+          test: /\.global.css$/,
           exclude: /node_modules/,
           use: getCssLoaderConfig(false, isDev)
+        },
+        {
+          test: /\.css$/,
+          exclude: [/node_modules/,/\.global.css$/],
+          use: getCssLoaderConfig(true, isDev)
         },
         {
           test: /\.svg/,

@@ -1,0 +1,49 @@
+@define-mixin font-size $size, $line-height {
+  font-size: calc($size / var(--base-font-size) * 1rem);
+  line-height: calc($line-height / var(--base-font-size) * 1rem);
+}
+
+@define-mixin font-serif {
+  font-family: GuardianTextEgyptianWeb, Georgia, serif;
+}
+
+@define-mixin font-sans-serif {
+  font-family: GuardianTextSansWeb, 'Helvetica Neue', Helvetica, Arial,
+    'Lucida Grande', sans-serif;
+  letter-spacing: 0.2px;
+}
+
+@define-mixin font-heading {
+  font-family: GuardianHeadline, Georgia, serif;
+  font-weight: 300;
+}
+
+@define-mixin font-body-copy-small {
+  @mixin font-sans-serif;
+  @mixin font-size 14, 20;
+}
+
+@define-mixin font-body-copy {
+  @mixin font-body-copy-small;
+  @media (--viewport-min-mobile-landscape) {
+    @mixin font-size 16, 22;
+  }
+}
+
+@define-mixin font-button {
+  @mixin font-sans-serif;
+  @mixin font-size 16, 20;
+  font-weight: 500;
+}
+
+@define-mixin font-header {
+  @mixin font-heading;
+  @mixin font-size 28, 32;
+  font-weight: 500;
+}
+
+@define-mixin font-header-standfirst {
+  @mixin font-heading;
+  @mixin font-size 20, 26;
+  font-weight: 400;
+}

@@ -1,12 +1,40 @@
-@import 'css/_vars.css';
-@import 'css/_typography.css';
+@import 'css/_globals.css';
 
 :root {
   --form-button-icon-size: 3rem;
 }
 
-%form-button {
-  @extend %font-button;
+@define-mixin form-button--icon-left {
+  padding-left: calc(
+    (var(--form-button-icon-size) * 1) + calc(var(--size-baseline-gutter) * 0.8)
+  );
+  & svg,
+  & .form-button__icon {
+    left: calc(var(--size-baseline-gutter) * 0.33);
+    right: auto;
+  }
+  &:not(.form-button--no-arrow):hover svg,
+  &:not(.form-button--no-arrow):hover .form-button__icon {
+    transform: translateX(-5%);
+  }
+}
+
+@define-mixin form-button--icon-right {
+  padding-right: calc(
+    (var(--form-button-icon-size) * 1) + calc(var(--size-baseline-gutter) * 0.8)
+  );
+  & svg,
+  & .form-button__icon {
+    right: calc(var(--size-baseline-gutter) * 0.33);
+  }
+  &:not(.form-button--no-arrow):hover svg,
+  &:not(.form-button--no-arrow):hover .form-button__icon {
+    transform: translateX(5%);
+  }
+}
+
+@define-mixin form-button {
+  @mixin font-button;
   border: 0;
   border-radius: 9999px;
   text-align: left;
@@ -20,10 +48,10 @@
   position: relative;
   box-sizing: content-box;
   text-decoration: none;
-  @extend %form-button--icon-right;
+  @mixin form-button--icon-right;
 
-  svg,
-  .form-button__icon {
+  & svg,
+  & .form-button__icon {
     vertical-align: middle;
     transition: 0.15s;
     width: var(--form-button-icon-size);
@@ -37,7 +65,7 @@
     top: 0;
     bottom: 0.1rem;
 
-    * {
+    & * {
       fill: currentColor;
     }
   }
@@ -53,52 +81,23 @@
   }
 }
 
-%form-button--main {
+@define-mixin form-button--main {
   color: var(--color-brand);
   background: var(--color-cta);
   &:focus,
   &:hover {
-    background-color: color(var(--color-cta) lightness(-2.5%));
-  }
-}
-
-%form-button--icon-left {
-  padding-left: calc(
-    (var(--form-button-icon-size) * 1) + calc(var(--size-baseline-gutter) * 0.8)
-  );
-  svg,
-  .form-button__icon {
-    left: calc(var(--size-baseline-gutter) * 0.33);
-    right: auto;
-  }
-  &:not(.form-button--no-arrow):hover svg,
-  &:not(.form-button--no-arrow):hover .form-button__icon {
-    transform: translateX(-5%);
-  }
-}
-
-%form-button--icon-right {
-  padding-right: calc(
-    (var(--form-button-icon-size) * 1) + calc(var(--size-baseline-gutter) * 0.8)
-  );
-  svg,
-  .form-button__icon {
-    right: calc(var(--size-baseline-gutter) * 0.33);
-  }
-  &:not(.form-button--no-arrow):hover svg,
-  &:not(.form-button--no-arrow):hover .form-button__icon {
-    transform: translateX(5%);
+    background-color: color-mod(var(--color-cta) lightness(-2.5%));
   }
 }
 
 .form-button {
-  @extend %form-button;
+  @mixin form-button;
   &.form-button--reverse {
-    @extend %form-button--icon-left;
+    @mixin form-button--icon-left;
     justify-content: flex-start;
   }
   &.form-button--main {
-    @extend %form-button--main;
+    @mixin form-button--main;
   }
   &.form-button--black {
     color: #fff;
@@ -122,14 +121,14 @@
     color: #fff;
     background-color: #4267b2;
     &:hover {
-      background-color: color(#4267b2 shade(10%));
+      background-color: color-mod(#4267b2 shade(10%));
     }
   }
   &.form-button--oauth-google {
     color: #fff;
     background-color: #4285f4;
     &:hover {
-      background-color: color(#4285f4 shade(10%));
+      background-color: color-mod(#4285f4 shade(10%));
     }
   }
 }

@@ -1,12 +1,14 @@
-%form-checkbox__label {
-  @extend %font-body-copy-small;
+@import 'css/_globals.css';
+
+@define-mixin form-checkbox__label {
+  @mixin font-body-copy-small;
   display: block;
   position: relative;
   cursor: pointer;
   padding-left: 2.5rem;
 }
 
-%form-checkbox__box {
+@define-mixin form-checkbox__box {
   display: block;
   content: ' ';
   position: absolute;
@@ -28,15 +30,13 @@
   line-height: 20px;
 }
 
-%form-checkbox__box--checked {
-  @extend %form-checkbox__box;
+@define-mixin form-checkbox__box--checked {
+  @mixin form-checkbox__box;
   background-color: var(--color-brand);
   background-image: inline('tick.svg');
 }
 
-@mixin formCheckbox($labelClass) {
-  /* Only display nicer checkbox when browser supports CSS3 - should fallback nicely */
-
+.form-checkbox__input {
   &:checked,
   &:not(:checked) {
     position: absolute;
@@ -45,26 +45,22 @@
     pointer-events: none;
   }
 
-  &:focus + $labelClass::before,
-  &:hover + $labelClass::before {
+  &:focus + .form-checkbox__label::before,
+  &:hover + .form-checkbox__label::before {
     border-color: var(--color-border-hover);
   }
 
-  &:checked + $labelClass::before {
-    @extend %form-checkbox__box--checked;
+  &:checked + .form-checkbox__label::before {
+    @mixin form-checkbox__box--checked;
   }
 
-  &:not(:checked) + $labelClass::before {
-    @extend %form-checkbox__box;
+  &:not(:checked) + .form-checkbox__label::before {
+    @mixin form-checkbox__box;
   }
-}
-
-.form-checkbox__input {
-  @include formCheckbox(.form-checkbox__label);
 }
 
 .form-checkbox__label {
-  @extend %form-checkbox__label;
+  @mixin form-checkbox__label;
   font-size: inherit;
   font-family: inherit;
 }

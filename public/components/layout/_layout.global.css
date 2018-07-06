@@ -1,32 +1,8 @@
-@import 'css/_vars.css';
-@import 'css/_typography.css';
-@import 'css/_breakpoints.css';
-
-%layout {
-  margin: 0 auto;
-  box-sizing: border-box;
-  padding: 0 calc(var(--size-baseline-gutter) / 2);
-  width: 100%;
-}
-
-%layout-wrap-page {
-  @extend %layout;
-
-  @media (--viewport-min-mobile-landscape) {
-    max-width: 56rem;
-  }
-
-  @media (--viewport-min-tablet) {
-    max-width: 74rem;
-  }
-
-  @media (--viewport-min-desktop) {
-    max-width: 98rem;
-  }
-}
+@import 'css/_globals.css';
 
 .layout-wrap-width {
-  @extend %layout;
+  @mixin layout;
+  max-width: 38em;
   max-width: 38em;
   padding-bottom: var(--size-baseline-vertical);
   &.layout-wrap-width--wide {
@@ -35,7 +11,7 @@
 }
 
 .layout-skip-link {
-  @extend %font-body-copy;
+  @mixin font-body-copy;
   text-align: center;
   color: var(--color-text);
   background: var(--color-cta);
@@ -61,16 +37,16 @@
 }
 
 .layout-header__title {
-  @extend %font-header;
+  @mixin font-header;
   font-weight: 500;
   margin: 0;
   color: currentColor;
   text-decoration: none;
-  a:not([class]) {
-    @extend %link;
+  & a:not([class]) {
+    @mixin link;
     color: currentColor;
   }
-  .form-button {
+  & .form-button {
     @media (--viewport-min-tablet) {
       display: inline-flex;
       vertical-align: 10%;
@@ -78,7 +54,7 @@
     }
   }
   &.layout-header__title--standfirst {
-    @extend %font-header-standfirst;
+    @mixin font-header-standfirst;
     font-weight: 300;
     margin-top: calc(var(--size-baseline) / 2);
   }
@@ -90,11 +66,11 @@
       justify-content: space-between;
       flex-direction: row;
     }
-    > div:nth-child(1) {
+    & > div:nth-child(1) {
       overflow: hidden;
       word-wrap: break-word;
     }
-    > .layout-header__title__proxy {
+    & > .layout-header__title__proxy {
       flex: 0 0 auto;
       margin-top: calc(var(--size-baseline) * 1.5);
       @media (--viewport-min-mobile-landscape) {
@@ -107,8 +83,8 @@
 }
 
 .layout-header__title__proxy {
-  @extend %font-body-copy-small;
-  @extend %link;
+  @mixin font-body-copy-small;
+  @mixin link;
   color: currentColor;
 }
 
@@ -123,7 +99,7 @@
     padding-top: 0;
     border-top: 0;
   }
-  .layout-header + & {
+  & .layout-header + & {
     margin-top: 0;
   }
 }
@@ -132,15 +108,15 @@
 texty text
 */
 .layout-text {
-  @extend %font-body-copy;
-  a {
-    @extend %link;
+  @mixin font-body-copy;
+  & a {
+    @mixin link;
   }
   &.layout-text--center {
     text-align: center;
   }
   &.layout-text--small {
-    @extend %font-body-copy-small;
+    @mixin font-body-copy-small;
   }
   &.layout-text--bold {
     font-weight: 500;

@@ -1,23 +1,25 @@
+const postcss = require('postcss');
+
 module.exports = {
   "plugins": {
     "postcss-import":{
       path: `${__dirname}/public/`
     },
-    "precss":{
-      "import": {disable: true},
-      "mixins": {},
-      "media": {},
-      "properties": {},
-      "minmax": {disable: true},
-      "color": {disable: true},
-      "nesting": {},
-      "nested": {},
-      "selectors": {},
-      "atroot": {disable: true},
-      "lookup": {disable: true},
-      "extend": {},
-      "matches": {disable: true},
-      "not": {disable: true}
+    "postcss-mixins": {
+      mixins: {
+        font: function (mixin, family, fontSet, filebase, weight = 400, style = 'normal') {
+          const path = `v0/${fontSet}/${family}/${filebase}`;
+          return {
+            '@font-face': {
+              'font-family': family,
+              'src': `inline("${path}.woff") format("woff"), resolve("${path}.ttf") format("truetype")`,
+              'font-weight': weight,
+              'font-style': style,
+              'font-stretch': 'normal'
+            }
+          }
+        }
+      }
     },
     "postcss-assets":{
       basePath: `${__dirname}/public/`,
@@ -25,7 +27,13 @@ module.exports = {
       baseUrl: `/static/`,
     },
     "postcss-strip-units":{},
-    "postcss-cssnext":{},
-    "postcss-color-function":{},
+    "postcss-preset-env":{
+      stage: 2,
+      features: {
+        'nesting-rules': true,
+        'custom-properties': true,
+        'custom-media-queries': true,
+      }
+    },
   }
 }
