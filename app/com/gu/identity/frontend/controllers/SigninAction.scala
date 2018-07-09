@@ -1,7 +1,7 @@
 package com.gu.identity.frontend.controllers
 
 import com.gu.identity.frontend.analytics.AnalyticsEventActor
-import com.gu.identity.frontend.analytics.client.{ResubRequestEvent, SigninEventRequest, SigninSecondStepEventRequest}
+import com.gu.identity.frontend.analytics.client._
 import com.gu.identity.frontend.authentication.CookieService
 import com.gu.identity.frontend.configuration.Configuration
 import com.gu.identity.frontend.configuration.Configuration.Environment._
@@ -65,6 +65,16 @@ class SigninAction(
     }
   }
 
+  def signInSmartLockMetricsLogger(request: Request[SignInActionRequestBody]) = {
+    metricsActor.logSuccessfulSmartLockSignin()
+
+    if(request.body.gaClientId.isDefined) {
+      eventActor.forward(SigninSmartLockEventRequest(request, config.gaUID))
+    } else {
+      logger.warn("No GA Client ID passed for sign in request")
+    }
+  }
+
   def signInFirstStepMetricsLogger(request: Request[SignInActionRequestBody]) = {
     metricsActor.logSuccessfulSigninFirstStep()
 
@@ -84,7 +94,7 @@ class SigninAction(
   }
 
   def signInWithSmartLock = SignInSmartLockServiceAction(bodyParser) {
-    signInAction(successfulSmartLockSignInResponse, successfulAjaxSignInResponse, _ => metricsActor.logSuccessfulSmartLockSignin())
+    signInAction(successfulSmartLockSignInResponse, successfulAjaxSignInResponse, signInSmartLockMetricsLogger)
   }
 
   def emailSignInFirstStep = SignInServiceAction(bodyParser) {
