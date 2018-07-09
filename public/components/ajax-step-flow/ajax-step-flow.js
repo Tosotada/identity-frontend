@@ -20,7 +20,6 @@ import {
   getSlide
 } from 'components/ajax-step-flow/ajax-step-flow__slide';
 import { loadComponents } from 'js/load-components';
-import { components } from 'js/components';
 import { pageView } from '../analytics/ga';
 
 const selector: string = '.ajax-step-flow';
@@ -185,7 +184,7 @@ const init = ($component: HTMLElement): void => {
       /* push the slide */
       pushSlide($slide, $new, ev.detail.reverse).then(() => {
         onSlide($component, $new, url);
-        loadComponents((($new.parentElement: any): HTMLElement), components);
+        loadComponents((($new.parentElement: any): HTMLElement));
         triggerAutoFocus($new);
       });
     } else {
