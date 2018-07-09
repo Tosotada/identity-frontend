@@ -81,8 +81,20 @@ private object SigninEventRequestBody extends MeasurementProtocolRequestBody {
   )
 }
 
+private object SigninSmartLockEventRequestBody extends MeasurementProtocolRequestBody {
+  override val extraBodyParams = Seq(
+    "ea" -> "SigninSuccessful",
+    "el" -> "SmartLockSignin",
+    "cm2" -> "1"
+  )
+}
+
 case class SigninEventRequest(request: Request[SignInActionRequestBody], gaUID: String) extends MeasurementProtocolRequest {
   override val body = SigninEventRequestBody(request, gaUID)
+}
+
+case class SigninSmartLockEventRequest(request: Request[SignInActionRequestBody], gaUID: String) extends MeasurementProtocolRequest {
+  override val body = SigninSmartLockEventRequestBody(request, gaUID)
 }
 
 private object SigninSecondStepEventRequestBody extends MeasurementProtocolRequestBody {
