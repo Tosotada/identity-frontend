@@ -1,7 +1,6 @@
 /* @flow */
 
 import Raven from 'raven-js';
-import { components } from 'js/components';
 
 const ERR_MALFORMED_LOADER = 'Missing loader parts';
 const ERR_COMPONENT_THROW = 'Uncaught component error';
@@ -44,7 +43,7 @@ const loadComponent = ($root: HTMLElement, component: Component): void => {
   }
 };
 
-const loadComponents = ($root: HTMLElement): void => {
+const loadComponents = ($root: HTMLElement, components: any[]): void => {
   components.forEach(component => {
     loadComponent($root, new Component(component));
   });
