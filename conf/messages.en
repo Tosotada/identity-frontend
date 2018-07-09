@@ -71,7 +71,7 @@ register.becausePhone=We use your mobile phone number for account verification p
 register.countryCode=Country code
 
 # com.gu.identity.frontend.models.text.TermsText
-terms.termsOfService=Terms and Conditions
+terms.termsOfService=Terms & Conditions
 terms.termsOfServiceUrl=https://www.theguardian.com/help/terms-of-service
 terms.privacyPolicy=Privacy Policy
 terms.privacyPolicyUrl=https://www.theguardian.com/help/privacy-policy
@@ -197,7 +197,7 @@ thirdPartyTerms.title=Welcome to Guardian {0}
 thirdPartyTerms.explanation=Click ''continue'' to automatically use your existing Guardian account to sign in with Guardian {0}
 thirdPartyTerms.continueButton=Continue
 thirdPartyTerms.terms=By proceeding, you agree to Guardian {0}
-thirdPartyTerms.termsOfService=Terms and Conditions
+thirdPartyTerms.termsOfService=Terms & Conditions
 thirdPartyTerms.privacyPolicy=Privacy Policy
 
 thirdPartyTerms.teachersPageTitle=Teacher Network
