@@ -42,14 +42,12 @@ After that, to run the application in development mode and watch for changes you
     npm run watch
 
 This command will automatically pull down all dependencies for the Scala app, and run the client side asset packing and sbt in parallel in the background.
-
-If you don't need client side assets you can work faster using
-
-    . start-frontend.sh
-    
-This only runs sbt
     
 Test by hitting [https://profile.thegulocal.com/management/healthcheck](https://profile.thegulocal.com/management/healthcheck). 
+
+## Contributing
+
+See [CONTRIBUTING.MD](https://github.com/guardian/identity-frontend/blob/master/CONTRIBUTING.md) for info on how the architecture is laid out.
 
 ## Running against DEV Identity API
 
@@ -59,9 +57,6 @@ By default identity-frontend targets CODE Identity API. To target DEV Identity A
 identity.api.host=idapi.thegulocal.com
 identity.api.key=frontend-dev-client-token
 ```
-## Contributing
-
-See [CONTRIBUTING.MD](https://github.com/guardian/identity-frontend/blob/master/CONTRIBUTING.md).
 
 ## Running Tests
 
