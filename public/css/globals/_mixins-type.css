@@ -18,32 +18,35 @@
   font-weight: 300;
 }
 
-@define-mixin font-body-copy-small {
+@define-mixin font-body-copy {
   @mixin font-sans-serif;
+  @mixin font-size 16, 20;
+}
+
+@define-mixin font-body-copy-small {
+  @mixin font-body-copy;
   @mixin font-size 14, 20;
 }
 
-@define-mixin font-body-copy {
-  @mixin font-body-copy-small;
-  @media (--viewport-min-mobile-landscape) {
-    @mixin font-size 16, 22;
-  }
-}
-
 @define-mixin font-button {
-  @mixin font-sans-serif;
-  @mixin font-size 16, 20;
+  @mixin font-body-copy;
   font-weight: 500;
 }
 
 @define-mixin font-header {
   @mixin font-heading;
-  @mixin font-size 28, 32;
+  @mixin font-size 20, 26;
   font-weight: 500;
+  @media (--viewport-min-mobile-landscape) {
+    @mixin font-size 28, 32;
+  }
 }
 
 @define-mixin font-header-standfirst {
-  @mixin font-heading;
-  @mixin font-size 20, 26;
-  font-weight: 400;
+  @mixin font-body-copy;
+  @media (--viewport-min-mobile-landscape) {
+    @mixin font-heading;
+    @mixin font-size 20, 26;
+    font-weight: 400;
+  }
 }
