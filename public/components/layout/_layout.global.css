@@ -104,9 +104,10 @@
     padding-top: 0;
     border-top: 0;
   }
-  & .layout-header + & {
-    margin-top: 0;
-  }
+}
+
+.layout-header + .layout-section {
+  margin-top: 0;
 }
 
 /*
