@@ -20,8 +20,8 @@
 /* Metrics */
 :root {
   --size-baseline: 0.4rem;
-  --size-baseline-gutter: calc(var(--size-baseline) * 4);
-  --size-baseline-vertical: calc(var(--size-baseline) * 8);
+  --size-baseline-gutter: calc(var(--size-baseline) * 5);
+  --size-baseline-vertical: calc(var(--size-baseline) * 10);
   --size-header-height: 4.8rem;
 }
 
