@@ -9,15 +9,13 @@ const selector: string = '.smartlock-trigger';
 const ERR_FAILED_SIGNIN = 'Error signing in with smart lock';
 const ERR_MISSING_PARAMS = 'Missing parameters';
 
-type Credential = {
+type PasswordCredential = {
   id: string,
   password: string
 };
 
-type PasswordCredential = Credential;
-
 const smartLockSignIn = (
-  credentials: Credential,
+  credentials: PasswordCredential,
   returnUrl: string,
   csrfToken: string
 ) => {
@@ -55,10 +53,8 @@ const init = ($element: HTMLElement): void => {
   }
 
   // $FlowFixMe
-  if (navigator && navigator.credentials !== null) {
-    const credentialsContainer = (navigator: any).credentials;
-
-    credentialsContainer
+  if (navigator && navigator.credentials && navigator.credentials.get) {
+    navigator.credentials
       .get({
         password: true
       })
