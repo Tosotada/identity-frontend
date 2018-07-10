@@ -42,9 +42,6 @@
   margin: 0;
   color: currentColor;
   text-decoration: none;
-  @media (--viewport-max-mobile-medium) {
-    padding-right: 3em; /*avoid overlaps with the logo*/
-  }
   & a:not([class]) {
     @mixin link;
     color: currentColor;
@@ -60,6 +57,11 @@
     @mixin font-header-standfirst;
     font-weight: 300;
     margin-top: calc(var(--size-baseline) / 2);
+  }
+  &:not(.layout-header__title--standfirst) {
+    @media (--viewport-max-mobile-medium) {
+      padding-right: 3em; /*avoid overlaps with the logo*/
+    }
   }
   &.layout-header__title--has-proxy {
     display: flex;
