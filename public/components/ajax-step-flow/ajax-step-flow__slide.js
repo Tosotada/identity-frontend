@@ -80,7 +80,7 @@ const fetchSlide = (
     .then(response => {
       const errors = getUrlErrors(response.url);
       if (response.status !== 200) {
-        throw new Error([ERR_MALFORMED_RESPONSE, response]);
+        throw new Error([ERR_MALFORMED_RESPONSE, JSON.stringify(response)]);
       }
       if (errors.length) {
         throw new Error([ERR_BACKEND_ERROR, ...errors]);
@@ -92,7 +92,7 @@ const fetchSlide = (
             window.location.href = json.returnUrl;
             return new Promise(() => {});
           }
-          throw new Error([ERR_MALFORMED_RESPONSE, response]);
+          throw new Error([ERR_MALFORMED_RESPONSE, JSON.stringify(response)]);
         } catch (e) {
           return [text, response.url];
         }
