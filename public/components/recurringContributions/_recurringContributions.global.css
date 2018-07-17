@@ -1,8 +1,8 @@
 @import 'css/_globals.css';
 
 :root {
-  --gu-h-spacing: calc(var(--size-baseline) * 5);
-  --gu-v-spacing: calc(var(--size-baseline) * 3);
+  --gu-h-spacing: var(--size-baseline-gutter);
+  --gu-v-spacing: calc(var(--size-baseline-vertical) / 2);
 }
 
 .skin-recurringContributions {

@@ -51,7 +51,7 @@ prelude
       transparent calc(50%)
     );
   }
-  > * {
+  & > * {
     background: var(--color-bg);
     padding: 0 0.1rem;
   }
