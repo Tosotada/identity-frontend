@@ -8,7 +8,7 @@
       <label class="form-field-wrap__title" for="tssf-email">{{twoStepSignInPageText.emailFieldTitle}}</label>
       <input autofocus="autofocus" class="form-input form-field-wrap__field" id="tssf-email" required="required" type="email" name="email" autocomplete="username" autocapitalize="off" autocorrect="off" autofocus spellcheck="false" value="{{email}}" />
       <input class="form-input form-field-wrap__field u-none" type="password" name="password" autocomplete="password" autocapitalize="off" autocorrect="off" spellcheck="false" value="{{password}}" />
-      <button class="form-button form-button--main form-field-wrap__field" type="submit">{{twoStepSignInPageText.continueAction}} {{> components/icon/arrow-inline }}</button>
+      <button class="form-button form-button--main form-field-wrap__field" id="tssf-submit"   type="submit">{{twoStepSignInPageText.continueAction}} {{> components/icon/arrow-inline }}</button>
     </div>
   </fieldset>
 </form>
