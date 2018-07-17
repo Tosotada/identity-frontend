@@ -58,6 +58,11 @@
     font-weight: 300;
     margin-top: calc(var(--size-baseline) / 2);
   }
+  &:not(.layout-header__title--standfirst) {
+    @media (--viewport-max-mobile-medium) {
+      padding-right: 3em; /*avoid overlaps with the logo*/
+    }
+  }
   &.layout-header__title--has-proxy {
     display: flex;
     flex-direction: column;
@@ -99,9 +104,10 @@
     padding-top: 0;
     border-top: 0;
   }
-  & .layout-header + & {
-    margin-top: 0;
-  }
+}
+
+.layout-header + .layout-section {
+  margin-top: 0;
 }
 
 /*
