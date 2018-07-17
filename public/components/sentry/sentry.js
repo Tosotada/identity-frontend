@@ -1,5 +1,9 @@
 import { get as getConfig } from 'js/config';
 
+/*
+This is raven's loader example code but adapted for webpack chunks
+https://github.com/getsentry/raven-js/blob/master/packages/raven-js/src/loader.js
+*/
 const onRavenLoaded = new Promise((done, err) => {
   /* eslint-disable */
   (function(_window, _document, _script, _onerror, _onunhandledrejection) {
