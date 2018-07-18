@@ -6,7 +6,7 @@
 }
 
 .skin-recurringContributions {
-  .header {
+  & .header {
     padding: calc(var(--gu-v-spacing) / 2) 0 calc(var(--gu-v-spacing) / 2);
     height: 54px;
 
@@ -31,14 +31,14 @@
     }
   }
 
-  .header__logo-link {
+  & .header__logo-link {
     background-image: inline('guardian-contributions-logo.svg');
     height: 100%;
     width: inherit;
     background-position-x: right;
   }
 
-  .header__inner {
+  & .header__inner {
     height: 100%;
   }
 }
