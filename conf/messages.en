@@ -136,10 +136,8 @@ resetPassword.userHelpContent=who will be able to help you.
 # com.gu.identity.frontend.models.text.ResetPasswordEmailSentText
 resetPasswordEmailSent.pageTitle=Please check your inbox
 resetPasswordEmailSent.title=Please check your inbox
-resetPasswordEmailSent.instructions1=We just emailed a confirmation to your email inbox.
-resetPasswordEmailSent.instructions2=Click the ‘Set a password’ button in the email to verify that it’s you and set your password. 
-resetPasswordEmailSent.instructions3=Please note that the link is valid for 30 minutes, so be sure to use it soon.
-resetPasswordEmailSent.instructions4=Please check your inbox!
+resetPasswordEmailSent.instructions1=We’ve sent you an email – please open it up and click on the button. This is so we can verify it’s you and help you create a password to complete your Guardian account.
+resetPasswordEmailSent.instructions2=Note that the link is only valid for 30 minutes, so be sure to open it soon! Thank you.
 
 changeEmailSuccessful.pageTitle=Email changed
 changeEmailSuccessful.title=Success! Your email address has been updated.

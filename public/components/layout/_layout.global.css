@@ -127,4 +127,7 @@ texty text
   &.layout-text--bold {
     font-weight: 500;
   }
+  & + .layout-text {
+    margin-top: calc(var(--size-baseline-vertical) / 2);
+  }
 }
