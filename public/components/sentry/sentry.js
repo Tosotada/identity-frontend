@@ -49,7 +49,11 @@ const onRavenLoaded: Promise<{}> = new Promise((done, err) => {
         const data = queue.data;
         // Configure it using provided DSN and config object
         const dsn = getConfig('sentryDsn');
-        if (dsn) Raven.config(dsn).install();
+        const version = getConfig('appVersion');
+        if (dsn)
+          Raven.config(dsn, {
+            version
+          }).install();
         else console.warn('Sentry configuration not found');
 
         // Because we installed the SDK, at this point we have an access to TraceKit's handler,
