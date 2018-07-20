@@ -6,7 +6,6 @@ https://github.com/getsentry/raven-js/blob/master/packages/raven-js/src/loader.j
 */
 const onRavenLoaded: Promise<{}> = new Promise((done, err) => {
   /* eslint-disable */
-  const SENTRY_SDK = window.SENTRY_SDK;
 
   // Create a namespace and attach function that will store captured exception
   // Because functions are also objects, we can attach the queue itself straight to it and save some bytes
