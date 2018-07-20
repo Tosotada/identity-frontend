@@ -1,8 +1,8 @@
 // @flow
 
-import Raven from 'raven-js';
-import { showErrorText } from '../form/form-feedback-wrap';
-import { getUrlErrors } from '../../js/get-url-errors';
+import { showErrorText } from 'components/form/form-feedback-wrap';
+import { getUrlErrors } from 'js/get-url-errors';
+import { getRaven } from 'components/sentry/sentry';
 import {
   formRoutes as validAjaxFormRoutes,
   linkRoutes as validAjaxLinkRoutes
@@ -109,7 +109,17 @@ const catchSlide = ($slide: HTMLElement, err: Error): void => {
   } else {
     showErrorText('error-unexpected');
   }
-  Raven.captureException(err, JSON.stringify(err));
+  getRaven().then(Raven => {
+    Raven.context(() => {
+      Raven.captureBreadcrumb({
+        message: 'Ajax step slide',
+        data: {
+          fullOutput: JSON.stringify(err)
+        }
+      });
+      Raven.captureException(err);
+    });
+  });
 };
 
 const fetchAndDispatchSlide = (

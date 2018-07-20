@@ -1,7 +1,7 @@
 // @flow
 import { createElement } from 'react';
 import { render } from 'react-dom';
-import Raven from 'raven-js';
+import { getRaven } from 'components/sentry/sentry';
 
 const getBootstrap = ($component: HTMLElement): {} => {
   const $bootstrap: ?HTMLElement = $component.querySelector(
@@ -11,7 +11,7 @@ const getBootstrap = ($component: HTMLElement): {} => {
     try {
       return JSON.parse($bootstrap.innerText);
     } catch (err) {
-      Raven.captureException(err, JSON.stringify(err));
+      getRaven().then(r => r.captureException(err));
       return {};
     }
   } else {

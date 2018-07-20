@@ -1,10 +1,9 @@
 /* @flow */
 
-import Raven from 'raven-js';
 import { components } from 'js/components';
+import { getRaven } from 'components/sentry/sentry';
 
 const ERR_MALFORMED_LOADER = 'Missing loader parts';
-const ERR_COMPONENT_THROW = 'Uncaught component error';
 
 const initOnceList = [];
 
@@ -39,8 +38,17 @@ const loadComponent = ($root: HTMLElement, component: Component): void => {
       component.init($target);
     });
   } catch (err) {
-    Raven.captureException(err, [ERR_COMPONENT_THROW, component.selector]);
-    console.error(err, [ERR_COMPONENT_THROW, component.selector]);
+    getRaven().then(Raven => {
+      Raven.context(() => {
+        Raven.captureBreadcrumb({
+          message: 'Loading component',
+          data: {
+            component: component.selector
+          }
+        });
+        Raven.captureException(err);
+      });
+    });
   }
 };
 
