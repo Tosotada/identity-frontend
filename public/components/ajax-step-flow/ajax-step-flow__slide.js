@@ -15,14 +15,61 @@ const SLIDE_STATE_DEFAULT: string = 'SLIDE_STATE_DEFAULT';
 
 const EV_DONE: string = 'form-done';
 
-const ERR_MALFORMED_HTML: string = 'ERR_MALFORMED_HTML';
-const ERR_MALFORMED_RESPONSE: string = 'ERR_MALFORMED_RESPONSE';
-const ERR_BACKEND_ERROR: string = 'ERR_BACKEND_ERROR';
+type ParsedResponse = {
+  type: string,
+  body: {
+    html?: string,
+    returnUrl?: string
+  },
+  url: string
+};
+
+class BackendError extends Error {
+  errors: string[];
+  constructor(errors) {
+    super('ERR_BACKEND_ERROR');
+    // $FlowFixMe
+    this.constructor = BackendError;
+    // $FlowFixMe
+    this.__proto__ = BackendError.prototype; // eslint-disable-line no-proto
+    this.errors = errors;
+  }
+}
+
+class ContextError extends Error {
+  context: {};
+}
+
+class MalformedResponseError extends ContextError {
+  constructor(request) {
+    super('ERR_MALFORMED_RESPONSE');
+    // $FlowFixMe
+    this.constructor = MalformedResponseError;
+    // $FlowFixMe
+    this.__proto__ = MalformedResponseError.prototype; // eslint-disable-line no-proto
+    this.context = {
+      request
+    };
+  }
+}
+
+class MalformedHtmlError extends ContextError {
+  constructor(html) {
+    super('ERR_MALFORMED_HTML');
+    // $FlowFixMe
+    this.constructor = MalformedHtmlError;
+    // $FlowFixMe
+    this.__proto__ = MalformedHtmlError.prototype; // eslint-disable-line no-proto
+    this.context = {
+      html
+    };
+  }
+}
 
 const getSlide = ($wrapper: HTMLElement): HTMLElement => {
   const $slide = $wrapper.querySelector(selector);
   if ($slide) return $slide;
-  throw new Error([ERR_MALFORMED_HTML, $slide]);
+  throw new MalformedHtmlError($wrapper.innerHTML);
 };
 
 const getSlideFromFetch = (textHtml: string): HTMLElement => {
@@ -80,32 +127,46 @@ const fetchSlide = (
     .then(response => {
       const errors = getUrlErrors(response.url);
       if (response.status !== 200) {
-        throw new Error([ERR_MALFORMED_RESPONSE, JSON.stringify(response)]);
+        throw new MalformedResponseError(response);
       }
       if (errors.length) {
-        throw new Error([ERR_BACKEND_ERROR, ...errors]);
+        throw new BackendError(errors);
       }
-      return response.text().then(text => {
-        try {
-          const json = JSON.parse(text);
-          if (json.returnUrl) {
-            window.location.href = json.returnUrl;
-            return new Promise(() => {});
-          }
-          throw new Error([ERR_MALFORMED_RESPONSE, JSON.stringify(response)]);
-        } catch (e) {
-          return [text, response.url];
-        }
-      });
+      return Promise.all([response, response.text()]);
+    })
+    .then(([response, text]) => {
+      try {
+        const json = JSON.parse(text);
+        return {
+          type: 'json',
+          body: json,
+          url: response.url
+        };
+      } catch (e) {
+        return {
+          type: 'html',
+          body: {
+            html: text
+          },
+          url: response.url
+        };
+      }
+    })
+    .then((parsedResponse: ParsedResponse) => {
+      if (parsedResponse.type === 'json' && parsedResponse.body.returnUrl) {
+        window.location.href = parsedResponse.body.returnUrl;
+        return new Promise(() => {});
+      } else if (parsedResponse.body.html) {
+        return [parsedResponse.body.html, parsedResponse.url];
+      }
+
+      throw new MalformedResponseError(parsedResponse);
     });
 
 const catchSlide = ($slide: HTMLElement, err: Error): void => {
   $slide.dataset.state = SLIDE_STATE_DEFAULT;
-  if (err.message.split(',')[0] === ERR_BACKEND_ERROR) {
-    err.message
-      .split(',')
-      .splice(1)
-      .forEach(showErrorText);
+  if (err instanceof BackendError) {
+    err.errors.forEach(showErrorText);
   } else {
     showErrorText('error-unexpected');
   }
@@ -113,9 +174,7 @@ const catchSlide = ($slide: HTMLElement, err: Error): void => {
     Raven.context(() => {
       Raven.captureBreadcrumb({
         message: 'Ajax step slide',
-        data: {
-          fullOutput: JSON.stringify(err)
-        }
+        data: err instanceof ContextError ? err.context : {}
       });
       Raven.captureException(err);
     });
