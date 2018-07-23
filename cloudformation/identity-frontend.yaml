@@ -243,7 +243,10 @@ Resources:
             sed -i "s/<HEAP_SIZE_IN_MB>/$heap_size_in_mb/g" /etc/systemd/system/${App}.service
 
             instanceid=$(curl -s http://169.254.169.254/latest/meta-data/instance-id)
-
+            mkdir -p /opt/logstash/patterns
+            cat > /opt/logstash/patterns/custom <<__END__
+            JAVACLASS (?:[a-zA-Z$_][a-zA-Z$_0-9]*\.)*[a-zA-Z$_][a-zA-Z$_0-9]*
+            __END__
             cat > /etc/logstash.conf <<__END__
             input {
                 stdin { }
@@ -284,7 +287,7 @@ Resources:
                   }
                 grok {
                     type => "app"
-                    match => { "message" => "%{TIMESTAMP_ISO8601:log_time_stamp} (?<thread>[^\s]+) %{LOGLEVEL:level} %{GREEDYDATA:message}" }
+                    match => { "message" => "%{TIMESTAMP_ISO8601:log_time_stamp} (?<thread>[^\s]+) %{LOGLEVEL:level}(?:%{SPACE})%{JAVACLASS:class_name}:%{INT:line_number} - %{GREEDYDATA:message}" }
                     overwrite => [ "message" ]
                 }
                 grok {
