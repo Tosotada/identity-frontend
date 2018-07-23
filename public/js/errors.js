@@ -1,3 +1,10 @@
+/* eslint-disable no-proto */
+
+/*
+  this file does some ugly stuff to prevent
+  babel from messing up with the error constructor
+*/
+
 class BackendError extends Error {
   errors: string[];
   constructor(errors) {
@@ -5,7 +12,7 @@ class BackendError extends Error {
     // $FlowFixMe
     this.constructor = BackendError;
     // $FlowFixMe
-    this.__proto__ = BackendError.prototype; // eslint-disable-line no-proto
+    this.__proto__ = BackendError.prototype;
     this.errors = errors;
   }
 }
@@ -20,7 +27,7 @@ class MalformedResponseError extends ContextError {
     // $FlowFixMe
     this.constructor = MalformedResponseError;
     // $FlowFixMe
-    this.__proto__ = MalformedResponseError.prototype; // eslint-disable-line no-proto
+    this.__proto__ = MalformedResponseError.prototype;
     this.context = {
       request
     };
@@ -33,7 +40,7 @@ class MalformedHtmlError extends ContextError {
     // $FlowFixMe
     this.constructor = MalformedHtmlError;
     // $FlowFixMe
-    this.__proto__ = MalformedHtmlError.prototype; // eslint-disable-line no-proto
+    this.__proto__ = MalformedHtmlError.prototype;
     this.context = {
       html
     };
