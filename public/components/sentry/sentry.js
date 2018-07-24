@@ -48,10 +48,10 @@ const onRavenLoaded: Promise<{}> = new Promise((done, err) => {
         const data = queue.data;
         // Configure it using provided DSN and config object
         const dsn = getConfig('sentryDsn');
-        const version = getConfig('appVersion');
+        const release = getConfig('appVersion');
         if (dsn)
           Raven.config(dsn, {
-            version
+            release
           }).install();
         else console.warn('Sentry configuration not found');
 
