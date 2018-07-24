@@ -22,7 +22,7 @@ const SLIDE_STATE_DEFAULT: string = 'SLIDE_STATE_DEFAULT';
 const EV_DONE: string = 'form-done';
 
 type ParsedResponse = {
-  type: string,
+  type: 'json' | 'html',
   body: {
     html?: string,
     returnUrl?: string
@@ -66,7 +66,7 @@ const fetchSlide = (
   action: string,
   $slide: HTMLElement,
   fetchProps: {}
-): Promise<string[]> =>
+): Promise<ParsedResponse> =>
   Promise.resolve()
     .then(() => {
       $slide.dataset.state = SLIDE_STATE_LOADING;
@@ -115,16 +115,6 @@ const fetchSlide = (
           url: response.url
         };
       }
-    })
-    .then((parsedResponse: ParsedResponse) => {
-      if (parsedResponse.type === 'json' && parsedResponse.body.returnUrl) {
-        window.location.href = parsedResponse.body.returnUrl;
-        return new Promise(() => {});
-      } else if (parsedResponse.body.html) {
-        return [parsedResponse.body.html, parsedResponse.url];
-      }
-
-      throw new MalformedResponseError(parsedResponse);
     });
 
 const catchSlide = ($slide: HTMLElement, err: Error): void => {
@@ -152,13 +142,20 @@ const fetchAndDispatchSlide = (
   props: { reverse: boolean } = { reverse: false }
 ): Promise<void> =>
   fetchSlide(action, $slide, fetchProps)
-    .then(([responseHtml, url]) =>
-      dispatchDone($slide, {
-        $slide: getSlideFromFetch(responseHtml),
-        url,
-        reverse: props.reverse
-      })
-    )
+    .then(parsedResponse => {
+      if (parsedResponse.type === 'json' && parsedResponse.body.returnUrl) {
+        window.location.href = parsedResponse.body.returnUrl;
+        return new Promise(() => {});
+      } else if (parsedResponse.body.html) {
+        return dispatchDone($slide, {
+          $slide: getSlideFromFetch(parsedResponse.body.html),
+          url: parsedResponse.url,
+          reverse: props.reverse
+        });
+      }
+
+      throw new MalformedResponseError(parsedResponse);
+    })
     .catch(err => catchSlide($slide, err));
 
 const init = ($slide: HTMLElement): void => {
