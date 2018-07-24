@@ -2,6 +2,12 @@
 
 import { showErrorText } from 'components/form/form-feedback-wrap';
 import { getUrlErrors } from 'js/get-url-errors';
+import {
+  MalformedResponseError,
+  MalformedHtmlError,
+  BackendError,
+  ContextError
+} from 'js/errors';
 import { getRaven } from 'components/sentry/sentry';
 import {
   formRoutes as validAjaxFormRoutes,
@@ -15,14 +21,19 @@ const SLIDE_STATE_DEFAULT: string = 'SLIDE_STATE_DEFAULT';
 
 const EV_DONE: string = 'form-done';
 
-const ERR_MALFORMED_HTML: string = 'ERR_MALFORMED_HTML';
-const ERR_MALFORMED_RESPONSE: string = 'ERR_MALFORMED_RESPONSE';
-const ERR_BACKEND_ERROR: string = 'ERR_BACKEND_ERROR';
+type ParsedResponse = {
+  type: 'json' | 'html',
+  body: {
+    html?: string,
+    returnUrl?: string
+  },
+  url: string
+};
 
 const getSlide = ($wrapper: HTMLElement): HTMLElement => {
   const $slide = $wrapper.querySelector(selector);
   if ($slide) return $slide;
-  throw new Error([ERR_MALFORMED_HTML, $slide]);
+  throw new MalformedHtmlError($wrapper.innerHTML);
 };
 
 const getSlideFromFetch = (textHtml: string): HTMLElement => {
@@ -55,7 +66,7 @@ const fetchSlide = (
   action: string,
   $slide: HTMLElement,
   fetchProps: {}
-): Promise<string[]> =>
+): Promise<ParsedResponse> =>
   Promise.resolve()
     .then(() => {
       $slide.dataset.state = SLIDE_STATE_LOADING;
@@ -80,32 +91,36 @@ const fetchSlide = (
     .then(response => {
       const errors = getUrlErrors(response.url);
       if (response.status !== 200) {
-        throw new Error([ERR_MALFORMED_RESPONSE, JSON.stringify(response)]);
+        throw new MalformedResponseError(response);
       }
       if (errors.length) {
-        throw new Error([ERR_BACKEND_ERROR, ...errors]);
+        throw new BackendError(errors);
       }
-      return response.text().then(text => {
-        try {
-          const json = JSON.parse(text);
-          if (json.returnUrl) {
-            window.location.href = json.returnUrl;
-            return new Promise(() => {});
-          }
-          throw new Error([ERR_MALFORMED_RESPONSE, JSON.stringify(response)]);
-        } catch (e) {
-          return [text, response.url];
-        }
-      });
+      return Promise.all([response, response.text()]);
+    })
+    .then(([response, text]) => {
+      try {
+        const json = JSON.parse(text);
+        return {
+          type: 'json',
+          body: json,
+          url: response.url
+        };
+      } catch (e) {
+        return {
+          type: 'html',
+          body: {
+            html: text
+          },
+          url: response.url
+        };
+      }
     });
 
 const catchSlide = ($slide: HTMLElement, err: Error): void => {
   $slide.dataset.state = SLIDE_STATE_DEFAULT;
-  if (err.message.split(',')[0] === ERR_BACKEND_ERROR) {
-    err.message
-      .split(',')
-      .splice(1)
-      .forEach(showErrorText);
+  if (err instanceof BackendError) {
+    err.errors.forEach(showErrorText);
   } else {
     showErrorText('error-unexpected');
   }
@@ -113,9 +128,7 @@ const catchSlide = ($slide: HTMLElement, err: Error): void => {
     Raven.context(() => {
       Raven.captureBreadcrumb({
         message: 'Ajax step slide',
-        data: {
-          fullOutput: JSON.stringify(err)
-        }
+        data: err instanceof ContextError ? err.context : {}
       });
       Raven.captureException(err);
     });
@@ -129,13 +142,20 @@ const fetchAndDispatchSlide = (
   props: { reverse: boolean } = { reverse: false }
 ): Promise<void> =>
   fetchSlide(action, $slide, fetchProps)
-    .then(([responseHtml, url]) =>
-      dispatchDone($slide, {
-        $slide: getSlideFromFetch(responseHtml),
-        url,
-        reverse: props.reverse
-      })
-    )
+    .then(parsedResponse => {
+      if (parsedResponse.type === 'json' && parsedResponse.body.returnUrl) {
+        window.location.href = parsedResponse.body.returnUrl;
+        return new Promise(() => {});
+      } else if (parsedResponse.body.html) {
+        return dispatchDone($slide, {
+          $slide: getSlideFromFetch(parsedResponse.body.html),
+          url: parsedResponse.url,
+          reverse: props.reverse
+        });
+      }
+
+      throw new MalformedResponseError(parsedResponse);
+    })
     .catch(err => catchSlide($slide, err));
 
 const init = ($slide: HTMLElement): void => {
