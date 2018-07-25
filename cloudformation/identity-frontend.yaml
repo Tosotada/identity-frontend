@@ -138,6 +138,9 @@ Resources:
         SSLCertificateId: !Sub
           - 'arn:aws:acm:eu-west-1:${AWS::AccountId}:${CertId}'
           - CertId: !FindInMap [CertsMap, !Ref 'Stage', ssl]
+      - LoadBalancerPort: '80'
+        InstancePort: !Ref Port
+        Protocol: HTTP
       CrossZone: 'true'
       HealthCheck:
         Target: !Sub HTTP:${Port}/management/healthcheck
@@ -312,6 +315,10 @@ Resources:
       - IpProtocol: tcp
         FromPort: '443'
         ToPort: '443'
+        CidrIp: 0.0.0.0/0
+      - IpProtocol: tcp
+        FromPort: '80'
+        ToPort: '80'
         CidrIp: 0.0.0.0/0
       SecurityGroupEgress:
       - IpProtocol: tcp

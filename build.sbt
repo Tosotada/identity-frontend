@@ -52,6 +52,7 @@ riffRaffPackageName := name.value
 riffRaffManifestProjectName := s"identity:${name.value}"
 riffRaffUploadArtifactBucket := Option("riffraff-artifact")
 riffRaffUploadManifestBucket := Option("riffraff-builds")
+riffRaffArtifactResources += (file("cloudformation/identity-frontend.yaml"), "update-cloudformation/identity-frontend.yaml")
 
 // FIXME: riffraff should automatically detect these but it seems tc-build.sh is interfering with that
 riffRaffBuildIdentifier := Option(System.getenv("BUILD_NUMBER")).getOrElse("unknown")
