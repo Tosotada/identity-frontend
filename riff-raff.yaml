@@ -10,19 +10,15 @@ deployments:
       prefixStack: false
     dependencies:
       - update-ami
-      - cfn
+      - update-cloudformation
 
-  cfn:
+  update-cloudformation:
     type: cloud-formation
     parameters:
       cloudFormationStackName: IdentityFrontend
       templatePath: identity-frontend.yaml
       prependStackToCloudFormationStackName: false
       cloudFormationStackByTags: false
-      amiParametersToTags:
-        AMI:
-          Recipe: identity-base
-          AmigoStage: PROD
     dependencies:
       - update-ami
 
