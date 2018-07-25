@@ -10,17 +10,8 @@ deployments:
       prefixStack: false
     dependencies:
       - update-ami
-  update-ami:
-    type: ami-cloudformation-parameter
-    parameters:
-      cloudFormationStackByTags: false
-      prependStackToCloudFormationStackName: false
-      cloudFormationStackName: IdentityFrontend
-      amiParametersToTags:
-        AMI:
-          Recipe: identity-base
-          AmigoStage: PROD
-      amiEncrypted: true
+      - cfn
+
   cfn:
     type: cloud-formation
     parameters:
@@ -32,3 +23,18 @@ deployments:
         AMI:
           Recipe: identity-base
           AmigoStage: PROD
+    dependencies:
+      - update-ami
+
+  update-ami:
+    type: ami-cloudformation-parameter
+    parameters:
+      cloudFormationStackByTags: false
+      prependStackToCloudFormationStackName: false
+      cloudFormationStackName: IdentityFrontend
+      amiParametersToTags:
+        AMI:
+          Recipe: identity-base
+          AmigoStage: PROD
+      amiEncrypted: true
+
