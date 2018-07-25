@@ -21,3 +21,14 @@ deployments:
           Recipe: identity-base
           AmigoStage: PROD
       amiEncrypted: true
+  cfn:
+    type: cloud-formation
+    parameters:
+      cloudFormationStackName: IdentityFrontend
+      templatePath: identity-frontend.yaml
+      prependStackToCloudFormationStackName: false
+      cloudFormationStackByTags: false
+      amiParametersToTags:
+        AMI:
+          Recipe: identity-base
+          AmigoStage: PROD
