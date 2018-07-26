@@ -40,7 +40,7 @@ class UserAuthenticatedActionSpec extends PlaySpec with MockitoSugar {
         val result = call(action, request)
 
         status(result) mustEqual 303
-        redirectLocation(result) mustEqual Some("/signin?group=GRS")
+        redirectLocation(result) mustEqual Some("/signin/start?group=GRS")
       }
     }
 
