@@ -147,25 +147,6 @@ const triggerAutoFocus = ($slide): void => {
   }
 };
 
-const preservePasswordField = (
-  $oldSlide: HTMLElement,
-  $newSlide: HTMLElement
-) => {
-  const $passwordOld = $oldSlide.querySelector('input[name=password]');
-  const $passwordNew = $newSlide.querySelector('input[name=password]');
-  if (
-    $passwordOld &&
-    $passwordNew &&
-    $passwordNew.parentElement &&
-    $passwordNew instanceof HTMLInputElement &&
-    $passwordOld instanceof HTMLInputElement
-  ) {
-    $passwordOld.className = $passwordNew.className;
-    $passwordOld.autofocus = $passwordNew.autofocus;
-    $passwordNew.parentElement.replaceChild($passwordOld, $passwordNew);
-  }
-};
-
 const init = ($component: HTMLElement): void => {
   onSlide($component, getSlide($component), window.location.href, true);
   $component.addEventListener(EV_DONE, (ev: mixed) => {
@@ -177,9 +158,6 @@ const init = ($component: HTMLElement): void => {
       if (!$slide || !$new) {
         throw new Error(ERR_MALFORMED_HTML);
       }
-
-      /* naively attempt to preserve password */
-      preservePasswordField($slide, $new);
 
       /* push the slide */
       pushSlide($slide, $new, ev.detail.reverse).then(() => {

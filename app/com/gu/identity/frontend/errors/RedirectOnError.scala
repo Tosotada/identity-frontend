@@ -16,7 +16,7 @@ import scala.util.control.NonFatal
   * Recover from application errors. Other errors will be caught by the global
   * error handler, eg: 500s.
   */
-abstract class ResultFromAppException(route: String, cc: ControllerComponents) extends ErrorRecoveryActionBuilder(cc) {
+sealed abstract class ResultFromAppException(route: String, cc: ControllerComponents) extends ErrorRecoveryActionBuilder(cc) {
 
   def recoverErrors[A](request: Request[A]) = PartialFunction[Throwable, Future[Result]] {
     case ex: AppException => resultFromAppException(request, ex, response(_))

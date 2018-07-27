@@ -6,7 +6,7 @@ import com.gu.identity.frontend.authentication.CookieService
 import com.gu.identity.frontend.configuration.Configuration
 import com.gu.identity.frontend.configuration.Configuration.Environment._
 import com.gu.identity.frontend.errors.ErrorIDs.SignInGatewayErrorID
-import com.gu.identity.frontend.errors._
+import com.gu.identity.frontend.errors.{SignInInvalidCredentialsAppException, _}
 import com.gu.identity.frontend.logging.{LogOnErrorAction, Logging, MetricsLoggingActor}
 import com.gu.identity.frontend.models._
 import com.gu.identity.frontend.request._
@@ -18,7 +18,7 @@ import play.api.i18n.I18nSupport
 import play.api.libs.json.Json
 import play.api.mvc._
 
-import scala.concurrent.ExecutionContext
+import scala.concurrent.{ExecutionContext, Future}
 
 /**
  * Form actions controller
@@ -97,12 +97,20 @@ class SigninAction(
     signInAction(successfulSmartLockSignInResponse, successfulAjaxSignInResponse, signInSmartLockMetricsLogger)
   }
 
-  def emailSignInFirstStep = SignInServiceAction(bodyParser) {
-    emailSignInFirstStepAction(successfulFirstStepResponse, signInFirstStepMetricsLogger)
+  def emailSignInFirstStep = SignInServiceAction(bodyParser) { req =>
+    if (req.body.password.nonEmpty) {
+      signInAction(successfulSignInResponse, successfulAjaxSignInResponse, signInMetricsLogger)(req).flatMap {
+        case r@Right(_) =>
+          Future.successful(r)
+        case l@Left(List(SignInInvalidCredentialsAppException)) =>
+          emailSignInFirstStepAction(successfulFirstStepResponse, signInFirstStepMetricsLogger)(req.withBody(req.body.copy(password = "")))
+      }
+    } else {
+      emailSignInFirstStepAction(successfulFirstStepResponse, signInFirstStepMetricsLogger)(req)
+    }
   }
 
-  def emailSignInFirstStepAction(successResponse: (String, ReturnUrl, Seq[Cookie], Option[Boolean], Option[ClientID], Option[GroupCode], Option[Boolean]) => Result, metricsLogger: (Request[SignInActionRequestBody]) => Unit) = { implicit
-                                                                                                                                                                                                                    request: Request[SignInActionRequestBody] =>
+  def emailSignInFirstStepAction(successResponse: (String, ReturnUrl, Seq[Cookie], Option[Boolean], Option[ClientID], Option[GroupCode], Option[Boolean]) => Result, metricsLogger: (Request[SignInActionRequestBody]) => Unit) = { implicit request: Request[SignInActionRequestBody] =>
     val body = request.body
 
     lazy val returnUrl = body.returnUrl.getOrElse(ReturnUrl.defaultForClient(config, body.clientId))
@@ -124,7 +132,11 @@ class SigninAction(
     }
   }
 
-  def signInAction(successResponse: (ReturnUrl, Seq[Cookie]) => Result, successAjaxResponse: (ReturnUrl, Seq[Cookie]) => Result, metricsLogger: (Request[SignInActionRequestBody]) => Unit) = { implicit request: Request[SignInActionRequestBody] =>
+  def signInAction(
+    successResponse: (ReturnUrl, Seq[Cookie]) => Result,
+    successAjaxResponse: (ReturnUrl, Seq[Cookie]) => Result,
+    metricsLogger: (Request[SignInActionRequestBody]) => Unit
+  ): Request[SignInActionRequestBody] => Future[Either[ServiceExceptions, Result]] = { implicit request: Request[SignInActionRequestBody] =>
     val body = request.body
 
     val trackingData = TrackingData(request, body.returnUrl.flatMap(_.toStringOpt))
@@ -137,7 +149,8 @@ class SigninAction(
     }
 
     identityService.authenticate(body, trackingData).map {
-      case Left(errors) => Left(errors)
+      case Left(errors) =>
+        Left(errors)
       case Right(cookies) => Right {
         if (stage == "PROD") Tip.verify("Account Signin")
         metricsLogger(request)
