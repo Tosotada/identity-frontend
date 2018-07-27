@@ -24,8 +24,11 @@ const showError = (error: string): void => {
   if ($elements.length < 1) {
     alert(error); /* eslint-disable-line no-alert */
   } else {
-    errors.push(error);
-    renderErrors();
+    const haveSeenSameError: boolean = !!errors.find(elem => elem === error);
+    if (!haveSeenSameError) {
+      errors.push(error);
+      renderErrors();
+    }
   }
 };
 
