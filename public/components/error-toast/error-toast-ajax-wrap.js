@@ -19,6 +19,10 @@ const renderErrors = (): void => {
       $closeButton.classList.add('error-toast__icon');
       $closeButton.innerHTML = '<span class="u-h">Close</span>';
       $message.innerText = error;
+      $message.insertAdjacentHTML(
+        'beforeend',
+        ' <a class="error-toast__msg__report" href="https://www.theguardian.com/info/tech-feedback">Report this error</a>'
+      );
       $div.appendChild($message);
       $div.appendChild($closeButton);
       const childClassName = $element.dataset.appendClassname;

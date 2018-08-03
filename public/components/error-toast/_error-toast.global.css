@@ -12,7 +12,7 @@
     flex: 1 1 auto;
     & .error-toast__msg__report {
       @mixin link var(--color-white) var(--color-link-white);
-      display: none;
+      font-weight: lighter;
     }
   }
 
