@@ -9,7 +9,7 @@ case class InvalidConsentTokenViewModel private(
   layout: LayoutViewModel,
   token: String,
   csrfToken: Option[Token],
-  errors: Seq[ErrorViewModel],
+  override val errors: Seq[ErrorViewModel],
   text: InvalidConsentTokenText,
   resources: Seq[PageResource with Product],
   indirectResources: Seq[PageResource with Product]

@@ -8,7 +8,7 @@ import play.filters.csrf.CSRF.Token
 case class ResendTokenSentViewModel private(
   layout: LayoutViewModel,
   csrfToken: Option[Token],
-  errors: Option[Seq[ErrorViewModel]] = Some(Seq.empty),
+  override val errors: Seq[ErrorViewModel] = Seq.empty,
   resendLinkEmailSentText: ResendTokenSentText,
   resources: Seq[PageResource with Product],
   indirectResources: Seq[PageResource with Product]
@@ -24,7 +24,7 @@ object ResendTokenSentViewModel {
     ResendTokenSentViewModel(
       layout = layout,
       csrfToken = csrfToken,
-      errorIds,
+      errorIds.getOrElse(Seq.empty),
       resendLinkEmailSentText = ResendTokenSentText(),
       resources = layout.resources,
       indirectResources = layout.indirectResources

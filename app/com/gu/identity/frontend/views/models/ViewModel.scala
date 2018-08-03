@@ -1,6 +1,8 @@
 package com.gu.identity.frontend.views.models
 
-trait ViewModel
+trait ViewModel {
+  def errors: Seq[ErrorViewModel] = Seq.empty
+}
 
 trait ViewModelResources {
   /**

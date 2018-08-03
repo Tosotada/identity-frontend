@@ -1,6 +1,6 @@
 // @flow
 
-import { showErrorText } from 'components/form/form-feedback-wrap';
+import { showErrorText } from 'components/error-toast/error-toast-ajax-wrap';
 import { getUrlErrors } from 'js/get-url-errors';
 import {
   MalformedResponseError,

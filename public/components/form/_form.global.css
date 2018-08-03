@@ -81,10 +81,6 @@ generic input wrapper
   display: block;
 }
 
-.form-field-wrap > .form-feedback {
-  margin-top: calc(var(--size-baseline-vertical) / 2);
-}
-
 .form-field-wrap > .form-button {
   @supports (box-sizing: border-box) {
     width: 100%;
@@ -101,75 +97,5 @@ generic input wrapper
   &,
   .link {
     color: var(--color-text);
-  }
-}
-
-/*
-feedback
-*/
-@define-mixin form-feedback {
-  @mixin font-body-copy;
-  padding: 0 0 0 calc(var(--size-baseline) * 8);
-  position: relative;
-  &:before {
-    content: '';
-    background: transparent center center no-repeat;
-    background-size: contain;
-    width: calc(var(--size-baseline) * 6.5);
-    height: calc(var(--size-baseline) * 6.5);
-    position: absolute;
-    left: 0;
-    top: calc(var(--size-baseline) * -0.85);
-  }
-  & a {
-    @mixin link;
-  }
-  & a,
-  & a:hover,
-  & a:focus {
-    color: inherit;
-    text-decoration-color: inherit;
-  }
-  & a:focus {
-    outline: auto;
-  }
-}
-
-.form-feedback {
-  @mixin form-feedback;
-}
-
-.form-feedback--error {
-  color: var(--color-error);
-  &:before {
-    background-image: inline('status-alert.svg');
-  }
-}
-
-.form-feedback--info {
-  color: var(--color-info);
-  &:before {
-    background-image: inline('status-info.svg');
-  }
-}
-
-.form-feedback--bullet {
-  &:before {
-    background-image: inline('status-bullet.svg');
-  }
-}
-
-.form-feedback-wrap {
-  & .form-feedback {
-    margin: 0 0 var(--size-baseline-vertical) 0;
-    & .form-feedback__colourless {
-      color: var(--color-text);
-    }
-    &:not(:first-child) {
-      background: none;
-    }
-    &:last-child {
-      margin: 0 0 var(--size-baseline-vertical) 0;
-    }
   }
 }

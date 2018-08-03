@@ -14,8 +14,7 @@ case class CollectConsentsViewModel private(
   bootstrap: String,
 
   returnUrl: String
-)
-  extends ViewModel with ViewModelResources
+) extends ViewModel with ViewModelResources
 
 object CollectConsentsViewModel {
 

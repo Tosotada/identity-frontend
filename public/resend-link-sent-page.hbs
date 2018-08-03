@@ -16,11 +16,6 @@
     <header class="layout-header">
       <h1 class="layout-header__title">{{ resendLinkEmailSentText.unexpectedTitle }}</h1>
     </header>
-    <div class="form-field-wrap">
-      {{#each errors}}
-        <p id="{{id}}" class="form-feedback form-feedback--error form-field-wrap__field">{{message}}</p>
-      {{/each}}
-    </div>
   {{/if}}
 
 {{/partial}}

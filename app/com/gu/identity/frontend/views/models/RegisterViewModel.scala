@@ -10,6 +10,8 @@ import com.gu.identity.frontend.request.RegisterActionRequestBodyFormMapping
 import play.api.i18n.Messages
 import play.filters.csrf.CSRF.Token
 
+import scala.util.Try
+
 
 case class RegisterViewModel(
                               layout: LayoutViewModel,
@@ -20,7 +22,7 @@ case class RegisterViewModel(
                               terms: TermsViewModel,
 
                               hasErrors: Boolean,
-                              errors: RegisterErrorViewModel,
+                              override val errors: Seq[ErrorViewModel],
                               showStandfirst: Boolean,
                               askForPhoneNumber: Boolean,
                               hideDisplayName: Boolean,
@@ -81,7 +83,7 @@ object RegisterViewModel {
       terms = Terms.getTermsModel(group),
 
       hasErrors = errors.nonEmpty,
-      errors = RegisterErrorViewModel(errors),
+      errors = errors.flatMap(id => Try(ErrorViewModel(id)).toOption),
 
       showStandfirst = showStandfirst(clientId),
       askForPhoneNumber = askForPhoneNumber(clientId),

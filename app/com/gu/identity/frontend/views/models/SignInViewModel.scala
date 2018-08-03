@@ -17,7 +17,7 @@ case class SignInViewModel private(
     terms: TermsViewModel,
 
     hasErrors: Boolean = false,
-    errors: Seq[ErrorViewModel] = Seq.empty,
+    override val errors: Seq[ErrorViewModel] = Seq.empty,
 
     csrfToken: Option[Token],
     returnUrl: String = "",

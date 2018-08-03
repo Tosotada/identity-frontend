@@ -14,7 +14,7 @@ case class SendSignInLinkViewModel private(
     actions: Map[String, String] = Map(
       "submit" -> routes.SigninAction.sendResubLinkAction().url
     ),
-    errors: Seq[ErrorViewModel] = Seq.empty,
+    override val errors: Seq[ErrorViewModel] = Seq.empty,
     csrfToken: Option[Token],
     returnUrl: String = "",
     clientId: Option[ClientID],

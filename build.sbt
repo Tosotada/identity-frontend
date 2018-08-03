@@ -26,7 +26,7 @@ libraryDependencies ++= Seq(
   "org.scalatestplus.play"          %%  "scalatestplus-play"        %   "3.1.2"   %   Test,
   "com.typesafe.play"               %%  "play-json"                 %   playJsonVersion,
   "com.typesafe.play"               %%  "play-json-joda"            %   playJsonVersion,
-  "jp.co.bizreach"                  %%  "play2-handlebars"          %   "0.4.1",
+  "jp.co.bizreach"                  %%  "play2-handlebars"          %   "0.4.3",
   "com.mohiva"                      %%  "play-html-compressor"      %   "0.7.1",
   "com.typesafe.akka"               %%  "akka-actor"                %   akkaVersion,
   "com.typesafe.akka"               %%  "akka-slf4j"                %   akkaVersion,

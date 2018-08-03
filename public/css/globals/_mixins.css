@@ -24,16 +24,17 @@
   }
 }
 
-@define-mixin link {
-  color: var(--color-link);
+@define-mixin link $link-color: var(--color-link) $decoration-color:
+  var(--color-link-underline) {
+  color: $link-color;
   cursor: pointer;
   text-decoration: underline;
-  text-decoration-color: var(--color-link-underline);
+  text-decoration-color: $decoration-color;
   transition: text-decoration-color 0.15s ease-out;
 
   &:hover,
   &:focus {
-    text-decoration-color: var(--color-link);
+    text-decoration-color: $link-color;
   }
 }
 

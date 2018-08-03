@@ -8,23 +8,17 @@
       <h1 class="layout-header__title">{{ text.title }}</h1>
     </header>
 
-    {{#each errors}}
-      <p id="{{id}}" class="form-feedback form-feedback--error form-feedback--hydratable form-field-wrap__field">{{message}}</p>
+    <p class="layout-text">{{ text.description }}</p>
 
-    {{else}}
+    <form id="resend-token-form" class="resend-consent-form" action="/consent-token/resend" method="GET">
+      <input type="hidden" name="token" value="{{ token }}">
+      <input type="hidden" name="csrfToken" value="{{ csrfToken.value }}">
 
-      <p class="layout-text">{{ text.description }}</p>
+      <div class="form-field-wrap">
+        <button class="form-button form-button--main form-field-wrap__field" id="resend-consent_submit" type="submit">Resend link {{> components/icon/arrow-inline }}</button>
+      </div>
 
-      <form id="resend-token-form" class="resend-consent-form" action="/consent-token/resend" method="GET">
-        <input type="hidden" name="token" value="{{ token }}">
-        <input type="hidden" name="csrfToken" value="{{ csrfToken.value }}">
-
-        <div class="form-field-wrap">
-          <button class="form-button form-button--main form-field-wrap__field" id="resend-consent_submit" type="submit">Resend link {{> components/icon/arrow-inline }}</button>
-        </div>
-
-      </form>
-    {{/each}}
+    </form>
 
 {{/partial}}
 {{> layout}}

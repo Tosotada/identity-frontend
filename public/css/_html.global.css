@@ -36,6 +36,17 @@ body > main {
   display: none !important;
 }
 
+.u-h {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
 .u-flexrow {
   display: grid;
   grid: auto-flow / 1fr;
@@ -56,7 +67,7 @@ body > main {
 }
 
 .u-link {
-  @mixin link;
+  @mixin link var(--color-link) var(--color-link-underline);
 }
 
 p {

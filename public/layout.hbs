@@ -38,6 +38,13 @@
 <body class="{{ layout.skin.name }}">
   <a href="#main-content" class="layout-skip-link">{{ layout.text.skipToContent }}</a>
   {{> components/header/_header }}
+  {{#if errors}}
+      <div class="error-toast-wrap">
+      {{#each errors }}
+         {{> components/error-toast/_error-toast message=message }}
+      {{/each}}
+      </div>
+  {{/if}}
 
   {{# layout.skin.banner }}
     <header class="banner banner--{{layout.skin.name}}" aria-hidden="true">
@@ -51,7 +58,7 @@
   </main>
 
   {{> components/footer/_footer }}
-
+  <div class="error-toast-ajax-wrap"></div>
   {{#each layout.resources}}
     {{#isJavascript}}
       {{^isInHead}}

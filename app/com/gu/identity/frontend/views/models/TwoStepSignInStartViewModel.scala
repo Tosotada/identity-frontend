@@ -16,7 +16,7 @@ case class TwoStepSignInStartViewModel private(
   twoStepSignInPageText: Map[String, String],
   terms: TermsViewModel,
 
-  errors: Seq[ErrorViewModel] = Seq.empty,
+  override val errors: Seq[ErrorViewModel] = Seq.empty,
 
   csrfToken: Option[Token],
   returnUrl: String = "",

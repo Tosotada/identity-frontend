@@ -26,10 +26,9 @@
 :root {
   --color-brand: #121212;
   --color-cta: #ffe500;
-
+  --color-white: #fff;
   --color-border: #abc2c9;
   --color-border-hover: #839ca3;
-
   --color-text: #121212;
 
   --color-error: #c70000;

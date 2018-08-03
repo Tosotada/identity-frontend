@@ -12,7 +12,7 @@ case class ResetPasswordViewModel private(
     resetPasswordText: ResetPasswordText,
     userHelpEmailAddress: String = ResetPasswordViewModel.userHelpEmailAddress,
     actions: Map[String, String] = Map("reset" -> routes.ResetPasswordAction.reset().url),
-    errors: Seq[ErrorViewModel] = Seq.empty,
+    override val errors: Seq[ErrorViewModel] = Seq.empty,
     csrfToken: Option[Token],
     email: Option[String],
     resources: Seq[PageResource with Product],

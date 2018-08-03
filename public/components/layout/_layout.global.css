@@ -43,7 +43,7 @@
   color: currentColor;
   text-decoration: none;
   & a:not([class]) {
-    @mixin link;
+    @mixin link var(--color-link) var(--color-link-underline);
     color: currentColor;
   }
   & .form-button {
@@ -89,7 +89,7 @@
 
 .layout-header__title__proxy {
   @mixin font-body-copy-small;
-  @mixin link;
+  @mixin link var(--color-link) var(--color-link-underline);
   color: currentColor;
 }
 
@@ -116,7 +116,7 @@ texty text
 .layout-text {
   @mixin font-body-copy;
   & a {
-    @mixin link;
+    @mixin link var(--color-link) var(--color-link-underline);
   }
   &.layout-text--center {
     text-align: center;

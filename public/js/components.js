@@ -20,11 +20,7 @@ import {
 import {
   init as initFormErrorWrap,
   selector as selectorErrorWrap
-} from 'components/form/form-feedback-wrap';
-import {
-  init as initFormFeedbackHydratable,
-  selector as selectorFormFeedbackHydratable
-} from 'components/form/form-feedback--hydratable';
+} from 'components/error-toast/error-toast-ajax-wrap';
 import {
   init as initGAClientIdFormField,
   selector as gaClientIdSelector
@@ -56,6 +52,5 @@ export const components: any[] = [
   [initOauthCta, selectorOauthCta],
   [initGAClientIdFormField, gaClientIdSelector],
   [initFormFieldWrapPhone, selectorFormFieldWrapPhone],
-  [initCollectConsentsIsland, selectorCollectConsentsIsland],
-  [initFormFeedbackHydratable, selectorFormFeedbackHydratable]
+  [initCollectConsentsIsland, selectorCollectConsentsIsland]
 ];
