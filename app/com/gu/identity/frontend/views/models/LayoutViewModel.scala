@@ -130,7 +130,7 @@ object LayoutViewModel {
       sentryDsn = configuration.sentryDsnJs,
       mvtTests = MultiVariantTests.all.toSeq,
       routes = Map(
-        "signIn" -> routes.Application.signIn().url,
+        "signIn" -> routes.Application.twoStepSignInStart().url,
         "reset" -> routes.Application.reset().url,
         "registerAction" -> routes.RegisterAction.register().url,
         "twoStepSignIn" -> routes.Application.twoStepSignInStart().url,

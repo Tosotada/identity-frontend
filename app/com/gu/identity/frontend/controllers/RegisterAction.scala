@@ -30,7 +30,7 @@ class RegisterAction(
     with Logging
     with I18nSupport {
 
-  val redirectRoute: String = routes.Application.register().url
+  val redirectRoute: String = routes.Application.twoStepSignInStart().url
 
   val RegisterServiceAction: ServiceActionBuilder[Request] =
     serviceAction andThen

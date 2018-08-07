@@ -346,7 +346,7 @@ class RegisterActionSpec extends PlaySpec with MockitoSugar {
       queryParams.contains("error") mustEqual true
       queryParams.get("error") mustEqual Some("register-error-bad-request")
 
-      redirectLocation(result).get must startWith (routes.Application.register(Seq.empty, None).url)
+      redirectLocation(result).get must startWith (routes.Application.twoStepSignInStart(Seq.empty, None).url)
     }
 
     "redirect to register page when service error (Service Gateway Error)" in new WithControllerMockedDependencies {
@@ -365,7 +365,7 @@ class RegisterActionSpec extends PlaySpec with MockitoSugar {
       queryParams.contains("error") mustEqual true
       queryParams.get("error") mustEqual Some("register-error-gateway")
 
-      redirectLocation(result).get must startWith (routes.Application.register(Seq.empty, None).url)
+      redirectLocation(result).get must startWith (routes.Application.twoStepSignInStart(Seq.empty, None).url)
     }
 
     "redirect to register page when error from the future" in new WithControllerMockedDependencies {
@@ -384,7 +384,7 @@ class RegisterActionSpec extends PlaySpec with MockitoSugar {
       queryParams.contains("error") mustEqual true
       queryParams.get("error") mustEqual Some("error-unexpected")
 
-      redirectLocation(result).get must startWith (routes.Application.register(Seq.empty, None).url)
+      redirectLocation(result).get must startWith (routes.Application.twoStepSignInStart(Seq.empty, None).url)
     }
 
     "include skip confirmation in params for failed registration redirect if skip confirmation value is specified on the request" in new WithControllerMockedDependencies {
@@ -432,7 +432,7 @@ class RegisterActionSpec extends PlaySpec with MockitoSugar {
       queryParams.contains("error") mustEqual true
       queryParams.get("error") mustEqual Some("register-error-password")
 
-      redirectLocation(result).get must startWith (routes.Application.register(Seq.empty, None).url)
+      redirectLocation(result).get must startWith (routes.Application.twoStepSignInStart(Seq.empty, None).url)
     }
 
     "return register-error-password if password is too long" in new WithControllerMockedDependencies {
@@ -446,7 +446,7 @@ class RegisterActionSpec extends PlaySpec with MockitoSugar {
       queryParams.contains("error") mustEqual true
       queryParams.get("error") mustEqual Some("register-error-password")
 
-      redirectLocation(result).get must startWith (routes.Application.register(Seq.empty, None).url)
+      redirectLocation(result).get must startWith (routes.Application.twoStepSignInStart(Seq.empty, None).url)
     }
 
     "return register-error-group if the group code is not a valid code" in new WithControllerMockedDependencies {
@@ -460,7 +460,7 @@ class RegisterActionSpec extends PlaySpec with MockitoSugar {
       queryParams.contains("error") mustEqual true
       queryParams.get("error") mustEqual Some("register-error-groupCode")
 
-      redirectLocation(result).get must startWith (routes.Application.register(Seq.empty, None).url)
+      redirectLocation(result).get must startWith (routes.Application.twoStepSignInStart(Seq.empty, None).url)
     }
   }
 }

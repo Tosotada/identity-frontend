@@ -29,7 +29,7 @@ class SigninActionSpec extends PlaySpec with MockitoSugar {
 
   implicit lazy val materializer: Materializer = ActorMaterializer()(ActorSystem())
 
-  val signInPageUrl = routes.Application.signIn().url
+  val signInPageUrl = routes.Application.twoStepSignInStart().url
 
   trait WithControllerMockedDependencies {
     val mockIdentityService = mock[IdentityService]

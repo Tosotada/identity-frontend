@@ -78,8 +78,8 @@ object TwoStepSignInStartViewModel {
       group = group,
       email = email,
       skipValidationReturn = skipValidationReturn.getOrElse(false),
-      showSupportingParagraph = clientId.exists(_ == GuardianRecurringContributionsClientID),
-      registerUrl = UrlBuilder(routes.Application.register(), returnUrl, skipConfirmation, clientId, group.map(_.id), Some(TwoStepSignInType), skipValidationReturn),
+      showSupportingParagraph = clientId.contains(GuardianRecurringContributionsClientID),
+      registerUrl = UrlBuilder(routes.Application.twoStepSignInStart(), returnUrl, skipConfirmation, clientId, group.map(_.id), skipValidationReturn),
       signinUrl = UrlBuilder(routes.Application.twoStepSignInStart(), returnUrl, skipConfirmation, clientId, group.map(_.id)),
       forgotPasswordUrl = UrlBuilder("/reset", returnUrl, skipConfirmation, clientId, group.map(_.id)),
 

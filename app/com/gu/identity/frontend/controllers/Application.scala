@@ -17,17 +17,6 @@ class Application(
   multiVariantTestAction: MultiVariantTestAction
 ) extends AbstractController(cc) with Logging with I18nSupport {
 
-  def signIn(error: Seq[String], returnUrl: Option[String], skipConfirmation: Option[Boolean], clientId: Option[String], group: Option[String]) =
-    multiVariantTestAction { implicit req =>
-      val clientIdActual = ClientID(clientId)
-      val returnUrlActual = ReturnUrl(returnUrl, req.headers.get("Referer"), configuration, clientIdActual)
-      val csrfToken = CSRF.getToken(req)
-      val groupCode = GroupCode(group)
-      val email : Option[String] = req.getQueryString("email")
-
-      renderSignIn(configuration, req.activeTests, csrfToken, error, returnUrlActual, skipConfirmation, clientIdActual, groupCode, email)
-    }
-
   def twoStepSignInStart(error: Seq[String], returnUrl: Option[String], skipConfirmation: Option[Boolean], clientId: Option[String], group: Option[String], skipValidationReturn: Option[Boolean]) =
     multiVariantTestAction { implicit req =>
       val clientIdActual = ClientID(clientId)
@@ -49,20 +38,6 @@ class Application(
       val userType = Seq(CurrentUser, GuestUser, NewUser).find(_.name == signInType)
 
       renderTwoStepSignInChoices(configuration, req.activeTests, csrfToken, error, userType, returnUrlActual, skipConfirmation, clientIdActual, groupCode, email, skipValidationReturn)
-    }
-
-  def register(error: Seq[String], returnUrl: Option[String], skipConfirmation: Option[Boolean], clientId: Option[String], group: Option[String], signInType: Option[String], skipValidationReturn: Option[Boolean]) =
-    multiVariantTestAction { implicit req =>
-      val clientIdActual = ClientID(clientId)
-      val returnUrlActual = ReturnUrl(returnUrl, req.headers.get("Referer"), configuration, clientIdActual)
-      val signInTypeActual = SignInType(signInType)
-      val csrfToken = CSRF.getToken(req)
-      val groupCode = GroupCode(group)
-      val email : Option[String] = req.cookies.get("GU_SIGNIN_EMAIL").map(_.value)
-      val shouldCollectConsents = configuration.collectSignupConsents
-      val shouldCollectV2Consents = configuration.collectV2Consents
-
-      renderRegister(configuration, req.activeTests, error, csrfToken, returnUrlActual, skipConfirmation, clientIdActual, groupCode, email, signInTypeActual, shouldCollectConsents, shouldCollectV2Consents, skipValidationReturn)
     }
 
   def sendResubLink(error: Seq[String], clientId: Option[String]) = Action { implicit req =>

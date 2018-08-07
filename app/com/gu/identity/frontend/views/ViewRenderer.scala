@@ -23,39 +23,6 @@ object ViewRenderer {
   def render(view: String, attributes: Map[String, Any] = Map.empty) =
     HBS(view, attributes)
 
-  def renderSignIn(
-    configuration: Configuration,
-    activeTests: Map[MultiVariantTest, MultiVariantTestVariant],
-    csrfToken: Option[Token],
-    errorIds: Seq[String],
-    returnUrl: ReturnUrl,
-    skipConfirmation: Option[Boolean],
-    clientId: Option[ClientID],
-    group: Option[GroupCode],
-    email: Option[String])
-    (implicit messages: Messages) = {
-
-    val model = SignInViewModel(
-      configuration = configuration,
-      activeTests = activeTests,
-      csrfToken = csrfToken,
-      errors = errorIds.map(ErrorViewModel.apply),
-      returnUrl = returnUrl,
-      skipConfirmation = skipConfirmation,
-      clientId = clientId,
-      group = group,
-      email = email
-    )
-
-    val view = clientId match {
-      case Some(GuardianMembersClientID) => "signin-page"
-      case _ => "signin-page"
-    }
-
-    renderViewModel(view, model)
-  }
-
-
   def renderTwoStepSignInStart(
     configuration: Configuration,
     activeTests: Map[MultiVariantTest, MultiVariantTestVariant],
@@ -118,41 +85,6 @@ object ViewRenderer {
       else NoCache(SeeOther(routes.Application.twoStepSignInStart().url))
     else
       renderErrorPage(configuration, NotFoundError("The requested page was not found."), NotFound.apply)
-  }
-
-  def renderRegister(
-    configuration: Configuration,
-    activeTests: Map[MultiVariantTest, MultiVariantTestVariant],
-    errorIds: Seq[String],
-    csrfToken: Option[Token],
-    returnUrl: ReturnUrl,
-    skipConfirmation: Option[Boolean],
-    clientId: Option[ClientID],
-    group: Option[GroupCode],
-    email: Option[String],
-    signInType: Option[SignInType],
-    shouldCollectConsents: Boolean,
-    shouldCollectV2Consents: Boolean,
-    skipValidationReturn: Option[Boolean])
-    (implicit messages: Messages) = {
-
-    val model = RegisterViewModel(
-      configuration = configuration,
-      activeTests = activeTests,
-      errors = errorIds,
-      csrfToken = csrfToken,
-      returnUrl = returnUrl,
-      skipConfirmation = skipConfirmation,
-      clientId = clientId,
-      group = group,
-      email = email,
-      signInType = signInType,
-      shouldCollectConsents = shouldCollectConsents,
-      shouldCollectV2Consents = shouldCollectV2Consents,
-      skipValidationReturn = skipValidationReturn
-    )
-
-    renderViewModel("register-page", model)
   }
 
   def renderResetPassword(

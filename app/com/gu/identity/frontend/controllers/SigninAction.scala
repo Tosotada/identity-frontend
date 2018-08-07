@@ -34,7 +34,7 @@ class SigninAction(
     signInActionRequestBodyParser: SignInActionRequestBodyParser)(implicit executionContext: ExecutionContext)
   extends AbstractController(cc) with Logging with I18nSupport {
 
-  val redirectRoute: String = routes.Application.signIn().url
+  val redirectRoute: String = routes.Application.twoStepSignInStart().url
 
   val signInSecondStepCurrentRedirectRoute: String = routes.Application.twoStepSignInChoices(CurrentUser.name).url
 

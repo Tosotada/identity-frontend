@@ -3,13 +3,9 @@
 # ~~~~
 
 # Home page
-GET        /signin/start                                com.gu.identity.frontend.controllers.Application.signIn(error: Seq[String] ?= Seq.empty, returnUrl: Option[String] ?= None, skipConfirmation: Option[Boolean] ?= None, clientId: Option[String] ?= None, group: Option[String] ?= None)
-
 GET        /signin                                      com.gu.identity.frontend.controllers.Application.twoStepSignInStart(error: Seq[String] ?= Seq.empty, returnUrl: Option[String] ?= None, skipConfirmation: Option[Boolean] ?= None, clientId: Option[String] ?= None, group: Option[String] ?= None, skipValidationReturn: Option[Boolean] ?= None)
 
 GET        /signin/:signInType                          com.gu.identity.frontend.controllers.Application.twoStepSignInChoices(signInType: String, error: Seq[String] ?= Seq.empty, returnUrl: Option[String] ?= None, skipConfirmation:Option[Boolean]?= None, clientId: Option[String] ?= None, group: Option[String] ?= None, skipValidationReturn: Option[Boolean] ?= None)
-
-GET        /register                                    com.gu.identity.frontend.controllers.Application.register(error: Seq[String] ?= Seq.empty, returnUrl: Option[String] ?= None, skipConfirmation: Option[Boolean] ?= None, clientId:Option[String] ?= None, group: Option[String] ?= None, signInType: Option[String] ?= None, skipValidationReturn: Option[Boolean] ?= None)
 
 GET        /collect-consents                            com.gu.identity.frontend.controllers.Application.collectConsents(returnUrl: Option[String] ?= None, clientId: Option[String] ?= None)
 
