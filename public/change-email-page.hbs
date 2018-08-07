@@ -4,7 +4,6 @@
 
   <div class="layout-wrap-width">
 
-    {{# unless errors}}
       <header class="layout-header">
         <h1 class="layout-header__title">{{ ChangeEmailSuccessfulText.title }}</h1>
       </header>
@@ -15,13 +14,6 @@
           <a href="https://www.theguardian.com" data-link-name="change-email-returnToGuardianAction : {{ChangeEmailSuccessfulText.returnToGuardianAction}}" class="form-button form-button--secondary form-field-wrap__field">{{ChangeEmailSuccessfulText.returnToGuardianAction}} {{>components/icon/arrow-inline }}</a>
         </div>
       </section>
-    {{/unless}}
-
-    <section class="layout-header">
-      {{#if errors}}
-        <h1 class="layout-header__title">{{ ChangeEmailSuccessfulText.unexpectedTitle }}</h1>
-      {{/if}}
-    </section>
 
   </div>
 {{/partial}}
