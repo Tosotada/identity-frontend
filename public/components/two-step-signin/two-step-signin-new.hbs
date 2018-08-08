@@ -17,6 +17,8 @@
 
     {{> components/register-form/_form-field-password text=twoStepSignInPageText.registerForm }}
 
+    {{> components/register-form/_form-field-consent consents=consents }}
+
     <div class="form-field-wrap">
       <button class="form-button form-button--main form-field-wrap__field" id="tssf-create-account">{{twoStepSignInPageText.registerAction}} {{> components/icon/arrow-inline }}</button>
     </div>

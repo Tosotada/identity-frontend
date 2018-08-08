@@ -7,7 +7,8 @@ import com.gu.identity.frontend.models._
 import com.gu.identity.frontend.models.text.{RegisterFormText, TwoStepSignInChoicesPageText}
 import com.gu.identity.frontend.mvt.ActiveMultiVariantTests
 import com.gu.identity.frontend.request.RegisterActionRequestBodyFormMapping
-import com.gu.identity.frontend.views.models.RegisterViewModel.{countryCodes,askForPhoneNumber}
+import com.gu.identity.frontend.views.models.RegisterViewModel.{askForPhoneNumber, countryCodes}
+import com.gu.identity.model.Consent.ConsentType
 import com.gu.identity.model.{CurrentUser, GuestUser, NewUser, UserType}
 import play.api.i18n.Messages
 import play.filters.csrf.CSRF.Token
@@ -51,7 +52,8 @@ case class TwoStepSignInChoicesViewModel private(
     "register" -> routes.RegisterAction.register().url
   ),
   resources: Seq[PageResource with Product],
-  indirectResources: Seq[PageResource with Product])
+  indirectResources: Seq[PageResource with Product],
+  consents: Seq[ConsentType])
   extends ViewModel
     with ViewModelResources
 
@@ -68,7 +70,8 @@ object TwoStepSignInChoicesViewModel {
     group: Option[GroupCode],
     email: Option[String],
     userType: Option[UserType],
-    skipValidationReturn: Option[Boolean])(implicit messages: Messages): TwoStepSignInChoicesViewModel = {
+    skipValidationReturn: Option[Boolean],
+    consents: Seq[ConsentType])(implicit messages: Messages): TwoStepSignInChoicesViewModel = {
 
     val layout = LayoutViewModel(configuration, activeTests, clientId, Some(returnUrl))
     val recaptchaModel : Option[GoogleRecaptchaViewModel] = None
@@ -117,7 +120,8 @@ object TwoStepSignInChoicesViewModel {
       recaptchaModel = recaptchaModel,
 
       resources = resources,
-      indirectResources = layout.indirectResources
+      indirectResources = layout.indirectResources,
+      consents = consents
     )
   }
 

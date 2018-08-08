@@ -2,6 +2,7 @@ package com.gu.identity.frontend.views
 
 import java.net.URI
 
+import com.gu.identity.model.Consent.{ConsentType, Jobs}
 import com.gu.identity.frontend.configuration._
 import com.gu.identity.frontend.controllers.{NoCache, routes}
 import com.gu.identity.frontend.errors.{HttpError, NotFoundError}
@@ -63,8 +64,7 @@ object ViewRenderer {
     clientId: Option[ClientID],
     group: Option[GroupCode],
     email: Option[String],
-    skipValidationReturn: Option[Boolean])
-    (implicit messages: Messages) = {
+    skipValidationReturn: Option[Boolean])(implicit messages: Messages) = {
 
     val model = TwoStepSignInChoicesViewModel(
       configuration = configuration,
@@ -77,14 +77,20 @@ object ViewRenderer {
       group = group,
       email = email,
       userType = userType,
-      skipValidationReturn = skipValidationReturn
+      skipValidationReturn = skipValidationReturn,
+      consents = Seq.empty[ConsentType]
     )
 
-    if(userType.isDefined)
-      if (email.isDefined) renderViewModel("two-step-signin-choices-page", model)
-      else NoCache(SeeOther(routes.Application.twoStepSignInStart().url))
-    else
-      renderErrorPage(configuration, NotFoundError("The requested page was not found."), NotFound.apply)
+    val _model = clientId match {
+      case Some(GuardianJobsClientID) => model.copy(consents = (model.consents ++ Seq(Jobs)).distinct)
+      case _ => model
+    }
+    
+    (userType.isDefined, email.isDefined) match {
+      case (true, true) => renderViewModel("two-step-signin-choices-page", _model)
+      case (true, false) => NoCache(SeeOther(routes.Application.twoStepSignInStart().url))
+      case _ => renderErrorPage(configuration, NotFoundError("The requested page was not found."), NotFound.apply)
+    }
   }
 
   def renderResetPassword(

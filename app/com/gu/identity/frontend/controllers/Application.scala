@@ -30,14 +30,14 @@ class Application(
 
   def twoStepSignInChoices(signInType: String, error: Seq[String], returnUrl: Option[String], skipConfirmation: Option[Boolean], clientId: Option[String], group: Option[String], skipValidationReturn: Option[Boolean]) =
     multiVariantTestAction { implicit req =>
-      val clientIdActual = ClientID(clientId)
-      val returnUrlActual = ReturnUrl(returnUrl, req.headers.get("Referer"), configuration, clientIdActual)
+      val _clientId = ClientID(clientId)
+      val returnUrlActual = ReturnUrl(returnUrl, req.headers.get("Referer"), configuration, _clientId)
       val csrfToken = CSRF.getToken(req)
       val groupCode = GroupCode(group)
       val email : Option[String] = req.cookies.get("GU_SIGNIN_EMAIL").map(_.value)
       val userType = Seq(CurrentUser, GuestUser, NewUser).find(_.name == signInType)
 
-      renderTwoStepSignInChoices(configuration, req.activeTests, csrfToken, error, userType, returnUrlActual, skipConfirmation, clientIdActual, groupCode, email, skipValidationReturn)
+      renderTwoStepSignInChoices(configuration, req.activeTests, csrfToken, error, userType, returnUrlActual, skipConfirmation, _clientId, groupCode, email, skipValidationReturn)
     }
 
   def sendResubLink(error: Seq[String], clientId: Option[String]) = Action { implicit req =>
