@@ -21,6 +21,7 @@ class IdentityServiceRequestHandler(
     (implicit executionContext: ExecutionContext)
     extends IdentityClientRequestHandler with ApplicationLogging {
   private val dateTimePattern = "yyyy-MM-dd'T'HH:mm:ssZ"
+  /* This is for handling legacy DateTimes in the DB that have milliseconds */
   implicit val dateTimeReads = new Reads[DateTime] {
     override def reads(json: JsValue): JsResult[DateTime] = json match {
       case JsString(dateTimeString) =>
