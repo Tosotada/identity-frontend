@@ -1,32 +1,5 @@
 @import 'css/_globals.css';
 
-
-@define-mixin form-checkbox__label {
-  @mixin font-body-copy-small;
-  position: relative;
-  cursor: pointer;
-  padding-left: 2.5rem;
-}
-
-.form-checkbox {
-  display: flex;
-  align-items: center;
-  overflow-x: auto;
-  max-width: 100%;
-  & .form-checkbox__label {
-    @mixin form-checkbox__label;
-    top: auto;
-    font-size: inherit;
-    font-family: inherit;
-    flex: 1 1 auto;
-    align-items: center;
-    justify-content: center;
-  }
-  & .form-checkbox__input {
-      flex: 0 0 auto;
-    }
-}
-
 @define-mixin form-checkbox__box {
   display: block;
   content: ' ';
@@ -44,15 +17,21 @@
   margin: 0 0.5rem 0 0;
   text-align: center;
   font-weight: normal;
-
-  /* px line height required for IE */
-  line-height: 20px;
 }
 
 @define-mixin form-checkbox__box--checked {
   @mixin form-checkbox__box;
   background-color: var(--color-brand);
   background-image: inline('tick.svg');
+}
+
+.form-checkbox {
+  display: block;
+  max-width: 100%;
+  padding-top: .2em;
+  &:hover .form-checkbox__label::before {
+    border-color: var(--color-border-hover);
+  }
 }
 
 .form-checkbox__input {
@@ -79,8 +58,12 @@
 }
 
 .form-checkbox__label {
-  @mixin form-checkbox__label;
-  font-size: inherit;
-  font-family: inherit;
+  @mixin font-body-copy-small;
+  position: relative;
+  cursor: pointer;
+  padding-left: 2.5rem;
+  align-items: center;
+  justify-content: center;
+  display: block;
 }
 
