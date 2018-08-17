@@ -24,10 +24,9 @@
     </div>
   </div>
 
-  <div class="layout-section">
+  <div class="layout-section layout-section--no-border">
     <div class="form-field-wrap">
-      <p class="form-field-wrap__title">{{twoStepSignInPageText.newUserCreateSocialAccountAction}}</p>
-      {{> components/oauth-cta/_oauth-cta-content }}
+      <a class="form-field-wrap__field u-link layout-text u-block ajax-step-flow__link" data-is-reverse="true" href="{{signinUrl}}">{{twoStepSignInPageText.changeEmailLink}}</a>
     </div>
   </div>
 
