@@ -5,24 +5,37 @@ import com.gu.identity.model.Consent
 import com.gu.identity.service.client._
 import com.gu.identity.service.client.models._
 import com.gu.identity.service.client.request._
-import org.joda.time.DateTime
+import org.joda.time.format.ISODateTimeFormat
+import org.joda.time.{DateTime, DateTimeZone}
 import play.api.libs.functional.syntax._
 import play.api.libs.json.{Json, _}
 import play.api.libs.ws.{WSClient, WSResponse}
 
 import scala.concurrent.{ExecutionContext, Future}
 import scala.concurrent.duration._
+import scala.util.Try
 import scala.util.control.NonFatal
 
 class IdentityServiceRequestHandler(
     ws: WSClient)
     (implicit executionContext: ExecutionContext)
     extends IdentityClientRequestHandler with ApplicationLogging {
-
   private val dateTimePattern = "yyyy-MM-dd'T'HH:mm:ssZ"
-  implicit val dateReads = JodaReads.jodaDateReads(dateTimePattern)
+  /* This is for handling legacy DateTimes in the DB that have milliseconds */
+  implicit val dateTimeReads = new Reads[DateTime] {
+    override def reads(json: JsValue): JsResult[DateTime] = json match {
+      case JsString(dateTimeString) =>
+        Try(
+          ISODateTimeFormat
+            .dateTimeParser()
+            .parseDateTime(dateTimeString)
+            .withZone(DateTimeZone.UTC)
+        ).toOption.map(JsSuccess(_)).getOrElse(JsError())
+      case _ => JsError()
+    }
+  }
   implicit val dateWrite = JodaWrites.jodaDateWrites(dateTimePattern)
-  implicit val dateTimeFormat = Format[DateTime](dateReads, dateWrite)
+  implicit val dateTimeFormat = Format[DateTime](dateTimeReads, dateWrite)
 
   // Cannot use just Json.format[Consent] because:
   // https://github.com/playframework/playframework/issues/2031
