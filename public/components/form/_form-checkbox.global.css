@@ -29,8 +29,8 @@
   display: block;
   max-width: 100%;
   padding-top: .2em;
-  &:hover .form-checkbox__label::before {
-    border-color: var(--color-border-hover);
+  &:hover .form-checkbox__label:before {
+    border-color: var(--color-border-hover)!important;
   }
 }
 
