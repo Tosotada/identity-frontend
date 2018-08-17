@@ -28,9 +28,9 @@
 .form-checkbox {
   display: block;
   max-width: 100%;
-  padding-top: .2em;
+  padding-top: 0.2em;
   &:hover .form-checkbox__label:before {
-    border-color: var(--color-border-hover)!important;
+    border-color: var(--color-border-hover) !important;
   }
 }
 
@@ -66,4 +66,3 @@
   justify-content: center;
   display: block;
 }
-
