@@ -62,3 +62,4 @@ case class ForgeryTokenAppException(message: String)
   with BadRequestAppException {
   val id = ForgeryTokenErrorID
 }
+

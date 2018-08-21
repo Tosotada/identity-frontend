@@ -8,9 +8,7 @@ import play.api.i18n.Messages
 
 case class ErrorPageViewModel private(
     layout: LayoutViewModel,
-
     text: ErrorPageText,
-
     resources: Seq[PageResource with Product],
     indirectResources: Seq[PageResource with Product])
   extends ViewModel with ViewModelResources

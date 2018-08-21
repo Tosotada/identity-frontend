@@ -42,7 +42,7 @@ class ApplicationComponents(context: Context)
   lazy val frontendConfiguration = Configuration(configuration)
 
   lazy val identityServiceRequestHandler = new IdentityServiceRequestHandler(wsClient)
-  lazy val identityClient: IdentityClient = new IdentityClient
+  lazy val identityClient: IdentityClient = new IdentityClient(wsClient)
   lazy val identityService: IdentityService = new IdentityServiceImpl(frontendConfiguration, identityServiceRequestHandler, identityClient)
 
   lazy val measurementProtocolClient: MeasurementProtocolClient = new MeasurementProtocolClient(wsClient)
@@ -88,6 +88,7 @@ class ApplicationComponents(context: Context)
   lazy val changeEmailController = new ChangeEmailController(frontendConfiguration, identityService, controllerComponents, analyticsEventActor, ExecutionContext.Implicits.global)
   lazy val optInController = new OptInController(controllerComponents)
   lazy val redirects = new Redirects(controllerComponents)
+  lazy val unsubscribeController = new UnsubscribeController(identityService, frontendConfiguration, controllerComponents)
 
   override lazy val httpFilters = new Filters(
     new SecurityHeadersFilter(frontendConfiguration),
@@ -136,6 +137,7 @@ class ApplicationComponents(context: Context)
     assets,
     signinTokenController,
     changeEmailController,
+    unsubscribeController,
     redirects
   )
 

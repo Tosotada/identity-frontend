@@ -85,7 +85,7 @@ object ViewRenderer {
       case Some(GuardianJobsClientID) => model.copy(consents = (model.consents ++ Seq(Jobs)).distinct)
       case _ => model
     }
-    
+
     (userType.isDefined, email.isDefined) match {
       case (true, true) => renderViewModel("two-step-signin-choices-page", _model)
       case (true, false) => NoCache(SeeOther(routes.Application.twoStepSignInStart().url))
@@ -201,6 +201,9 @@ object ViewRenderer {
     )
     renderViewModel("collect-consents", model)
   }
+
+  def renderUnsubscribePage(configuration: Configuration)(implicit messages: Messages) =
+    renderViewModel("email-unsubscribe-page", EmailUnsubscribePageViewModel(configuration))
 
   def renderErrorPage(configuration: Configuration, error: HttpError, resultGenerator: Html => Result)(implicit messages: Messages) =
     renderViewModel("error-page", ErrorPageViewModel(configuration, error), resultGenerator)

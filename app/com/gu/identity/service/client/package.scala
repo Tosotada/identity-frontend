@@ -1,7 +1,5 @@
 package com.gu.identity.service
 
-import org.joda.time.DateTime
-
 import scala.concurrent.Future
 
 
@@ -15,6 +13,8 @@ package object client {
     def handleRequest(request: ApiRequest): Future[Either[IdentityClientErrors, ApiResponse]]
   }
 
-  case class IdentityClientConfiguration(host: String, apiKey: String, requestHandler: IdentityClientRequestHandler)
+  case class IdentityClientConfiguration(host: String, apiKey: String, requestHandler: IdentityClientRequestHandler) {
+    val hostWithProtocol = s"https://$host"
+  }
 
 }

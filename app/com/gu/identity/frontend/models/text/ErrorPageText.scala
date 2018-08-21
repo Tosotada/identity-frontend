@@ -15,7 +15,7 @@ object ErrorPageText {
     case ForbiddenError(_) => ForbiddenErrorPageText()
     case SigninTokenRejected(_) => SigninLinkFailedText()
     case EmailChangeTokenRejected(_) => EmailChangeFailedText()
-    case err: BadRequestError => BadRequestErrorPageText(err)
+    case err: BadRequestError => BadRequestErrorPageText(err, err.rawMessage)
     case err: UnexpectedError => UnexpectedErrorPageText(err)
   }
 }
@@ -26,16 +26,18 @@ case class BadRequestErrorPageText private(
     pageTitle: String,
     title: String,
     description: String,
-    details: String)
+    details: String,
+    rawDetails: Option[String])
   extends ErrorPageText
 
 object BadRequestErrorPageText {
-  def apply(err: BadRequestError)(implicit messages: Messages): BadRequestErrorPageText =
+  def apply(err: BadRequestError, rawDetails: Option[String] = None)(implicit messages: Messages): BadRequestErrorPageText =
     BadRequestErrorPageText(
       pageTitle = messages("errors.badRequest.pageTitle", err.statusCode),
       title = messages("errors.badRequest.title", err.statusCode),
       description = messages("errors.badRequest.description"),
-      details = messages("errors.unexpected.details", err.message)
+      details = messages("errors.unexpected.details", err.message),
+      rawDetails = rawDetails
     )
 }
 

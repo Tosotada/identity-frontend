@@ -37,6 +37,7 @@ trait IdentityService {
   def getUser(cookie: PlayCookie)(implicit ec: ExecutionContext): Future[Either[ServiceExceptions, User]]
   def assignGroupCode(group: String, cookie: PlayCookie)(implicit ec: ExecutionContext): Future[Either[ServiceExceptions, AssignGroupResponse]]
   def getUserType(signInRequest: SignInRequestParameters)(implicit ec: ExecutionContext): Future[Either[ServiceExceptions, UserTypeResponse]]
+  def unsubscribe(unsubscribeRequest: UnsubscribeApiRequest)(implicit ec: ExecutionContext): Future[Either[String, UnitResponse.type]]
 }
 
 
@@ -207,6 +208,10 @@ class IdentityServiceImpl(config: Configuration, adapter: IdentityServiceRequest
         Left(errors.map(SignInServiceAppException.apply))
       case Right(response) => Right(response)
     }
+  }
+
+  override def unsubscribe(unsubscribeRequest: UnsubscribeApiRequest)(implicit ec: ExecutionContext): Future[Either[String, UnitResponse.type]] = {
+    client.unsubscribe(unsubscribeRequest).map(_.left.map(_.message))
   }
 }
 

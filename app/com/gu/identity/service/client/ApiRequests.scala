@@ -31,7 +31,7 @@ object ApiRequest {
   }
 
   def apiEndpoint(path: String)(implicit configuration: IdentityClientConfiguration): String =
-    s"https://${configuration.host}/$path"
+    s"${configuration.hostWithProtocol}/$path"
 
   def apiEndpoint(pathComponents: String*)(implicit configuration: IdentityClientConfiguration): String = {
     val path = pathComponents.mkString("/")

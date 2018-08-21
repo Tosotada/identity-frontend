@@ -145,6 +145,11 @@ changeEmailSuccessful.backToAccountAction=Back to Account details
 changeEmailSuccessful.returnToGuardianAction=Continue to The Guardian homepage
 changeEmailSuccessful.unexpectedTitle=Sorry there was a problem
 
+email.unsubscribe.pageTitle=Unsubscribe Confirmation
+email.unsubscribe.title=Unsubscribe Confirmation
+email.unsubscribe.description=You have been unsubscribed from this email.
+email.unsubscribe.details=Manage your email preferences
+
 errors.badRequest.pageTitle=Bad request: {0}
 errors.badRequest.title=Bad request: {0}
 errors.badRequest.description=Your request was not recognised. Please try again.

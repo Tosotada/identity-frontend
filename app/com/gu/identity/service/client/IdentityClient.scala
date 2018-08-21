@@ -4,11 +4,13 @@ import com.gu.identity.frontend.authentication.IdentityApiCookie
 import com.gu.identity.frontend.models.TrackingData
 import com.gu.identity.service.client.models.User
 import com.gu.identity.service.client.request._
+import play.api.libs.json.Json
+import play.api.libs.ws.WSClient
 
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.{Left, Right}
 
-class IdentityClient extends Logging {
+class IdentityClient(wSClient: WSClient) extends Logging {
 
   def authenticateCookies(email: String, password: String, rememberMe: Boolean, trackingData: TrackingData)(implicit configuration: IdentityClientConfiguration, ec: ExecutionContext): Future[Either[IdentityClientErrors, Seq[IdentityApiCookie]]] =
     AuthenticateCookiesApiRequest(Some(email), Some(password), rememberMe, None, trackingData) match {
@@ -161,6 +163,22 @@ class IdentityClient extends Logging {
 
       case Right(_) =>Left(Seq(ClientGatewayError("Unknown response")))
     }
+
+  }
+
+  def unsubscribe(unsubscribeRequest: UnsubscribeApiRequest)(implicit configuration: IdentityClientConfiguration,
+                                                             ec: ExecutionContext):  Future[Either[IdentityClientError, UnitResponse.type]]  = {
+    wSClient
+      .url(ApiRequest.apiEndpoint("unsubscribe"))
+      .post(Json.toJson(unsubscribeRequest))
+      .map { response =>
+        if (response.status == 204) {
+          Right(UnitResponse)
+        } else {
+          logger.warn(s"Unexpected result ${response.status} ${response.body}")
+          Left(OtherClientBadRequestError("Invalid request"))
+        }
+      }
 
   }
 }

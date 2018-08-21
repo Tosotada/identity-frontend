@@ -81,6 +81,8 @@ GET        /change-email/:token                         com.gu.identity.frontend
 
 GET        /change-email-successful                      com.gu.identity.frontend.controllers.Application.changeEmail(clientId: Option[String] ?= None)
 
+GET        /unsubscribe/:emailType/:data/:token         com.gu.identity.frontend.controllers.UnsubscribeController.unsubscribe(emailType: String, data: String, token: String)
+
 # Redirects
 GET        /                                            com.gu.identity.frontend.controllers.Redirects.indexRedirect
 GET        /signin/                                     com.gu.identity.frontend.controllers.Redirects.signInPageTrailingSlash
