@@ -1,5 +1,5 @@
 {{#each consents as |consent|}}
-<div class="form-checkbox form-field-wrap">
+<div class="form-checkbox form-field-wrap" data-link-name="consent : {{consent.id}}">
   <input type="hidden" id="consents_{{@index}}_actor" name="consents[{{@index}}].actor" value="user">
   <input type="hidden" id="consents_{{@index}}_id" name="consents[{{@index}}].id" value={{ consent.id }}>
   <input class="form-checkbox__input" id="register_field_{{consent.id}}_consent" type="checkbox" name="consents[{{@index}}].consented" value="true"/>
