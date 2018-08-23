@@ -33,7 +33,7 @@ object EmailUnsubscribePageViewModel {
       layout = layout,
       resources = layout.resources,
       text = UnsubscribePageText(messages),
-      emailPreferencesLink = s"${configuration.identityProfileBaseUrl}/email-prefs",
+      emailPreferencesLink = s"${configuration.identityProfileBaseUrl}/email-prefs?INTCMP=ID_UNSUBSCRIBE_PREFS",
       indirectResources = layout.indirectResources
     )
   }
