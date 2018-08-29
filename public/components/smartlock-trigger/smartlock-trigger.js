@@ -35,6 +35,7 @@ const smartLockSignIn = (
     )
     .then(r => {
       if (r.status === 200) {
+        navigator.credentials.store(credentials);
         window.location.href = returnUrl;
       } else {
         throw new Error(ERR_FAILED_SIGNIN);
