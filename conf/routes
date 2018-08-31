@@ -1,86 +1,43 @@
-# Routes
-# This file defines all application routes (Higher priority routes first)
-# ~~~~
-
-# Home page
 GET        /signin                                      com.gu.identity.frontend.controllers.Application.twoStepSignInStart(error: Seq[String] ?= Seq.empty, returnUrl: Option[String] ?= None, skipConfirmation: Option[Boolean] ?= None, clientId: Option[String] ?= None, group: Option[String] ?= None, skipValidationReturn: Option[Boolean] ?= None)
-
 GET        /signin/:signInType                          com.gu.identity.frontend.controllers.Application.twoStepSignInChoices(signInType: String, error: Seq[String] ?= Seq.empty, returnUrl: Option[String] ?= None, skipConfirmation:Option[Boolean]?= None, clientId: Option[String] ?= None, group: Option[String] ?= None, skipValidationReturn: Option[Boolean] ?= None)
-
 GET        /collect-consents                            com.gu.identity.frontend.controllers.Application.collectConsents(returnUrl: Option[String] ?= None, clientId: Option[String] ?= None)
-
 GET        /reset                                       com.gu.identity.frontend.controllers.Application.reset(error: Seq[String] ?= Seq.empty, clientId: Option[String] ?= None, returnUrl: Option[String] ?= None)
-
 GET        /reset/resend                                com.gu.identity.frontend.controllers.Application.resetResend(error: Seq[String] ?= Seq.empty, clientId: Option[String] ?= None)
-
 GET        /reset/email-sent                            com.gu.identity.frontend.controllers.Application.resetPasswordEmailSent(clientId: Option[String] ?= None, emailProvider: Option[String] ?= None)
-
 GET        /resub-email                                 com.gu.identity.frontend.controllers.Application.sendResubLink(error: Seq[String] ?= Seq.empty, clientId: Option[String] ?= None)
-
-GET        /resub-email/email-sent                     com.gu.identity.frontend.controllers.Application.sendResubLinkSent(clientId: Option[String] ?= None, emailProvider: Option[String] ?= None)
-
+GET        /resub-email/email-sent                      com.gu.identity.frontend.controllers.Application.sendResubLinkSent(clientId: Option[String] ?= None, emailProvider: Option[String] ?= None)
 + nocsrf
 POST       /actions/resub-email                         com.gu.identity.frontend.controllers.SigninAction.sendResubLinkAction()
-
 GET        /signout                                     com.gu.identity.frontend.controllers.SignOutAction.signOut(returnUrl: Option[String] ?= None)
-
 GET        /agree/:group                                com.gu.identity.frontend.controllers.ThirdPartyTsAndCs.confirmAction(group: String, returnUrl: Option[String] ?= None, clientId: Option[String] ?= None, skipThirdPartyLandingPage: Option[Boolean] ?= None)
-
 POST       /actions/agree                               com.gu.identity.frontend.controllers.ThirdPartyTsAndCs.addToGroupAction
-
 POST       /actions/signin                              com.gu.identity.frontend.controllers.SigninAction.signIn
-
 POST       /actions/signInSecondStepCurrent             com.gu.identity.frontend.controllers.SigninAction.signInSecondStepCurrent
-
 POST       /actions/signin/smartlock                    com.gu.identity.frontend.controllers.SigninAction.signInWithSmartLock
-
 POST       /actions/signin/with-email                   com.gu.identity.frontend.controllers.SigninAction.emailSignInFirstStep
-
 GET        /actions/signin/consents/:token              com.gu.identity.frontend.controllers.SigninAction.permissionAuth(token:String, journey: Option[String])
-
 POST       /actions/register                            com.gu.identity.frontend.controllers.RegisterAction.register
-
 GET        /accept-consent/:consentToken                com.gu.identity.frontend.controllers.ConsentController.confirmConsents(consentToken: String)
-
 GET        /consent-token/:consentToken/accept          com.gu.identity.frontend.controllers.ConsentController.confirmConsents(consentToken: String)
-
 GET        /consent-token/:consentToken/invalid         com.gu.identity.frontend.controllers.Application.invalidConsentToken(error: Seq[String] ?= Seq.empty, consentToken: String)
-
 GET        /consent-token/resend                        com.gu.identity.frontend.controllers.ResendConsentTokenAction.resend
-
 GET        /consent-token/resent                        com.gu.identity.frontend.controllers.Application.resendConsentTokenSent(error: Seq[String] ?= Seq.empty)
-
 GET        /repermission-token/:repermissionToken/accept com.gu.identity.frontend.controllers.RepermissionController.acceptToken(repermissionToken: String)
-
 GET        /repermission-token/:repermissionToken/invalid com.gu.identity.frontend.controllers.Application.invalidRepermissioningToken(repermissionToken: String)
-
 GET        /repermission-token/resend                   com.gu.identity.frontend.controllers.ResendRepermissionTokenAction.resend
-
 GET        /repermission-token/resent                   com.gu.identity.frontend.controllers.Application.resendRepermissionTokenSent(error: Seq[String] ?= Seq.empty)
-
 POST       /actions/reset                               com.gu.identity.frontend.controllers.ResetPasswordAction.reset
-
 POST       /actions/csp/report                          com.gu.identity.frontend.controllers.CSPViolationReporter.cspReport
-
 GET        /management/healthcheck                      com.gu.identity.frontend.controllers.HealthCheck.healthCheck
-
 GET        /.well-known/assetlinks.json                 com.gu.identity.frontend.controllers.DigitalAssetLinks.links
-
 GET        /management/manifest                         com.gu.identity.frontend.controllers.Manifest.manifest
-
 GET        /opt/:choice/:feature                        com.gu.identity.frontend.controllers.OptInController.handle(feature: String, choice: String)
 GET        /opt/reset                                   com.gu.identity.frontend.controllers.OptInController.reset()
-
 GET        /static/*file                                controllers.Assets.versioned(path="/public", file: Asset)
-
 GET        /robots.txt                                  controllers.Assets.at(path="/public", file="robots.txt")
-
 GET        /resub-email/:token                          com.gu.identity.frontend.controllers.SigninTokenController.signinWithResubToken(token: String, returnUrl: Option[String] ?= None)
-
 GET        /change-email/:token                         com.gu.identity.frontend.controllers.ChangeEmailController.changeEmail(token: String, returnUrl: Option[String] ?= None)
-
-GET        /change-email-successful                      com.gu.identity.frontend.controllers.Application.changeEmail(clientId: Option[String] ?= None)
-
+GET        /change-email-successful                     com.gu.identity.frontend.controllers.Application.changeEmail(clientId: Option[String] ?= None)
 GET        /unsubscribe/:emailType/:data/:token         com.gu.identity.frontend.controllers.UnsubscribeController.unsubscribe(emailType: String, data: String, token: String)
 
 # Redirects
