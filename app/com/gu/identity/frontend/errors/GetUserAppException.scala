@@ -1,6 +1,6 @@
 package com.gu.identity.frontend.errors
 
-import com.gu.identity.frontend.errors.ErrorIDs.{GetUserBadRequestErrorID, GetUserGatewayErrorID}
+import com.gu.identity.frontend.errors.ErrorIDs.{GetUserBadRequestErrorID, GetUserGatewayErrorID, GetUserUnauthorizedErrorID}
 import com.gu.identity.service.client.{ClientBadRequestError, ClientGatewayError, ClientUnauthorizedError, IdentityClientError}
 
 
@@ -37,5 +37,5 @@ case class GetUserServiceUnauthorizedException(
   extends ServiceUnauthorizedAppException(clientError)
   with GetUserAppException {
 
-    val id = GetUserBadRequestErrorID
+    val id = GetUserUnauthorizedErrorID
   }

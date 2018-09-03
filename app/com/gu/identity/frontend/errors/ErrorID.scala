@@ -154,7 +154,7 @@ object ErrorIDs {
     val key = "getuser-error-bad-request"
   }
 
-  case object GetUserUnauthorizedExceptionID extends ErrorID {
+  case object GetUserUnauthorizedErrorID extends ErrorID {
     val key = "getuser-unauthorized"
   }
 
