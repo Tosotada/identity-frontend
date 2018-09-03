@@ -36,9 +36,9 @@ object IdentityClientError {
     apply(statusCode, message, None, None)
 
   def apply(statusCode: Int, message: String, description: Option[String], context: Option[String] = None): IdentityClientError =
-    if(statusCode == 401 || statusCode == 403) {
-
-    } else if(statusCode >= 400 && statusCode < 500)
+    if(statusCode == 401 || statusCode == 403)
+      ClientUnauthorizedError(message, description, context)
+    else if(statusCode >= 400 && statusCode < 500)
       ClientBadRequestError(message, description, context)
     else
       ClientGatewayError(message, description, context)
