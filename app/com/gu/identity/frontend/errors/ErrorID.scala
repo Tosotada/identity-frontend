@@ -154,6 +154,10 @@ object ErrorIDs {
     val key = "getuser-error-bad-request"
   }
 
+  case object GetUserUnauthorizedExceptionID extends ErrorID {
+    val key = "getuser-unauthorized"
+  }
+
 
   case object AssignGroupGatewayErrorID extends ErrorID {
     val key = "assigngroup-error-gateway"

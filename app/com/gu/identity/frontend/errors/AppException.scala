@@ -33,6 +33,13 @@ private[errors] abstract class AbstractAppException(
 
 trait BadRequestAppException extends AppException
 
+// 401
+private[errors] abstract class ServiceUnauthorizedAppException(
+  clientError: IdentityClientError)
+  extends AbstractAppException(clientError)
+    with BadRequestAppException
+    with NoStackTrace
+
 // 4xx
 private[errors] abstract class ServiceBadRequestAppException(
     clientError: IdentityClientError)
