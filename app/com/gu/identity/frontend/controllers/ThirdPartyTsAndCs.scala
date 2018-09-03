@@ -55,8 +55,7 @@ class ThirdPartyTsAndCs(
               case Right(result) => Future.successful(result)
               case Left(errors) if errors.exists(_.id == GetUserUnauthorizedErrorID) =>
                 logger.error(s"Unauthorised client login request: $errors")
-                val reauthenticateUrl = UrlBuilder("/reauthenticate", ReturnUrl(Some(request.uri), config), clientIdActual)
-                Future.successful(SeeOther(reauthenticateUrl))
+                Future.successful(SeeOther(UrlBuilder("/signin", ReturnUrl(Some(request.uri), config))))
               case Left(errors) =>
                 logger.error(s"Could not check user's group membership status, failed with error: $errors")
                 httpErrorHandler.onClientError(request, BAD_REQUEST, "Could not check user's group membership status")
