@@ -4,8 +4,10 @@ import java.net.URI
 
 import com.gu.identity.frontend.authentication.{UserAuthenticatedAction, UserAuthenticatedRequest}
 import com.gu.identity.frontend.configuration.Configuration
+import com.gu.identity.frontend.errors.ErrorIDs.GetUserUnauthorizedErrorID
+import com.gu.identity.frontend.errors.GetUserServiceBadRequestException
 import com.gu.identity.frontend.logging.Logging
-import com.gu.identity.frontend.models.{ClientID, GroupCode, ReturnUrl}
+import com.gu.identity.frontend.models.{ClientID, GroupCode, ReturnUrl, UrlBuilder}
 import com.gu.identity.frontend.services._
 import com.gu.identity.frontend.views.ViewRenderer.renderTsAndCs
 import com.gu.identity.model.{User => SecureCookieUser}
@@ -51,6 +53,9 @@ class ThirdPartyTsAndCs(
           case Some(validGroup) => {
             confirm(validGroup, verifiedReturnUrl, clientIdActual, skipThirdPartyLandingPageActual, sc_gu_uCookie, csrfToken).flatMap {
               case Right(result) => Future.successful(result)
+              case Left(errors) if errors.exists(_.id == GetUserUnauthorizedErrorID) =>
+                logger.error(s"Unauthorised client login request: $errors")
+                Future.successful(SeeOther(UrlBuilder("/signin", ReturnUrl(Some(request.uri), config), clientIdActual)))
               case Left(errors) =>
                 logger.error(s"Could not check user's group membership status, failed with error: $errors")
                 httpErrorHandler.onClientError(request, BAD_REQUEST, "Could not check user's group membership status")
