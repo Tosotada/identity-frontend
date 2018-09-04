@@ -12,6 +12,8 @@
           <input class="form-checkbox__input" type="checkbox" name="rememberMe" checked="checked" value="true"/>
           <span class="form-checkbox__label">{{twoStepSignInPageText.rememberMe}}</span>
         </label>
+        <!-- Workaround to avoid corrupted XHR2 request body in IE10 / IE11 -->
+        <input type="hidden" name="dont-remove-this">
       </div>
     </div>
     <div class="form-field-wrap">
