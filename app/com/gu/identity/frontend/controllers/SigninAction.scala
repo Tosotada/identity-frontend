@@ -98,16 +98,7 @@ class SigninAction(
   }
 
   def emailSignInFirstStep = SignInServiceAction(bodyParser) { req =>
-    if (req.body.password.nonEmpty) {
-      signInAction(successfulSignInResponse, successfulAjaxSignInResponse, signInMetricsLogger)(req).flatMap {
-        case r@Right(_) =>
-          Future.successful(r)
-        case l@Left(List(SignInInvalidCredentialsAppException)) =>
-          emailSignInFirstStepAction(successfulFirstStepResponse, signInFirstStepMetricsLogger)(req.withBody(req.body.copy(password = "")))
-      }
-    } else {
-      emailSignInFirstStepAction(successfulFirstStepResponse, signInFirstStepMetricsLogger)(req)
-    }
+    emailSignInFirstStepAction(successfulFirstStepResponse, signInFirstStepMetricsLogger)(req)
   }
 
   def emailSignInFirstStepAction(successResponse: (String, ReturnUrl, Seq[Cookie], Option[Boolean], Option[ClientID], Option[GroupCode], Option[Boolean]) => Result, metricsLogger: (Request[SignInActionRequestBody]) => Unit) = { implicit request: Request[SignInActionRequestBody] =>
