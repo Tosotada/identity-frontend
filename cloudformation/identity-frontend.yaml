@@ -76,7 +76,7 @@ Mappings:
       MaxInstances: 2
   CertsMap:
     CODE:
-      ssl: certificate/8c077d9e-6021-44c2-8aac-bbfd865ce72d
+      ssl: certificate/32564d7d-3546-4500-8c03-b0dad72a38da
     PROD:
       ssl: certificate/32564d7d-3546-4500-8c03-b0dad72a38da
 Conditions:
