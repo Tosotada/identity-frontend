@@ -21,16 +21,12 @@ class AuthenticationServiceSpec extends PlaySpec {
     FakeRequest().withCookies(cookies: _*)
   }
 
-  def validCookieDecoding(cookieValue: String) = Some(User(id = "10000811"))
-
-  def invalidCookieDecoding(cookieValue: String) = None
-
   "AuthenticatedUserFor" should {
 
     "decode valid cookie" in {
       val cookie = Cookie(CookieName.SC_GU_U, "SC_GU_U_data")
       val validCookieRequest = requestWithCookies(Seq(cookie))
-      val response = AuthenticationService.authenticatedUserFor(validCookieRequest, validCookieDecoding)
+      val response = AuthenticationService.authenticatedUserFor(validCookieRequest, _ => Some(User(id = "10000811")))
       val expectedUser = AuthenticatedUser("10000811")
 
       response mustEqual Some(expectedUser)
@@ -38,7 +34,7 @@ class AuthenticationServiceSpec extends PlaySpec {
 
     "fail to decode invalid cookie" in {
       val invalidCookieRequest  = requestWithCookies(Seq(Cookie("abc", CookieName.SC_GU_U)))
-      val response = AuthenticationService.authenticatedUserFor(invalidCookieRequest, invalidCookieDecoding)
+      val response = AuthenticationService.authenticatedUserFor(invalidCookieRequest, _ => None)
 
       response mustEqual None
     }
@@ -47,8 +43,7 @@ class AuthenticationServiceSpec extends PlaySpec {
   "terminateSession" should {
 
     "return a response where all cookies have no value" in {
-      val cookielessRequest = requestWithCookies(Seq.empty)
-      val result = AuthenticationService.terminateSession(cookielessRequest, "www.theguardian.com", "www.theguardian.com")
+      val result = AuthenticationService.terminateSession("www.theguardian.com", "www.theguardian.com")
       val resultCookies = cookies(Future.successful(result))
       resultCookies.get(CookieName.gu_user_features_expiry).value.value.isEmpty mustBe true
       resultCookies.get(CookieName.gu_paying_member).value.value.isEmpty mustBe true
@@ -61,9 +56,8 @@ class AuthenticationServiceSpec extends PlaySpec {
     }
 
     "return a response with a GU_SO cookie" in {
-      val cookielessRequest = requestWithCookies(Seq.empty)
       val testCookie = Seq(Cookie(name = "GU_SO", value = "test_value"))
-      val result = AuthenticationService.terminateSession(cookielessRequest, "www.theguardian.com", "www.theguardian.com", testCookie)
+      val result = AuthenticationService.terminateSession("www.theguardian.com", "www.theguardian.com", testCookie)
       val resultCookies = cookies(Future.successful(result))
       resultCookies.get(CookieName.gu_user_features_expiry).value.value.isEmpty mustBe true
       resultCookies.get(CookieName.gu_paying_member).value.value.isEmpty mustBe true

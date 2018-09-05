@@ -100,6 +100,7 @@ scalacOptions ++= Seq(
   "-language:implicitConversions",
   "-Xfatal-warnings",
   "-Ywarn-unused:implicits",
+  "-Ywarn-unused:params",
   "-unchecked",
   "-Xlint:unsound-match",
   "-Xlint:nullary-override",

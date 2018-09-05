@@ -70,7 +70,7 @@ case class OAuthTwoStepSignInViewModel private(
 
 object OAuthTwoStepSignInViewModel {
 
-  def apply(configuration: Configuration, returnUrl: ReturnUrl, skipConfirmation: Option[Boolean], clientId: Option[ClientID], groupCode: Option[GroupCode], activeTests: ActiveMultiVariantTests)(implicit messages: Messages): OAuthTwoStepSignInViewModel = {
+  def apply(configuration: Configuration, returnUrl: ReturnUrl, skipConfirmation: Option[Boolean], clientId: Option[ClientID], groupCode: Option[GroupCode])(implicit messages: Messages): OAuthTwoStepSignInViewModel = {
 
     val text = OAuthTwoStepSignInText()
 
@@ -86,7 +86,7 @@ case class OAuthSignInViewModel private(
 
 object OAuthSignInViewModel {
 
-  def apply(configuration: Configuration, returnUrl: ReturnUrl, skipConfirmation: Option[Boolean], clientId: Option[ClientID], groupCode: Option[GroupCode], activeTests: ActiveMultiVariantTests)(implicit messages: Messages): OAuthSignInViewModel = {
+  def apply(configuration: Configuration, returnUrl: ReturnUrl, skipConfirmation: Option[Boolean], clientId: Option[ClientID], groupCode: Option[GroupCode])(implicit messages: Messages): OAuthSignInViewModel = {
 
     val text = OAuthSignInText()
 
@@ -102,7 +102,7 @@ case class OAuthRegistrationViewModel(
 
 object OAuthRegistrationViewModel {
 
-  def apply(configuration: Configuration, returnUrl: ReturnUrl, skipConfirmation: Option[Boolean], clientId: Option[ClientID], groupCode: Option[GroupCode], activeTests: ActiveMultiVariantTests)(implicit messages: Messages): OAuthRegistrationViewModel = {
+  def apply(configuration: Configuration, returnUrl: ReturnUrl, skipConfirmation: Option[Boolean], clientId: Option[ClientID], groupCode: Option[GroupCode])(implicit messages: Messages): OAuthRegistrationViewModel = {
     val text = OAuthRegistrationText()
 
     OAuthRegistrationViewModel(

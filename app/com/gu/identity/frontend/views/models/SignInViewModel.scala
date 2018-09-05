@@ -61,7 +61,7 @@ object SignInViewModel {
     SignInViewModel(
       layout = layout,
 
-      oauth = OAuthSignInViewModel(configuration, returnUrl, skipConfirmation, clientId, group, activeTests),
+      oauth = OAuthSignInViewModel(configuration, returnUrl, skipConfirmation, clientId, group),
 
       signInPageText = SignInPageText.toMap(showSupportMessaging),
       terms = Terms.getTermsModel(group),

@@ -19,7 +19,7 @@ case class InvalidRepermissionTokenViewModel private(
 object InvalidRepermissionTokenViewModel {
 
   def apply(configuration: Configuration, token: String, csrfToken: Option[Token])(implicit messages: Messages): InvalidRepermissionTokenViewModel = {
-    val layout = LayoutViewModel(configuration, token = Some(token))
+    val layout = LayoutViewModel(configuration)
 
     InvalidRepermissionTokenViewModel(
       layout = layout,

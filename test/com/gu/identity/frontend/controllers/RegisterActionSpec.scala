@@ -47,8 +47,6 @@ class RegisterActionSpec extends PlaySpec with MockitoSugar {
      lastName: String = "last",
      email: String = "test@email.com",
      password: String = "password",
-     receiveGnmMarketing: Boolean = false,
-     receive3rdPartyMarketing: Boolean = false,
      returnUrl: Option[String] = Some("https://www.theguardian.com"),
      skipConfirmation: Option[Boolean] = None,
      groupCode: Option[String] = None) = {

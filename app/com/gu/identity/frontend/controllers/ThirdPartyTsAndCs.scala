@@ -5,7 +5,6 @@ import java.net.URI
 import com.gu.identity.frontend.authentication.{UserAuthenticatedAction, UserAuthenticatedRequest}
 import com.gu.identity.frontend.configuration.Configuration
 import com.gu.identity.frontend.errors.ErrorIDs.GetUserUnauthorizedErrorID
-import com.gu.identity.frontend.errors.GetUserServiceBadRequestException
 import com.gu.identity.frontend.logging.Logging
 import com.gu.identity.frontend.models.{ClientID, GroupCode, ReturnUrl, UrlBuilder}
 import com.gu.identity.frontend.services._
@@ -28,7 +27,6 @@ class ThirdPartyTsAndCs(
     identityService: IdentityService,
     config: Configuration,
     httpErrorHandler: HttpErrorHandler,
-    cookieDecoder: String => Option[SecureCookieUser],
     userAuthenticatedAction: UserAuthenticatedAction,
     cc: ControllerComponents)
     (implicit executionContext: ExecutionContext)

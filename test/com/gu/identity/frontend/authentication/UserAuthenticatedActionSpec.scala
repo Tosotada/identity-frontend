@@ -20,9 +20,8 @@ class UserAuthenticatedActionSpec extends PlaySpec with MockitoSugar {
   val app = SimpleFakeApplication()
   val cc = Helpers.stubControllerComponents()
 
-  def validCookieDecoding(cookieValue: String) = Some(CookieUser(id = "10000811"))
 
-  def invalidCookieDecoding(cookieValue: String) = None
+  val invalidCookieDecoding: String => Option[CookieUser] = _ => None
 
 
   "AuthenticatedUserAction" should {
@@ -47,7 +46,7 @@ class UserAuthenticatedActionSpec extends PlaySpec with MockitoSugar {
     "add a SC_GU_U cookie to the request if the a SC_GU_U cookie is valid" in {
       running(app) {
         val userAuthenticatedAction =
-          new UserAuthenticatedAction(cc, validCookieDecoding)
+          new UserAuthenticatedAction(cc, _ => Some(CookieUser(id = "10000811")))
 
         val action = userAuthenticatedAction {
           request: UserAuthenticatedRequest[AnyContent] => {

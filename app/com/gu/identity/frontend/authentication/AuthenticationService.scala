@@ -31,7 +31,6 @@ object AuthenticationService {
   } yield AuthenticatedUser(userId)
 
   def terminateSession(
-      request: RequestHeader,
       verifiedReturnUrl: String,
       cookieDomain: String,
       newCookies: Seq[Cookie] = Seq.empty): Result = {

@@ -29,17 +29,17 @@ class SignOutAction(
       identityService.deauthenticate(cookie, trackingData).map {
         case Left(errors) => {
           logger.info(s"Error returned from API signout: ${errors.map(_.getMessage).mkString(", ")}")
-          performSignout(request, validReturnUrl, Seq.empty)
+          performSignout(validReturnUrl, Seq.empty)
         }
-        case Right(signOutCookies) => performSignout(request, validReturnUrl, signOutCookies)
+        case Right(signOutCookies) => performSignout(validReturnUrl, signOutCookies)
       }
     }.getOrElse {
       logger.info("User attempting signout without SC_GU_U cookie")
-      Future.successful(performSignout(request, validReturnUrl, Seq.empty))
+      Future.successful(performSignout(validReturnUrl, Seq.empty))
     }
   }
 
-  def performSignout(request: RequestHeader, returnUrl: ReturnUrl, signoutCookies: Seq[Cookie]) =
-    AuthenticationService.terminateSession(request, returnUrl.url, config.identityCookieDomain, signoutCookies)
+  def performSignout(returnUrl: ReturnUrl, signoutCookies: Seq[Cookie]) =
+    AuthenticationService.terminateSession(returnUrl.url, config.identityCookieDomain, signoutCookies)
 
 }

@@ -20,7 +20,7 @@ case class InvalidConsentTokenViewModel private(
 object InvalidConsentTokenViewModel {
 
   def apply(configuration: Configuration, token: String, csrfToken: Option[Token], errors: Seq[ErrorViewModel])(implicit messages: Messages): InvalidConsentTokenViewModel = {
-    val layout = LayoutViewModel(configuration, token = Some(token))
+    val layout = LayoutViewModel(configuration)
 
     InvalidConsentTokenViewModel(
       layout = layout,

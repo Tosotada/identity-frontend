@@ -94,7 +94,7 @@ class SigninAction(
   }
 
   def signInWithSmartLock = SignInSmartLockServiceAction(bodyParser) {
-    signInAction(successfulSmartLockSignInResponse, successfulAjaxSignInResponse, signInSmartLockMetricsLogger)
+    signInAction((_, cookies) => successfulSmartLockSignInResponse(cookies), successfulAjaxSignInResponse, signInSmartLockMetricsLogger)
   }
 
   def emailSignInFirstStep = SignInServiceAction(bodyParser) { req =>
@@ -215,7 +215,7 @@ class SigninAction(
       .withCookies(cookies: _*)
   }
 
-  def successfulSmartLockSignInResponse(successfulReturnUrl: ReturnUrl, cookies: Seq[Cookie]): Result =
+  def successfulSmartLockSignInResponse(cookies: Seq[Cookie]): Result =
     Ok("")
       .withCookies(cookies: _*)
 }

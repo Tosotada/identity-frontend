@@ -36,7 +36,7 @@ GET        /opt/reset                                   com.gu.identity.frontend
 GET        /static/*file                                controllers.Assets.versioned(path="/public", file: Asset)
 GET        /robots.txt                                  controllers.Assets.at(path="/public", file="robots.txt")
 GET        /resub-email/:token                          com.gu.identity.frontend.controllers.SigninTokenController.signinWithResubToken(token: String, returnUrl: Option[String] ?= None)
-GET        /change-email/:token                         com.gu.identity.frontend.controllers.ChangeEmailController.changeEmail(token: String, returnUrl: Option[String] ?= None)
+GET        /change-email/:token                         com.gu.identity.frontend.controllers.ChangeEmailController.changeEmail(token: String)
 GET        /change-email-successful                     com.gu.identity.frontend.controllers.Application.changeEmail(clientId: Option[String] ?= None)
 GET        /unsubscribe/:emailType/:data/:token         com.gu.identity.frontend.controllers.UnsubscribeController.unsubscribe(emailType: String, data: String, token: String)
 

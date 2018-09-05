@@ -74,7 +74,7 @@ object RegisterViewModel {
     RegisterViewModel(
       layout = layout,
 
-      oauth = OAuthRegistrationViewModel(configuration, returnUrl, skipConfirmation, clientId, group, activeTests),
+      oauth = OAuthRegistrationViewModel(configuration, returnUrl, skipConfirmation, clientId, group),
 
       registerPageText = RegisterText.toMap(clientId) ++ Map(
         "registerForm" -> RegisterFormText.toMap()

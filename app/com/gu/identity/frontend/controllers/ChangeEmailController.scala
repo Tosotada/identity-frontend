@@ -20,7 +20,7 @@ class ChangeEmailController(
                              implicit val executionContext: ExecutionContext
                            ) extends AbstractController(cc) with Logging with I18nSupport {
 
-  def changeEmail(token: String, returnUrl: Option[String]) = Action.async { implicit request =>
+  def changeEmail(token: String) = Action.async { implicit request =>
     identityService.changeEmailWithToken(token).map {
       case Right(okResponse) =>
         eventActor.forward(ChangeEmailSuccess(request, configuration.gaUID))

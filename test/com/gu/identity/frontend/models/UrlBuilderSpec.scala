@@ -52,7 +52,7 @@ class UrlBuilderSpec extends FlatSpec with Matchers{
     result should be("/register/confirm?returnUrl=https%3A%2F%2Fwww.theguardian.com%2Fuk&group=ABC")
   }
 
-  private def getThirdPartyUri(baseDomain: String = "oauth.thegulocal.com", url: String = "https://www.profile.theguardian.com/agree/GRS"): URI = {
+  private def getThirdPartyUri(url: String = "https://www.profile.theguardian.com/agree/GRS"): URI = {
     val baseDomain = "oauth.thegulocal.com"
     val baseUrl = s"http://$baseDomain"
     val returnUrl = ReturnUrl(Some(url), Configuration.testConfiguration)

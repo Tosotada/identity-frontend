@@ -76,11 +76,11 @@ object TwoStepSignInChoicesViewModel {
     val layout = LayoutViewModel(configuration, activeTests, clientId, Some(returnUrl))
     val recaptchaModel : Option[GoogleRecaptchaViewModel] = None
 
-    val resources = getResources(layout, recaptchaModel) ++ Seq(IndirectlyLoadedExternalResources(UrlBuilder(configuration.identityProfileBaseUrl,routes.SigninAction.signInWithSmartLock())))
+    val resources = getResources(layout) ++ Seq(IndirectlyLoadedExternalResources(UrlBuilder(configuration.identityProfileBaseUrl,routes.SigninAction.signInWithSmartLock())))
     
     val oauth = userType match {
-      case Some(NewUser) => OAuthRegistrationViewModel(configuration, returnUrl, skipConfirmation, clientId, group, activeTests)
-      case _ => OAuthSignInViewModel(configuration, returnUrl, skipConfirmation, clientId, group, activeTests)
+      case Some(NewUser) => OAuthRegistrationViewModel(configuration, returnUrl, skipConfirmation, clientId, group)
+      case _ => OAuthSignInViewModel(configuration, returnUrl, skipConfirmation, clientId, group)
     }
 
     TwoStepSignInChoicesViewModel(
@@ -133,7 +133,7 @@ object TwoStepSignInChoicesViewModel {
     }
   }
 
-  private def getResources(layout: LayoutViewModel, recaptchaViewModel: Option[GoogleRecaptchaViewModel]): Seq[PageResource with Product] ={
+  private def getResources(layout: LayoutViewModel): Seq[PageResource with Product] ={
     layout.resources
   }
 }
