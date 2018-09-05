@@ -24,8 +24,7 @@ object OAuthProviderViewModel {
       finalReturnUrl: ReturnUrl,
       skipConfirmation: Option[Boolean],
       clientId: Option[ClientID],
-      groupCode: Option[GroupCode])
-      (implicit messages: Messages): OAuthProviderViewModel = {
+      groupCode: Option[GroupCode]): OAuthProviderViewModel = {
 
     val baseUrl = configuration.identityFederationApiHost + provider.authPath
 
