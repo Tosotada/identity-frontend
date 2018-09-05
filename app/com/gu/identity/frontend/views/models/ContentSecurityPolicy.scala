@@ -53,7 +53,7 @@ object ContentSecurityPolicy {
     case r: UnsafeResource => CSP_UNSAFE_INLINE
     case r: LocalResource => CSP_SELF_DOMAIN
     case r: ScriptResource with InlinedSource => toCSPShaDefinition(r)
-    case r: InlinedResource => CSP_DATA_PROTOCOL
+    case _: InlinedResource | _: InlinedJSONResource => CSP_DATA_PROTOCOL
     case r: ExternalResource => r.domain
   }
 

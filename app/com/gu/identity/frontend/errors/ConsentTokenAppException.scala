@@ -10,7 +10,7 @@ object ConsentTokenAppException {
     clientError match {
       case ClientTokenExpiredError => ConsentTokenUnauthorizedException
       case err: ClientBadRequestError => ConsentTokenBadRequestAppException(err)
-      case err: ClientGatewayError => ConsentTokenGatewayAppException(err)
+      case _: ClientGatewayError | _: ClientUnauthorizedError  => ConsentTokenGatewayAppException(clientError)
     }
 }
 

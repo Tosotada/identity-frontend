@@ -10,7 +10,7 @@ object RepermissionTokenAppException {
     clientError match {
       case ClientInvalidTokenError => RepermissionTokenUnauthorizedException
       case err: ClientBadRequestError => RepermissionTokenBadRequestAppException(err)
-      case err: ClientGatewayError => RepermissionTokenGatewayAppException(err)
+      case _: ClientGatewayError | _: ClientUnauthorizedError => RepermissionTokenGatewayAppException(clientError)
     }
 }
 

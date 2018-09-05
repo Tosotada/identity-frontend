@@ -1,7 +1,7 @@
 package com.gu.identity.frontend.errors
 
 import com.gu.identity.frontend.errors.ErrorIDs._
-import com.gu.identity.service.client.{ClientBadRequestError, ClientGatewayError, IdentityClientError}
+import com.gu.identity.service.client.{ClientBadRequestError, ClientGatewayError, ClientUnauthorizedError, IdentityClientError}
 
 sealed trait DeauthenticateAppException extends AppException
 
@@ -9,7 +9,7 @@ object DeauthenticateAppException {
   def apply(clientError: IdentityClientError): DeauthenticateAppException =
     clientError match {
       case err: ClientBadRequestError => DeauthenticateServiceBadRequestException(clientError)
-      case err: ClientGatewayError => DeauthenticateServiceGatewayAppException(clientError)
+      case _: ClientGatewayError | _: ClientUnauthorizedError => DeauthenticateServiceGatewayAppException(clientError)
     }
 }
 

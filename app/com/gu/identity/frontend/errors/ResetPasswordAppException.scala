@@ -10,7 +10,7 @@ object ResetPasswordAppException {
     clientError match {
       case ResourceNotFoundError => ResetPasswordServiceNoAccountAppException(ResourceNotFoundError)
       case err: ClientBadRequestError => ResetPasswordServiceBadRequestAppException(clientError)
-      case err: ClientGatewayError => ResetPasswordServiceGatewayAppException(clientError)
+      case _: ClientGatewayError | _: ClientUnauthorizedError  => ResetPasswordServiceGatewayAppException(clientError)
     }
 }
 

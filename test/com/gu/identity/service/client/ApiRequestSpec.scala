@@ -4,7 +4,7 @@ import org.scalatest.mockito.MockitoSugar
 import org.scalatestplus.play.PlaySpec
 import play.api.mvc.Cookie
 
-class ApiRequestSpec extends PlaySpec with MockitoSugar{
+class ApiRequestSpec extends PlaySpec with MockitoSugar {
 
   val handler = mock[IdentityClientRequestHandler]
 
@@ -30,12 +30,12 @@ class ApiRequestSpec extends PlaySpec with MockitoSugar{
 
     "return a iterable containing the X-GU-ID-Client-Access-Token and value for this token" in {
       val headers = Seq(ApiRequest.apiKeyHeader)
-      headers.head equals ("X-GU-ID-Client-Access-Token","Bearer ##key##")
+      headers.head mustEqual "X-GU-ID-Client-Access-Token" -> "Bearer ##key##"
     }
 
     "return a secure cookie user header" in {
       val userHeader = ApiRequest.apiSecureCookieUserHeader(cookie)
-      userHeader.head equals ("X-GU-ID-FOWARDED-SC-GU-U", "123")
+      userHeader.head mustEqual "X-GU-ID-FOWARDED-SC-GU-U" -> "123"
     }
   }
 

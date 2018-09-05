@@ -1,7 +1,7 @@
 package com.gu.identity.frontend.errors
 
 import com.gu.identity.frontend.errors.ErrorIDs._
-import com.gu.identity.service.client.{ClientBadRequestError, ClientGatewayError, IdentityClientError}
+import com.gu.identity.service.client.{ClientBadRequestError, ClientGatewayError, ClientUnauthorizedError, IdentityClientError}
 
 sealed trait ResendTokenException extends AppException
 
@@ -9,7 +9,7 @@ object ResendTokenException {
   def apply(clientError: IdentityClientError): ResendTokenException =
     clientError match {
       case _: ClientBadRequestError => ResendTokenBadRequestException(clientError)
-      case _: ClientGatewayError => ResendTokenServiceGatewayExeption(clientError)
+      case _: ClientGatewayError | _: ClientUnauthorizedError  => ResendTokenServiceGatewayExeption(clientError)
     }
 }
 

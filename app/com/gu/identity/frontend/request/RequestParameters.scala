@@ -45,6 +45,6 @@ object RequestParameters {
 
   object CoreSessionParameters {
     def unapply(params: CoreSessionParameters): Option[(Option[ReturnUrl], Option[Boolean], Option[ClientID], Option[GroupCode])] =
-      Some(params.returnUrl, params.skipConfirmation, params.clientId, params.groupCode)
+      Some((params.returnUrl, params.skipConfirmation, params.clientId, params.groupCode))
   }
 }

@@ -10,7 +10,7 @@ object ChangeEmailTokenAppException {
     clientError match {
       case ClientInvalidTokenError => ChangeEmailTokenUnauthorizedException
       case err: ClientBadRequestError => ChangeEmailTokenBadRequestAppException(err)
-      case err: ClientGatewayError => ChangeEmailTokenGatewayAppException(err)
+      case _: ClientGatewayError | _: ClientUnauthorizedError => ChangeEmailTokenGatewayAppException(clientError)
     }
 }
 

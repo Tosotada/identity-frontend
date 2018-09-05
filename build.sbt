@@ -9,7 +9,7 @@ scalaVersion := "2.12.4"
 
 version := "1.0.0-SNAPSHOT"
 
-lazy val root = (project in file(".")).enablePlugins(PlayScala, UniversalPlugin, RiffRaffArtifact, BuildInfoPlugin)
+lazy val `identity-frontend` = (project in file(".")).enablePlugins(PlayScala, UniversalPlugin, RiffRaffArtifact, BuildInfoPlugin)
 
 lazy val functionalTests = Project("functional-tests", file("functional-tests"))
 
@@ -91,3 +91,18 @@ mappings in Assets ++= contentOf(baseDirectory.value / "target/web/build-npm")
 // enable asset fingerprinting
 pipelineStages := Seq(digest)
 mappings in Assets ++= contentOf(baseDirectory.value / "target/web/digest")
+
+scalacOptions ++= Seq(
+  "-deprecation",
+  "-feature",
+  "-language:postfixOps",
+  "-language:higherKinds",
+  "-language:implicitConversions",
+  "-Xfatal-warnings",
+  "-unchecked",
+  "-Xlint:unsound-match",
+  "-Xlint:nullary-override",
+  "-Ywarn-nullary-unit",
+  "-Yno-adapted-args"
+)
+
