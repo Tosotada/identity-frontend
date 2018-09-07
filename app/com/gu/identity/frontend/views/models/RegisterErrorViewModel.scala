@@ -20,10 +20,10 @@ object RegisterErrorViewModel {
 
   def mapErrorToErrorType(errors: Map[String, Option[String]], errorType: Option[String]): Seq[ErrorViewModel] = {
     errors.filter {
-      case (k, v) => v == errorType
+      case (_, v) => v == errorType
       case _ => false
     }.map {
-      case (k, v) => ErrorViewModel(k)
+      case (k, _) => ErrorViewModel(k)
     }.toSeq
   }
 

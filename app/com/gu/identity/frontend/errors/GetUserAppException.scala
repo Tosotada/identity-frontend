@@ -9,9 +9,9 @@ sealed trait GetUserAppException extends AppException
 object GetUserAppException {
   def apply(clientError: IdentityClientError): GetUserAppException =
     clientError match {
-      case err: ClientBadRequestError => GetUserServiceBadRequestException(clientError)
-      case err: ClientGatewayError => GetUserServiceGatewayAppException(clientError)
-      case err: ClientUnauthorizedError => GetUserServiceUnauthorizedException(clientError)
+      case _: ClientBadRequestError => GetUserServiceBadRequestException(clientError)
+      case _: ClientGatewayError => GetUserServiceGatewayAppException(clientError)
+      case _: ClientUnauthorizedError => GetUserServiceUnauthorizedException(clientError)
     }
 }
 

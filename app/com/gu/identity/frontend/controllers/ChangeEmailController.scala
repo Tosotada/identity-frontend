@@ -22,7 +22,7 @@ class ChangeEmailController(
 
   def changeEmail(token: String) = Action.async { implicit request =>
     identityService.changeEmailWithToken(token).map {
-      case Right(okResponse) =>
+      case Right(_) =>
         eventActor.forward(ChangeEmailSuccess(request, configuration.gaUID))
         NoCache(SeeOther(routes.Application.changeEmail().url))
       case Left(_) =>

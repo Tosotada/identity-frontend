@@ -33,7 +33,7 @@ class UserAuthenticatedAction(
     val groupCode = getGroupCode(request.uri)
 
     AuthenticationService.authenticatedUserFor(request, cookieDecoder) match {
-      case Some(authenticatedUser) => {
+      case Some(_) => {
         getSC_GU_UCookie(request.cookies) match {
           case Some(cookie) => Right(new UserAuthenticatedRequest[A](cookie, request))
           case _ => {

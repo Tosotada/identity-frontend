@@ -8,7 +8,7 @@ sealed trait DeauthenticateAppException extends AppException
 object DeauthenticateAppException {
   def apply(clientError: IdentityClientError): DeauthenticateAppException =
     clientError match {
-      case err: ClientBadRequestError => DeauthenticateServiceBadRequestException(clientError)
+      case _: ClientBadRequestError => DeauthenticateServiceBadRequestException(clientError)
       case _: ClientGatewayError | _: ClientUnauthorizedError => DeauthenticateServiceGatewayAppException(clientError)
     }
 }

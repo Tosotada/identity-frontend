@@ -130,7 +130,7 @@ class IdentityServiceRequestHandler(
   }
 
   def handleResponse(request: ApiRequest)(response: WSResponse): Either[IdentityClientErrors, ApiResponse] = request match {
-    case r if isErrorResponse(response) => Left {
+    case _ if isErrorResponse(response) => Left {
       handleErrorResponse(response)
     }
 
@@ -139,34 +139,34 @@ class IdentityServiceRequestHandler(
         .map(Right.apply)
         .getOrElse(handleUnexpectedResponse(response))
 
-    case r: RegisterApiRequest =>
+    case _: RegisterApiRequest =>
       response.json.asOpt[RegisterResponse]
         .map(Right.apply)
         .getOrElse(handleUnexpectedResponse(response))
 
-    case r: UserApiRequest =>
+    case _: UserApiRequest =>
       response.json.asOpt[UserResponse]
         .map(Right.apply)
         .getOrElse(handleUnexpectedResponse(response))
 
-    case r: AssignGroupApiRequest =>
+    case _: AssignGroupApiRequest =>
       response.json.asOpt[AssignGroupResponse]
         .map(Right.apply)
         .getOrElse(handleUnexpectedResponse(response))
 
-    case r: DeauthenticateApiRequest =>
+    case _: DeauthenticateApiRequest =>
       response.json.asOpt[DeauthenticationCookiesResponse]
         .map(Right.apply)
         .getOrElse(handleUnexpectedResponse(response))
 
-    case r: SendResetPasswordEmailApiRequest =>
+    case _: SendResetPasswordEmailApiRequest =>
       if (response.status == 200) {
         Right(SendResetPasswordEmailResponse())
       } else {
         handleUnexpectedResponse(response)
       }
 
-    case r: ResendConsentTokenApiRequest =>
+    case _: ResendConsentTokenApiRequest =>
       if (response.status == 200) {
         Right(ResendTokenResponse())
       }
@@ -179,7 +179,7 @@ class IdentityServiceRequestHandler(
         Right(SendSignInTokenEmailResponse())
       else
         handleUnexpectedResponse(response)
-    case r: ResendRepermissionTokenApiRequest =>
+    case _: ResendRepermissionTokenApiRequest =>
       if (response.status == 200) {
         Right(ResendTokenResponse())
       }
@@ -187,21 +187,21 @@ class IdentityServiceRequestHandler(
         handleUnexpectedResponse(response)
       }
 
-    case r: UserConsentTokenRequest =>
+    case _: UserConsentTokenRequest =>
       if (response.status == 200) {
         Right(response.json.as[AuthenticationCookiesResponse])
       } else {
         handleUnexpectedResponse(response)
       }
 
-    case r: UserRepermissionTokenRequest =>
+    case _: UserRepermissionTokenRequest =>
       if (response.status == 200) {
         Right(response.json.as[AuthenticationCookiesResponse])
       } else {
         handleUnexpectedResponse(response)
       }
 
-    case r: ChangeEmailTokenRequest =>
+    case _: ChangeEmailTokenRequest =>
       if (response.status == 200) {
         Right(SendChangeEmailResponse())
       }
@@ -209,7 +209,7 @@ class IdentityServiceRequestHandler(
         handleUnexpectedResponse(response)
       }
 
-    case r: UserTypeRequest =>
+    case _: UserTypeRequest =>
       if (response.status == 200) {
         Right(response.json.as[UserTypeResponse])
       } else {

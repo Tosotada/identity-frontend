@@ -191,7 +191,7 @@ class SigninAction(
       case Left(errors) =>
         SeeOther(routes.Application.sendResubLink(error = errors.map(_.id.toString), req.clientId.map(_.id)).url)
     }.recover {
-      case e: ClientGatewayError =>
+      case _: ClientGatewayError =>
         SeeOther(routes.Application.sendResubLink(error = List(SignInGatewayErrorID.toString), req.clientId.map(_.id)).url)
     }
   }

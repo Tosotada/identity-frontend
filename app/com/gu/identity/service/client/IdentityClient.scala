@@ -23,7 +23,7 @@ class IdentityClient(wSClient: WSClient) extends Logging {
       case Left(error) => Left(error)
       case Right(AuthenticationCookiesResponse(cookies)) =>
         Right(cookies.values.map(IdentityApiCookie(_, cookies.expiresAt)))
-      case Right(other) => Left(Seq(ClientGatewayError("Unknown response")))
+      case Right(_) => Left(Seq(ClientGatewayError("Unknown response")))
     }
   }
 
@@ -32,14 +32,14 @@ class IdentityClient(wSClient: WSClient) extends Logging {
       case Left(error) => Left(error)
       case Right(r: SendChangeEmailResponse) =>
         Right(r)
-      case Right(other) => Left(Seq(ClientGatewayError("Unknown response")))
+      case Right(_) => Left(Seq(ClientGatewayError("Unknown response")))
     }
   }
 
   def authenticateTokenCookies(token: String, trackingData: TrackingData)(implicit configuration: IdentityClientConfiguration, ec: ExecutionContext): Future[Either[IdentityClientErrors, Seq[IdentityApiCookie]]] =
     AuthenticateCookiesApiRequest(None, None, false, Some(token), trackingData) match {
       case Right(request) => authenticateCookies(request)
-      case Left(err) => Future.successful(Left(Seq()))
+      case Left(_) => Future.successful(Left(Seq()))
     }
 
   def postConsentToken(token: String)(implicit configuration: IdentityClientConfiguration, ec: ExecutionContext): Future[Either[IdentityClientErrors, Seq[IdentityApiCookie]]] =
@@ -53,7 +53,7 @@ class IdentityClient(wSClient: WSClient) extends Logging {
       case Left(error) => Left(error)
       case Right(AuthenticationCookiesResponse(cookies)) =>
         Right(cookies.values.map(IdentityApiCookie(_, cookies.expiresAt)))
-      case Right(other) => Left(Seq(ClientGatewayError("Unknown response")))
+      case Right(_) => Left(Seq(ClientGatewayError("Unknown response")))
     }
 
   def register(request: RegisterApiRequest)(implicit configuration: IdentityClientConfiguration, ec: ExecutionContext): Future[Either[IdentityClientErrors, RegisterResponseUser]] = {
@@ -61,7 +61,7 @@ class IdentityClient(wSClient: WSClient) extends Logging {
       case Left(error) => Left(error)
       case Right(RegisterResponse(user)) =>
         Right(user)
-      case Right(other) => Left(Seq(ClientGatewayError("Unknown response")))
+      case Right(_) => Left(Seq(ClientGatewayError("Unknown response")))
     }
   }
 
@@ -70,7 +70,7 @@ class IdentityClient(wSClient: WSClient) extends Logging {
       case Left(error) => Left(error)
       case Right(UserResponse(user)) =>
         Right(user)
-      case Right(other) => Left(Seq(ClientGatewayError("Unknown response")))
+      case Right(_) => Left(Seq(ClientGatewayError("Unknown response")))
     }
   }
 
@@ -78,7 +78,7 @@ class IdentityClient(wSClient: WSClient) extends Logging {
     configuration.requestHandler.handleRequest(request).map {
       case Left(error) => Left(error)
       case Right(response: AssignGroupResponse) => Right(response)
-      case Right(other) => Left(Seq(ClientGatewayError("Unknown response")))
+      case Right(_) => Left(Seq(ClientGatewayError("Unknown response")))
     }
   }
 
@@ -92,7 +92,7 @@ class IdentityClient(wSClient: WSClient) extends Logging {
         logger.info("Successfully sent reset password email request")
         Right(r)
       }
-      case Right(other) => Left(Seq(ClientGatewayError("Unknown response")))
+      case Right(_) => Left(Seq(ClientGatewayError("Unknown response")))
     }
   }
 
@@ -148,7 +148,7 @@ class IdentityClient(wSClient: WSClient) extends Logging {
           IdentityApiCookie(name = c.key, value = c.value, isSession = false, expires = expiresAt)
         }
       })
-      case Right(other) => Left(Seq(ClientGatewayError("Unknown response")))
+      case Right(_) => Left(Seq(ClientGatewayError("Unknown response")))
     }
   }
 

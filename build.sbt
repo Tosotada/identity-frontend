@@ -101,10 +101,18 @@ scalacOptions ++= Seq(
   "-Xfatal-warnings",
   "-Ywarn-unused:implicits",
   "-Ywarn-unused:params",
+  "-Ywarn-unused:patvars",
   "-unchecked",
   "-Xlint:unsound-match",
   "-Xlint:nullary-override",
   "-Ywarn-nullary-unit",
-  "-Yno-adapted-args"
+  "-Yno-adapted-args",
+  "-Ywarn-dead-code",
+  "-Xlint:infer-any",
+  "-Xlint:adapted-args",
+  "-Xlint:private-shadow"
 )
+
+// To play nice with Mockito & ScalaTest
+scalacOptions in Test --= Seq("-Ywarn-dead-code")
 

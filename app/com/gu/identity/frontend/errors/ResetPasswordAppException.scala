@@ -9,7 +9,7 @@ object ResetPasswordAppException {
   def apply(clientError: IdentityClientError): ResetPasswordAppException =
     clientError match {
       case ResourceNotFoundError => ResetPasswordServiceNoAccountAppException(ResourceNotFoundError)
-      case err: ClientBadRequestError => ResetPasswordServiceBadRequestAppException(clientError)
+      case _: ClientBadRequestError => ResetPasswordServiceBadRequestAppException(clientError)
       case _: ClientGatewayError | _: ClientUnauthorizedError  => ResetPasswordServiceGatewayAppException(clientError)
     }
 }

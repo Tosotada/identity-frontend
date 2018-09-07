@@ -38,7 +38,7 @@ case class ResetPasswordAction(
       case Left(errors) =>
         Left(errors)
 
-      case Right(okResponse) =>
+      case Right(_) =>
         request.body.gaClientId.foreach(_ => eventActor.forward(PasswordResetRequestEvent(request, config.gaUID)))
         Right {
           NoCache(SeeOther(routes.Application.resetPasswordEmailSent(emailProvider = EmailProvider.getProviderForEmail(request.body.email).map(_.id)

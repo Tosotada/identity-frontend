@@ -17,7 +17,7 @@ object RegisterServiceAppException {
       case ClientRegistrationEmailValidationError => RegisterEmailInvalidConflictAppException
       case ClientRegistrationEmailConflictError => RegisterEmailConflictAppException
       case ClientRegistrationEmailReservedError => RegisterEmailReservedAppException
-      case err: ClientBadRequestError => RegisterServiceBadRequestException(clientError)
+      case _: ClientBadRequestError => RegisterServiceBadRequestException(clientError)
       case _: ClientGatewayError | _: ClientUnauthorizedError => RegisterServiceGatewayAppException(clientError)
     }
 }

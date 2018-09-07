@@ -31,12 +31,12 @@ object ContentSecurityPolicy {
   def cspForViewModel(viewModel: ViewModel with ViewModelResources) = {
     val allResources = viewModel.resources ++ viewModel.indirectResources
     val grouped = allResources.filter(noPolicyRequirement).groupBy {
-      case r: ConnectResource => CSP_CONNECT_SRC
-      case r: ScriptResource => CSP_SCRIPT_SRC
-      case r: StylesResource => CSP_STYLE_SRC
-      case r: ImageResource => CSP_IMG_SRC
-      case r: FontResource => CSP_FONT_SRC
-      case r: FrameResource => CSP_FRAME_SRC
+      case _: ConnectResource => CSP_CONNECT_SRC
+      case _: ScriptResource => CSP_SCRIPT_SRC
+      case _: StylesResource => CSP_STYLE_SRC
+      case _: ImageResource => CSP_IMG_SRC
+      case _: FontResource => CSP_FONT_SRC
+      case _: FrameResource => CSP_FRAME_SRC
     }
 
     val transformed = grouped.mapValues(_.map(cspStatementForResource).distinct)
@@ -45,13 +45,13 @@ object ContentSecurityPolicy {
   }
 
   private def noPolicyRequirement(resource: PageResource) = resource match {
-    case r: NoPolicyRequirement => false
+    case _: NoPolicyRequirement => false
     case _ => true
   }
 
   private def cspStatementForResource(resource: PageResource): String = resource match {
-    case r: UnsafeResource => CSP_UNSAFE_INLINE
-    case r: LocalResource => CSP_SELF_DOMAIN
+    case _: UnsafeResource => CSP_UNSAFE_INLINE
+    case _: LocalResource => CSP_SELF_DOMAIN
     case r: ScriptResource with InlinedSource => toCSPShaDefinition(r)
     case _: InlinedResource | _: InlinedJSONResource => CSP_DATA_PROTOCOL
     case r: ExternalResource => r.domain

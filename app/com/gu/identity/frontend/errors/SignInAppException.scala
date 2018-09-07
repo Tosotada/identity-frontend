@@ -17,9 +17,9 @@ object SignInServiceAppException {
     clientError match {
       case ClientInvalidCredentialsError => SignInInvalidCredentialsAppException
       case ClientRateLimitError => ServiceRateLimitedAppException
-      case err: ClientBadRequestError => SignInServiceBadRequestException(clientError)
-      case err: ClientGatewayError => SignInServiceGatewayAppException(clientError)
-      case err: ClientUnauthorizedError => SignInInvalidCredentialsAppException
+      case _: ClientBadRequestError => SignInServiceBadRequestException(clientError)
+      case _: ClientGatewayError => SignInServiceGatewayAppException(clientError)
+      case _: ClientUnauthorizedError => SignInInvalidCredentialsAppException
     }
 }
 

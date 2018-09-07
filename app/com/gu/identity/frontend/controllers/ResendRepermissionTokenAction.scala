@@ -31,7 +31,7 @@ case class ResendRepermissionTokenAction(
       case Left(errors) =>
         Left(errors)
 
-      case Right(okResponse) => Right {
+      case Right(_) => Right {
         NoCache(SeeOther(routes.Application.resendRepermissionTokenSent().url))
       }
     }

@@ -9,7 +9,7 @@ trait RemoteAddress extends Logging {
   def clientIp(request: RequestHeader): Option[String] = {
     request.headers.get("X-Forwarded-For").flatMap { xForwardedFor =>
       xForwardedFor.split(", ").find {  // leftmost non-private IP from header is client
-        case Ip(a, b, c, d) => {
+        case Ip(a, b, _, _) => {
           if ("10" == a) false
           else if ("192" == a && "168" == b) false
           else if ("172" == a && (16 to 31).map(_.toString).contains(b)) false

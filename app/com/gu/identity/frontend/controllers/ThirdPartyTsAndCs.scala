@@ -102,7 +102,7 @@ class ThirdPartyTsAndCs(
             case Some(code) => {
               addToGroup(code, sc_gu_uCookie, verifiedReturnUrl).flatMap{
                 case Right(result) => Future.successful(result)
-                case Left(errors) => httpErrorHandler.onClientError(request, BAD_REQUEST, "Could not check user's group membership status")
+                case Left(_) => httpErrorHandler.onClientError(request, BAD_REQUEST, "Could not check user's group membership status")
               }
             }
             case None => httpErrorHandler.onClientError(request, NOT_FOUND, "Invalid Group Code")

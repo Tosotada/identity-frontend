@@ -130,7 +130,7 @@ class IdentityServiceImpl(config: Configuration, adapter: IdentityServiceRequest
                                  )(implicit ec: ExecutionContext): Future[Either[ServiceExceptions, PlayCookies]] = {
     register(request, clientIp, trackingData).flatMap{
       case Left(errors) => Future.successful(Left(errors))
-      case Right(user) => {
+      case Right(_) => {
         authenticate(request, trackingData).map {
           case Left(signInErrors) => {
             logger.error(s"User could not be logged in after successfully registering: $signInErrors $trackingData")

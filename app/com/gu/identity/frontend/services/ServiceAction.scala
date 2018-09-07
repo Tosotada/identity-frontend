@@ -59,7 +59,7 @@ abstract class ServiceActionBuilder[+R[_]](cc: ControllerComponents) extends Act
     }
 
     // Should be impossible, but covered just in case
-    case Left(empty) => Future.failed(UnexpectedAppException("empty errors from Service"))
+    case Left(_) => Future.failed(UnexpectedAppException("empty errors from Service"))
   }
 
 
