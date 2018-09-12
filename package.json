@@ -55,6 +55,7 @@
     "normalize.css": "^3.0.3",
     "optimize-css-assets-webpack-plugin": "^4.0.3",
     "postcss-assets": "^5.0.0",
+    "postcss-calc": "^6.0.1",
     "postcss-cli": "^5.0.0",
     "postcss-import": "^11.1.0",
     "postcss-loader": "^2.1.5",

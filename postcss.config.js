@@ -35,5 +35,6 @@ module.exports = {
         'custom-media-queries': true,
       }
     },
+    "postcss-calc":{},
   }
 }
