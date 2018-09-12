@@ -1,13 +1,21 @@
 // @flow
+import { getRaven } from 'components/sentry/sentry';
 
 const getUrlErrors = (url: string): string[] => {
-  const parsedUrl = new URL(url);
-  const errorParams = parsedUrl.searchParams.get('error');
+  try {
+    const parsedUrl = new URL(url);
+    const errorParams = parsedUrl.searchParams.get('error');
 
-  if (errorParams) {
-    return errorParams.split(',');
+    if (errorParams) {
+      return errorParams.split(',');
+    }
+    return [];
+  } catch (err) {
+    getRaven().then(Raven => {
+      Raven.captureException(err);
+    });
+    return [];
   }
-  return [];
 };
 
 export { getUrlErrors };
