@@ -27,8 +27,8 @@
   --color-brand: #121212;
   --color-cta: #ffe500;
   --color-white: #fff;
-  --color-border: #abc2c9;
-  --color-border-hover: #839ca3;
+  --color-border: #dcdcdc;
+  --color-border-hover: #999999;
   --color-text: #121212;
 
   --color-error: #c70000;
@@ -37,7 +37,7 @@
   --color-link: var(--color-text);
   --color-link-underline: var(--color-border-hover);
 
-  --color-bg: #e9eff1;
+  --color-bg: #f6f6f6;
 }
 
 /* Metrics */

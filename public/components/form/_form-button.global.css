@@ -76,9 +76,6 @@
     text-decoration: none;
   }
 
-  &:focus {
-    box-shadow: 0 0 2px 0 var(--color-border);
-  }
 }
 
 @define-mixin form-button--main {
@@ -102,7 +99,8 @@
   &.form-button--black {
     color: #fff;
     background-color: var(--color-brand);
-    &:hover {
+    &:hover,
+    &:focus {
       color: #fff;
       background-color: #000;
     }
@@ -120,14 +118,16 @@
   &.form-button--oauth-facebook {
     color: #fff;
     background-color: #4267b2;
-    &:hover {
+    &:hover,
+    &:focus {
       background-color: color-mod(#4267b2 shade(10%));
     }
   }
   &.form-button--oauth-google {
     color: #fff;
     background-color: #4285f4;
-    &:hover {
+    &:hover,
+    &:focus{
       background-color: color-mod(#4285f4 shade(10%));
     }
   }
