@@ -17,14 +17,14 @@ class Application(
   multiVariantTestAction: MultiVariantTestAction
 ) extends AbstractController(cc) with Logging with I18nSupport {
 
-  def twoStepSignInStart(error: Seq[String], returnUrl: Option[String], skipConfirmation: Option[Boolean], clientId: Option[String], group: Option[String], skipValidationReturn: Option[Boolean]) =
+  def twoStepSignInStart(error: Seq[String], returnUrl: Option[String], skipConfirmation: Option[Boolean], clientId: Option[String], group: Option[String], skipValidationReturn: Option[Boolean], INTCMP: Option[String]) =
     multiVariantTestAction { implicit req =>
       val clientIdActual = ClientID(clientId)
       val returnUrlActual = ReturnUrl(returnUrl, req.headers.get("Referer"), configuration, clientIdActual)
       val csrfToken = CSRF.getToken(req)
       val groupCode = GroupCode(group)
       val email : Option[String] = req.getQueryString("email")
-
+      logger.info(s"Parsing intcmp value $INTCMP")
       renderTwoStepSignInStart(configuration, req.activeTests, csrfToken, error, returnUrlActual, skipConfirmation, clientIdActual, groupCode, email, skipValidationReturn)
     }
 

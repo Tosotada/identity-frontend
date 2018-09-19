@@ -9,6 +9,7 @@ import com.gu.identity.frontend.controllers._
 import com.gu.identity.model.User
 import play.api.mvc._
 import play.api.mvc.Results.SeeOther
+import play.mvc.Http.RequestBuilder
 
 import scala.concurrent.Future
 import scala.util.{Success, Try}
@@ -31,6 +32,7 @@ class UserAuthenticatedAction(
     val skipConfirmation = request.getQueryString("skipConfirmation").map(_.toBoolean)
     val clientId = ClientID(request.getQueryString("clientId"))
     val groupCode = getGroupCode(request.uri)
+    val intcmp = returnUrl.flatMap { extractINTCMPFromReturnUrl }
 
     AuthenticationService.authenticatedUserFor(request, cookieDecoder) match {
       case Some(_) => {
@@ -38,11 +40,13 @@ class UserAuthenticatedAction(
           case Some(cookie) => Right(new UserAuthenticatedRequest[A](cookie, request))
           case _ => {
             logger.error("Cookie not found on successfully authenticated request.")
-            Left(SeeOther(routes.Application.twoStepSignInStart(Seq.empty, returnUrl, skipConfirmation, clientId.map(_.id), groupCode.map(_.id)).url))
+            Left(SeeOther(routes.Application.twoStepSignInStart(Seq.empty, returnUrl, skipConfirmation, clientId.map(_.id), groupCode.map(_.id), INTCMP = intcmp).url))
           }
         }
       }
-      case _ => Left(SeeOther(routes.Application.twoStepSignInStart(Seq.empty, returnUrl, skipConfirmation, clientId.map(_.id), groupCode.map(_.id)).url))
+      case _ => {
+        Left(SeeOther(routes.Application.twoStepSignInStart(Seq.empty, returnUrl, skipConfirmation, clientId.map(_.id), groupCode.map(_.id), INTCMP = intcmp).url))
+      }
     }
   }
 
@@ -52,6 +56,21 @@ class UserAuthenticatedAction(
     Try(new URI(url)) match {
       case Success(uri) => extractGroupCodeFromURI(uri)
       case _ => None
+    }
+  }
+
+  def extractINTCMPFromReturnUrl(url: String): Option[String] = {
+    Try(new URI(url)) match {
+      case Success(uri) =>
+        Option(uri.getQuery)
+          .flatMap {
+            case query: String =>
+              query.split("&").map {
+              case q if q contains "INTCMP" => q.split("=").last
+            }.headOption
+            case _ => None
+        }
+        case _ => None
     }
   }
 
