@@ -32,7 +32,7 @@ class UserAuthenticatedAction(
     val skipConfirmation = request.getQueryString("skipConfirmation").map(_.toBoolean)
     val clientId = ClientID(request.getQueryString("clientId"))
     val groupCode = getGroupCode(request.uri)
-    val intcmp = returnUrl.flatMap { extractINTCMPFromReturnUrl }
+    val intcmp = request.getQueryString("INTCMP")
 
     AuthenticationService.authenticatedUserFor(request, cookieDecoder) match {
       case Some(_) => {
@@ -56,21 +56,6 @@ class UserAuthenticatedAction(
     Try(new URI(url)) match {
       case Success(uri) => extractGroupCodeFromURI(uri)
       case _ => None
-    }
-  }
-
-  def extractINTCMPFromReturnUrl(url: String): Option[String] = {
-    Try(new URI(url)) match {
-      case Success(uri) =>
-        Option(uri.getQuery)
-          .flatMap {
-            case query: String =>
-              query.split("&").map {
-              case q if q contains "INTCMP" => q.split("=").last
-            }.headOption
-            case _ => None
-        }
-        case _ => None
     }
   }
 

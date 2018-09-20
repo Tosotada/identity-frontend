@@ -24,7 +24,7 @@ class Application(
       val csrfToken = CSRF.getToken(req)
       val groupCode = GroupCode(group)
       val email : Option[String] = req.getQueryString("email")
-      logger.info(s"Parsing intcmp value $INTCMP")
+      INTCMP.foreach(intcmp => logger.info(s"Parsing INTCMP value = $intcmp"))
       renderTwoStepSignInStart(configuration, req.activeTests, csrfToken, error, returnUrlActual, skipConfirmation, clientIdActual, groupCode, email, skipValidationReturn)
     }
 
