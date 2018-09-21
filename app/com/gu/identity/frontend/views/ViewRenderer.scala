@@ -64,7 +64,8 @@ object ViewRenderer {
     clientId: Option[ClientID],
     group: Option[GroupCode],
     email: Option[String],
-    skipValidationReturn: Option[Boolean])(implicit messages: Messages) = {
+    skipValidationReturn: Option[Boolean],
+    intcmp: Option[String])(implicit messages: Messages) = {
 
     val model = TwoStepSignInChoicesViewModel(
       configuration = configuration,
@@ -88,7 +89,7 @@ object ViewRenderer {
 
     (userType.isDefined, email.isDefined) match {
       case (true, true) => renderViewModel("two-step-signin-choices-page", _model)
-      case (true, false) => NoCache(SeeOther(routes.Application.twoStepSignInStart().url))
+      case (true, false) => NoCache(SeeOther(UrlBuilder(routes.Application.twoStepSignInStart().url, intcmp)))
       case _ => renderErrorPage(configuration, NotFoundError("The requested page was not found."), NotFound.apply)
     }
   }

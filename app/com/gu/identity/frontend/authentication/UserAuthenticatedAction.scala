@@ -4,12 +4,11 @@ import java.net.URI
 
 import com.gu.identity.cookie.IdentityCookieDecoder
 import com.gu.identity.frontend.logging.Logging
-import com.gu.identity.frontend.models.{ClientID, GroupCode}
+import com.gu.identity.frontend.models.{ClientID, GroupCode, UrlBuilder}
 import com.gu.identity.frontend.controllers._
 import com.gu.identity.model.User
 import play.api.mvc._
 import play.api.mvc.Results.SeeOther
-import play.mvc.Http.RequestBuilder
 
 import scala.concurrent.Future
 import scala.util.{Success, Try}
@@ -40,12 +39,12 @@ class UserAuthenticatedAction(
           case Some(cookie) => Right(new UserAuthenticatedRequest[A](cookie, request))
           case _ => {
             logger.error("Cookie not found on successfully authenticated request.")
-            Left(SeeOther(routes.Application.twoStepSignInStart(Seq.empty, returnUrl, skipConfirmation, clientId.map(_.id), groupCode.map(_.id), INTCMP = intcmp).url))
+            Left(SeeOther(UrlBuilder(routes.Application.twoStepSignInStart(Seq.empty, returnUrl, skipConfirmation, clientId.map(_.id), groupCode.map(_.id)).url, intcmp)))
           }
         }
       }
       case _ => {
-        Left(SeeOther(routes.Application.twoStepSignInStart(Seq.empty, returnUrl, skipConfirmation, clientId.map(_.id), groupCode.map(_.id), INTCMP = intcmp).url))
+        Left(SeeOther(UrlBuilder(routes.Application.twoStepSignInStart(Seq.empty, returnUrl, skipConfirmation, clientId.map(_.id), groupCode.map(_.id)).url, intcmp)))
       }
     }
   }
