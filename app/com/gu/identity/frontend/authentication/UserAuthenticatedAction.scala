@@ -39,12 +39,12 @@ class UserAuthenticatedAction(
           case Some(cookie) => Right(new UserAuthenticatedRequest[A](cookie, request))
           case _ => {
             logger.error("Cookie not found on successfully authenticated request.")
-            Left(SeeOther(UrlBuilder(routes.Application.twoStepSignInStart(Seq.empty, returnUrl, skipConfirmation, clientId.map(_.id), groupCode.map(_.id)).url, intcmp)))
+            Left(SeeOther(UrlBuilder(routes.Application.twoStepSignInStart(Seq.empty, returnUrl, skipConfirmation, clientId.map(_.id), groupCode.map(_.id)), intcmp)))
           }
         }
       }
       case _ => {
-        Left(SeeOther(UrlBuilder(routes.Application.twoStepSignInStart(Seq.empty, returnUrl, skipConfirmation, clientId.map(_.id), groupCode.map(_.id)).url, intcmp)))
+        Left(SeeOther(UrlBuilder(routes.Application.twoStepSignInStart(Seq.empty, returnUrl, skipConfirmation, clientId.map(_.id), groupCode.map(_.id)), intcmp)))
       }
     }
   }

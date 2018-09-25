@@ -89,7 +89,7 @@ object ViewRenderer {
 
     (userType.isDefined, email.isDefined) match {
       case (true, true) => renderViewModel("two-step-signin-choices-page", _model)
-      case (true, false) => NoCache(SeeOther(UrlBuilder(routes.Application.twoStepSignInStart().url, intcmp)))
+      case (true, false) => NoCache(SeeOther(UrlBuilder(routes.Application.twoStepSignInStart(), intcmp)))
       case _ => renderErrorPage(configuration, NotFoundError("The requested page was not found."), NotFound.apply)
     }
   }

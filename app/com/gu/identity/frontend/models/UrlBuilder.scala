@@ -60,8 +60,8 @@ object UrlBuilder {
 
   def apply(baseUrl: String, call: Call): String = s"$baseUrl${call.url}"
 
-  def apply(baseUrl: String, intcmp: Option[String]): String =
-    apply(baseUrl, buildParams(intcmp = intcmp))
+  def apply(call: Call, intcmp: Option[String]): String =
+    apply(call.url, buildParams(intcmp = intcmp))
 
   def buildThirdPartyReturnUrl(
       returnUrl: ReturnUrl,
