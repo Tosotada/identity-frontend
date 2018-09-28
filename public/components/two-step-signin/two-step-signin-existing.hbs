@@ -3,9 +3,12 @@
   {{> components/two-step-signin/_email-header }}
   {{> components/two-step-signin/_helpers }}
 
-    <div class="form-field-wrap">
-      <input class="u-none" name="email" autocomplete="username" value="{{email}}" />
-      <label class="form-field-wrap__title" for="tsse-password">{{twoStepSignInPageText.passwordFieldTitle}}</label>
+  <div class="form-field-wrap">
+    <label class="form-field-wrap__title" for="tsse-email">{{twoStepSignInPageText.emailTitle}}</label>
+    <input class="form-input form-field-wrap__field" type="email" name="email" id="tsse-email" autocomplete="username" autocapitalize="off" autocorrect="off" spellcheck="false" disabled value="{{email}}" />
+  </div>
+  <div class="form-field-wrap">
+    <label class="form-field-wrap__title" for="tsse-password">{{twoStepSignInPageText.passwordFieldTitle}}</label>
       <input class="form-input form-field-wrap__field" type="password" name="password" id="tsse-password" autocomplete="password" autocapitalize="off" autocorrect="off" spellcheck="false" autofocus="autofocus" value="{{password}}" />
       <div class="form-field-wrap__footer">
         <label class="form-checkbox">

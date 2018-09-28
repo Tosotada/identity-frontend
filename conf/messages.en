@@ -34,6 +34,7 @@ signinTwoStep.registerAction=Create an account
 signinTwoStep.setPasswordTitle=To continue, first you need to verify it’s you. Just click the button below and we’ll email you a link.
 signinTwoStep.setPasswordAction=Send me a confirmation link
 signinTwoStep.recoverPasswordAction=Forgot password?
+signinTwoStep.emailTitle=Email
 
 signinTwoStep.signInCtaEmailAction=Sign in with Email
 signinTwoStep.oauthStepTwoFieldTitle=You can sign in with your social accounts:

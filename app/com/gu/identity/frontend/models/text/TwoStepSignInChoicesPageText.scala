@@ -24,6 +24,7 @@ object TwoStepSignInChoicesPageText {
       "privacyPolicy" -> messages("signin.privacypolicy"),
 
       "emailFieldTitle" -> messages("signinTwoStep.emailFieldTitle"),
+      "emailTitle" -> messages("signinTwoStep.emailTitle"),
       "setPasswordTitle" -> messages("signinTwoStep.setPasswordTitle"),
       "setPasswordAction" -> messages("signinTwoStep.setPasswordAction"),
       "recoverPasswordAction" -> messages("signinTwoStep.recoverPasswordAction"),
