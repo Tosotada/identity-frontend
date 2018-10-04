@@ -2,13 +2,18 @@
 
   {{> components/two-step-signin/_email-header }}
   {{> components/two-step-signin/_helpers }}
-  <input type="hidden" name="email" value="{{email}}" />
 
   <p class="layout-text">
     {{twoStepSignInPageText.newUserCreateAccountAction}}
   </p>
 
   <div class="layout-section layout-section--no-border">
+
+    <div class="form-field-wrap">
+      <label class="form-field-wrap__title" for="tsse-email">{{twoStepSignInPageText.emailTitle}}</label>
+      <input class="form-input form-field-wrap__field" type="email" name="email" id="tsse-email" autocomplete="username" autocapitalize="off" autocorrect="off" spellcheck="false" disabled value="{{email}}" />
+    </div>
+
     {{> components/register-form/_form-field-name text=twoStepSignInPageText.registerForm }}
 
     {{> components/register-form/_form-field-phone
