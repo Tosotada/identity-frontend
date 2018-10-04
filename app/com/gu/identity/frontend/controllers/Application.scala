@@ -24,7 +24,6 @@ class Application(
       val csrfToken = CSRF.getToken(req)
       val groupCode = GroupCode(group)
       val email : Option[String] = req.getQueryString("email")
-
       renderTwoStepSignInStart(configuration, req.activeTests, csrfToken, error, returnUrlActual, skipConfirmation, clientIdActual, groupCode, email, skipValidationReturn)
     }
 
@@ -36,8 +35,9 @@ class Application(
       val groupCode = GroupCode(group)
       val email : Option[String] = req.cookies.get("GU_SIGNIN_EMAIL").map(_.value)
       val userType = Seq(CurrentUser, GuestUser, NewUser).find(_.name == signInType)
+      val intcmp = req.getQueryString("INTCMP")
 
-      renderTwoStepSignInChoices(configuration, req.activeTests, csrfToken, error, userType, returnUrlActual, skipConfirmation, _clientId, groupCode, email, skipValidationReturn)
+      renderTwoStepSignInChoices(configuration, req.activeTests, csrfToken, error, userType, returnUrlActual, skipConfirmation, _clientId, groupCode, email, skipValidationReturn, intcmp)
     }
 
   def sendResubLink(error: Seq[String], clientId: Option[String]) = Action { implicit req =>

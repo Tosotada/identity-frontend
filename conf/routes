@@ -17,8 +17,8 @@ POST       /actions/signin/smartlock                    com.gu.identity.frontend
 POST       /actions/signin/with-email                   com.gu.identity.frontend.controllers.SigninAction.emailSignInFirstStep
 GET        /actions/signin/consents/:token              com.gu.identity.frontend.controllers.SigninAction.permissionAuth(token:String, journey: Option[String])
 POST       /actions/register                            com.gu.identity.frontend.controllers.RegisterAction.register
-GET        /accept-consent/:consentToken                com.gu.identity.frontend.controllers.ConsentController.confirmConsents(consentToken: String)
-GET        /consent-token/:consentToken/accept          com.gu.identity.frontend.controllers.ConsentController.confirmConsents(consentToken: String)
+GET        /accept-consent/:consentToken                com.gu.identity.frontend.controllers.ConsentController.confirmConsents(consentToken: String, returnUrl: Option[String] ?= None)
+GET        /consent-token/:consentToken/accept          com.gu.identity.frontend.controllers.ConsentController.confirmConsents(consentToken: String, returnUrl: Option[String] ?= None)
 GET        /consent-token/:consentToken/invalid         com.gu.identity.frontend.controllers.Application.invalidConsentToken(error: Seq[String] ?= Seq.empty, consentToken: String)
 GET        /consent-token/resend                        com.gu.identity.frontend.controllers.ResendConsentTokenAction.resend
 GET        /consent-token/resent                        com.gu.identity.frontend.controllers.Application.resendConsentTokenSent(error: Seq[String] ?= Seq.empty)

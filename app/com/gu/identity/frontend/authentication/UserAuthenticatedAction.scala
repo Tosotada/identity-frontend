@@ -4,7 +4,7 @@ import java.net.URI
 
 import com.gu.identity.cookie.IdentityCookieDecoder
 import com.gu.identity.frontend.logging.Logging
-import com.gu.identity.frontend.models.{ClientID, GroupCode}
+import com.gu.identity.frontend.models.{ClientID, GroupCode, UrlBuilder}
 import com.gu.identity.frontend.controllers._
 import com.gu.identity.model.User
 import play.api.mvc._
@@ -31,6 +31,7 @@ class UserAuthenticatedAction(
     val skipConfirmation = request.getQueryString("skipConfirmation").map(_.toBoolean)
     val clientId = ClientID(request.getQueryString("clientId"))
     val groupCode = getGroupCode(request.uri)
+    val intcmp = request.getQueryString("INTCMP")
 
     AuthenticationService.authenticatedUserFor(request, cookieDecoder) match {
       case Some(_) => {
@@ -38,11 +39,13 @@ class UserAuthenticatedAction(
           case Some(cookie) => Right(new UserAuthenticatedRequest[A](cookie, request))
           case _ => {
             logger.error("Cookie not found on successfully authenticated request.")
-            Left(SeeOther(routes.Application.twoStepSignInStart(Seq.empty, returnUrl, skipConfirmation, clientId.map(_.id), groupCode.map(_.id)).url))
+            Left(SeeOther(UrlBuilder(routes.Application.twoStepSignInStart(Seq.empty, returnUrl, skipConfirmation, clientId.map(_.id), groupCode.map(_.id)), intcmp)))
           }
         }
       }
-      case _ => Left(SeeOther(routes.Application.twoStepSignInStart(Seq.empty, returnUrl, skipConfirmation, clientId.map(_.id), groupCode.map(_.id)).url))
+      case _ => {
+        Left(SeeOther(UrlBuilder(routes.Application.twoStepSignInStart(Seq.empty, returnUrl, skipConfirmation, clientId.map(_.id), groupCode.map(_.id)), intcmp)))
+      }
     }
   }
 

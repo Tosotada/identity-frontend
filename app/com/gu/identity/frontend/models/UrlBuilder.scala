@@ -60,6 +60,9 @@ object UrlBuilder {
 
   def apply(baseUrl: String, call: Call): String = s"$baseUrl${call.url}"
 
+  def apply(call: Call, intcmp: Option[String]): String =
+    apply(call.url, buildParams(intcmp = intcmp))
+
   def buildThirdPartyReturnUrl(
       returnUrl: ReturnUrl,
       skipConfirmation: Option[Boolean],
@@ -92,6 +95,7 @@ object UrlBuilder {
       group: Option[String] = None,
       skipThirdPartyLandingPage: Option[Boolean] = None,
       skipValidationReturn: Option[Boolean] = None,
+      intcmp: Option[String] = None,
       error: Option[AppException] = None): UrlParameters =
     Seq(
       returnUrl.flatMap(_.toStringOpt).map("returnUrl" -> _),
@@ -99,7 +103,8 @@ object UrlBuilder {
       clientId.map("clientId" -> _.id),
       group.map("group" -> _),
       skipThirdPartyLandingPage.map("skipThirdPartyLandingPage" -> _.toString),
-      skipValidationReturn.map("skipValidationReturn" -> _.toString)
+      skipValidationReturn.map("skipValidationReturn" -> _.toString),
+      intcmp.map("INTCMP" -> _.toString)
     ).flatten ++ error.map(errorToUrlParameters).getOrElse(Seq.empty)
 
 
