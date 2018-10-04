@@ -11,7 +11,7 @@
 
     <div class="form-field-wrap">
       <label class="form-field-wrap__title" for="tsse-email">{{twoStepSignInPageText.emailTitle}}</label>
-      <input class="form-input form-field-wrap__field" type="email" name="email" id="tsse-email" autocomplete="username" autocapitalize="off" autocorrect="off" spellcheck="false" disabled value="{{email}}" />
+      <input class="form-input form-field-wrap__field" type="email" name="email" id="tsse-email" autocomplete="username" autocapitalize="off" autocorrect="off" spellcheck="false" readonly value="{{email}}" />
     </div>
 
     {{> components/register-form/_form-field-name text=twoStepSignInPageText.registerForm }}

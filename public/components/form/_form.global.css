@@ -33,7 +33,7 @@ input
     border-color: var(--color-error);
     color: var(--color-error);
   }
-  &[disabled] {
+  &[disabled], &[readonly] {
     background: transparent;
     pointer-events: none;
     color: var(--color-text-disabled);
