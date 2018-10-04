@@ -20,10 +20,11 @@ class ConsentController(
     with Logging
     with I18nSupport {
 
-  def confirmConsents(consentToken: String): Action[AnyContent] = Action.async { implicit request =>
+  def confirmConsents(consentToken: String, returnUrl: Option[String] = None): Action[AnyContent] = Action.async { implicit request =>
     identityService.authenticateConsentToken(consentToken).map {
       case Right(playCookies) =>
-        Redirect("/consents/thank-you").withCookies(playCookies: _*)
+        val redirect = returnUrl.getOrElse("/consents/thank-you")
+        Redirect(redirect).withCookies(playCookies: _*)
       case Left(ConsentTokenUnauthorizedException :: _) => Redirect(routes.Application.invalidConsentToken(consentToken = consentToken))
       case Left(_) => renderErrorPage(configuration, NotFoundError("The requested page was not found."), NotFound.apply)
     }.recover {
