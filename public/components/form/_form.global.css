@@ -25,12 +25,18 @@ input
     border-color: color-mod(var(--color-border-hover) lightness(-20%));
     outline: none;
   }
+
 }
 .form-input {
   @mixin form-input;
   &.form-input__display-errors:invalid {
     border-color: var(--color-error);
     color: var(--color-error);
+  }
+  &[disabled], &[readonly] {
+    background: transparent;
+    pointer-events: none;
+    color: var(--color-text-disabled);
   }
 }
 
