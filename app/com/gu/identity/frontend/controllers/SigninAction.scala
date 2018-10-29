@@ -97,29 +97,32 @@ class SigninAction(
     signInAction((_, cookies) => successfulSmartLockSignInResponse(cookies), successfulAjaxSignInResponse, signInSmartLockMetricsLogger)
   }
 
-  def emailSignInFirstStep = SignInServiceAction(bodyParser) { req =>
-    emailSignInFirstStepAction(successfulFirstStepResponse, signInFirstStepMetricsLogger)(req)
-  }
+  def emailSignInFirstStep: Action[SignInActionRequestBody] = SignInServiceAction(bodyParser) { request =>
 
-  def emailSignInFirstStepAction(successResponse: (String, ReturnUrl, Seq[Cookie], Option[Boolean], Option[ClientID], Option[GroupCode], Option[Boolean]) => Result, metricsLogger: (Request[SignInActionRequestBody]) => Unit) = { implicit request: Request[SignInActionRequestBody] =>
     val body = request.body
 
-    lazy val returnUrl = body.returnUrl.getOrElse(ReturnUrl.defaultForClient(config, body.clientId))
+    val returnUrl = body.returnUrl.getOrElse(ReturnUrl.defaultForClient(config, body.clientId))
 
-    val successfulReturnUrl = body.groupCode match {
-      case Some(groupCode) =>
-        UrlBuilder.buildThirdPartyReturnUrl(returnUrl, body.skipConfirmation, skipThirdPartyLandingPage = true, body.clientId, groupCode, config)
-      case _ => returnUrl
+    val successfulReturnUrl = body.groupCode.fold(returnUrl) { groupCode =>
+      UrlBuilder.buildThirdPartyReturnUrl(returnUrl, body.skipConfirmation, skipThirdPartyLandingPage = true, body.clientId, groupCode, config)
     }
 
     identityService.getUserType(body).map {
-      case Left(errors) =>
-        Left(errors)
-
+      case Left(errors) => Left(errors)
       case Right(response) =>
-        metricsLogger(request)
+        signInFirstStepMetricsLogger(request)
         val emailLoginCookie = CookieService.signInEmailCookies(body.email)(config)
-        Right(successResponse(response.userType, successfulReturnUrl, emailLoginCookie, body.skipConfirmation, body.clientId, body.groupCode, body.skipValidationReturn))
+        Right(
+          successfulFirstStepResponse(
+            response.userType,
+            successfulReturnUrl,
+            emailLoginCookie,
+            body.skipConfirmation,
+            body.clientId,
+            body.groupCode,
+            body.skipValidationReturn
+          )
+        )
     }
   }
 
