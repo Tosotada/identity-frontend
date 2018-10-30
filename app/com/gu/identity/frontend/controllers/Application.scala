@@ -33,7 +33,7 @@ class Application(
       val returnUrlActual = ReturnUrl(returnUrl, req.headers.get("Referer"), configuration, _clientId)
       val csrfToken = CSRF.getToken(req)
       val groupCode = GroupCode(group)
-      val email : Option[String] = req.cookies.get("GU_SIGNIN_EMAIL").map(_.value)
+      val email : Option[String] = req.flash.get("email") // set by endpoint /actions/signin/with-email / SigninAction.emailSignInFirstStep
       val userType = Seq(CurrentUser, GuestUser, NewUser).find(_.name == signInType)
       val intcmp = req.getQueryString("INTCMP")
 
