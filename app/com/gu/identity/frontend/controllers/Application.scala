@@ -33,7 +33,10 @@ class Application(
       val returnUrlActual = ReturnUrl(returnUrl, req.headers.get("Referer"), configuration, _clientId)
       val csrfToken = CSRF.getToken(req)
       val groupCode = GroupCode(group)
-      val email : Option[String] = req.flash.get("email") // set by endpoint /actions/signin/with-email / SigninAction.emailSignInFirstStep
+      // Email flash set by endpoint /actions/signin/with-email / SigninAction.emailSignInFirstStep.
+      // If not defined, we fallback to email query string.q
+      // This second way of providing email is used by support frontend.
+      val email : Option[String] = req.flash.get("email").orElse(req.getQueryString("email"))
       val userType = Seq(CurrentUser, GuestUser, NewUser).find(_.name == signInType)
       val intcmp = req.getQueryString("INTCMP")
 
