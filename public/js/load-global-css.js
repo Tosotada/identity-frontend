@@ -18,7 +18,6 @@ import 'components/react-island/_react-island__fallback.global.css';
 
 /** Skins * */
 import 'components/jobs/_jobs.global.css';
-import 'components/recurringContributions/_recurringContributions.global.css';
 
 /** Async * */
 import('components/fonts/_fonts.css');
