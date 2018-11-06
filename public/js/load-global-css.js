@@ -3,7 +3,7 @@ import 'css/_normalise.css';
 import 'css/_html.global.css';
 
 /** Layout * */
-import 'components/header/_header.global.css';
+import 'components/header/_header-eiffel.global.css';
 import 'components/footer/_footer.global.css';
 import 'components/layout/_layout.global.css';
 
