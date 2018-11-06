@@ -11,16 +11,12 @@
 @define-mixin layout-wrap-page {
   @mixin layout;
 
-  @media (--viewport-min-mobile-landscape) {
-    max-width: 56rem;
-  }
-
   @media (--viewport-min-tablet) {
-    max-width: 74rem;
+    max-width: 64rem;
   }
 
   @media (--viewport-min-desktop) {
-    max-width: 98rem;
+    max-width: 94rem;
   }
 }
 
