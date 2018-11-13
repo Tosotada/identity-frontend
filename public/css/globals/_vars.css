@@ -36,7 +36,7 @@
   --color-error: #c70000;
   --color-info: #005689;
 
-  --color-link: var(--color-text);
+  --color-link: var(--color-feature);
   --color-link-underline: var(--color-border-hover);
 
   --color-bg: #f6f6f6;
