@@ -6,9 +6,12 @@ import com.gu.identity.frontend.models._
 import com.gu.identity.frontend.mvt.MultiVariantTestAction
 import com.gu.identity.frontend.views.ViewRenderer._
 import com.gu.identity.model.{CurrentUser, GuestUser, NewUser}
+import org.apache.http.client.utils.URIBuilder
 import play.api.i18n.I18nSupport
 import play.api.mvc._
 import play.filters.csrf.CSRF
+
+import scala.util.Try
 
 
 class Application(
@@ -20,7 +23,14 @@ class Application(
   def twoStepSignInStart(error: Seq[String], returnUrl: Option[String], skipConfirmation: Option[Boolean], clientId: Option[String], group: Option[String], skipValidationReturn: Option[Boolean]) =
     multiVariantTestAction { implicit req =>
       val clientIdActual = ClientID(clientId)
-      val returnUrlActual = ReturnUrl(returnUrl, req.headers.get("Referer"), configuration, clientIdActual)
+      // Temporarily gets the INTCMP payment-failure parameter from /signin url and appends it to the returnUrl for Guardian Weekly and Digital Pack payment failures. Soon these two journeys will redirect
+      // to /signin, rather than going there directly, and will be able to use the logic that now exists in frontend project
+      val returnUrlWithIntcmp = (for {
+        url <- returnUrl
+        intcmp <- req.getQueryString("INTCMP")
+        parsedUrl <- Try(new URIBuilder(url).addParameter("INTCMP", intcmp).build().toURL.toString).toOption
+      } yield parsedUrl).orElse(returnUrl)
+      val returnUrlActual = ReturnUrl(returnUrlWithIntcmp, req.headers.get("Referer"), configuration, clientIdActual)
       val csrfToken = CSRF.getToken(req)
       val groupCode = GroupCode(group)
       val email : Option[String] = req.getQueryString("email")
