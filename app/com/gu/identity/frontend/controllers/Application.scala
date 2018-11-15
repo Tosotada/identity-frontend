@@ -20,15 +20,20 @@ class Application(
   multiVariantTestAction: MultiVariantTestAction
 ) extends AbstractController(cc) with Logging with I18nSupport {
 
+  private val paymentFailureJourneys = Set("PF", "PF1", "PF2", "PF3", "PF4", "CCX")
+
   def twoStepSignInStart(error: Seq[String], returnUrl: Option[String], skipConfirmation: Option[Boolean], clientId: Option[String], group: Option[String], skipValidationReturn: Option[Boolean]) =
     multiVariantTestAction { implicit req =>
       val clientIdActual = ClientID(clientId)
-      // Temporarily gets the INTCMP payment-failure parameter from /signin url and appends it to the returnUrl for Guardian Weekly and Digital Pack payment failures. Soon these two journeys will redirect
+      // Temporarily gets the INTCMP payment failure (PF) parameter from /signin url and appends it to the returnUrl
+      // for Guardian Weekly and Digital Pack payment failure flows. Soon these two journeys will redirect
       // to /signin, rather than going there directly, and will be able to use the logic that now exists in frontend project
+      // for the Membership and Contributions payment failure flows
       val returnUrlWithIntcmp = (for {
         url <- returnUrl
         intcmp <- req.getQueryString("INTCMP")
-        parsedUrl <- Try(new URIBuilder(url).addParameter("INTCMP", intcmp).build().toURL.toString).toOption
+        parsedUrl <- Try(new URIBuilder(url).addParameter("paymentFailure", intcmp).build().toURL.toString).toOption
+        if paymentFailureJourneys.contains(intcmp)
       } yield parsedUrl).orElse(returnUrl)
       val returnUrlActual = ReturnUrl(returnUrlWithIntcmp, req.headers.get("Referer"), configuration, clientIdActual)
       val csrfToken = CSRF.getToken(req)
