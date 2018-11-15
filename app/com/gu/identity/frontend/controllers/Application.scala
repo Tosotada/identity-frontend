@@ -20,7 +20,7 @@ class Application(
   multiVariantTestAction: MultiVariantTestAction
 ) extends AbstractController(cc) with Logging with I18nSupport {
 
-  private val paymentFailureJourneys = Set("PF", "PF1", "PF2", "PF3", "PF4", "CCX")
+  private val paymentFailureCodes = Set("PF", "PF1", "PF2", "PF3", "PF4", "CCX")
 
   def twoStepSignInStart(error: Seq[String], returnUrl: Option[String], skipConfirmation: Option[Boolean], clientId: Option[String], group: Option[String], skipValidationReturn: Option[Boolean]) =
     multiVariantTestAction { implicit req =>
@@ -32,8 +32,8 @@ class Application(
       val returnUrlWithIntcmp = (for {
         url <- returnUrl
         intcmp <- req.getQueryString("INTCMP")
+        if paymentFailureCodes.contains(intcmp)
         parsedUrl <- Try(new URIBuilder(url).addParameter("paymentFailure", intcmp).build().toURL.toString).toOption
-        if paymentFailureJourneys.contains(intcmp)
       } yield parsedUrl).orElse(returnUrl)
       val returnUrlActual = ReturnUrl(returnUrlWithIntcmp, req.headers.get("Referer"), configuration, clientIdActual)
       val csrfToken = CSRF.getToken(req)
