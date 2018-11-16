@@ -58,4 +58,18 @@ object CookieService {
 
     }
   }
+
+  def signInEmailCookies(email: String)(config: Configuration): Seq[PlayCookie] = {
+    Seq(PlayCookie(
+      name = "GU_SIGNIN_EMAIL",
+      value = email,
+      maxAge = None,
+      path = "/",
+      domain = Some(config.identityCookieDomain),
+      secure = true,
+      httpOnly = false
+    )
+    )
+  }
+
 }

@@ -111,15 +111,17 @@ class SigninAction(
       case Left(errors) => Left(errors)
       case Right(response) =>
         signInFirstStepMetricsLogger(request)
+        val emailLoginCookie = CookieService.signInEmailCookies(body.email)(config)
         Right(
           successfulFirstStepResponse(
             response.userType,
             successfulReturnUrl,
+            emailLoginCookie,
             body.skipConfirmation,
             body.clientId,
             body.groupCode,
             body.skipValidationReturn
-          ).flashing("email" -> body.email) // used by endpoint /signin/:signInType / Application.twoStepSignInChoices
+          )
         )
     }
   }
@@ -210,9 +212,10 @@ class SigninAction(
       .withCookies(cookies: _*)
 
 
-  def successfulFirstStepResponse(userType: String, successfulReturnUrl: ReturnUrl, skipConfirmation: Option[Boolean], clientId: Option[ClientID], group: Option[GroupCode], skipValidationReturn: Option[Boolean]): Result ={
+  def successfulFirstStepResponse(userType: String, successfulReturnUrl: ReturnUrl, cookies: Seq[Cookie], skipConfirmation: Option[Boolean], clientId: Option[ClientID], group: Option[GroupCode], skipValidationReturn: Option[Boolean]): Result ={
     val secondStepUrl = UrlBuilder(s"${config.identityProfileBaseUrl}/signin/$userType", Some(successfulReturnUrl), skipConfirmation, clientId, group, skipValidationReturn)
     SeeOther(secondStepUrl)
+      .withCookies(cookies: _*)
   }
 
   def successfulSmartLockSignInResponse(cookies: Seq[Cookie]): Result =
