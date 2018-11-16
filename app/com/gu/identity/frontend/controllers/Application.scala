@@ -6,9 +6,12 @@ import com.gu.identity.frontend.models._
 import com.gu.identity.frontend.mvt.MultiVariantTestAction
 import com.gu.identity.frontend.views.ViewRenderer._
 import com.gu.identity.model.{CurrentUser, GuestUser, NewUser}
+import org.apache.http.client.utils.URIBuilder
 import play.api.i18n.I18nSupport
 import play.api.mvc._
 import play.filters.csrf.CSRF
+
+import scala.util.Try
 
 
 class Application(
@@ -17,10 +20,22 @@ class Application(
   multiVariantTestAction: MultiVariantTestAction
 ) extends AbstractController(cc) with Logging with I18nSupport {
 
+  private val paymentFailureCodes = Set("PF", "PF1", "PF2", "PF3", "PF4", "CCX")
+
   def twoStepSignInStart(error: Seq[String], returnUrl: Option[String], skipConfirmation: Option[Boolean], clientId: Option[String], group: Option[String], skipValidationReturn: Option[Boolean]) =
     multiVariantTestAction { implicit req =>
       val clientIdActual = ClientID(clientId)
-      val returnUrlActual = ReturnUrl(returnUrl, req.headers.get("Referer"), configuration, clientIdActual)
+      // Temporarily gets the INTCMP payment failure (PF) parameter from /signin url and appends it to the returnUrl
+      // for Guardian Weekly and Digital Pack payment failure flows. Soon these two journeys will redirect
+      // to /signin, rather than going there directly, and will be able to use the logic that now exists in frontend project
+      // for the Membership and Contributions payment failure flows
+      val returnUrlWithIntcmp = (for {
+        url <- returnUrl
+        intcmp <- req.getQueryString("INTCMP")
+        if paymentFailureCodes.contains(intcmp)
+        parsedUrl <- Try(new URIBuilder(url).addParameter("paymentFailure", intcmp).build().toURL.toString).toOption
+      } yield parsedUrl).orElse(returnUrl)
+      val returnUrlActual = ReturnUrl(returnUrlWithIntcmp, req.headers.get("Referer"), configuration, clientIdActual)
       val csrfToken = CSRF.getToken(req)
       val groupCode = GroupCode(group)
       val email : Option[String] = req.getQueryString("email")
