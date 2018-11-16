@@ -48,7 +48,7 @@ class Application(
       val returnUrlActual = ReturnUrl(returnUrl, req.headers.get("Referer"), configuration, _clientId)
       val csrfToken = CSRF.getToken(req)
       val groupCode = GroupCode(group)
-      val email : Option[String] = req.cookies.get("GU_SIGNIN_EMAIL").map(_.value)
+      val email : Option[String] = req.cookies.get("GU_SIGNIN_EMAIL").map(_.value).orElse(req.getQueryString("email"))
       val userType = Seq(CurrentUser, GuestUser, NewUser).find(_.name == signInType)
       val intcmp = req.getQueryString("INTCMP")
 
@@ -70,7 +70,7 @@ class Application(
   def reset(error: Seq[String], clientId: Option[String], returnUrl: Option[String]) = Action { implicit req =>
     val clientIdOpt = ClientID(clientId)
     val csrfToken = CSRF.getToken(req)
-    val email: Option[String] = req.cookies.get("GU_SIGNIN_EMAIL").map(_.value).orElse(req.getQueryString("email"))
+    val email: Option[String] = req.cookies.get("GU_SIGNIN_EMAIL").map(_.value)
     val _returnUrl = returnUrl.map(url => ReturnUrl(Some(url), req.headers.get("Referer"), configuration, clientIdOpt))
 
     renderResetPassword(configuration, error, csrfToken, email, resend = false, clientIdOpt, _returnUrl)
