@@ -46,8 +46,14 @@ case object GuardianCommentersClientID extends ClientID {
   val id = "comments"
 }
 
+case object SimpleAndCoherentClientID extends ClientID {
+  val id = "simpleAndCoherent"
+
+  override def hasSkin = true
+}
+
 object ClientID {
-  def all: Seq[ClientID] = Seq(GuardianMembersClientID, GuardianCommentersClientID, GuardianJobsClientID, GuardianRecurringContributionsClientID)
+  def all: Seq[ClientID] = Seq(GuardianMembersClientID, GuardianCommentersClientID, GuardianJobsClientID, GuardianRecurringContributionsClientID, SimpleAndCoherentClientID)
 
   def apply(clientId: String): Option[ClientID] =
     all.find(_.id == clientId)
