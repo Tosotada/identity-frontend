@@ -1,0 +1,17 @@
+@import 'css/_globals.css';
+
+/*To be updated when designs come from S&C*/
+.skin-simpleAndCoherent {
+  & .header {
+    height: auto;
+    padding: 5px 0;
+    background-color: var(--color-bg);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  & .header__logo-link {
+    background-image: inline('');
+    width: 262px;
+    height: 57px;
+  }
+}
