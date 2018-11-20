@@ -123,6 +123,9 @@ class SigninActionSpec extends PlaySpec with MockitoSugar {
       status(result) mustEqual SEE_OTHER
       redirectLocation(result) mustEqual returnUrl
 
+      // successful sign in should set an unset cookie for GU_SIGNIN_EMAIL cookie
+      resultCookies.count(cookie => cookie.name == "GU_SIGNIN_EMAIL" && cookie.maxAge.contains(0)) mustEqual 1
+
       resultCookies.size mustEqual 2
       resultCookies.head mustEqual testCookie
     }
