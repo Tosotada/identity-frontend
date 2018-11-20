@@ -148,7 +148,7 @@ changeEmailSuccessful.unexpectedTitle=Sorry there was a problem
 
 email.unsubscribe.pageTitle=Unsubscribe Confirmation
 email.unsubscribe.title=Unsubscribe Confirmation
-email.unsubscribe.description=You have been unsubscribed from this email. The change may take up to 24 hours to take effect.
+email.unsubscribe.description=You have been unsubscribed. These changes can take up to 24 hours to take effect.
 email.unsubscribe.details=Manage your email preferences
 
 errors.badRequest.pageTitle=Bad request: {0}
