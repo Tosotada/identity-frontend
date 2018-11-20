@@ -19,6 +19,7 @@ import play.api.test.Helpers._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{ExecutionContext, Future}
 
+
 class SignOutActionSpec extends PlaySpec with MockitoSugar {
 
   implicit lazy val materializer: Materializer = ActorMaterializer()(ActorSystem())
@@ -30,6 +31,8 @@ class SignOutActionSpec extends PlaySpec with MockitoSugar {
   }
 
   val secureCookie = Cookie(name = CookieName.SC_GU_U.toString, value = "SC_GU_U_data", maxAge = None, path = "/", domain = Some("dev-theguardian.com"), secure = true, httpOnly = true)
+  val cookiesToUnset = CookieName.values.map(_.toString)
+
 
   val signedInCookies = Seq(
     secureCookie,
@@ -67,6 +70,8 @@ class SignOutActionSpec extends PlaySpec with MockitoSugar {
       status(result) mustEqual SEE_OTHER
       redirectLocation(result) mustEqual returnUrl
 
+      cookiesToUnset.forall(resultCookies.map(_.name).toList.contains)
+      resultCookies.map(_.name).toList
       resultCookies.size mustEqual 12
     }
 
@@ -85,6 +90,8 @@ class SignOutActionSpec extends PlaySpec with MockitoSugar {
 
       status(result) mustEqual SEE_OTHER
       redirectLocation(result) mustEqual returnUrl
+
+      cookiesToUnset.forall(resultCookies.map(_.name).toList.contains)
 
       resultCookies.size mustEqual 11
     }
@@ -119,6 +126,7 @@ class SignOutActionSpec extends PlaySpec with MockitoSugar {
       captor.getValue.name mustEqual secureCookie.name
       captor.getValue.value mustEqual secureCookie.value
 
+      cookiesToUnset.forall(resultCookies.map(_.name).toList.contains)
       resultCookies.size mustEqual 12
       resultCookies.get("GU_SO").get.name == "GU_SO"
       resultCookies.get("GU_SO").get.value == "data_for_GU_SO"
@@ -146,6 +154,7 @@ class SignOutActionSpec extends PlaySpec with MockitoSugar {
     status(result) mustEqual SEE_OTHER
     redirectLocation(result) mustEqual Some(referer)
 
+    cookiesToUnset.forall(resultCookies.map(_.name).toList.contains)
     resultCookies.size mustEqual 12
   }
 }
