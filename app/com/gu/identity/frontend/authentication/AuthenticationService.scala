@@ -19,7 +19,9 @@ object AuthenticationService {
     IdentityCookie(CookieName.GU_ID_CSRF),
     IdentityCookie(CookieName.GU_PROFILE_CSRF),
     IdentityCookie(CookieName.SC_GU_U),
-    IdentityCookie(CookieName.SC_GU_RP)
+    IdentityCookie(CookieName.SC_GU_RP),
+    IdentityCookie(CookieName.GU_SIGNIN_EMAIL),
+    IdentityCookie(CookieName.SC_GU_LA),
   )
 
   implicit def cookieNameToString(cookieName: Name): String = cookieName.toString

@@ -123,7 +123,7 @@ class SigninActionSpec extends PlaySpec with MockitoSugar {
       status(result) mustEqual SEE_OTHER
       redirectLocation(result) mustEqual returnUrl
 
-      resultCookies.size mustEqual 1
+      resultCookies.size mustEqual 2
       resultCookies.head mustEqual testCookie
     }
 
