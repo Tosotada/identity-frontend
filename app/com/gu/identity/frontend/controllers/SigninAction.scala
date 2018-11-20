@@ -202,7 +202,7 @@ class SigninAction(
   def successfulSignInResponse(successfulReturnUrl: ReturnUrl, cookies: Seq[Cookie]): Result =
     SeeOther(successfulReturnUrl.url)
       .withCookies(cookies: _*)
-
+    .discardingCookies(DiscardingCookie("GU_SIGNIN_EMAIL", "/", Some(config.identityCookieDomain)))
 
   def successfulAjaxSignInResponse(successfulReturnUrl: ReturnUrl, cookies: Seq[Cookie]): Result =
     Ok(Json.obj(
@@ -210,7 +210,7 @@ class SigninAction(
       "returnUrl" -> successfulReturnUrl.url.toString
     ))
       .withCookies(cookies: _*)
-
+      .discardingCookies(DiscardingCookie("GU_SIGNIN_EMAIL", "/", Some(config.identityCookieDomain)))
 
   def successfulFirstStepResponse(userType: String, successfulReturnUrl: ReturnUrl, cookies: Seq[Cookie], skipConfirmation: Option[Boolean], clientId: Option[ClientID], group: Option[GroupCode], skipValidationReturn: Option[Boolean]): Result ={
     val secondStepUrl = UrlBuilder(s"${config.identityProfileBaseUrl}/signin/$userType", Some(successfulReturnUrl), skipConfirmation, clientId, group, skipValidationReturn)
