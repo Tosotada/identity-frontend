@@ -46,7 +46,7 @@ class UserAuthenticatedActionSpec extends PlaySpec with MockitoSugar {
     "add a SC_GU_U cookie to the request if the a SC_GU_U cookie is valid" in {
       running(app) {
         val userAuthenticatedAction =
-          new UserAuthenticatedAction(cc, _ => Some(CookieUser(id = "10000811")))
+          new UserAuthenticatedAction(cc, _ => Some(CookieUser(id = "10000811", primaryEmailAddress = "")))
 
         val action = userAuthenticatedAction {
           request: UserAuthenticatedRequest[AnyContent] => {

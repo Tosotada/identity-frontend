@@ -149,7 +149,15 @@ changeEmailSuccessful.unexpectedTitle=Sorry there was a problem
 email.unsubscribe.pageTitle=Unsubscribe Confirmation
 email.unsubscribe.title=Unsubscribe Confirmation
 email.unsubscribe.description=You have been unsubscribed. These changes can take up to 24 hours to take effect.
-email.unsubscribe.details=Manage your email preferences
+email.unsubscribe.link=Manage your email preferences
+
+email.consent.unsubscribe.pageTitle=Unsubscribe Confirmation
+email.consent.unsubscribe.title=Unsubscribe Confirmation
+email.consent.unsubscribe.description=You have been unsubscribed from Guardian {0} emails. The change may take up to 48 hours to take effect.
+email.consent.unsubscribe.link=Manage your email preferences
+email.consent.unsubscribe.bullet.1=Unsubscribe from all email lists
+email.consent.unsubscribe.bullet.2=Manage how you would like us to contact you
+email.consent.unsubscribe.bullet.3=Re-join the Guardian {0} email list
 
 errors.badRequest.pageTitle=Bad request: {0}
 errors.badRequest.title=Bad request: {0}
