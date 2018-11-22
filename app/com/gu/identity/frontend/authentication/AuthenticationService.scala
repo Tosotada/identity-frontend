@@ -29,7 +29,7 @@ object AuthenticationService {
   def authenticatedUserFor[A](request: RequestHeader, cookieDecoder: String => Option[User]): Option[AuthenticatedUser] = for {
     scGuU <- request.cookies.get(CookieName.SC_GU_U)
     minimalSecureUser <- cookieDecoder(scGuU.value)
-    userId <- Option(minimalSecureUser.getId)
+    userId <- Option(minimalSecureUser.id)
   } yield AuthenticatedUser(userId)
 
   def terminateSession(

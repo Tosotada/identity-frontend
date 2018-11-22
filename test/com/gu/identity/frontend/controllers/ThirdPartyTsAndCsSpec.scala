@@ -35,7 +35,7 @@ class ThirdPartyTsAndCsSpec extends PlaySpec with MockitoSugar {
     val mockErrorHandler = mock[ErrorHandler]
     val cc = Helpers.stubControllerComponents(playBodyParsers = Helpers.stubPlayBodyParsers)
 
-    val userAuthAction = new UserAuthenticatedAction(cc, _ => Some(CookieUser(id = "10000811")))
+    val userAuthAction = new UserAuthenticatedAction(cc, _ => Some(CookieUser(id = "10000811", primaryEmailAddress = "")))
 
     val thirdPartyTsAndCsController =
       new ThirdPartyTsAndCs(mockIdentityService, testConfig,  mockErrorHandler, userAuthAction, cc)

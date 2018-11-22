@@ -15,7 +15,7 @@ lazy val functionalTests = Project("functional-tests", file("functional-tests"))
 
 resolvers += "Guardian Github Releases" at "https://guardian.github.io/maven/repo-releases"
 
-val identityLibrariesVersion = "3.140"
+val identityLibrariesVersion = "3.174"
 val akkaVersion = "2.5.11"
 val playJsonVersion = "2.6.8"
 val awsSdkVersion = "1.11.293"
@@ -24,6 +24,7 @@ libraryDependencies ++= Seq(
   ws,
   filters,
   "org.scalatestplus.play"          %%  "scalatestplus-play"        %   "3.1.2"   %   Test,
+  "org.mockito"                     % "mockito-all"                 % "1.9.5"     %   Test,
   "com.typesafe.play"               %%  "play-json"                 %   playJsonVersion,
   "com.typesafe.play"               %%  "play-json-joda"            %   playJsonVersion,
   "jp.co.bizreach"                  %%  "play2-handlebars"          %   "0.4.3",

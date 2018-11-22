@@ -206,6 +206,9 @@ object ViewRenderer {
   def renderUnsubscribePage(configuration: Configuration)(implicit messages: Messages) =
     renderViewModel("email-unsubscribe-page", EmailUnsubscribePageViewModel(configuration))
 
+  def renderConsentUnsubscribePage(configuration: Configuration, emailWording: String)(implicit messages: Messages) =
+    renderViewModel("email-consent-unsubscribe-page", ConsentEmailUnsubscribePageViewModel(configuration, emailWording))
+
   def renderErrorPage(configuration: Configuration, error: HttpError, resultGenerator: Html => Result)(implicit messages: Messages) =
     renderViewModel("error-page", ErrorPageViewModel(configuration, error), resultGenerator)
 

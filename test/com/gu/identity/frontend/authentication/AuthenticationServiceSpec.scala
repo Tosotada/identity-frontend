@@ -26,7 +26,7 @@ class AuthenticationServiceSpec extends PlaySpec {
     "decode valid cookie" in {
       val cookie = Cookie(CookieName.SC_GU_U, "SC_GU_U_data")
       val validCookieRequest = requestWithCookies(Seq(cookie))
-      val response = AuthenticationService.authenticatedUserFor(validCookieRequest, _ => Some(User(id = "10000811")))
+      val response = AuthenticationService.authenticatedUserFor(validCookieRequest, _ => Some(User(id = "10000811", primaryEmailAddress = "")))
       val expectedUser = AuthenticatedUser("10000811")
 
       response mustEqual Some(expectedUser)

@@ -9,4 +9,5 @@ class RegisterConfirm extends LoadablePage with Browser {
 
   def hasPassedReturnUrl(): Boolean = pageHasUrl("test-return-test")
 
+  override def hasLoaded(): Boolean = true
 }
